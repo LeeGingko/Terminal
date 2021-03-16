@@ -87,6 +87,9 @@
     <property name="text">
      <string>设备自检</string>
     </property>
+    <property name="shortcut">
+     <string>Ctrl+1</string>
+    </property>
    </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
@@ -371,9 +374,9 @@
     <property name="geometry">
      <rect>
       <x>1046</x>
-      <y>128</y>
+      <y>115</y>
       <width>306</width>
-      <height>116</height>
+      <height>129</height>
      </rect>
     </property>
     <property name="font">
@@ -396,7 +399,7 @@
        <x>10</x>
        <y>30</y>
        <width>286</width>
-       <height>31</height>
+       <height>40</height>
       </rect>
      </property>
      <property name="font">
@@ -415,9 +418,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>75</y>
+       <y>78</y>
        <width>286</width>
-       <height>29</height>
+       <height>40</height>
       </rect>
      </property>
      <property name="font">
@@ -2326,6 +2329,9 @@
      <property name="text">
       <string>清除</string>
      </property>
+     <property name="shortcut">
+      <string>Ctrl+3</string>
+     </property>
     </widget>
     <widget class="QPushButton" name="pushBtn_confirmUidInput">
      <property name="geometry">
@@ -2353,6 +2359,9 @@
      </property>
      <property name="text">
       <string>确认</string>
+     </property>
+     <property name="shortcut">
+      <string>Ctrl+2</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushBtn_scanCodeInput">
@@ -2419,6 +2428,9 @@
     </property>
     <property name="text">
      <string>保存配置及记录</string>
+    </property>
+    <property name="shortcut">
+     <string>Ctrl+4</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_operator_5">

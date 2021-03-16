@@ -1,6 +1,7 @@
 # # 导入枚举类
 # from enum import Enum, unique
 
+# @unique
 class Func():
     f_CheckMode = "0"
     f_SetThreshold = "1"

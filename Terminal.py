@@ -20,6 +20,7 @@ from resources import resources_rc
 from Ui_Detector import Ui_MainWindow
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
+    name = "MainWin"
     def __init__(self):
         super().__init__() # 继承父类的所有属性
 
@@ -186,8 +187,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.convertCheck(self.rxCheck) # 
         self.rxHighCheck = self.highCheck
         self.rxLowCheck = self.lowCheck
-        if (self.data[0] == 85) and (self.data[dataLength-4] == self.rxHighCheck) and (self.data[dataLength-3] == self.rxLowCheck) and \
-           (self.data[dataLength-2] == 13) and (self.data[dataLength-1] == 10):
+        if (self.data[0] == 85) and (self.data[dataLength - 4] == self.rxHighCheck) and (self.data[dataLength - 3] == self.rxLowCheck) and \
+           (self.data[dataLength - 2] == 13) and (self.data[dataLength - 1] == 10):
             print("RxFrame is correct!!")
         else:
             print("RxFrame is mistake!!")
@@ -246,7 +247,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.serialNumber = "0"
 
     def serialSendData(self, func):
-        if self.serialInstance.isOpen():
+        self.portIsOpen = self.serialInstance.isOpen()
+        if self.portIsOpen:
             self.comDescription = self.comboBox_selectComNum.currentText()  # 获取comboBox当前串口描述
             self.comIndex = self.comDescriptionList.index(self.comDescription)
             self.portInfo = QSerialPortInfo(self.comPortList[self.comIndex].device)  # 该串口信息
@@ -271,37 +273,39 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 QMessageBox.warning(self, "串口信息", "串口使用中或已拔出")     
         else:
             QMessageBox.information(self, "串口信息", "串口未打开\n请先打开串口", QMessageBox.Yes)
+        return self.portIsOpen
 
     def workModeCheck(self):
         print("pushBtn_deviceSelfCheck clicked!")
         self.rxCheck = 0
-        self.serialSendData(Func.f_CheckMode)
-        # time.sleep(0.5)
-        while True:
-            try:
-                self.num = self.serialInstance.inWaiting()
-                if self.num > 0:
-                    break
-                else:
+        if self.serialSendData(Func.f_CheckMode):
+            while True:
+                try:
+                    self.num = self.serialInstance.inWaiting()
+                    if self.num > 0:
+                        break
+                    else:
+                        continue
+                except:
                     continue
-            except:
-                continue
-        # try:
-        #     self.num = self.serialInstance.inWaiting()
-        # except:
-        #     pass
-        if self.num > 0:
-            self.data = self.serialInstance.read(self.num)
-            if self.data == b"\r\n":
-                pass
+            # try:
+            #     self.num = self.serialInstance.inWaiting()
+            # except:
+            #     pass
+            if self.num > 0:
+                self.data = self.serialInstance.read(self.num)
+                if self.data == b"\r\n":
+                    pass
+                else:
+                    s = self.data.decode("utf-8")
+                    print("workModeCheck:" + s)
+                    self.rxFrameCheck() # 接收帧检查
+                    self.setWorkMode()
+                    self.showWorkMode()
             else:
-                s = self.data.decode("utf-8")
-                print("workModeCheck:" + s)
-                self.rxFrameCheck() # 接收帧检查
-                self.setWorkMode()
-                self.showWorkMode()
+                self.serialInstance.flushInput()
+                pass
         else:
-            self.serialInstance.flushInput()
             pass
 
     def setWorkMode(self):
