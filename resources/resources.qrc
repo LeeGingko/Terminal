@@ -1,0 +1,10 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource>
+        <file alias="images/toggle_on.png">images/toggle_on.png</file>
+        <file alias="images/toggle_off.png">images/toggle_off.png</file>
+        
+        <file alias="images/toggle_on.ico">images/toggle_on.ico</file>
+        <file alias="images/toggle_off.ico">images/toggle_off.ico</file>
+    </qresource>
+</RCC>
