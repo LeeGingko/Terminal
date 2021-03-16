@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import sys
-
 # 导入time相关模块
 import time
 
@@ -15,12 +14,10 @@ from PyQt5.QtWidgets import *
 
 # 导入功能枚举
 from FuncEnum import Func
-
-# 导入主窗口类
-from Ui_Detector import Ui_MainWindow
-
 # 导入qrc资源
 from resources import resources_rc
+# 导入主窗口类
+from Ui_Detector import Ui_MainWindow
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -39,7 +36,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.timer_datetime.start(1000)
 
         # signal<--bind-->slot
-        self.connectSignalAndSlot()
+        self.bindSignalAndSlot()
 
         # initialization of serial
         self.serialInstance = serial.Serial()  # 实例化串口对象
@@ -53,6 +50,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.rxHighCheck = b'0'
         self.rxLowCheck = b'0'
         self.serialNumber = '0'
+
+        # work mode dectionary
+        self.workMode = { "detection":"X", "encoding":"X" }
+        self.data = bytes()
 
     def __del__(self):
         print("{}程序结束，释放资源".format(__class__))
@@ -81,10 +82,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
         self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
 
-    def connectSignalAndSlot(self):
+    def bindSignalAndSlot(self):
         self.pushBtn_serialSwitch.clicked.connect(self.switchPort)
         self.pushBtn_confirmUidInput.clicked.connect(self.serialSendData)
         self.pushBtn_clearUidInput.clicked.connect(self.clearUidInput)
+        self.pushBtn_deviceSelfCheck.clicked.connect(self.workModeCheck)
     
     def showDaetTime(self):
         dateTimeStr = time.strftime("%Y年%m月%d日\n%H:%M:%S ", time.localtime())
@@ -104,7 +106,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif dayOfWeek == 6:
             dateTimeStr = dateTimeStr + "星期天"
         self.label_localDateTime.setText(dateTimeStr)
-    
 
     def portDetection(self):
         self.comboBox_selectComNum.clear()  # 清空端口选择按钮
@@ -144,7 +145,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     try:
                         self.serialInstance.open()
                         if self.serialInstance.isOpen():
-                            self.timer_serial_recv.start(10)
+                            # self.timer_serial_recv.start(10)
                             self.pushBtn_serialSwitch.setText("关闭串口")
                             self.comboBox_selectComNum.setEnabled(False)
                     except:
@@ -158,22 +159,34 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.timer_serial_recv.stop()
             self.serialInstance.close()
             self.pushBtn_serialSwitch.setText("打开串口")
-            self.comboBox_selectComNum.setEnabled(True)
+            self.comboBox_selectComNum.setEnabled(True)   
     
-    def parseFunc(self):
-        # self.tmp = bytearray(self.data)
-        for b in self.tmp:
-            print(b, end=" ")
+    def convertCheck(self, check):
+        ch = bytearray([0,0,0,0])
+        ch[0] = ((check & 0xF0) >> 4) - 10 + 65
+        ch[1] = (check & 0x0F) - 10 + 65
+        ch[2] = ((check & 0xF0) >> 4) + 48
+        ch[3] = (check & 0x0F) + 48
+        # 校验和高四位
+        if(((check & 0xF0) >> 4) >= 10):
+            self.highCheck = ch[0]
+        else:
+            self.highCheck = ch[2]
+        # 校验和低四位
+        if((check & 0x0F) >= 10):
+            self.lowCheck = ch[1]
+        else:
+            self.lowCheck = ch[3]
 
     def rxFrameCheck(self):
         self.rxCheck = 0 # 校验和清零
-        for ch in self.tmp: # 计算校验和
-            self.rxCheck += ch
         dataLength = len(self.data)
+        for ch in self.data[0:(dataLength - 4)]: # 计算校验和
+            self.rxCheck += ch
         self.convertCheck(self.rxCheck) # 
         self.rxHighCheck = self.highCheck
         self.rxLowCheck = self.lowCheck
-        if (self.data[0] == 68) and (self.data[dataLength-4] == self.rxHighCheck) and (self.data[dataLength-3] == self.rxLowCheck) and \
+        if (self.data[0] == 85) and (self.data[dataLength-4] == self.rxHighCheck) and (self.data[dataLength-3] == self.rxLowCheck) and \
            (self.data[dataLength-2] == 13) and (self.data[dataLength-1] == 10):
             print("RxFrame is correct!!")
         else:
@@ -195,54 +208,20 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.serialInstance.flushInput()
             pass
-
-    def serialSendData(self):
-        if self.serialInstance.isOpen():
-            if self.lineEdit_uidInput.text() != "":
-                self.comDescription = self.comboBox_selectComNum.currentText()  # 获取comboBox当前串口描述
-                self.comIndex = self.comDescriptionList.index(self.comDescription)
-                self.portInfo = QSerialPortInfo(self.comPortList[self.comIndex].device)  # 该串口信息
-                self.portStatus = self.portInfo.isBusy()  # 该串口状态
-                self.uid = self.lineEdit_uidInput.text()  # 获取编号
-                if self.portStatus == True:
-                    try:
-                        self.sendByFunc(Func.f_CheckMode)
-                        # self.serialInstance.write(bytes("D00FRANK16" + "\r\n", encoding="utf-8"))
-                    except:
-                        QMessageBox.warning(self, "串口信息", "发送数据失败")
-                    finally:
-                        self.serialInstance.flushOutput()
-                else:
-                    QMessageBox.warning(self, "串口信息", "串口使用中或已拔出")
-            else:
-                QMessageBox.information(self, "输入编号", "编号输入为空!\n请输入编号", QMessageBox.Yes)
-        else:
-            QMessageBox.information(self, "串口信息", "串口未打开\n请先打开串口", QMessageBox.Yes)
     
-    def convertCheck(self, check):
-        ch = bytearray([0,0,0,0])
-        ch[0] = ((check & 0xF0) >> 4) - 10 + 65
-        ch[1] = (check & 0x0F) - 10 + 65
-        ch[2] = ((check & 0xF0) >> 4) + 48
-        ch[3] = (check & 0x0F) + 48
-        # 校验和高四位
-        if(((check & 0xF0) >> 4) >= 10):
-            self.highCheck = ch[0]
-        else:
-            self.highCheck = ch[2]
-        # 校验和低四位
-        if((check & 0x0F) >= 10):
-            self.lowCheck = ch[1]
-        else:
-            self.lowCheck = ch[3]
-
+    def sendDada2Bytes(self, func):
+        if func == "0":
+            self.tmp = str("D" + self.serialNumber + func)
+        elif func == "1":
+            pass
+        self.tmp = self.tmp.encode("utf-8")
+    
     def sendByFunc(self, func):
         self.writeData = ""
         self.txCheck = 0
         if func == "0":
             try:
-                self.tmp = str("D" + self.serialNumber + func + self.uid)
-                self.tmp = self.tmp.encode("utf-8")
+                self.sendDada2Bytes(func)
             except:
                 print("self.tmp to bytes failed!")
                 return
@@ -265,6 +244,85 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.serialNumber = str(int(self.serialNumber) + 1) # 流水号
         if self.serialNumber == '10':
             self.serialNumber = "0"
+
+    def serialSendData(self, func):
+        if self.serialInstance.isOpen():
+            self.comDescription = self.comboBox_selectComNum.currentText()  # 获取comboBox当前串口描述
+            self.comIndex = self.comDescriptionList.index(self.comDescription)
+            self.portInfo = QSerialPortInfo(self.comPortList[self.comIndex].device)  # 该串口信息
+            self.portStatus = self.portInfo.isBusy()  # 该串口状态
+            self.uid = self.lineEdit_uidInput.text()  # 获取编号
+            if self.portStatus == True:
+                try:
+                    if func == "0":
+                        self.sendByFunc(func)
+                        # self.serialInstance.write(bytes("D00FRANK16" + "\r\n", encoding="utf-8"))
+                    elif func != "0":    
+                        if self.lineEdit_uidInput.text() != "":
+                            print(self.lineEdit_uidInput.text())
+                            # QMessageBox.information(self, "输入编号", "编号输入为空!\n请输入编号", QMessageBox.Yes)
+                        else:
+                            QMessageBox.information(self, "输入编号", "编号输入为空!\n请输入编号", QMessageBox.Yes)
+                except:
+                    QMessageBox.warning(self, "串口信息", "发送数据失败")
+                finally:
+                    self.serialInstance.flushOutput()
+            else:
+                QMessageBox.warning(self, "串口信息", "串口使用中或已拔出")     
+        else:
+            QMessageBox.information(self, "串口信息", "串口未打开\n请先打开串口", QMessageBox.Yes)
+
+    def workModeCheck(self):
+        print("pushBtn_deviceSelfCheck clicked!")
+        self.rxCheck = 0
+        self.serialSendData(Func.f_CheckMode)
+        # time.sleep(0.5)
+        while True:
+            try:
+                self.num = self.serialInstance.inWaiting()
+                if self.num > 0:
+                    break
+                else:
+                    continue
+            except:
+                continue
+        # try:
+        #     self.num = self.serialInstance.inWaiting()
+        # except:
+        #     pass
+        if self.num > 0:
+            self.data = self.serialInstance.read(self.num)
+            if self.data == b"\r\n":
+                pass
+            else:
+                s = self.data.decode("utf-8")
+                print("workModeCheck:" + s)
+                self.rxFrameCheck() # 接收帧检查
+                self.setWorkMode()
+                self.showWorkMode()
+        else:
+            self.serialInstance.flushInput()
+            pass
+
+    def setWorkMode(self):
+        if self.data[len(self.data) - 6] == 48:
+            self.workMode["detection"] = "0"
+        else:
+            self.workMode["detection"] = "1"
+        if self.data[len(self.data) - 5] == 48:
+            self.workMode["encoding"] = "0"
+        else:
+            self.workMode["encoding"] = "1"  
+
+    def showWorkMode(self):
+        if self.workMode["detection"] == "1":
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_on)}")
+        else:
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
+        if self.workMode["encoding"]  == "1":   
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_on)}")
+        else:
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
 
     def clearUidInput(self):
         self.lineEdit_uidInput.clear()

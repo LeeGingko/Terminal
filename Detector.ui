@@ -66,7 +66,7 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushBtn_DeviceSelfCheck">
+   <widget class="QPushButton" name="pushBtn_deviceSelfCheck">
     <property name="geometry">
      <rect>
       <x>318</x>
@@ -3239,7 +3239,7 @@ p, li { white-space: pre-wrap; }
    <zorder>label_operator_5</zorder>
    <zorder>label_operator_21</zorder>
    <zorder>groupBox_3</zorder>
-   <zorder>pushBtn_DeviceSelfCheck</zorder>
+   <zorder>pushBtn_deviceSelfCheck</zorder>
    <zorder>groupBox</zorder>
    <zorder>groupBox</zorder>
    <zorder>groupBox_2</zorder>

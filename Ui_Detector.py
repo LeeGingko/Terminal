@@ -35,16 +35,16 @@ class Ui_MainWindow(object):
         MainWindow.setDocumentMode(False)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.device_self_check = QtWidgets.QPushButton(self.centralwidget)
-        self.device_self_check.setGeometry(QtCore.QRect(318, 13, 169, 93))
+        self.pushBtn_deviceSelfCheck = QtWidgets.QPushButton(self.centralwidget)
+        self.pushBtn_deviceSelfCheck.setGeometry(QtCore.QRect(318, 13, 169, 93))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(24)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
-        self.device_self_check.setFont(font)
-        self.device_self_check.setObjectName("device_self_check")
+        self.pushBtn_deviceSelfCheck.setFont(font)
+        self.pushBtn_deviceSelfCheck.setObjectName("pushBtn_deviceSelfCheck")
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox.setGeometry(QtCore.QRect(10, 5, 303, 101))
         font = QtGui.QFont()
@@ -1300,7 +1300,7 @@ class Ui_MainWindow(object):
         self.label_operator_5.raise_()
         self.label_operator_21.raise_()
         self.groupBox_3.raise_()
-        self.device_self_check.raise_()
+        self.pushBtn_deviceSelfCheck.raise_()
         self.groupBox.raise_()
         self.groupBox.raise_()
         self.groupBox_2.raise_()
@@ -1356,7 +1356,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.device_self_check.setText(_translate("MainWindow", "设备自检"))
+        self.pushBtn_deviceSelfCheck.setText(_translate("MainWindow", "设备自检"))
         self.groupBox.setTitle(_translate("MainWindow", "操作员信息"))
         self.lineEdit_op_name.setText(_translate("MainWindow", "张三"))
         self.label_op_number.setText(_translate("MainWindow", "工号："))
@@ -1468,4 +1468,4 @@ class Ui_MainWindow(object):
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#00aaff;\">检测仪测试流程状态输出栏显示示例！！！</span></p></body></html>"))
+"<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
