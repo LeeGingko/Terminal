@@ -105,7 +105,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             dateTimeStr = dateTimeStr + "星期天"
         self.label_localDateTime.setText(dateTimeStr)
     
-    # 
+
     def portDetection(self):
         self.comboBox_selectComNum.clear()  # 清空端口选择按钮
         self.comPortList = serial.tools.list_ports.comports()
