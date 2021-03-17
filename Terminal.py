@@ -5,6 +5,7 @@ import time
 
 # 导入serial相关模块
 import serial
+from serial import tools
 import serial.tools.list_ports
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import *
@@ -18,6 +19,8 @@ from FuncEnum import Func
 from resources import resources_rc
 # 导入主窗口类
 from Ui_Detector import Ui_MainWindow
+# 导入自定义工具
+from Tools import Tools
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     name = "MainWin"
@@ -83,6 +86,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
         self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
 
+        # 
+        # self.textBrowser.setFontFamily("Times New Roman")
+        self.textBrowser.setFontFamily("微软雅黑")
+        self.textBrowser.setFontPointSize(12)
+        self.textBrowser.append(Tools.getTimeStamp() + "请先接入被测模块")
+
     def bindSignalAndSlot(self):
         self.pushBtn_serialSwitch.clicked.connect(self.switchPort)
         self.pushBtn_confirmUidInput.clicked.connect(self.serialSendData)
@@ -90,7 +99,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushBtn_deviceSelfCheck.clicked.connect(self.workModeCheck)
     
     def showDaetTime(self):
-        dateTimeStr = time.strftime("%Y年%m月%d日\n%H:%M:%S ", time.localtime())
+        if str((time.strftime("%p"),time.localtime()[0])).strip("AM"):
+            dateTimeStr = time.strftime("%Y年%m月%d日\n上午 %H:%M:%S ", time.localtime())
+        else:
+            dateTimeStr = time.strftime("%Y年%m月%d日\n下午 %H:%M:%S ", time.localtime())
         dayOfWeek = time.localtime().tm_wday
         if dayOfWeek == 0:
             dateTimeStr = dateTimeStr + "星期一"
@@ -119,9 +131,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.comDescriptionList.append(self.comDescription)
                 self.comboBox_selectComNum.addItem(self.comDescription)
             print(self.comDescriptionList)
+            self.textBrowser.append(Tools.getTimeStamp() + "已检测到串口，请选择并打开串口。。。")
         else:
             print("No port detected!")
             self.statusbar.showMessage("未检测到串口")
+            self.textBrowser.append(Tools.getTimeStamp() + "未检测到串口")
             QMessageBox.information(self, "串口信息", "未检测到串口!", QMessageBox.Yes)
 
     def switchPort(self):
@@ -147,10 +161,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.serialInstance.open()
                         if self.serialInstance.isOpen():
                             # self.timer_serial_recv.start(10)
+                            self.textBrowser.append(Tools.getTimeStamp() + "端口[" + self.comPortList[self.comIndex].device + "]已打开")
                             self.pushBtn_serialSwitch.setText("关闭串口")
                             self.comboBox_selectComNum.setEnabled(False)
                     except:
                         QMessageBox.warning(self, "打开串口", "打开串口失败")
+                        self.textBrowser.append(Tools.getTimeStamp() + "端口[" + self.comPortList[self.comIndex].device + "]打开失败")
                 else:
                     QMessageBox.warning(self, "串口状态", "串口使用中或已拔出")
             else:  # 打开时检测到无串口
@@ -159,6 +175,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif staText == "关闭串口":
             self.timer_serial_recv.stop()
             self.serialInstance.close()
+            self.textBrowser.append(Tools.getTimeStamp() + "端口[" + self.comPortList[self.comIndex].device + "]已关闭")
             self.pushBtn_serialSwitch.setText("打开串口")
             self.comboBox_selectComNum.setEnabled(True)   
     
@@ -277,6 +294,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def workModeCheck(self):
         print("pushBtn_deviceSelfCheck clicked!")
+        self.textBrowser.append(Tools.getTimeStamp() + "检查工作模式")
         self.rxCheck = 0
         if self.serialSendData(Func.f_CheckMode):
             while True:
@@ -297,11 +315,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 if self.data == b"\r\n":
                     pass
                 else:
-                    s = self.data.decode("utf-8")
-                    print("workModeCheck:" + s)
+                    # s = self.data.decode("utf-8")
+                    # print("workModeCheck:" + s)
                     self.rxFrameCheck() # 接收帧检查
                     self.setWorkMode()
-                    self.showWorkMode()
             else:
                 self.serialInstance.flushInput()
                 pass
@@ -316,17 +333,33 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.data[len(self.data) - 5] == 48:
             self.workMode["encoding"] = "0"
         else:
-            self.workMode["encoding"] = "1"  
+            self.workMode["encoding"] = "1" 
+        self.showWorkMode() 
 
     def showWorkMode(self):
-        if self.workMode["detection"] == "1":
+        dete = self.workMode["detection"]
+        endc = self.workMode["encoding"]
+        if dete == "1":
             self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_on)}")
+            self.textBrowser.append(Tools.getTimeStamp() + "检测模式【开启】")
         else:
             self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
-        if self.workMode["encoding"]  == "1":   
+            self.textBrowser.append(Tools.getTimeStamp()  + "检测模式【关闭】")
+        if endc  == "1":   
             self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_on)}")
+            self.textBrowser.append(Tools.getTimeStamp()  + "编码模式【开启】")
         else:
             self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
+            self.textBrowser.append(Tools.getTimeStamp()  + "编码模式【关闭】")
+
+        if dete == "1" and endc == "1":
+            self.textBrowser.append(Tools.getTimeStamp()  + "同时进行【编码】和【检测】")
+        elif dete == "1" and endc == "0":
+            self.textBrowser.append(Tools.getTimeStamp()  + "只能进行【检测】")
+        elif dete == "0" and endc == "1":
+            self.textBrowser.append(Tools.getTimeStamp()  + "只能进行【编码】")
+        elif dete == "0" and endc == "0":
+            self.textBrowser.append(Tools.getTimeStamp()  + "无法进行【编码】和【检测】，请按下功能按键！")
 
     def clearUidInput(self):
         self.lineEdit_uidInput.clear()
