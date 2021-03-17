@@ -2,28 +2,30 @@
 import sys
 # 导入time相关模块
 import time
+from ctypes.wintypes import CHAR
 
 # 导入serial相关模块
 import serial
-from serial import tools
 import serial.tools.list_ports
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtSerialPort import QSerialPortInfo
 from PyQt5.QtWidgets import *
+from serial import tools
 
 # 导入功能枚举
 from FuncEnum import Func
+# 导入自定义工具
+from MyTools import Tools
 # 导入qrc资源
 from resources import resources_rc
+# 导入状态枚举
+from StateEnum import State
 # 导入主窗口类
 from Ui_Detector import Ui_MainWindow
-# 导入自定义工具
-from Tools import Tools
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
-    name = "MainWin"
     def __init__(self):
         super().__init__() # 继承父类的所有属性
 
@@ -40,7 +42,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.timer_datetime.start(1000)
 
         # signal<--bind-->slot
-        self.bindSignalAndSlot()
+        self.bindSignalSlot()
 
         # initialization of serial
         self.serialInstance = serial.Serial()  # 实例化串口对象
@@ -56,7 +58,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.serialNumber = '0'
 
         # work mode dectionary
-        self.workMode = { "detection":"X", "encoding":"X" }
+        self.workMode = { "encoding":"X",  "detection":"X"}
         self.data = bytes()
 
     def __del__(self):
@@ -86,18 +88,41 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
         self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
 
-        # 
+        # 消息提示窗口初始化
         # self.textBrowser.setFontFamily("Times New Roman")
         self.textBrowser.setFontFamily("微软雅黑")
         self.textBrowser.setFontPointSize(12)
         self.textBrowser.append(Tools.getTimeStamp() + "请先接入被测模块")
 
-    def bindSignalAndSlot(self):
+    def bindSignalSlot(self):
         self.pushBtn_serialSwitch.clicked.connect(self.switchPort)
-        self.pushBtn_confirmUidInput.clicked.connect(self.serialSendData)
         self.pushBtn_clearUidInput.clicked.connect(self.clearUidInput)
         self.pushBtn_deviceSelfCheck.clicked.connect(self.workModeCheck)
-    
+        self.pushBtn_cleanMsgArea.clicked.connect(self.clearMessage)
+        self.pushBtn_saveMsgArea.clicked.connect(self.saveMessage)
+        self.pushBtn_deviceEncoding.clicked.connect(self.encoding)
+        self.pushBtn_deviceDetection.clicked.connect(self.detection)
+
+    def clearMessage(self):
+        if self.textBrowser.toPlainText() != "":
+            choice = QMessageBox.question(self, "窗口消息", "确认清除消息？", QMessageBox.Yes | QMessageBox.Cancel)
+            if choice == QMessageBox.Yes:
+                self.textBrowser.clear()
+            elif choice == QMessageBox.Cancel:
+                pass
+        else:
+            pass
+
+    def saveMessage(self):
+        if self.textBrowser.toPlainText() != "":
+            choice = QMessageBox.question(self, "窗口消息", "保存消息？", QMessageBox.Yes | QMessageBox.Cancel)
+            if choice == QMessageBox.Yes:
+                pass
+            elif choice == QMessageBox.Cancel:
+                pass
+        else:
+            pass
+
     def showDaetTime(self):
         if str((time.strftime("%p"),time.localtime()[0])).strip("AM"):
             dateTimeStr = time.strftime("%Y年%m月%d日\n上午 %H:%M:%S ", time.localtime())
@@ -135,7 +160,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             print("No port detected!")
             self.statusbar.showMessage("未检测到串口")
-            self.textBrowser.append(Tools.getTimeStamp() + "未检测到串口")
+            self.textBrowser.append(Tools.getTimeStamp() + "未检测到串口，请连接备")
             QMessageBox.information(self, "串口信息", "未检测到串口!", QMessageBox.Yes)
 
     def switchPort(self):
@@ -170,8 +195,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 else:
                     QMessageBox.warning(self, "串口状态", "串口使用中或已拔出")
             else:  # 打开时检测到无串口
-                QMessageBox.information(
-                    self, "串口信息", "请连接好设备!", QMessageBox.Yes)
+                QMessageBox.information(self, "串口信息", "请连接好设备!", QMessageBox.Yes)
+                self.textBrowser.append(Tools.getTimeStamp() + "未检测到串口，请连接备")
         elif staText == "关闭串口":
             self.timer_serial_recv.stop()
             self.serialInstance.close()
@@ -211,6 +236,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             print("RxFrame is mistake!!")
 
     def serialRecvData(self):
+        self.data = b''
         try:
             self.num = self.serialInstance.inWaiting()
         except:
@@ -227,19 +253,21 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.serialInstance.flushInput()
             pass
     
-    def sendDada2Bytes(self, func):
-        if func == "0":
+    def sendData2Bytes(self, func):
+        if func == Func.f_CheckMode:
             self.tmp = str("D" + self.serialNumber + func)
-        elif func == "1":
-            pass
+        elif func == Func.f_Encoding:
+            self.tmp = str("D" + self.serialNumber + func)
+        elif func == Func.f_Detection:
+            self.tmp = str("D" + self.serialNumber + func)
         self.tmp = self.tmp.encode("utf-8")
-    
+
     def sendByFunc(self, func):
         self.writeData = ""
         self.txCheck = 0
-        if func == "0":
+        if func == Func.f_CheckMode:
             try:
-                self.sendDada2Bytes(func)
+                self.sendData2Bytes(func)
             except:
                 print("self.tmp to bytes failed!")
                 return
@@ -255,9 +283,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             byteTmp.append(0x0A)
             self.writeData = byteTmp
             self.serialInstance.write(self.writeData)
-        elif func == "1":
+        elif func == Func.f_Encoding:
             self.serialInstance.write(self.writeData)
-        elif func == "2":
+        elif func == Func.f_Detection:
             self.serialInstance.write(self.writeData)
         self.serialNumber = str(int(self.serialNumber) + 1) # 流水号
         if self.serialNumber == '10':
@@ -273,84 +301,62 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.uid = self.lineEdit_uidInput.text()  # 获取编号
             if self.portStatus == True:
                 try:
-                    if func == "0":
+                    print("func:" + func)
+                    if func == Func.f_CheckMode:
                         self.sendByFunc(func)
-                        # self.serialInstance.write(bytes("D00FRANK16" + "\r\n", encoding="utf-8"))
-                    elif func != "0":    
+                    elif func == Func.f_Encoding: 
+                        print("Encoding......")   
                         if self.lineEdit_uidInput.text() != "":
+                            self.sendByFunc(func)
                             print(self.lineEdit_uidInput.text())
-                            # QMessageBox.information(self, "输入编号", "编号输入为空!\n请输入编号", QMessageBox.Yes)
                         else:
                             QMessageBox.information(self, "输入编号", "编号输入为空!\n请输入编号", QMessageBox.Yes)
+                            pass
+                    elif func == Func.f_Detection:
+                        print("Detecting......")
+                        if self.lineEdit_uidInput.text() != "":
+                            self.sendByFunc(func)
+                            print(self.lineEdit_uidInput.text())
+                        else:
+                            QMessageBox.information(self, "输入编号", "编号输入为空!\n请输入编号", QMessageBox.Yes)
+                            pass
                 except:
                     QMessageBox.warning(self, "串口信息", "发送数据失败")
                 finally:
                     self.serialInstance.flushOutput()
             else:
-                QMessageBox.warning(self, "串口信息", "串口使用中或已拔出")     
+                QMessageBox.warning(self, "串口信息", "串口使用中或已拔出")
+            return self.portIsOpen   
         else:
             QMessageBox.information(self, "串口信息", "串口未打开\n请先打开串口", QMessageBox.Yes)
         return self.portIsOpen
 
-    def workModeCheck(self):
-        print("pushBtn_deviceSelfCheck clicked!")
-        self.textBrowser.append(Tools.getTimeStamp() + "检查工作模式")
-        self.rxCheck = 0
-        if self.serialSendData(Func.f_CheckMode):
-            while True:
-                try:
-                    self.num = self.serialInstance.inWaiting()
-                    if self.num > 0:
-                        break
-                    else:
-                        continue
-                except:
-                    continue
-            # try:
-            #     self.num = self.serialInstance.inWaiting()
-            # except:
-            #     pass
-            if self.num > 0:
-                self.data = self.serialInstance.read(self.num)
-                if self.data == b"\r\n":
-                    pass
-                else:
-                    # s = self.data.decode("utf-8")
-                    # print("workModeCheck:" + s)
-                    self.rxFrameCheck() # 接收帧检查
-                    self.setWorkMode()
-            else:
-                self.serialInstance.flushInput()
-                pass
-        else:
-            pass
-
     def setWorkMode(self):
         if self.data[len(self.data) - 6] == 48:
-            self.workMode["detection"] = "0"
-        else:
-            self.workMode["detection"] = "1"
-        if self.data[len(self.data) - 5] == 48:
             self.workMode["encoding"] = "0"
         else:
-            self.workMode["encoding"] = "1" 
+            self.workMode["encoding"] = "1"
+        if self.data[len(self.data) - 5] == 48:
+            self.workMode["detection"] = "0"
+        else:
+            self.workMode["detection"] = "1" 
         self.showWorkMode() 
 
     def showWorkMode(self):
-        dete = self.workMode["detection"]
         endc = self.workMode["encoding"]
-        if dete == "1":
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_on)}")
-            self.textBrowser.append(Tools.getTimeStamp() + "检测模式【开启】")
-        else:
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
-            self.textBrowser.append(Tools.getTimeStamp()  + "检测模式【关闭】")
+        dete = self.workMode["detection"]
         if endc  == "1":   
             self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_on)}")
             self.textBrowser.append(Tools.getTimeStamp()  + "编码模式【开启】")
         else:
             self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
             self.textBrowser.append(Tools.getTimeStamp()  + "编码模式【关闭】")
+        if dete == "1":
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_on)}")
+            self.textBrowser.append(Tools.getTimeStamp() + "检测模式【开启】")
+        else:
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
+            self.textBrowser.append(Tools.getTimeStamp()  + "检测模式【关闭】")
 
         if dete == "1" and endc == "1":
             self.textBrowser.append(Tools.getTimeStamp()  + "同时进行【编码】和【检测】")
@@ -361,16 +367,121 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif dete == "0" and endc == "0":
             self.textBrowser.append(Tools.getTimeStamp()  + "无法进行【编码】和【检测】，请按下功能按键！")
 
+    def workModeCheck(self):
+        if self.serialSendData(Func.f_CheckMode) == True:
+            if self.portStatus == True:
+                print("Checking work mode ......")
+                self.textBrowser.append(Tools.getTimeStamp() + "检查工作模式")
+                self.data = b''
+                self.rxCheck = 0
+                while True:
+                    try:
+                        self.num = self.serialInstance.inWaiting()
+                        # print(self.num) # 输出收到的字节数
+                        if self.num >= 9:
+                            break
+                        elif self.num == 0:
+                            continue
+                        else:
+                            return
+                    except:
+                        continue
+                if self.num >= 9:
+                    self.data = self.serialInstance.read(self.num)
+                    if self.data == b"\r\n":
+                        pass
+                    else:
+                        print("workModeCheck" + ":" + str(self.data, encoding="utf-8"))
+                        self.rxFrameCheck() # 接收帧检查
+                        self.setWorkMode()
+                else:
+                    self.serialInstance.flushInput()
+            else:
+                self.textBrowser.append(Tools.getTimeStamp() + "串口使用中或已拔出")
+        else:
+            pass # 返回串口未打开，发送函数已做处理，这里直接pass即可
+
+    def encoding(self):
+        if self.serialSendData(Func.f_Encoding) == True:
+            if self.portStatus == True:
+                if self.lineEdit_uidInput.text() != "":
+                    self.textBrowser.append(Tools.getTimeStamp() + "编码模式")
+                    self.data = b''
+                    self.rxCheck = 0
+                    while True:
+                        try:
+                            self.num = self.serialInstance.inWaiting()
+                            print(self.num) # 输出收到的字节数
+                            if self.num >= 9:
+                                break
+                            elif self.num == 0:
+                                continue
+                            else:
+                                return
+                        except:
+                            continue
+                    if self.num >= 9:
+                        self.data = self.serialInstance.read(self.num)
+                        if self.data == b"\r\n":
+                            pass
+                        else:
+                            print("encoding" + ":" + str(self.data, encoding="utf-8"))
+                            self.rxFrameCheck() # 接收帧检查
+                            self.setWorkMode()
+                    else:
+                        self.serialInstance.flushInput()
+                else:
+                    self.textBrowser.append(Tools.getTimeStamp() + "编号输入为空！")
+            else:
+                self.textBrowser.append(Tools.getTimeStamp() + "串口使用中或已拔出")
+        else:
+            pass
+
+    def detection(self):
+        if self.serialSendData(Func.f_Detection) == True:
+            if self.portStatus == True:
+                if self.lineEdit_uidInput.text() != "":
+                    self.textBrowser.append(Tools.getTimeStamp() + "检测模式")
+                    self.data = b''
+                    self.rxCheck = 0
+                    while True:
+                        try:
+                            self.num = self.serialInstance.inWaiting()
+                            print(self.num) # 输出收到的字节数
+                            if self.num >= 9:
+                                break
+                            elif self.num == 0:
+                                continue
+                            else:
+                                return
+                        except:
+                            continue
+                    if self.num >= 9:
+                        self.data = self.serialInstance.read(self.num)
+                        if self.data == b"\r\n":
+                            pass
+                        else:
+                            print("detection" + ":" + str(self.data, encoding="utf-8"))
+                            self.rxFrameCheck() # 接收帧检查
+                            self.setWorkMode()
+                    else:
+                        self.serialInstance.flushInput()
+                else:
+                    self.textBrowser.append(Tools.getTimeStamp() + "编号输入为空！")  
+            else:
+                self.textBrowser.append(Tools.getTimeStamp() + "串口使用中或已拔出")
+        else:
+            pass
+
     def clearUidInput(self):
         self.lineEdit_uidInput.clear()
 
     def closeEvent(self, QCloseEvent):
-        choice = QMessageBox.question(self, "窗口消息", "是否要关闭窗口？",
-                                      QMessageBox.Yes | QMessageBox.Cancel)
+        choice = QMessageBox.question(self, "窗口消息", "是否要关闭窗口？", QMessageBox.Yes | QMessageBox.Cancel)
         if choice == QMessageBox.Yes:
             QCloseEvent.accept()
         elif choice == QMessageBox.Cancel:
-            QCloseEvent.ignore() 
+            QCloseEvent.ignore()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

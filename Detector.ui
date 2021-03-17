@@ -69,7 +69,7 @@
    <string>MainWindow</string>
   </property>
   <property name="windowOpacity">
-   <double>0.980000000000000</double>
+   <double>1.000000000000000</double>
   </property>
   <property name="documentMode">
    <bool>false</bool>
@@ -79,9 +79,9 @@
     <property name="geometry">
      <rect>
       <x>6</x>
-      <y>82</y>
+      <y>80</y>
       <width>169</width>
-      <height>35</height>
+      <height>39</height>
      </rect>
     </property>
     <property name="font">
@@ -106,7 +106,7 @@
       <x>8</x>
       <y>5</y>
       <width>167</width>
-      <height>73</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="font">
@@ -129,57 +129,67 @@
     <property name="checkable">
      <bool>false</bool>
     </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit_op_name">
-       <property name="font">
-        <font>
-         <family>幼圆</family>
-         <pointsize>16</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-         <stylestrategy>PreferDefault</stylestrategy>
-        </font>
-       </property>
-       <property name="statusTip">
-        <string/>
-       </property>
-       <property name="inputMethodHints">
-        <set>Qt::ImhNone</set>
-       </property>
-       <property name="inputMask">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="frame">
-        <bool>true</bool>
-       </property>
-       <property name="clearButtonEnabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_op_name">
-       <property name="font">
-        <font>
-         <family>幼圆</family>
-         <pointsize>16</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>姓名</string>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::AutoText</enum>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QLineEdit" name="lineEdit_op_name">
+     <property name="geometry">
+      <rect>
+       <x>58</x>
+       <y>30</y>
+       <width>100</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>16</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+       <stylestrategy>PreferDefault</stylestrategy>
+      </font>
+     </property>
+     <property name="statusTip">
+      <string/>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
+     <property name="inputMask">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="frame">
+      <bool>true</bool>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_op_name">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>44</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>16</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>姓名</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
@@ -187,7 +197,7 @@
       <x>1072</x>
       <y>4</y>
       <width>279</width>
-      <height>105</height>
+      <height>95</height>
      </rect>
     </property>
     <property name="font">
@@ -223,7 +233,7 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>28</y>
+       <y>20</y>
        <width>279</width>
        <height>75</height>
       </rect>
@@ -249,8 +259,8 @@
     <property name="geometry">
      <rect>
       <x>6</x>
-      <y>124</y>
-      <width>163</width>
+      <y>126</y>
+      <width>167</width>
       <height>139</height>
      </rect>
     </property>
@@ -271,33 +281,9 @@
     <widget class="QLabel" name="label_operator_3">
      <property name="geometry">
       <rect>
-       <x>16</x>
-       <y>40</y>
-       <width>65</width>
-       <height>29</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>幼圆</family>
-       <pointsize>24</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>检测</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_operator_2">
-     <property name="geometry">
-      <rect>
-       <x>16</x>
-       <y>94</y>
-       <width>65</width>
+       <x>12</x>
+       <y>90</y>
+       <width>64</width>
        <height>33</height>
       </rect>
      </property>
@@ -309,6 +295,51 @@
        <bold>false</bold>
       </font>
      </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <property name="text">
+      <string>检测</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_2">
+     <property name="geometry">
+      <rect>
+       <x>12</x>
+       <y>32</y>
+       <width>64</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>24</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
      <property name="text">
       <string>编码</string>
      </property>
@@ -316,14 +347,14 @@
       <enum>Qt::AutoText</enum>
      </property>
      <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="label_detection">
      <property name="geometry">
       <rect>
-       <x>88</x>
-       <y>22</y>
+       <x>84</x>
+       <y>76</y>
        <width>64</width>
        <height>64</height>
       </rect>
@@ -335,8 +366,8 @@
     <widget class="QLabel" name="label_encoding">
      <property name="geometry">
       <rect>
-       <x>88</x>
-       <y>78</y>
+       <x>84</x>
+       <y>18</y>
        <width>64</width>
        <height>64</height>
       </rect>
@@ -350,9 +381,9 @@
     <property name="geometry">
      <rect>
       <x>1071</x>
-      <y>115</y>
+      <y>102</y>
       <width>281</width>
-      <height>129</height>
+      <height>125</height>
      </rect>
     </property>
     <property name="font">
@@ -1456,34 +1487,12 @@
     <property name="checkable">
      <bool>false</bool>
     </property>
-    <widget class="QLabel" name="label_operator_16">
-     <property name="geometry">
-      <rect>
-       <x>4</x>
-       <y>208</y>
-       <width>97</width>
-       <height>35</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>幼圆</family>
-       <pointsize>18</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>结果记录</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-    </widget>
     <widget class="QTableView" name="tableView_result">
      <property name="geometry">
       <rect>
-       <x>104</x>
+       <x>7</x>
        <y>141</y>
-       <width>1232</width>
+       <width>1329</width>
        <height>149</height>
       </rect>
      </property>
@@ -1492,9 +1501,9 @@
      <property name="geometry">
       <rect>
        <x>1138</x>
-       <y>32</y>
+       <y>22</y>
        <width>195</width>
-       <height>33</height>
+       <height>29</height>
       </rect>
      </property>
      <property name="font">
@@ -1506,7 +1515,7 @@
       </font>
      </property>
      <property name="text">
-      <string>结论</string>
+      <string>设备检测结论</string>
      </property>
      <property name="textFormat">
       <enum>Qt::AutoText</enum>
@@ -1519,9 +1528,9 @@
      <property name="geometry">
       <rect>
        <x>1136</x>
-       <y>74</y>
+       <y>54</y>
        <width>199</width>
-       <height>55</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="font">
@@ -1754,7 +1763,7 @@
        </font>
       </property>
       <property name="text">
-       <string>ID</string>
+       <string>雷管ID</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
@@ -1781,7 +1790,7 @@
        </font>
       </property>
       <property name="text">
-       <string>电流</string>
+       <string>起爆电流</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
@@ -1844,7 +1853,7 @@
        </font>
       </property>
       <property name="text">
-       <string>电压</string>
+       <string>起爆电压</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
@@ -2411,7 +2420,7 @@
        </font>
       </property>
       <property name="text">
-       <string>ID</string>
+       <string>雷管ID</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
@@ -2438,7 +2447,7 @@
        </font>
       </property>
       <property name="text">
-       <string>电流</string>
+       <string>起爆电流</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
@@ -2465,7 +2474,7 @@
        </font>
       </property>
       <property name="text">
-       <string>电压</string>
+       <string>起爆电压</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
@@ -2547,13 +2556,38 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+    <widget class="QPushButton" name="pushBtn_saveResults">
+     <property name="geometry">
+      <rect>
+       <x>1136</x>
+       <y>90</y>
+       <width>197</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>18</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>保存结果</string>
+     </property>
+     <property name="shortcut">
+      <string>Ctrl+4</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>174</x>
-      <y>124</y>
-      <width>349</width>
+      <x>176</x>
+      <y>126</y>
+      <width>347</width>
       <height>139</height>
      </rect>
     </property>
@@ -2574,9 +2608,9 @@
     <widget class="QPushButton" name="pushBtn_clearUidInput">
      <property name="geometry">
       <rect>
-       <x>264</x>
+       <x>126</x>
        <y>30</y>
-       <width>80</width>
+       <width>105</width>
        <height>47</height>
       </rect>
      </property>
@@ -2596,18 +2630,18 @@
       </font>
      </property>
      <property name="text">
-      <string>清除</string>
+      <string>清除编码</string>
      </property>
      <property name="shortcut">
       <string>Ctrl+3</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushBtn_confirmUidInput">
+    <widget class="QPushButton" name="pushBtn_deviceEncoding">
      <property name="geometry">
       <rect>
-       <x>168</x>
+       <x>232</x>
        <y>30</y>
-       <width>80</width>
+       <width>109</width>
        <height>47</height>
       </rect>
      </property>
@@ -2627,7 +2661,7 @@
       </font>
      </property>
      <property name="text">
-      <string>确认</string>
+      <string>设备编码</string>
      </property>
      <property name="shortcut">
       <string>Ctrl+2</string>
@@ -2636,9 +2670,9 @@
     <widget class="QPushButton" name="pushBtn_scanCodeInput">
      <property name="geometry">
       <rect>
-       <x>8</x>
-       <y>88</y>
-       <width>335</width>
+       <x>10</x>
+       <y>84</y>
+       <width>221</width>
        <height>45</height>
       </rect>
      </property>
@@ -2658,9 +2692,9 @@
     <widget class="QLineEdit" name="lineEdit_uidInput">
      <property name="geometry">
       <rect>
-       <x>8</x>
+       <x>12</x>
        <y>31</y>
-       <width>150</width>
+       <width>113</width>
        <height>45</height>
       </rect>
      </property>
@@ -2676,14 +2710,36 @@
       <string/>
      </property>
     </widget>
+    <widget class="QPushButton" name="pushBtn_deviceDetection">
+     <property name="geometry">
+      <rect>
+       <x>231</x>
+       <y>84</y>
+       <width>109</width>
+       <height>45</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>18</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>设备检测</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QPushButton" name="pushBtn_saveSettingsRecord">
     <property name="geometry">
      <rect>
       <x>1142</x>
-      <y>264</y>
+      <y>280</y>
       <width>187</width>
-      <height>93</height>
+      <height>85</height>
      </rect>
     </property>
     <property name="font">
@@ -2696,7 +2752,7 @@
      </font>
     </property>
     <property name="text">
-     <string>保存配置及记录</string>
+     <string>保存参数</string>
     </property>
     <property name="shortcut">
      <string>Ctrl+4</string>
@@ -3156,9 +3212,9 @@
     <property name="geometry">
      <rect>
       <x>528</x>
-      <y>10</y>
+      <y>6</y>
       <width>539</width>
-      <height>253</height>
+      <height>257</height>
      </rect>
     </property>
     <property name="font">
@@ -3181,6 +3237,50 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cascadia Mono PL'; font-size:14pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Cascadia Mono';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushBtn_cleanMsgArea">
+    <property name="geometry">
+     <rect>
+      <x>1072</x>
+      <y>230</y>
+      <width>135</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>18</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>清除消息</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushBtn_saveMsgArea">
+    <property name="geometry">
+     <rect>
+      <x>1218</x>
+      <y>230</y>
+      <width>135</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>18</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>保存消息</string>
     </property>
    </widget>
    <zorder>label_operator_5</zorder>
@@ -3208,6 +3308,8 @@ p, li { white-space: pre-wrap; }
    <zorder>label_operator_18</zorder>
    <zorder>label_selfComCurrent</zorder>
    <zorder>textBrowser</zorder>
+   <zorder>pushBtn_cleanMsgArea</zorder>
+   <zorder>pushBtn_saveMsgArea</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -3243,7 +3345,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>lineEdit_setFireCurrentTop</tabstop>
   <tabstop>lineEdit_setFireCurrentBottom</tabstop>
   <tabstop>pushBtn_deviceSelfCheck</tabstop>
-  <tabstop>pushBtn_confirmUidInput</tabstop>
+  <tabstop>pushBtn_deviceEncoding</tabstop>
   <tabstop>pushBtn_clearUidInput</tabstop>
   <tabstop>pushBtn_scanCodeInput</tabstop>
   <tabstop>comboBox_selectComNum</tabstop>

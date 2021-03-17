@@ -1,8 +1,4 @@
-# # 导入枚举类
-# from enum import Enum, unique
-
-# @unique
-class Func():
+class Func(object):
     f_CheckMode = "0"
-    f_SetThreshold = "1"
-    f_AutoDetection = "2"
+    f_Encoding  = "1"
+    f_Detection = "2"
