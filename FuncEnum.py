@@ -1,4 +1,5 @@
 class Func(object):
-    f_CheckMode = "0"
-    f_Encoding  = "1"
-    f_Detection = "2"
+    f_CheckWorkMode = "0"
+    f_DevGetSelfPara = "1"
+    f_DevEncoding  = "2"
+    f_DevDetection = "3"
