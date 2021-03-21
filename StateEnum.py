@@ -6,3 +6,5 @@ class State(object):
     s_UidInputNull = "7"
     s_PortSendFailed  = "8"
     s_PortRecvFailed  = "9"
+    s_RxFrameCheckOK = "A"
+    s_RxFrameCheckErr = "B"

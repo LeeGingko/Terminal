@@ -2593,6 +2593,9 @@
       <bold>false</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">gridline-color: rgb(85, 0, 255);</string>
+    </property>
     <property name="title">
      <string>输入UID</string>
     </property>
@@ -2817,6 +2820,9 @@
     <property name="tabletTracking">
      <bool>false</bool>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(85, 85, 255);</string>
+    </property>
     <property name="frameShape">
      <enum>QFrame::WinPanel</enum>
     </property>
@@ -2859,6 +2865,9 @@
     </property>
     <property name="tabletTracking">
      <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(85, 170, 0);</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::WinPanel</enum>
@@ -2932,7 +2941,7 @@
      <enum>Qt::AutoText</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="label_selfPulseCurrent">
+   <widget class="QLabel" name="label_selfFireCurrent">
     <property name="geometry">
      <rect>
       <x>436</x>
@@ -2949,6 +2958,9 @@
     </property>
     <property name="tabletTracking">
      <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(85, 170, 0);</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::WinPanel</enum>
@@ -3022,7 +3034,7 @@
      <enum>Qt::AutoText</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="label_selfPulseVoltage">
+   <widget class="QLabel" name="label_selfFireVoltage">
     <property name="geometry">
      <rect>
       <x>268</x>
@@ -3039,6 +3051,9 @@
     </property>
     <property name="tabletTracking">
      <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(85, 85, 255);</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::WinPanel</enum>
@@ -3255,6 +3270,9 @@ p, li { white-space: pre-wrap; }
     <property name="tabletTracking">
      <bool>false</bool>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(85, 85, 255);</string>
+    </property>
     <property name="frameShape">
      <enum>QFrame::WinPanel</enum>
     </property>
@@ -3320,6 +3338,9 @@ p, li { white-space: pre-wrap; }
     <property name="tabletTracking">
      <bool>false</bool>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(85, 170, 0);</string>
+    </property>
     <property name="frameShape">
      <enum>QFrame::WinPanel</enum>
     </property>
@@ -3382,10 +3403,10 @@ p, li { white-space: pre-wrap; }
    <zorder>label_selfSupCurrent</zorder>
    <zorder>label_operator_22</zorder>
    <zorder>label_operator_6</zorder>
-   <zorder>label_selfPulseCurrent</zorder>
+   <zorder>label_selfFireCurrent</zorder>
    <zorder>label_operator_27</zorder>
    <zorder>label_operator_8</zorder>
-   <zorder>label_selfPulseVoltage</zorder>
+   <zorder>label_selfFireVoltage</zorder>
    <zorder>label_operator_40</zorder>
    <zorder>label_operator_18</zorder>
    <zorder>pushBtn_cleanMsgArea</zorder>
