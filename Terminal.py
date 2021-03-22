@@ -103,14 +103,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setWindowState(Qt.WindowMaximized)
 
         # 检测以及编码模式默认状态设置
-        self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
-        self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
+        self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_none)}")
+        self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_none)}")
 
         # 消息提示窗口初始化
         # self.textBrowser.setFontFamily("Times New Roman")
         self.textBrowser.setFontFamily("微软雅黑")
         self.textBrowser.setFontPointSize(12)
-        self.textBrowser.append(self.timeTool.getTimeStamp()+ "请先接入被测模块")
+        self.textBrowser.append(self.timeTool.getTimeStamp()+ "请先接入被测设备再进行操作")
 
     def bindSignalSlot(self):
         self.pushBtn_serialSwitch.clicked.connect(self.switchPort)
@@ -259,11 +259,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.rxLowCheck = self.lowCheck
         if (self.data[0] == 85) and (self.data[dataLength - 4] == self.rxHighCheck) and (self.data[dataLength - 3] == self.rxLowCheck) and \
             (self.data[dataLength - 2] == 13) and (self.data[dataLength - 1] == 10):
-            print("RxFrame is correct!!")
+            print("RxFrame is right!")
             return State.s_RxFrameCheckOK
         else:
             self.serialInstance.flush()
-            print("RxFrame is mistake!!")
+            print("RxFrame is wrong!")
             return State.s_RxFrameCheckErr
 
     def serialRecvData(self):
@@ -387,19 +387,19 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if endc == "1" and dete == "1":
             self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_on)}")
             self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_on)}")
-            self.textBrowser.append(self.timeTool.getTimeStamp() + "&编码模式【开启】 #检测模式【开启】")
+            self.textBrowser.append(self.timeTool.getTimeStamp() + "编码模式【开启】 检测模式【开启】")
         elif endc == "1" and dete == "0":
             self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_on)}")
             self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
-            self.textBrowser.append(self.timeTool.getTimeStamp() + "&编码模式【开启】 #检测模式【关闭】")
+            self.textBrowser.append(self.timeTool.getTimeStamp() + "编码模式【开启】 检测模式【关闭】")
         elif endc == "0" and dete == "1":
-            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_on)}")
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
-            self.textBrowser.append(self.timeTool.getTimeStamp() + "&编码模式【关闭】 #检测模式【开启】")
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_on)}")
+            self.textBrowser.append(self.timeTool.getTimeStamp() + "编码模式【关闭】 检测模式【开启】")
         elif endc == "0" and dete == "0":
             self.label_encoding.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
             self.label_detection.setStyleSheet("QLabel{border-image: url(:/images/toggle_off)}")
-            self.textBrowser.append(self.timeTool.getTimeStamp() + "&编码模式【关闭】 #检测模式【关闭】")
+            self.textBrowser.append(self.timeTool.getTimeStamp() + "编码模式【关闭】 检测模式【关闭】")
         if dete == "1" and endc == "1":
             self.textBrowser.append(self.timeTool.getTimeStamp() + "允许进行【编码】和【检测】")
         elif dete == "1" and endc == "0":
@@ -424,6 +424,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     try:
                         self.num = self.serialInstance.inWaiting()
                         # print("workModeCheck num:" + str(self.num)) # 输出收到的字节数
+                        if self.num > 0:
+                            time.sleep(0.1)
+                            self.num = self.serialInstance.inWaiting()
                         if self.num >= 9:
                             break
                         elif self.num == 0:
@@ -481,6 +484,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     try:
                         self.num = self.serialInstance.inWaiting()
                         # print(self.num) # 输出收到的字节数
+                        if self.num > 0:
+                            time.sleep(0.1)
+                            self.num = self.serialInstance.inWaiting()
                         if self.num >= 28:
                             break
                         elif self.num == 0:
@@ -546,6 +552,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         try:
                             self.num = self.serialInstance.inWaiting()
                             # print(self.num) # 输出收到的字节数
+                            if self.num > 0:
+                                time.sleep(0.1)
+                                self.num = self.serialInstance.inWaiting()
                             if self.num >= 12:
                                 break
                             elif self.num == 0:
@@ -595,6 +604,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         try:
                             self.num = self.serialInstance.inWaiting()
                             # print(self.num) # 输出收到的字节数
+                            if self.num > 0:
+                                time.sleep(0.1)
+                                self.num = self.serialInstance.inWaiting()
                             if self.num >= 9:
                                 break
                             elif self.num == 0:
@@ -638,7 +650,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             QCloseEvent.ignore()
 
 if __name__ == "__main__":
-    mainThread = QtWidgets.QApplication(sys.argv)
+    mainApp = QtWidgets.QApplication(sys.argv)
     Terminal = MainWin()
     Terminal.show()
-    sys.exit(mainThread.exec_())
+    sys.exit(mainApp.exec_())
