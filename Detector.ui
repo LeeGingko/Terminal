@@ -194,9 +194,9 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>1080</x>
+      <x>1078</x>
       <y>4</y>
-      <width>279</width>
+      <width>281</width>
       <height>95</height>
      </rect>
     </property>
@@ -232,9 +232,9 @@
     <widget class="QLabel" name="label_localDateTime">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>20</y>
-       <width>279</width>
+       <width>281</width>
        <height>75</height>
       </rect>
      </property>
@@ -441,6 +441,9 @@
      <property name="text">
       <string>打开串口</string>
      </property>
+     <property name="shortcut">
+      <string>Ctrl+6</string>
+     </property>
     </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox">
@@ -448,7 +451,7 @@
      <rect>
       <x>6</x>
       <y>268</y>
-      <width>1125</width>
+      <width>1205</width>
       <height>99</height>
      </rect>
     </property>
@@ -469,8 +472,8 @@
     <widget class="QLabel" name="label_operator_12">
      <property name="geometry">
       <rect>
-       <x>8</x>
-       <y>68</y>
+       <x>4</x>
+       <y>66</y>
        <width>44</width>
        <height>21</height>
       </rect>
@@ -478,7 +481,7 @@
      <property name="font">
       <font>
        <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -493,8 +496,8 @@
     <widget class="QLabel" name="label_operator_11">
      <property name="geometry">
       <rect>
-       <x>8</x>
-       <y>34</y>
+       <x>4</x>
+       <y>32</y>
        <width>44</width>
        <height>21</height>
       </rect>
@@ -502,7 +505,7 @@
      <property name="font">
       <font>
        <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -514,173 +517,11 @@
       <enum>Qt::AutoText</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="label_operator_41">
-     <property name="geometry">
-      <rect>
-       <x>556</x>
-       <y>34</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_operator_48">
-     <property name="geometry">
-      <rect>
-       <x>578</x>
-       <y>68</y>
-       <width>88</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>通信电流</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_operator_49">
-     <property name="geometry">
-      <rect>
-       <x>577</x>
-       <y>33</y>
-       <width>88</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>通信电流</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_operator_71">
-     <property name="geometry">
-      <rect>
-       <x>556</x>
-       <y>68</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_operator_72">
-     <property name="geometry">
-      <rect>
-       <x>730</x>
-       <y>66</y>
-       <width>22</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>mA</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_operator_73">
-     <property name="geometry">
-      <rect>
-       <x>730</x>
-       <y>33</y>
-       <width>22</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>mA</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_operator_36">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>33</y>
+       <x>46</x>
+       <y>31</y>
        <width>66</width>
        <height>21</height>
       </rect>
@@ -688,7 +529,7 @@
      <property name="font">
       <font>
        <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -706,8 +547,8 @@
     <widget class="QLabel" name="label_operator_35">
      <property name="geometry">
       <rect>
-       <x>184</x>
-       <y>34</y>
+       <x>154</x>
+       <y>32</y>
        <width>22</width>
        <height>21</height>
       </rect>
@@ -715,7 +556,7 @@
      <property name="font">
       <font>
        <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -733,16 +574,16 @@
     <widget class="QLabel" name="label_operator_29">
      <property name="geometry">
       <rect>
-       <x>214</x>
+       <x>175</x>
        <y>33</y>
-       <width>88</width>
+       <width>83</width>
        <height>21</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -760,8 +601,8 @@
     <widget class="QLabel" name="label_operator_30">
      <property name="geometry">
       <rect>
-       <x>368</x>
-       <y>36</y>
+       <x>312</x>
+       <y>34</y>
        <width>22</width>
        <height>21</height>
       </rect>
@@ -769,7 +610,7 @@
      <property name="font">
       <font>
        <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -784,146 +625,11 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="label_operator_9">
-     <property name="geometry">
-      <rect>
-       <x>401</x>
-       <y>33</y>
-       <width>88</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>通信电压</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_operator_19">
-     <property name="geometry">
-      <rect>
-       <x>764</x>
-       <y>33</y>
-       <width>88</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>起爆电压</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_operator_37">
-     <property name="geometry">
-      <rect>
-       <x>918</x>
-       <y>34</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_operator_44">
-     <property name="geometry">
-      <rect>
-       <x>940</x>
-       <y>33</y>
-       <width>88</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>起爆电流</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_operator_45">
-     <property name="geometry">
-      <rect>
-       <x>1096</x>
-       <y>34</y>
-       <width>22</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>mA</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_operator_34">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>68</y>
+       <x>46</x>
+       <y>66</y>
        <width>66</width>
        <height>21</height>
       </rect>
@@ -931,7 +637,7 @@
      <property name="font">
       <font>
        <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -949,7 +655,7 @@
     <widget class="QLabel" name="label_operator_33">
      <property name="geometry">
       <rect>
-       <x>184</x>
+       <x>154</x>
        <y>68</y>
        <width>22</width>
        <height>21</height>
@@ -958,7 +664,7 @@
      <property name="font">
       <font>
        <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -976,16 +682,16 @@
     <widget class="QLabel" name="label_operator_31">
      <property name="geometry">
       <rect>
-       <x>215</x>
+       <x>174</x>
        <y>68</y>
-       <width>88</width>
+       <width>85</width>
        <height>21</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -1003,8 +709,8 @@
     <widget class="QLabel" name="label_operator_32">
      <property name="geometry">
       <rect>
-       <x>368</x>
-       <y>68</y>
+       <x>312</x>
+       <y>70</y>
        <width>22</width>
        <height>21</height>
       </rect>
@@ -1012,7 +718,7 @@
      <property name="font">
       <font>
        <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -1027,91 +733,106 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="label_operator_10">
+    <widget class="QLineEdit" name="lineEdit_setDrainCurrentTop">
      <property name="geometry">
       <rect>
-       <x>402</x>
-       <y>68</y>
-       <width>88</width>
-       <height>21</height>
+       <x>110</x>
+       <y>28</y>
+       <width>45</width>
+       <height>27</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <family>Times New Roman</family>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
      <property name="text">
-      <string>通信电压</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <string>100.0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_operator_39">
+    <widget class="QLineEdit" name="lineEdit_setWorkCurrentBottom">
      <property name="geometry">
       <rect>
-       <x>918</x>
-       <y>68</y>
-       <width>16</width>
-       <height>21</height>
+       <x>258</x>
+       <y>66</y>
+       <width>55</width>
+       <height>27</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <family>Times New Roman</family>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
      <property name="text">
-      <string>V</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <string>1000.0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_operator_38">
+    <widget class="QLineEdit" name="lineEdit_setWorkCurrentTop">
      <property name="geometry">
       <rect>
-       <x>765</x>
-       <y>68</y>
-       <width>88</width>
-       <height>21</height>
+       <x>258</x>
+       <y>30</y>
+       <width>55</width>
+       <height>27</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <family>Times New Roman</family>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
      <property name="text">
-      <string>起爆电压</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <string>2000.0</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_operator_46">
+    <widget class="QLineEdit" name="lineEdit_setDrainCurrentBottom">
      <property name="geometry">
       <rect>
-       <x>1096</x>
+       <x>110</x>
+       <y>64</y>
+       <width>45</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
+     <property name="text">
+      <string>50.0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_54">
+     <property name="geometry">
+      <rect>
+       <x>880</x>
        <y>70</y>
        <width>22</width>
        <height>21</height>
@@ -1120,7 +841,7 @@
      <property name="font">
       <font>
        <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -1135,19 +856,409 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="label_operator_47">
+    <widget class="QLabel" name="label_operator_20">
      <property name="geometry">
       <rect>
-       <x>941</x>
-       <y>68</y>
-       <width>88</width>
+       <x>622</x>
+       <y>35</y>
+       <width>83</width>
        <height>21</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>幼圆</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>线路电压</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_58">
+     <property name="geometry">
+      <rect>
+       <x>742</x>
+       <y>70</y>
+       <width>16</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>V</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_59">
+     <property name="geometry">
+      <rect>
+       <x>758</x>
+       <y>68</y>
+       <width>83</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>线路电流</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_43">
+     <property name="geometry">
+      <rect>
+       <x>742</x>
+       <y>36</y>
+       <width>16</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>V</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_setLineCurrentBottom">
+     <property name="geometry">
+      <rect>
+       <x>840</x>
+       <y>66</y>
+       <width>40</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
+     <property name="text">
+      <string>8.0</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_setLineVoltageBottom">
+     <property name="geometry">
+      <rect>
+       <x>702</x>
+       <y>66</y>
+       <width>40</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
+     <property name="text">
+      <string>21.0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_74">
+     <property name="geometry">
+      <rect>
+       <x>880</x>
+       <y>34</y>
+       <width>22</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>mA</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_55">
+     <property name="geometry">
+      <rect>
+       <x>759</x>
+       <y>34</y>
+       <width>83</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>线路电流</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_42">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>68</y>
+       <width>85</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>线路电压</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_setLineCurrentTop">
+     <property name="geometry">
+      <rect>
+       <x>840</x>
+       <y>32</y>
+       <width>40</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
+     <property name="text">
+      <string>10.0</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_setLineVoltageTop">
+     <property name="geometry">
+      <rect>
+       <x>702</x>
+       <y>32</y>
+       <width>40</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
+     <property name="text">
+      <string>26.0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_38">
+     <property name="geometry">
+      <rect>
+       <x>342</x>
+       <y>68</y>
+       <width>79</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>起爆电压</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_setFireCurrentBottom">
+     <property name="geometry">
+      <rect>
+       <x>560</x>
+       <y>66</y>
+       <width>40</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
+     <property name="text">
+      <string>8.0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_46">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>70</y>
+       <width>22</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>mA</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_19">
+     <property name="geometry">
+      <rect>
+       <x>342</x>
+       <y>33</y>
+       <width>79</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>起爆电压</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_44">
+     <property name="geometry">
+      <rect>
+       <x>478</x>
+       <y>33</y>
+       <width>83</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -1162,211 +1273,19 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_setFireVoltageBottom">
-     <property name="geometry">
-      <rect>
-       <x>856</x>
-       <y>66</y>
-       <width>60</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhNone</set>
-     </property>
-     <property name="text">
-      <string>70.0</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_setComVoltageTop">
-     <property name="geometry">
-      <rect>
-       <x>494</x>
-       <y>32</y>
-       <width>60</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhNone</set>
-     </property>
-     <property name="text">
-      <string>26.0</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_setComCurrentBottom">
-     <property name="geometry">
-      <rect>
-       <x>668</x>
-       <y>64</y>
-       <width>60</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhNone</set>
-     </property>
-     <property name="text">
-      <string>1.0</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_setComVoltageBottom">
-     <property name="geometry">
-      <rect>
-       <x>494</x>
-       <y>66</y>
-       <width>60</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhNone</set>
-     </property>
-     <property name="text">
-      <string>21.0</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_setComCurrentTop">
-     <property name="geometry">
-      <rect>
-       <x>668</x>
-       <y>30</y>
-       <width>60</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhNone</set>
-     </property>
-     <property name="text">
-      <string>2.0</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_setDrainCurrentTop">
-     <property name="geometry">
-      <rect>
-       <x>132</x>
-       <y>32</y>
-       <width>50</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhNone</set>
-     </property>
-     <property name="text">
-      <string>100</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_setWorkCurrentBottom">
-     <property name="geometry">
-      <rect>
-       <x>306</x>
-       <y>66</y>
-       <width>60</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhNone</set>
-     </property>
-     <property name="text">
-      <string>1000</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_setWorkCurrentTop">
-     <property name="geometry">
-      <rect>
-       <x>306</x>
-       <y>32</y>
-       <width>60</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhNone</set>
-     </property>
-     <property name="text">
-      <string>2000</string>
-     </property>
-    </widget>
     <widget class="QLineEdit" name="lineEdit_setFireCurrentTop">
      <property name="geometry">
       <rect>
-       <x>1034</x>
+       <x>560</x>
        <y>32</y>
-       <width>60</width>
+       <width>40</width>
        <height>27</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Times New Roman</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -1381,16 +1300,16 @@
     <widget class="QLineEdit" name="lineEdit_setFireVoltageTop">
      <property name="geometry">
       <rect>
-       <x>856</x>
-       <y>32</y>
-       <width>60</width>
+       <x>422</x>
+       <y>30</y>
+       <width>40</width>
        <height>27</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Times New Roman</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -1402,19 +1321,412 @@
       <string>74.0</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_setFireCurrentBottom">
+    <widget class="QLabel" name="label_operator_37">
      <property name="geometry">
       <rect>
-       <x>1034</x>
+       <x>462</x>
+       <y>34</y>
+       <width>16</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>V</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_39">
+     <property name="geometry">
+      <rect>
+       <x>462</x>
+       <y>68</y>
+       <width>16</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>V</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_setFireVoltageBottom">
+     <property name="geometry">
+      <rect>
+       <x>422</x>
        <y>66</y>
-       <width>60</width>
+       <width>40</width>
        <height>27</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Times New Roman</family>
-       <pointsize>16</pointsize>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
+     <property name="text">
+      <string>70.0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_47">
+     <property name="geometry">
+      <rect>
+       <x>478</x>
+       <y>68</y>
+       <width>83</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>起爆电流</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_45">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>34</y>
+       <width>22</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>mA</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_72">
+     <property name="geometry">
+      <rect>
+       <x>1166</x>
+       <y>69</y>
+       <width>22</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>mA</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_71">
+     <property name="geometry">
+      <rect>
+       <x>1028</x>
+       <y>68</y>
+       <width>16</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>V</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_setComCurrentTop">
+     <property name="geometry">
+      <rect>
+       <x>1126</x>
+       <y>30</y>
+       <width>40</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
+     <property name="text">
+      <string>10.0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_9">
+     <property name="geometry">
+      <rect>
+       <x>904</x>
+       <y>34</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>通信电压</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_41">
+     <property name="geometry">
+      <rect>
+       <x>1028</x>
+       <y>36</y>
+       <width>16</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>V</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_setComVoltageTop">
+     <property name="geometry">
+      <rect>
+       <x>988</x>
+       <y>32</y>
+       <width>40</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
+     <property name="text">
+      <string>38.0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_48">
+     <property name="geometry">
+      <rect>
+       <x>1042</x>
+       <y>68</y>
+       <width>85</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>通信电流</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_setComVoltageBottom">
+     <property name="geometry">
+      <rect>
+       <x>988</x>
+       <y>66</y>
+       <width>40</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
+     <property name="text">
+      <string>32.0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_10">
+     <property name="geometry">
+      <rect>
+       <x>903</x>
+       <y>68</y>
+       <width>83</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>通信电压</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_operator_49">
+     <property name="geometry">
+      <rect>
+       <x>1043</x>
+       <y>33</y>
+       <width>83</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>通信电流</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_setComCurrentBottom">
+     <property name="geometry">
+      <rect>
+       <x>1126</x>
+       <y>66</y>
+       <width>40</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -1426,28 +1738,31 @@
       <string>8.0</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_setDrainCurrentBottom">
+    <widget class="QLabel" name="label_operator_73">
      <property name="geometry">
       <rect>
-       <x>132</x>
-       <y>66</y>
-       <width>50</width>
-       <height>27</height>
+       <x>1166</x>
+       <y>34</y>
+       <width>22</width>
+       <height>21</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <family>Times New Roman</family>
-       <pointsize>16</pointsize>
+       <family>幼圆</family>
+       <pointsize>14</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhNone</set>
-     </property>
      <property name="text">
-      <string>50</string>
+      <string>mA</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>
@@ -2572,7 +2887,7 @@
       <string>保存结果</string>
      </property>
      <property name="shortcut">
-      <string>Ctrl+4</string>
+      <string>Ctrl+0</string>
      </property>
     </widget>
    </widget>
@@ -2597,7 +2912,7 @@
      <string notr="true">gridline-color: rgb(85, 0, 255);</string>
     </property>
     <property name="title">
-     <string>输入UID</string>
+     <string>输入编码</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -2630,7 +2945,7 @@
       <string>清除编码</string>
      </property>
      <property name="shortcut">
-      <string>Ctrl+3</string>
+      <string>Ctrl+2</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushBtn_deviceEncoding">
@@ -2661,7 +2976,7 @@
       <string>设备编码</string>
      </property>
      <property name="shortcut">
-      <string>Ctrl+2</string>
+      <string>Ctrl+3</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushBtn_scanCodeInput">
@@ -2684,6 +2999,9 @@
      </property>
      <property name="text">
       <string>扫码输入</string>
+     </property>
+     <property name="shortcut">
+      <string>Ctrl+4</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_uidInput">
@@ -2728,32 +3046,10 @@
      <property name="text">
       <string>设备检测</string>
      </property>
+     <property name="shortcut">
+      <string>Ctrl+5</string>
+     </property>
     </widget>
-   </widget>
-   <widget class="QPushButton" name="pushBtn_saveSettingsRecord">
-    <property name="geometry">
-     <rect>
-      <x>1136</x>
-      <y>280</y>
-      <width>223</width>
-      <height>85</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>幼圆</family>
-      <pointsize>18</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>保存设置</string>
-    </property>
-    <property name="shortcut">
-     <string>Ctrl+4</string>
-    </property>
    </widget>
    <widget class="QLabel" name="label_operator_5">
     <property name="geometry">
@@ -2771,7 +3067,7 @@
      </font>
     </property>
     <property name="text">
-     <string>供电电压</string>
+     <string>线路电压</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
@@ -2802,7 +3098,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_selfSupVoltage">
+   <widget class="QLabel" name="label_selfLineVoltage">
     <property name="geometry">
      <rect>
       <x>268</x>
@@ -2848,7 +3144,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label_selfSupCurrent">
+   <widget class="QLabel" name="label_selfLineCurrent">
     <property name="geometry">
      <rect>
       <x>436</x>
@@ -2935,7 +3231,7 @@
      </font>
     </property>
     <property name="text">
-     <string>供电电流</string>
+     <string>线路电流</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
@@ -3125,50 +3421,6 @@
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushBtn_cleanMsgArea">
-    <property name="geometry">
-     <rect>
-      <x>1078</x>
-      <y>230</y>
-      <width>135</width>
-      <height>35</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>幼圆</family>
-      <pointsize>18</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>清除消息</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushBtn_saveMsgArea">
-    <property name="geometry">
-     <rect>
-      <x>1224</x>
-      <y>230</y>
-      <width>135</width>
-      <height>35</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>幼圆</family>
-      <pointsize>18</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>保存消息</string>
     </property>
    </widget>
    <widget class="QTextBrowser" name="textBrowser">
@@ -3388,6 +3640,119 @@ p, li { white-space: pre-wrap; }
      <enum>Qt::AutoText</enum>
     </property>
    </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>2</width>
+      <height>2</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout"/>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>1078</x>
+      <y>230</y>
+      <width>281</width>
+      <height>37</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="pushBtn_cleanMsgArea">
+       <property name="font">
+        <font>
+         <family>幼圆</family>
+         <pointsize>18</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>清除消息</string>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+7</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushBtn_saveMsgArea">
+       <property name="font">
+        <font>
+         <family>幼圆</family>
+         <pointsize>18</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>保存消息</string>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+8</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="pushBtn_saveSettingsRecord">
+    <property name="geometry">
+     <rect>
+      <x>1216</x>
+      <y>278</y>
+      <width>143</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>18</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>保存配置</string>
+    </property>
+    <property name="shortcut">
+     <string>Ctrl+9</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushBtn_readSettingsRecord">
+    <property name="geometry">
+     <rect>
+      <x>1216</x>
+      <y>328</y>
+      <width>143</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>18</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>读取配置</string>
+    </property>
+    <property name="shortcut">
+     <string>Ctrl+.</string>
+    </property>
+   </widget>
+   <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget</zorder>
    <zorder>label_operator_5</zorder>
    <zorder>label_operator_21</zorder>
    <zorder>groupBox_3</zorder>
@@ -3398,9 +3763,8 @@ p, li { white-space: pre-wrap; }
    <zorder>groupBox</zorder>
    <zorder>groupBox</zorder>
    <zorder>groupBox</zorder>
-   <zorder>pushBtn_saveSettingsRecord</zorder>
-   <zorder>label_selfSupVoltage</zorder>
-   <zorder>label_selfSupCurrent</zorder>
+   <zorder>label_selfLineVoltage</zorder>
+   <zorder>label_selfLineCurrent</zorder>
    <zorder>label_operator_22</zorder>
    <zorder>label_operator_6</zorder>
    <zorder>label_selfFireCurrent</zorder>
@@ -3409,8 +3773,6 @@ p, li { white-space: pre-wrap; }
    <zorder>label_selfFireVoltage</zorder>
    <zorder>label_operator_40</zorder>
    <zorder>label_operator_18</zorder>
-   <zorder>pushBtn_cleanMsgArea</zorder>
-   <zorder>pushBtn_saveMsgArea</zorder>
    <zorder>textBrowser</zorder>
    <zorder>label_operator_23</zorder>
    <zorder>label_operator_24</zorder>
@@ -3418,6 +3780,8 @@ p, li { white-space: pre-wrap; }
    <zorder>label_operator_7</zorder>
    <zorder>label_selfComCurrent</zorder>
    <zorder>label_operator_13</zorder>
+   <zorder>pushBtn_saveSettingsRecord</zorder>
+   <zorder>pushBtn_readSettingsRecord</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

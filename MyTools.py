@@ -5,7 +5,5 @@ import time
 
 class Tools:
     def getTimeStamp(self):
-        # time.sleep(0.2)
-        # s = time.strftime("[%H:%M:%S]>", time.localtime())
         s = time.strftime("[%Y/%m/%d %H:%M:%S]>", time.localtime())
         return s

@@ -1,10 +1,10 @@
 
 class State(object):
-    s_PortIsOpen = "4"
-    s_PortIsClose = "5"
-    s_PortIsBusy = "6"
-    s_UidInputNull = "7"
-    s_PortSendFailed  = "8"
-    s_PortRecvFailed  = "9"
-    s_RxFrameCheckOK = "A"
-    s_RxFrameCheckErr = "B"
+    s_PortIsOpen = "A"
+    s_PortIsClose = "B"
+    s_PortIsBusy = "C"
+    s_UidInputNull = "D"
+    s_PortSendFailed  = "E"
+    s_PortRecvFailed  = "F"
+    s_RxFrameCheckOK = "G"
+    s_RxFrameCheckErr = "H"
