@@ -50,12 +50,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.timer_serial_recv = QTimer(self)
         self.timer_serial_recv.timeout.connect(self.serialRecvData)
 
-        # 串口接收定时器
-        # system datetime timer
-        # self.timer_datetime = QTimer(self)
-        # self.timer_datetime.timeout.connect(self.showDaetTime)
-        # self.timer_datetime.start(1000)
-
         # signal<--bind-->slot
         self.bindSignalSlot()
 
@@ -75,11 +69,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # work mode dectionary
         self.workMode = { "encoding":"X",  "detection":"X"}
         self.data = b''
-
-        # 启动日期更新线程 2021年3月19日 20:53:07--暂时不用此方法
-        # self.thDateTimeFefresh = threading.Thread(target=self.dateTimeFefresh, name="dateTimeFefresh")
-        # self.thDateTimeFefresh.setDaemon(True)
-        # self.thDateTimeFefresh.start()
 
         # 自定义日期更新线程
         self.thread01 = TimeThread()
@@ -170,25 +159,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             pass
 
     def showDaetTime(self, timeStr):
-        # if str((time.strftime("%p"),time.localtime()[0])).strip("AM"):
-        #     dateTimeStr = time.strftime("%Y年%m月%d日\n上午 %H:%M:%S ", time.localtime())
-        # else:
-        #     dateTimeStr = time.strftime("%Y年%m月%d日\n下午 %H:%M:%S ", time.localtime())
-        # dayOfWeek = time.localtime().tm_wday
-        # if dayOfWeek == 0:
-        #     dateTimeStr = dateTimeStr + "星期一"
-        # elif dayOfWeek == 1:
-        #     dateTimeStr = dateTimeStr + "星期二"
-        # elif dayOfWeek == 2:
-        #     dateTimeStr = dateTimeStr + "星期三"
-        # elif dayOfWeek == 3:
-        #     dateTimeStr = dateTimeStr + "星期四"
-        # elif dayOfWeek == 4:
-        #     dateTimeStr = dateTimeStr + "星期五"
-        # elif dayOfWeek == 5:
-        #     dateTimeStr = dateTimeStr + "星期六"
-        # elif dayOfWeek == 6:
-        #     dateTimeStr = dateTimeStr + "星期天"
         self.label_localDateTime.setText(timeStr)
 
     def portDetection(self):
@@ -251,23 +221,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.pushBtn_serialSwitch.setText("打开串口")
             self.comboBox_selectComNum.setEnabled(True)   
     
-    # def convertCheck(self, check):
-    #     ch = bytearray([0,0,0,0])
-    #     ch[0] = ((check & 0xF0) >> 4) - 10 + 65
-    #     ch[1] = (check & 0x0F) - 10 + 65
-    #     ch[2] = ((check & 0xF0) >> 4) + 48
-    #     ch[3] = (check & 0x0F) + 48
-    #     # 校验和高四位
-    #     if(((check & 0xF0) >> 4) >= 10):
-    #         self.highCheck = ch[0]
-    #     else:
-    #         self.highCheck = ch[2]
-    #     # 校验和低四位
-    #     if((check & 0x0F) >= 10):
-    #         self.lowCheck = ch[1]
-    #     else:
-    #         self.lowCheck = ch[3]
-
     def rxFrameCheck(self):
         self.rxCheck = int(0) # 校验和清零
         dataLength = len(self.data)
@@ -309,12 +262,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         uid = self.lineEdit_uidInput.text()
         if func == Func.f_CheckWorkMode or func == Func.f_DevGetSelfPara:
             tmp = str("D" + self.serialNumber + func)
-        # elif func == Func.f_DevGetSelfPara:
-        #     tmp = str("D" + self.serialNumber + func)
         elif func == Func.f_DevEncoding or func == Func.f_DevDetection:
             tmp = str("D" + self.serialNumber + func + uid)
-        # elif func == Func.f_DevDetection:
-        #     tmp = str("D" + self.serialNumber + func + uid)
         elif func == Func.f_DevSettingPara:
             configPath = r"E:\Learing\2021\719\Python\Terminal\config.txt"
             with open(configPath, 'r') as f:
@@ -333,10 +282,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             return
         for ch in txData: # 计算校验和
             self.txCheck += ch
-        # self.convertCheck(self.txCheck)
         self.txHighCheck, self.txLowCheck = self.usualTools.convertCheck(self.txCheck & 0xFF)
-        # self.txHighCheck = self.highCheck
-        # self.txLowCheck = self.lowCheck
         byteTmp = bytearray(txData)
         byteTmp.append(self.txHighCheck)
         byteTmp.append(self.txLowCheck)
@@ -367,20 +313,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 try:
                     if func == Func.f_CheckWorkMode or func == Func.f_DevGetSelfPara:
                         self.sendByFunc(func)
-                    # elif func == Func.f_DevGetSelfPara:
-                    #     self.sendByFunc(func)
                     elif func == Func.f_DevEncoding or func == Func.f_DevDetection: 
                         if self.lineEdit_uidInput.text() != "":
                             self.sendByFunc(func)
                             print("InputSN:" + self.lineEdit_uidInput.text())
                         else:
                             QMessageBox.information(self, "输入编号", "编号输入为空!\n请再输入编号", QMessageBox.Yes)
-                    # elif func == Func.f_DevDetection:
-                    #     if self.lineEdit_uidInput.text() != "":
-                    #         self.sendByFunc(func)
-                    #         print("InputSN:" + self.lineEdit_uidInput.text())
-                    #     else:
-                    #         QMessageBox.information(self, "输入编号", "编号输入为空!\n请再输入编号", QMessageBox.Yes)
+                    else:
+                        self.sendByFunc(func)
                 except:
                     QMessageBox.critical(self, "串口信息", "发送数据失败")
                 finally:
@@ -398,13 +338,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         res =  tmp[3:(len(tmp)-4)]
         if res == "PARAOK":
             print(self.usualTools.getTimeStamp()+ "下发参数成功！")
-            # self.textBrowser.append(self.usualTools.getTimeStamp()+ "下发参数成功！")
         elif res == "PARAERR":
             print(self.usualTools.getTimeStamp()+ "下发参数失败！")
-            # self.textBrowser.append(self.usualTools.getTimeStamp()+ "下发参数失败！")
         elif res == "PARALESS":
             print(self.usualTools.getTimeStamp()+ "下发参数缺失")
-            # self.textBrowser.append(self.usualTools.getTimeStamp()+ "下发参数缺失")
 
     def getUserPara(self):
         paraDict["th_DrainCurrent_Up"]   = self.lineEdit_setDrainCurrentTop.text()
@@ -446,7 +383,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             break
                         elif self.num == 0:
                             endTiming = dt.datetime.now()
-                            if (endTiming - startTiming).seconds >= 2:
+                            if (endTiming - startTiming).seconds >= 5:
                                 self.textBrowser.append(self.usualTools.getTimeStamp()+ "@接收数据超时")
                                 break
                             else:
