@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # 导入日期时间模块
 import datetime as dt
+# 导入struct模块
+import struct
 # 导入系统模块
 import sys
 # 导入线程模块
@@ -31,6 +33,7 @@ from StateEnum import State
 from ThreadLee import MyThread
 # 导入主窗口类
 from Ui_Detector import Ui_MainWindow
+
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -79,6 +82,20 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.thread01.secondSignal.connect(self.showDaetTime)
         self.thread01.start()
 
+        global paraDict 
+        paraDict = {
+        "th_DrainCurrent_Up": "0", "th_DrainCurrent_Down": "0",
+        "th_WorkCurrent_Up":  "0", "th_WorkCurrent_Down":  "0",
+        "th_FireVoltage_Up":  "0", "th_FireVoltage_Down":  "0",
+        "th_FireCurrent_Up":  "0", "th_FireCurrent_Down":  "0",
+        "th_LineVoltage_Up":  "0", "th_LineVoltage_Down":  "0",
+        "th_LineCurrent_Up":  "0", "th_LineCurrent_Down":  "0",
+        "th_ComVoltage_Up":   "0", "th_ComVoltage_Down":   "0",
+        "th_ComCurrent_Up":   "0", "th_ComCurrent_Down":   "0" }
+
+        self.textBrowser.append(self.timeTool.getTimeStamp()+ "读取默认配置")
+        self.getUserPara()
+
     def __del__(self):
         print("{}程序结束，释放资源".format(__class__))
         if self.serialInstance.isOpen():
@@ -120,6 +137,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushBtn_deviceSelfCheck.clicked.connect(self.deviceSelfCheck)
         self.pushBtn_deviceEncoding.clicked.connect(self.encoding)
         self.pushBtn_deviceDetection.clicked.connect(self.detection)
+        self.pushBtn_saveSettingsRecord.clicked.connect(self.saveParaThreshold)
+        self.pushBtn_readSettingsRecord.clicked.connect(self.readParaThreshold)
 
     def clearMessage(self):
         if self.textBrowser.toPlainText() != "":
@@ -162,13 +181,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # elif dayOfWeek == 6:
         #     dateTimeStr = dateTimeStr + "星期天"
         self.label_localDateTime.setText(timeStr)
-
-    def dateTimeFefresh(self):
-        print('thread %s is running...' % threading.current_thread().name)
-        while True:
-            time.sleep(1)
-            self.showDaetTime()
-        print('thread %s ended.' % threading.current_thread().name)
 
     def portDetection(self):
         self.comboBox_selectComNum.clear()  # 清空端口选择按钮
@@ -294,6 +306,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             tmp = str("D" + self.serialNumber + func + uid)
         elif func == Func.f_DevDetection:
             tmp = str("D" + self.serialNumber + func + uid)
+        elif func == Func.f_DevSettingPara:
+            configPath = r"E:\Learing\2021\719\Python\Terminal\config.txt"
+            with open(configPath, 'r') as f:
+                s = f.read()
+            tmp = str("D" + self.serialNumber + func + s)
         tmp = tmp.encode("utf-8")
 
         return tmp
@@ -303,7 +320,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         try:
             txData = self.sendData2Bytes(func)
         except:
-            print("Transfrom txData to bytes failed!")
+            print("Transfrom txData to bytes type failed!")
             return
         for ch in txData: # 计算校验和
             self.txCheck += ch
@@ -354,6 +371,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             print("InputSN:" + self.lineEdit_uidInput.text())
                         else:
                             QMessageBox.information(self, "输入编号", "编号输入为空!\n请输入编号", QMessageBox.Yes)
+                    else:
+                        self.sendByFunc(func)
                 except:
                     QMessageBox.warning(self, "串口信息", "发送数据失败")
                 finally:
@@ -366,6 +385,119 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
         return self.portIsOpen
 
+    def parseSettingResult(self):
+        tmp = self.data.decode("utf-8")
+        res =  tmp[3:(len(tmp)-4)]
+        if res == "PARAOK":
+            self.textBrowser.append(self.timeTool.getTimeStamp()+ "下发参数成功！")
+        elif res == "PARAERR":
+            self.textBrowser.append(self.timeTool.getTimeStamp()+ "下发参数失败！")
+        elif res == "PARALESS":
+            self.textBrowser.append(self.timeTool.getTimeStamp()+ "下发参数缺失")
+
+    def getUserPara(self):
+        paraDict["th_DrainCurrent_Up"]   = self.lineEdit_setDrainCurrentTop.text()
+        paraDict["th_DrainCurrent_Down"] = self.lineEdit_setDrainCurrentBottom.text()
+        paraDict["th_WorkCurrent_Up"]    = self.lineEdit_setWorkCurrentTop.text()
+        paraDict["th_WorkCurrent_Down"]  = self.lineEdit_setWorkCurrentBottom.text()
+        paraDict["th_FireVoltage_Up"]    = self.lineEdit_setFireVoltageTop.text()
+        paraDict["th_FireVoltage_Down"]  = self.lineEdit_setFireVoltageBottom.text()
+        paraDict["th_FireCurrent_Up"]    = self.lineEdit_setFireCurrentTop.text()
+        paraDict["th_FireCurrent_Down"]  = self.lineEdit_setFireCurrentBottom.text()
+        paraDict["th_LineVoltage_Up"]    = self.lineEdit_setLineVoltageTop.text()
+        paraDict["th_LineVoltage_Down"]  = self.lineEdit_setLineVoltageBottom.text()
+        paraDict["th_LineCurrent_Up"]    = self.lineEdit_setLineCurrentTop.text()
+        paraDict["th_LineCurrent_Down"]  = self.lineEdit_setLineCurrentBottom.text()
+        paraDict["th_ComVoltage_Up"]     = self.lineEdit_setComVoltageTop.text()
+        paraDict["th_ComVoltage_Down"]   = self.lineEdit_setComVoltageBottom.text()
+        paraDict["th_ComCurrent_Up"]     = self.lineEdit_setComCurrentTop.text()
+        paraDict["th_ComCurrent_Down"]   = self.lineEdit_setComCurrentBottom.text()
+
+    def settingParaThreshold(self):
+        print("/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/")
+        self.textBrowser.append(self.timeTool.getTimeStamp()+ "设置下发参数阈值")
+        if self.serialSendData(Func.f_DevSettingPara) == True:
+            if self.portStatus == True:
+                print("Setting parameters's threshold ......")
+                self.data = b''
+                self.rxCheck = 0
+                startTiming = dt.datetime.now()
+                self.serialInstance.flushInput()
+                while True:
+                    QApplication.processEvents()
+                    try:
+                        self.num = self.serialInstance.inWaiting()
+                        # print("workModeCheck num:" + str(self.num)) # 输出收到的字节数
+                        if self.num > 0:
+                            time.sleep(0.1)
+                            self.num = self.serialInstance.inWaiting()
+                        if self.num >= 9:
+                            break
+                        elif self.num == 0:
+                            endTiming = dt.datetime.now()
+                            if (endTiming - startTiming).seconds >= 2:
+                                self.textBrowser.append(self.timeTool.getTimeStamp()+ "@接收数据超时")
+                                break
+                            else:
+                                continue
+                        else:
+                            continue
+                    except:
+                        continue
+                if self.num >= 9:
+                    self.data = self.serialInstance.read(self.num)
+                    print("workModeCheck:" + str(self.data, encoding="utf-8"))
+                    if self.rxFrameCheck() == State.s_RxFrameCheckOK: # 接收帧检查
+                        self.parseSettingResult()
+                    else:
+                        self.textBrowser.append(self.timeTool.getTimeStamp()+ "接收帧错误")
+                    self.serialInstance.flush()
+                else:
+                    self.serialInstance.flush()
+            else:
+                self.textBrowser.append(self.timeTool.getTimeStamp()+ "串口使用中或已拔出")
+        else:
+            pass # 返回串口未打开，发送函数已做处理，这里直接pass即可        
+
+    def saveParaThreshold(self):
+        if self.serialInstance.isOpen():
+            self.textBrowser.append(self.timeTool.getTimeStamp()+ "下发并保存指定参数")
+            self.getUserPara()
+            self.textBrowser.append(self.timeTool.getTimeStamp()+ "下发指定参数")
+            self.settingParaThreshold()
+            self.textBrowser.append(self.timeTool.getTimeStamp()+ "保存指定参数")
+            configPath = r"E:\Learing\2021\719\Python\Terminal\config.txt"
+            with open(configPath, 'w') as f:
+                cnt = 0
+                for k,v in paraDict.items():
+                    if cnt == 10:
+                        para = "CA" + v
+                    elif cnt == 11:
+                        para = "CB" + v
+                    elif cnt == 12:
+                        para = "CC" + v
+                    elif cnt == 13:
+                        para = "CD" + v
+                    elif cnt == 14:
+                        para = "CE" + v
+                    elif cnt == 15:
+                        para = "CF" + v
+                    else:
+                        para = "C" + str(cnt) + v
+                    # print(cnt)
+                    cnt += 1
+                    f.write(para)
+            self.textBrowser.append(self.timeTool.getTimeStamp()+ "保存配置成功")
+        else:
+            self.textBrowser.append(self.timeTool.getTimeStamp()+ "未打开串口，无法下发参数")
+
+    def readParaThreshold(self):
+        configPath = r"E:\Learing\2021\719\Python\Terminal\config.txt"
+        with open(configPath, 'r') as f:
+            s = f.read()
+            # print(s)
+        self.textBrowser.append(self.timeTool.getTimeStamp()+ "读取配置成功")
+        
     def setWorkMode(self):
         if self.data[len(self.data) - 6] == 48:
             self.workMode["encoding"] = "0"
@@ -410,7 +542,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.textBrowser.append(self.timeTool.getTimeStamp() + "无法进行【编码】和【检测】，请按下功能按键！")
 
     def workModeCheck(self):
-        print("/*-----------------------------------------------------------*/")
+        print("/*---------------------------------------------*/")
         self.textBrowser.append(self.timeTool.getTimeStamp()+ "检查工作模式")
         if self.serialSendData(Func.f_CheckWorkMode) == True:
             if self.portStatus == True:
@@ -461,8 +593,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         PwrVol  = tmp[3:6];   PwrCur  = tmp[6:10]
         ComVol  = tmp[10:13]; ComCur  = tmp[13:17]
         FireVol = tmp[17:20]; FireCur = tmp[20:24]
-        self.label_selfSupVoltage.setText(PwrVol[0:2] + "." + PwrVol[2:3])
-        self.label_selfSupCurrent.setText(PwrCur[0:1] + "." + PwrCur[1:4])
+        self.label_selfLineVoltage.setText(PwrVol[0:2] + "." + PwrVol[2:3])
+        self.label_selfLineCurrent.setText(PwrCur[0:1] + "." + PwrCur[1:4])
         self.label_selfComVoltage.setText(ComVol[0:2] + "." + ComVol[2:3])
         self.label_selfComCurrent.setText(ComCur[0:1] + "." + ComCur[1:4])
         self.label_selfFireVoltage.setText(FireVol[0:2] + "." + FireVol[2:3])
@@ -470,7 +602,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.textBrowser.append(self.timeTool.getTimeStamp()+ "已获取设备参数")
 
     def getDevicePara(self):
-        print("/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/")
+        print("/*+++++++++++++++++++++++++++++++++++++++++++++*/")
         self.textBrowser.append(self.timeTool.getTimeStamp()+ "检查设备参数")
         if self.serialSendData(Func.f_DevGetSelfPara) == True:
             if self.portStatus == True:
@@ -491,13 +623,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             break
                         elif self.num == 0:
                             endTiming = dt.datetime.now()
-                            if (endTiming - startTiming).seconds >= 5:
+                            if (endTiming - startTiming).seconds >= 6:
                                 self.textBrowser.append(self.timeTool.getTimeStamp()+ "@接收数据超时")
                                 break
                             else:
                                 continue
-                        else:
-                            continue
+                        # else:
+                        #     continue
                     except:
                         continue
                 if self.num >= 28:
@@ -537,7 +669,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def encoding(self):
         self.textBrowser.append(self.timeTool.getTimeStamp()+ "设备编码")
-        print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
+        print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
         if self.serialSendData(Func.f_DevEncoding) == True:
             if self.portStatus == True:
                 print("Encoding......")
@@ -564,13 +696,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                     break
                                 else:
                                     continue
-                            else:
-                                endTiming = dt.datetime.now()
-                                if (endTiming - startTiming).seconds >= 10:
-                                    self.textBrowser.append(self.timeTool.getTimeStamp()+ "@接收数据超时")
-                                    break
-                                else:
-                                    continue
                         except:
                             continue
                     if self.num >= 12:
@@ -589,7 +714,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             pass
         
     def detection(self):
-        print("/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/")
+        print("/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/")
         self.textBrowser.append(self.timeTool.getTimeStamp()+ "设备检测")
         if self.serialSendData(Func.f_DevDetection) == True:
             if self.portStatus == True:
