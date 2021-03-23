@@ -471,19 +471,19 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 cnt = 0
                 for k,v in paraDict.items():
                     if cnt == 10:
-                        para = "CA" + v
+                        para = "PA" + v
                     elif cnt == 11:
-                        para = "CB" + v
+                        para = "PB" + v
                     elif cnt == 12:
-                        para = "CC" + v
+                        para = "PC" + v
                     elif cnt == 13:
-                        para = "CD" + v
+                        para = "PD" + v
                     elif cnt == 14:
-                        para = "CE" + v
+                        para = "PE" + v
                     elif cnt == 15:
-                        para = "CF" + v
+                        para = "PF" + v
                     else:
-                        para = "C" + str(cnt) + v
+                        para = "P" + str(cnt) + v
                     # print(cnt)
                     cnt += 1
                     f.write(para)
