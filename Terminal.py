@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 # 导入日期时间模块
 import datetime as dt
-# 导入struct模块
-import struct
 # 导入系统模块
 import sys
-# 导入线程模块
-import threading
 # 导入time相关模块
 import time
 
@@ -19,16 +15,15 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtSerialPort import QSerialPortInfo
 from PyQt5.QtWidgets import *
-from serial import tools
 
 # 导入功能枚举
 from FuncEnum import Func
+# 导入自定义线程类
+from LocalTimeThread import TimeThread
 # 导入qrc资源
 from resources import resources_rc
 # 导入状态枚举
 from StateEnum import State
-# 导入自定义线程类
-from ThreadLee import TimeThread
 # 导入主窗口类
 from Ui_Detector import Ui_MainWindow
 # 引入串口封装类
@@ -517,7 +512,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.data = b''
                 self.rxCheck = 0
                 startTiming = dt.datetime.now()
-                self.serialInstance.flushInput()
+                self.serialInstance.flush()
                 while True:
                     QApplication.processEvents()
                     try:
@@ -648,7 +643,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.textBrowser.append(self.usualTools.getTimeStamp()+ "输入UID为：" + self.lineEdit_uidInput.text())
                         self.data = b''
                         self.rxCheck = 0
-                        self.serialInstance.flushInput()
+                        self.serialInstance.flush()
                         startTiming = dt.datetime.now()
                         while True:
                             QApplication.processEvents()
@@ -731,7 +726,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.data = b''
                         self.rxCheck = 0
                         startTiming = dt.datetime.now()
-                        self.serialInstance.flushInput()
+                        self.serialInstance.flush()
                         while True:
                             try:
                                 QApplication.processEvents()
