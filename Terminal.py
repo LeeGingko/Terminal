@@ -56,15 +56,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.bindSignalSlot()
 
         # initialization of serial
-        # self.serialInstance = serial.Serial()  # 实例化串口对象
-        self.comPortList = []
-        self.comIndex = 0
-        # self.comDescriptionList = list()
-        self.portManager = PersonalSerial()
+        self.portManager = PersonalSerial() # 实例化串口对象
         self.serialInstance = self.portManager.serial
-        
         self.portDetection()
-        # self.serialInstance = PersonalSerial(self.comPortList[self.comIndex].device)
 
         # initialization of variables
         self.txCheck = 0
@@ -79,7 +73,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.workMode = { "encoding":"X",  "detection":"X"}
         self.data = b''
 
-        # 自定义日期更新线程
+        # 自定义本地时间更新线程
         self.thread01 = TimeThread()
         self.thread01.secondSignal.connect(self.showDaetTime)
         self.thread01.start()
@@ -110,8 +104,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def __del__(self):
         print("{}程序结束，释放资源".format(__class__))
-        if self.serialInstance.portIsOpen():
-            self.serialInstance.closePort()
+        if self.serialInstance.isOpen():
+            self.serialInstance.close()
     
     def wmRefreshFunc(self, data):
         print(data)
@@ -207,22 +201,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.portInfo = QSerialPortInfo(self.comPortList[self.comIndex].device)  # 该串口信息
                 self.portStatus = self.portInfo.isBusy()  # 该串口状态
                 if self.portStatus == False:  # 该串口空闲
-                    
                     self.portManager.initPort(self.comPortList[self.comIndex].device)
-                    # self.serialInstance.port = self.comPortList[self.comIndex].device
-                    # self.serialInstance.baudrate = 115200
-                    # self.serialInstance.bytesize = serial.EIGHTBITS
-                    # self.serialInstance.stopbits = serial.STOPBITS_ONE
-                    # self.serialInstance.parity = serial.PARITY_NONE
-                    # self.serialInstance.timeout = None
-                    # self.serialInstance.xonxoff = False
-                    # self.serialInstance.rtscts = False
-                    # self.serialInstance.dsrdtr = False
                     try:
                         self.serialInstance.open()
-                        # self.portManager.openPort()
                         if self.serialInstance.isOpen():
-                            # self.timer_serial_recv.start(10)
                             self.textBrowser.append(self.usualTools.getTimeStamp()+ "端口[" + self.comPortList[self.comIndex].device + "]已打开")
                             self.pushBtn_serialSwitch.setText("关闭串口")
                             self.comboBox_selectComNum.setEnabled(False)
