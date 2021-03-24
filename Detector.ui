@@ -1770,15 +1770,15 @@
     <property name="geometry">
      <rect>
       <x>6</x>
-      <y>372</y>
+      <y>368</y>
       <width>1351</width>
-      <height>307</height>
+      <height>311</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>幼圆</family>
-      <pointsize>18</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="inputMethodHints">
@@ -1800,10 +1800,16 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>136</y>
+       <y>138</y>
        <width>1329</width>
        <height>163</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>18</pointsize>
+      </font>
      </property>
     </widget>
     <widget class="QLabel" name="label_operator_70">
@@ -1824,7 +1830,7 @@
       </font>
      </property>
      <property name="text">
-      <string>设备检测结论</string>
+      <string>模块检测结论</string>
      </property>
      <property name="textFormat">
       <enum>Qt::AutoText</enum>
@@ -1881,38 +1887,11 @@
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="label_operator_50">
-     <property name="geometry">
-      <rect>
-       <x>31</x>
-       <y>46</y>
-       <width>88</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>幼圆</family>
-       <pointsize>16</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>漏电流</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::AutoText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_operator_53">
      <property name="geometry">
       <rect>
-       <x>28</x>
-       <y>90</y>
+       <x>24</x>
+       <y>92</y>
        <width>91</width>
        <height>27</height>
       </rect>
@@ -1939,9 +1918,9 @@
      <property name="geometry">
       <rect>
        <x>762</x>
-       <y>32</y>
+       <y>16</y>
        <width>360</width>
-       <height>97</height>
+       <height>113</height>
       </rect>
      </property>
      <property name="font">
@@ -1961,10 +1940,10 @@
      <widget class="QLabel" name="label_resDet1Current">
       <property name="geometry">
        <rect>
-        <x>113</x>
-        <y>60</y>
+        <x>119</x>
+        <y>68</y>
         <width>90</width>
-        <height>25</height>
+        <height>32</height>
        </rect>
       </property>
       <property name="font">
@@ -2010,9 +1989,9 @@
       <property name="geometry">
        <rect>
         <x>242</x>
-        <y>60</y>
+        <y>68</y>
         <width>90</width>
-        <height>25</height>
+        <height>32</height>
        </rect>
       </property>
       <property name="font">
@@ -2057,16 +2036,16 @@
      <widget class="QLabel" name="label_operator_65">
       <property name="geometry">
        <rect>
-        <x>12</x>
+        <x>6</x>
         <y>28</y>
-        <width>87</width>
-        <height>21</height>
+        <width>98</width>
+        <height>25</height>
        </rect>
       </property>
       <property name="font">
        <font>
         <family>幼圆</family>
-        <pointsize>16</pointsize>
+        <pointsize>18</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2086,14 +2065,14 @@
        <rect>
         <x>114</x>
         <y>28</y>
-        <width>89</width>
-        <height>21</height>
+        <width>98</width>
+        <height>25</height>
        </rect>
       </property>
       <property name="font">
        <font>
         <family>幼圆</family>
-        <pointsize>16</pointsize>
+        <pointsize>18</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2111,10 +2090,10 @@
      <widget class="QLabel" name="label_operator_67">
       <property name="geometry">
        <rect>
-        <x>202</x>
-        <y>56</y>
-        <width>32</width>
-        <height>32</height>
+        <x>208</x>
+        <y>66</y>
+        <width>30</width>
+        <height>35</height>
        </rect>
       </property>
       <property name="font">
@@ -2147,16 +2126,16 @@
      <widget class="QLabel" name="label_operator_68">
       <property name="geometry">
        <rect>
-        <x>244</x>
+        <x>238</x>
         <y>28</y>
-        <width>87</width>
-        <height>21</height>
+        <width>98</width>
+        <height>25</height>
        </rect>
       </property>
       <property name="font">
        <font>
         <family>幼圆</family>
-        <pointsize>16</pointsize>
+        <pointsize>18</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2175,9 +2154,9 @@
       <property name="geometry">
        <rect>
         <x>330</x>
-        <y>56</y>
-        <width>21</width>
-        <height>32</height>
+        <y>66</y>
+        <width>30</width>
+        <height>35</height>
        </rect>
       </property>
       <property name="font">
@@ -2211,9 +2190,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>60</y>
+        <y>68</y>
         <width>90</width>
-        <height>25</height>
+        <height>32</height>
        </rect>
       </property>
       <property name="font">
@@ -2260,9 +2239,9 @@
      <property name="geometry">
       <rect>
        <x>312</x>
-       <y>50</y>
+       <y>44</y>
        <width>60</width>
-       <height>25</height>
+       <height>32</height>
       </rect>
      </property>
      <property name="font">
@@ -2306,7 +2285,7 @@
       <rect>
        <x>184</x>
        <y>46</y>
-       <width>22</width>
+       <width>30</width>
        <height>27</height>
       </rect>
      </property>
@@ -2333,7 +2312,7 @@
       <rect>
        <x>184</x>
        <y>90</y>
-       <width>22</width>
+       <width>30</width>
        <height>27</height>
       </rect>
      </property>
@@ -2359,9 +2338,9 @@
      <property name="geometry">
       <rect>
        <x>312</x>
-       <y>92</y>
+       <y>88</y>
        <width>60</width>
-       <height>25</height>
+       <height>32</height>
       </rect>
      </property>
      <property name="font">
@@ -2404,7 +2383,7 @@
      <property name="geometry">
       <rect>
        <x>214</x>
-       <y>90</y>
+       <y>92</y>
        <width>88</width>
        <height>27</height>
       </rect>
@@ -2431,9 +2410,9 @@
      <property name="geometry">
       <rect>
        <x>122</x>
-       <y>92</y>
+       <y>88</y>
        <width>60</width>
-       <height>25</height>
+       <height>32</height>
       </rect>
      </property>
      <property name="font">
@@ -2475,10 +2454,10 @@
     <widget class="QGroupBox" name="groupBox_4">
      <property name="geometry">
       <rect>
-       <x>392</x>
-       <y>32</y>
-       <width>360</width>
-       <height>97</height>
+       <x>11</x>
+       <y>16</y>
+       <width>741</width>
+       <height>113</height>
       </rect>
      </property>
      <property name="font">
@@ -2495,13 +2474,40 @@
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
+     <widget class="QLabel" name="label_operator_50">
+      <property name="geometry">
+       <rect>
+        <x>24</x>
+        <y>28</y>
+        <width>69</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>幼圆</family>
+        <pointsize>16</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>漏电流</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::AutoText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
      <widget class="QLabel" name="label_operator_63">
       <property name="geometry">
        <rect>
-        <x>332</x>
-        <y>56</y>
-        <width>21</width>
-        <height>32</height>
+        <x>710</x>
+        <y>66</y>
+        <width>30</width>
+        <height>35</height>
        </rect>
       </property>
       <property name="font">
@@ -2531,13 +2537,88 @@
        <number>1</number>
       </property>
      </widget>
+     <widget class="QLabel" name="label_resDet2Current">
+      <property name="geometry">
+       <rect>
+        <x>491</x>
+        <y>68</y>
+        <width>90</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>16</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="tabletTracking">
+       <bool>false</bool>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::WinPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="midLineWidth">
+       <number>0</number>
+      </property>
+      <property name="text">
+       <string>-</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::AutoText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>false</bool>
+      </property>
+      <property name="openExternalLinks">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_operator_62">
+      <property name="geometry">
+       <rect>
+        <x>616</x>
+        <y>28</y>
+        <width>98</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>幼圆</family>
+        <pointsize>18</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>起爆电压</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::AutoText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
      <widget class="QLabel" name="label_operator_64">
       <property name="geometry">
        <rect>
-        <x>202</x>
-        <y>56</y>
-        <width>32</width>
-        <height>32</height>
+        <x>580</x>
+        <y>66</y>
+        <width>30</width>
+        <height>35</height>
        </rect>
       </property>
       <property name="font">
@@ -2567,163 +2648,19 @@
        <number>1</number>
       </property>
      </widget>
-     <widget class="QLabel" name="label_resDet2ID">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>90</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Times New Roman</family>
-        <pointsize>16</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="tabletTracking">
-       <bool>false</bool>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::WinPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
-      </property>
-      <property name="lineWidth">
-       <number>1</number>
-      </property>
-      <property name="midLineWidth">
-       <number>0</number>
-      </property>
-      <property name="text">
-       <string>-</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::AutoText</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="wordWrap">
-       <bool>false</bool>
-      </property>
-      <property name="openExternalLinks">
-       <bool>false</bool>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_resDet2Voltage">
-      <property name="geometry">
-       <rect>
-        <x>242</x>
-        <y>60</y>
-        <width>90</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Times New Roman</family>
-        <pointsize>16</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="tabletTracking">
-       <bool>false</bool>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::WinPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
-      </property>
-      <property name="lineWidth">
-       <number>1</number>
-      </property>
-      <property name="midLineWidth">
-       <number>0</number>
-      </property>
-      <property name="text">
-       <string>-</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::AutoText</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="wordWrap">
-       <bool>false</bool>
-      </property>
-      <property name="openExternalLinks">
-       <bool>false</bool>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_resDet2Current">
-      <property name="geometry">
-       <rect>
-        <x>113</x>
-        <y>60</y>
-        <width>90</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Times New Roman</family>
-        <pointsize>16</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="tabletTracking">
-       <bool>false</bool>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::WinPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
-      </property>
-      <property name="lineWidth">
-       <number>1</number>
-      </property>
-      <property name="midLineWidth">
-       <number>0</number>
-      </property>
-      <property name="text">
-       <string>-</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::AutoText</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="wordWrap">
-       <bool>false</bool>
-      </property>
-      <property name="openExternalLinks">
-       <bool>false</bool>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_operator_60">
       <property name="geometry">
        <rect>
-        <x>12</x>
+        <x>380</x>
         <y>28</y>
-        <width>87</width>
-        <height>21</height>
+        <width>98</width>
+        <height>25</height>
        </rect>
       </property>
       <property name="font">
        <font>
         <family>幼圆</family>
-        <pointsize>16</pointsize>
+        <pointsize>18</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2738,19 +2675,67 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
+     <widget class="QLabel" name="label_resDet2ID">
+      <property name="geometry">
+       <rect>
+        <x>384</x>
+        <y>68</y>
+        <width>90</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>16</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="tabletTracking">
+       <bool>false</bool>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::WinPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="midLineWidth">
+       <number>0</number>
+      </property>
+      <property name="text">
+       <string>-</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::AutoText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>false</bool>
+      </property>
+      <property name="openExternalLinks">
+       <bool>false</bool>
+      </property>
+     </widget>
      <widget class="QLabel" name="label_operator_61">
       <property name="geometry">
        <rect>
-        <x>114</x>
+        <x>488</x>
         <y>28</y>
-        <width>89</width>
-        <height>21</height>
+        <width>98</width>
+        <height>25</height>
        </rect>
       </property>
       <property name="font">
        <font>
         <family>幼圆</family>
-        <pointsize>16</pointsize>
+        <pointsize>18</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2765,25 +2750,40 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="label_operator_62">
+     <widget class="QLabel" name="label_resDet2Voltage">
       <property name="geometry">
        <rect>
-        <x>244</x>
-        <y>28</y>
-        <width>87</width>
-        <height>21</height>
+        <x>620</x>
+        <y>68</y>
+        <width>90</width>
+        <height>32</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <family>幼圆</family>
+        <family>Times New Roman</family>
         <pointsize>16</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
       </property>
+      <property name="tabletTracking">
+       <bool>false</bool>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::WinPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="midLineWidth">
+       <number>0</number>
+      </property>
       <property name="text">
-       <string>起爆电压</string>
+       <string>-</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
@@ -2791,15 +2791,21 @@
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
+      <property name="wordWrap">
+       <bool>false</bool>
+      </property>
+      <property name="openExternalLinks">
+       <bool>false</bool>
+      </property>
      </widget>
     </widget>
     <widget class="QLabel" name="label_resDrainCurrent">
      <property name="geometry">
       <rect>
        <x>122</x>
-       <y>48</y>
+       <y>44</y>
        <width>60</width>
-       <height>25</height>
+       <height>32</height>
       </rect>
      </property>
      <property name="font">
@@ -2841,7 +2847,7 @@
     <widget class="QLabel" name="label_operator_56">
      <property name="geometry">
       <rect>
-       <x>228</x>
+       <x>226</x>
        <y>48</y>
        <width>65</width>
        <height>27</height>
@@ -2887,9 +2893,24 @@
       <string>保存结果</string>
      </property>
      <property name="shortcut">
-      <string>Ctrl+0</string>
+      <string>Ctrl+S</string>
      </property>
     </widget>
+    <zorder>groupBox_4</zorder>
+    <zorder>tableView_result</zorder>
+    <zorder>label_operator_70</zorder>
+    <zorder>label_finalResult</zorder>
+    <zorder>label_operator_53</zorder>
+    <zorder>groupBox_5</zorder>
+    <zorder>label_resIdCheck</zorder>
+    <zorder>label_operator_51</zorder>
+    <zorder>label_operator_52</zorder>
+    <zorder>label_resOnlineCheck</zorder>
+    <zorder>label_operator_57</zorder>
+    <zorder>label_resWorkCurrent</zorder>
+    <zorder>label_resDrainCurrent</zorder>
+    <zorder>label_operator_56</zorder>
+    <zorder>pushBtn_saveResults</zorder>
    </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
@@ -2920,10 +2941,10 @@
     <widget class="QPushButton" name="pushBtn_clearUidInput">
      <property name="geometry">
       <rect>
-       <x>126</x>
-       <y>30</y>
-       <width>105</width>
-       <height>47</height>
+       <x>232</x>
+       <y>32</y>
+       <width>110</width>
+       <height>45</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -2942,7 +2963,7 @@
       </font>
      </property>
      <property name="text">
-      <string>清除编码</string>
+      <string>清除</string>
      </property>
      <property name="shortcut">
       <string>Ctrl+2</string>
@@ -2951,10 +2972,10 @@
     <widget class="QPushButton" name="pushBtn_deviceEncoding">
      <property name="geometry">
       <rect>
-       <x>232</x>
-       <y>30</y>
-       <width>109</width>
-       <height>47</height>
+       <x>8</x>
+       <y>88</y>
+       <width>110</width>
+       <height>45</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -2973,7 +2994,7 @@
       </font>
      </property>
      <property name="text">
-      <string>设备编码</string>
+      <string>模块编码</string>
      </property>
      <property name="shortcut">
       <string>Ctrl+3</string>
@@ -2982,9 +3003,9 @@
     <widget class="QPushButton" name="pushBtn_scanCodeInput">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>84</y>
-       <width>221</width>
+       <x>120</x>
+       <y>32</y>
+       <width>110</width>
        <height>45</height>
       </rect>
      </property>
@@ -2998,7 +3019,7 @@
       </font>
      </property>
      <property name="text">
-      <string>扫码输入</string>
+      <string>扫码</string>
      </property>
      <property name="shortcut">
       <string>Ctrl+4</string>
@@ -3007,16 +3028,16 @@
     <widget class="QLineEdit" name="lineEdit_uidInput">
      <property name="geometry">
       <rect>
-       <x>12</x>
-       <y>31</y>
-       <width>113</width>
-       <height>45</height>
+       <x>8</x>
+       <y>32</y>
+       <width>110</width>
+       <height>43</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <family>Times New Roman</family>
-       <pointsize>16</pointsize>
+       <family>Cascadia Mono Light</family>
+       <pointsize>24</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -3028,9 +3049,9 @@
     <widget class="QPushButton" name="pushBtn_deviceDetection">
      <property name="geometry">
       <rect>
-       <x>231</x>
-       <y>84</y>
-       <width>109</width>
+       <x>120</x>
+       <y>88</y>
+       <width>110</width>
        <height>45</height>
       </rect>
      </property>
@@ -3044,7 +3065,32 @@
       </font>
      </property>
      <property name="text">
-      <string>设备检测</string>
+      <string>模块检测</string>
+     </property>
+     <property name="shortcut">
+      <string>Ctrl+5</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushBtn_deviceEncodingDetection">
+     <property name="geometry">
+      <rect>
+       <x>232</x>
+       <y>88</y>
+       <width>110</width>
+       <height>45</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>18</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>编码检测</string>
      </property>
      <property name="shortcut">
       <string>Ctrl+5</string>
@@ -3720,7 +3766,7 @@ p, li { white-space: pre-wrap; }
      </font>
     </property>
     <property name="text">
-     <string>保存配置</string>
+     <string>保存参数</string>
     </property>
     <property name="shortcut">
      <string>Ctrl+9</string>
@@ -3745,10 +3791,10 @@ p, li { white-space: pre-wrap; }
      </font>
     </property>
     <property name="text">
-     <string>读取配置</string>
+     <string>读取参数</string>
     </property>
     <property name="shortcut">
-     <string>Ctrl+.</string>
+     <string>Ctrl+0</string>
     </property>
    </widget>
    <zorder>layoutWidget</zorder>

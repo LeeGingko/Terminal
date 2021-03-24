@@ -1,17 +1,19 @@
+# -*- coding: utf-8 -*-
 import time
 
 from PyQt5.QtCore import QThread, pyqtSignal
 
-class MyThread(QThread):
+class TimeThread(QThread):
     secondSignal = pyqtSignal(str)
 
     def __init__(self):
-        super(MyThread, self).__init__()
+        super(TimeThread, self).__init__()
         self.timeStamp = ""
 
     def run(self):
         while True:
-            if str((time.strftime("%p"),time.localtime()[0])).strip("AM"):
+            APM = str((time.strftime("%p"),time.localtime()[0]))
+            if APM[0:2] == "AM":
                 self.timeStamp = time.strftime("%Y年%m月%d日\n上午 %H:%M:%S ", time.localtime())
             else:
                 self.timeStamp = time.strftime("%Y年%m月%d日\n下午 %H:%M:%S ", time.localtime())
