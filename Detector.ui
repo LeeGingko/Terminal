@@ -778,7 +778,7 @@
       <set>Qt::ImhNone</set>
      </property>
      <property name="text">
-      <string>1000.0</string>
+      <string>500.0</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_setWorkCurrentTop">
@@ -1189,7 +1189,7 @@
       <set>Qt::ImhNone</set>
      </property>
      <property name="text">
-      <string>8.0</string>
+      <string>0.0</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_operator_46">
@@ -3036,14 +3036,14 @@
      </property>
      <property name="font">
       <font>
-       <family>Cascadia Mono Light</family>
-       <pointsize>24</pointsize>
+       <family>Times New Roman</family>
+       <pointsize>26</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
      <property name="text">
-      <string/>
+      <string>83479</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushBtn_deviceDetection">

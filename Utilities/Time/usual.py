@@ -4,7 +4,7 @@ import time
 
 class Tools:
     def getTimeStamp(self):
-        s = time.strftime("[%Y/%m/%d %H:%M:%S]>", time.localtime())
+        s = time.strftime("[Time %H:%M:%S]>", time.localtime())
         return s
 
     def convertCheck(self, check):
