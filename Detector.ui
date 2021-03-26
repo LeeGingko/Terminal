@@ -94,10 +94,10 @@
      </font>
     </property>
     <property name="text">
-     <string>设备自检</string>
+     <string>控制仪自检</string>
     </property>
     <property name="shortcut">
-     <string>Ctrl+1</string>
+     <string>Ctrl+2</string>
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox">
@@ -442,7 +442,7 @@
       <string>打开串口</string>
      </property>
      <property name="shortcut">
-      <string>Ctrl+6</string>
+      <string>Ctrl+1</string>
      </property>
     </widget>
    </widget>
@@ -1815,8 +1815,8 @@
     <widget class="QLabel" name="label_operator_70">
      <property name="geometry">
       <rect>
-       <x>1138</x>
-       <y>22</y>
+       <x>1136</x>
+       <y>18</y>
        <width>199</width>
        <height>29</height>
       </rect>
@@ -1843,9 +1843,9 @@
      <property name="geometry">
       <rect>
        <x>1136</x>
-       <y>54</y>
+       <y>50</y>
        <width>201</width>
-       <height>30</height>
+       <height>35</height>
       </rect>
      </property>
      <property name="font">
@@ -2273,6 +2273,9 @@
      <property name="textFormat">
       <enum>Qt::AutoText</enum>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
      <property name="wordWrap">
       <bool>false</bool>
      </property>
@@ -2372,6 +2375,9 @@
      <property name="textFormat">
       <enum>Qt::AutoText</enum>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
      <property name="wordWrap">
       <bool>false</bool>
      </property>
@@ -2443,6 +2449,9 @@
      </property>
      <property name="textFormat">
       <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
      <property name="wordWrap">
       <bool>false</bool>
@@ -2837,6 +2846,9 @@
      <property name="textFormat">
       <enum>Qt::AutoText</enum>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
      <property name="wordWrap">
       <bool>false</bool>
      </property>
@@ -2890,10 +2902,10 @@
       </font>
      </property>
      <property name="text">
-      <string>保存结果</string>
+      <string>保存检测结果</string>
      </property>
      <property name="shortcut">
-      <string>Ctrl+S</string>
+      <string>Ctrl+0</string>
      </property>
     </widget>
     <zorder>groupBox_4</zorder>
@@ -2966,7 +2978,7 @@
       <string>清除</string>
      </property>
      <property name="shortcut">
-      <string>Ctrl+2</string>
+      <string>Ctrl+4</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushBtn_deviceEncoding">
@@ -2994,10 +3006,10 @@
       </font>
      </property>
      <property name="text">
-      <string>模块编码</string>
+      <string>编码模块</string>
      </property>
      <property name="shortcut">
-      <string>Ctrl+3</string>
+      <string>Ctrl+5</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushBtn_scanCodeInput">
@@ -3022,7 +3034,7 @@
       <string>扫码</string>
      </property>
      <property name="shortcut">
-      <string>Ctrl+4</string>
+      <string>Ctrl+3</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_uidInput">
@@ -3065,10 +3077,10 @@
       </font>
      </property>
      <property name="text">
-      <string>模块检测</string>
+      <string>检测模块</string>
      </property>
      <property name="shortcut">
-      <string>Ctrl+5</string>
+      <string>Ctrl+6</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushBtn_deviceEncodingDetection">
@@ -3093,7 +3105,7 @@
       <string>编码检测</string>
      </property>
      <property name="shortcut">
-      <string>Ctrl+5</string>
+      <string>Ctrl+7</string>
      </property>
     </widget>
    </widget>
@@ -3722,7 +3734,7 @@ p, li { white-space: pre-wrap; }
         <string>清除消息</string>
        </property>
        <property name="shortcut">
-        <string>Ctrl+7</string>
+        <string>Ctrl+/</string>
        </property>
       </widget>
      </item>
@@ -3741,7 +3753,7 @@ p, li { white-space: pre-wrap; }
         <string>保存消息</string>
        </property>
        <property name="shortcut">
-        <string>Ctrl+8</string>
+        <string>Ctrl+*</string>
        </property>
       </widget>
      </item>
@@ -3769,7 +3781,7 @@ p, li { white-space: pre-wrap; }
      <string>保存参数</string>
     </property>
     <property name="shortcut">
-     <string>Ctrl+9</string>
+     <string>Ctrl+8</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushBtn_readSettingsRecord">
@@ -3794,7 +3806,7 @@ p, li { white-space: pre-wrap; }
      <string>读取参数</string>
     </property>
     <property name="shortcut">
-     <string>Ctrl+0</string>
+     <string>Ctrl+9</string>
     </property>
    </widget>
    <zorder>layoutWidget</zorder>
@@ -3849,27 +3861,37 @@ p, li { white-space: pre-wrap; }
  </widget>
  <tabstops>
   <tabstop>lineEdit_op_name</tabstop>
+  <tabstop>pushBtn_deviceSelfCheck</tabstop>
   <tabstop>lineEdit_uidInput</tabstop>
+  <tabstop>pushBtn_scanCodeInput</tabstop>
+  <tabstop>pushBtn_clearUidInput</tabstop>
+  <tabstop>pushBtn_deviceEncoding</tabstop>
+  <tabstop>pushBtn_deviceDetection</tabstop>
+  <tabstop>pushBtn_deviceEncodingDetection</tabstop>
+  <tabstop>pushBtn_serialSwitch</tabstop>
+  <tabstop>pushBtn_cleanMsgArea</tabstop>
+  <tabstop>pushBtn_saveMsgArea</tabstop>
+  <tabstop>pushBtn_saveSettingsRecord</tabstop>
+  <tabstop>pushBtn_readSettingsRecord</tabstop>
   <tabstop>lineEdit_setDrainCurrentTop</tabstop>
   <tabstop>lineEdit_setDrainCurrentBottom</tabstop>
   <tabstop>lineEdit_setWorkCurrentTop</tabstop>
   <tabstop>lineEdit_setWorkCurrentBottom</tabstop>
-  <tabstop>lineEdit_setComVoltageTop</tabstop>
-  <tabstop>lineEdit_setComVoltageBottom</tabstop>
-  <tabstop>lineEdit_setComCurrentTop</tabstop>
-  <tabstop>lineEdit_setComCurrentBottom</tabstop>
   <tabstop>lineEdit_setFireVoltageTop</tabstop>
   <tabstop>lineEdit_setFireVoltageBottom</tabstop>
   <tabstop>lineEdit_setFireCurrentTop</tabstop>
   <tabstop>lineEdit_setFireCurrentBottom</tabstop>
-  <tabstop>pushBtn_deviceSelfCheck</tabstop>
-  <tabstop>pushBtn_deviceEncoding</tabstop>
-  <tabstop>pushBtn_clearUidInput</tabstop>
-  <tabstop>pushBtn_scanCodeInput</tabstop>
-  <tabstop>comboBox_selectComNum</tabstop>
-  <tabstop>pushBtn_serialSwitch</tabstop>
-  <tabstop>pushBtn_saveSettingsRecord</tabstop>
+  <tabstop>lineEdit_setLineVoltageTop</tabstop>
+  <tabstop>lineEdit_setLineVoltageBottom</tabstop>
+  <tabstop>lineEdit_setLineCurrentTop</tabstop>
+  <tabstop>lineEdit_setLineCurrentBottom</tabstop>
+  <tabstop>lineEdit_setComVoltageTop</tabstop>
+  <tabstop>lineEdit_setComVoltageBottom</tabstop>
+  <tabstop>lineEdit_setComCurrentTop</tabstop>
+  <tabstop>lineEdit_setComCurrentBottom</tabstop>
+  <tabstop>pushBtn_saveResults</tabstop>
   <tabstop>tableView_result</tabstop>
+  <tabstop>comboBox_selectComNum</tabstop>
   <tabstop>textBrowser</tabstop>
  </tabstops>
  <resources/>
