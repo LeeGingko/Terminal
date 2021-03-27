@@ -269,7 +269,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.portInfo = QSerialPortInfo(self.comPortList[self.comIndex].device)  # 该串口信息
             self.uid = self.lineEdit_uidInput.text()  # 获取编号
             if self.portInfo.isBusy():# 该串口状态
-                self.serial.flushOutput()
+                self.serial.flush()
                 self.data = b""
                 try:
                     if func == Func.f_DevEncoding:
@@ -322,10 +322,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         res = tmp[3:(len(tmp)-4)]
         if res == "PARAOK":
             print(self.usualTools.getTimeStamp() + "控制仪接收参数成功\n")
+            self.textBrowser.append(self.usualTools.getTimeStamp() + "控制仪接收参数成功")
         elif res == "PARAERR":
             print(self.usualTools.getTimeStamp() + "控制仪接收参数失败\n")
+            self.textBrowser.append(self.usualTools.getTimeStamp() + "控制仪接收参数失败")
         elif res == "PARALESS":
             print(self.usualTools.getTimeStamp() + "控制仪接收参数缺失\n")
+            self.textBrowser.append(self.usualTools.getTimeStamp() + "控制仪接收参数缺失")
 
     def settingThreshold(self):
         if self.serial.isOpen():
@@ -359,13 +362,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     pass
             if self.num >= 9:
                 self.data = self.serial.read(self.num)
-                print("settingThreshold:" +
-                      str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
+                print("settingThreshold:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
                 if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
                     self.parseSettingThreshold()
                 else:
-                    self.textBrowser.append(
-                        self.usualTools.getTimeStamp() + "设定阈值@接收帧错误")
+                    QApplication.processEvents()
+                    self.textBrowser.append(self.usualTools.getTimeStamp() + "设定阈值@接收帧错误")
                 self.serial.flush()
             else:
                 self.serial.flush()
@@ -522,13 +524,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     pass
             if self.num >= 9:
                 self.data = self.serial.read(self.num)
+                QApplication.processEvents()
                 print("workModeCheck:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
                 if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
                     self.setWorkMode()
                     self.parseWorkMode()
                 else:
-                    self.textBrowser.append(
-                        self.usualTools.getTimeStamp() + "接收帧错误")
+                    self.textBrowser.append(self.usualTools.getTimeStamp() + "接收帧错误")
                 self.serial.flush()
             else:
                 self.serial.flush()
@@ -585,6 +587,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     pass
             if self.num >= 28:
                 self.data = self.serial.read(self.num)
+                QApplication.processEvents()
                 print("getDevicePara:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
                 if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
                     self.parseDevicPara()
@@ -600,7 +603,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def deviceSelfCheck(self):
         if self.serial.isOpen() == True:
             self.workModeCheck()
-            time.sleep(0.5)
+            time.sleep(0.1)
             self.getDevicePara()
         else:
             QMessageBox.information(self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
@@ -704,22 +707,27 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             PwrVolSta = 1
             PwrCurSta = 0
         elif res == "LVOKLCOK":
-            self.textBrowser.append(
-                self.usualTools.getTimeStamp() + "线路电压正常，线路电流正常")
+            self.textBrowser.append(self.usualTools.getTimeStamp() + "线路电压正常，线路电流正常")
+            self.label_resDrainCurrent.setText(tmp[13:15] + "." + tmp[15:16])
+            self.label_resWorkCurrent.setText(tmp[18:21] + "." + tmp[21:22])
+            # 内置模块
+            self.label_resInDetID.setText(tmp[47:52])
+            self.label_resInDetVoltage.setText(tmp[63:65] + "." + tmp[65:66])
+            self.label_resInDetCurrent.setText(tmp[69:72])
+            # 被测模块
+            self.label_resExDetID.setText(tmp[24:29])
+            self.label_resExDetVoltage.setText(tmp[83:85] + "." + tmp[85:86])
+            self.label_resExDetCurrent.setText(tmp[89:len(tmp)-4])
+            self.label_resIdCheck.setText("完成")
+            self.label_resOnlineCheck.setText("在线")
+            self.label_finalResult.setText("PASSED")
             PwrVolSta = 0
             PwrCurSta = 0
         elif tmp[3:8] == "NDETE":
             self.workMode["detection"] = "0"
-            self.label_detection.setStyleSheet(
-                "QLabel{border-image: url(:/icons/toggle_off)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/toggle_off)}")
             self.textBrowser.append(
                 self.usualTools.getTimeStamp() + "无法进行检测，请检查检测按键")
-        self.label_resDrainCurrent.setText(tmp[13:15] + "." + tmp[15:16])
-        self.label_resWorkCurrent.setText(tmp[18:21] + "." + tmp[21:22])
-        self.label_resDet2ID.setText(tmp[24:29])
-        self.label_resDet1ID.setText(tmp[47:52])
-        self.label_resIdCheck.setText("完成")
-        self.label_resOnlineCheck.setText("在线")
 
     def detection(self):
         if self.workMode["detection"] == "1":
@@ -738,26 +746,28 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         QApplication.processEvents()
                         try:
                             self.num = self.serial.inWaiting()
+                            # print(self.num)
                             if self.num == 0:
                                 endTiming = dt.datetime.now()
-                                if (endTiming - startTiming).seconds >= 20:
-                                    QApplication.processEvents()
+                                if (endTiming - startTiming).seconds >= 30:
                                     self.textBrowser.append(self.usualTools.getTimeStamp() + "模块检测@接收数据超时")
+                                    QApplication.processEvents()
                                     break
                                 else:
                                     continue
                             elif self.num > 0 and self.num <= 4:
                                 self.serial.flushInput()
                             else:
-                                time.sleep(0.01)
+                                time.sleep(0.02)
                                 self.num = self.serial.inWaiting()
-                                if self.num >= 50:
+                                if self.num >= 70:
                                     break
                         except:
                             self.textBrowser.append(self.usualTools.getTimeStamp() + "模块检测@接收数据失败")
                             pass
-                    if self.num >= 62:
+                    if self.num >= 70:
                         self.data = self.serial.read(self.num)
+                        QApplication.processEvents()
                         print("detection:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
                         self.rxFrameCheck()  # 接收帧检查
                         self.parseDetectResults()
@@ -765,8 +775,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     else:
                         self.serial.flush()
                 else:
-                    self.textBrowser.append(
-                        self.usualTools.getTimeStamp() + "输入编号为空！")
+                    self.textBrowser.append(self.usualTools.getTimeStamp() + "输入编号为空！")
             else:
                 self.textBrowser.append(self.usualTools.getTimeStamp() + "串口未打开")
         else:
