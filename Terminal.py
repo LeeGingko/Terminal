@@ -1,38 +1,5 @@
 # -*- coding: utf-8 -*-
-# 导入日期时间模块
-import datetime as dt
-# 导入系统模块
-import sys
-# 导入time相关模块
-import time
-
-# 导入serial相关模块
-import serial
-import serial.tools.list_ports
-# 默认导入
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtSerialPort import QSerialPortInfo
-from PyQt5.QtWidgets import *
-
-# 导入qrc资源
-from resources import resources_rc
-# 导入主窗口类
-from Ui_Detector import Ui_MainWindow
-# 导入功能枚举
-from Utilities.Enum.FuncEnum import Func
-# 导入状态枚举
-from Utilities.Enum.StateEnum import State
-# 工作模式更新类
-from Utilities.Monitor.WMMonitor import WMThread
-# 引入串口封装类
-from Utilities.Serial.SerialThread import PersonalSerial
-# 导入自定义线程类
-from Utilities.Time.LocalTimeThread import TimeThread
-# 导入自定义工具
-from Utilities.Time.usual import Tools
-
+from UserImport import *
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -84,10 +51,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.textBrowser.append(self.usualTools.getTimeStamp() + "读取默认配置")
         self.getUserPara()
 
-        # 配置文件的初始化
-        self.is_saved_first = True
-        self.is_saved = False
-        self.path = ""
+        # 配置文件保存变量的初始化
+        self.is_saved_first = True # 是否是第一次保存
+        self.is_saved = True # 是否是已经保存 
+        self.path = "" # 文件路径
 
         #
         # self.wmRefresh = WMThread(self.serial.port)
@@ -98,9 +65,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         print("{}程序结束，释放资源".format(__class__))
         if self.serial.isOpen():
             self.serial.close()
-
-    def wmRefreshFunc(self, data):
-        print(data)
 
     def initUi(self):
         self.setupUi(self)
@@ -131,8 +95,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.textBrowser.setFontFamily("Times New Roman")
         self.textBrowser.setFontFamily("微软雅黑")
         self.textBrowser.setFontPointSize(12)
-        self.textBrowser.append(
-            self.usualTools.getTimeStamp() + "请先接入被测模块再进行操作")
+        self.textBrowser.append(self.usualTools.getTimeStamp() + "请先接入被测模块再进行操作")
 
     def bindSignalSlot(self):
         self.pushBtn_serialSwitch.clicked.connect(self.switchPort)
@@ -142,8 +105,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushBtn_deviceSelfCheck.clicked.connect(self.deviceSelfCheck)
         self.pushBtn_deviceEncoding.clicked.connect(self.encoding)
         self.pushBtn_deviceDetection.clicked.connect(self.detection)
-        self.pushBtn_saveSettingsRecord.clicked.connect(self.saveParaThreshold)
-        self.pushBtn_readSettingsRecord.clicked.connect(self.readParaThreshold)
+        self.pushBtn_saveSettingsRecord.clicked.connect(self.userSaveThreshold)
+        self.pushBtn_readSettingsRecord.clicked.connect(self.userOpenThreshold)
+        self.lineEdit_setDrainCurrentTop.textChanged.connect(self.paraChanged)
+        self.lineEdit_uidInput.returnPressed.connect(self.encoding)
 
     def clearMessage(self):
         if self.textBrowser.toPlainText() != "":
@@ -241,15 +206,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.rxHighCheck, self.rxLowCheck = self.usualTools.convertCheck(
             self.rxCheck & 0xFF)
         if (self.data[0] == 85) and (self.data[dataLength - 4] == self.rxHighCheck) and (self.data[dataLength - 3] == self.rxLowCheck) and \
-                (self.data[dataLength - 2] == 13) and (self.data[dataLength - 1] == 10):
+           (self.data[dataLength - 2] == 13) and (self.data[dataLength - 1] == 10):
             print("RxFrame is right!")
             return State.s_RxFrameCheckOK
         else:
             print("RxFrame is wrong!")
             return State.s_RxFrameCheckErr
-
-    def serialRecvData(self, data):
-        print("serialRecvData:" + str(data, encoding="utf-8"))
 
     def sendData2Bytes(self, func):
         uid = self.lineEdit_uidInput.text()
@@ -262,9 +224,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif func == Func.f_DevDetection:
             tmp = str("D" + str(self.serialNumber) + func + uid)
         elif func == Func.f_DevSettingPara:
-            configPath = r"E:\Learing\2021\719\Python\Terminal\config.txt"
-            with open(configPath, 'r') as f:
-                s = f.read()
+            with open(self.path, 'r') as rf:
+                s = rf.read()
             tmp = str("D" + str(self.serialNumber) + func + s)
         tmp = tmp.encode("utf-8")
         if self.serialNumber == 9:  # 流水号
@@ -304,12 +265,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def serialSendData(self, func):
         if self.serial.isOpen():
             self.comDescription = self.comboBox_selectComNum.currentText()  # 获取comboBox当前串口描述
-            self.comIndex = self.comDescriptionList.index(self.comDescription)
-            self.portInfo = QSerialPortInfo(
-                self.comPortList[self.comIndex].device)  # 该串口信息
-            self.portStatus = self.portInfo.isBusy()  # 该串口状态
+            self.comIndex = self.comDescriptionList.index(self.comDescription) # 索引
+            self.portInfo = QSerialPortInfo(self.comPortList[self.comIndex].device)  # 该串口信息
             self.uid = self.lineEdit_uidInput.text()  # 获取编号
-            if self.serial.isOpen():
+            if self.portInfo.isBusy():# 该串口状态
                 self.serial.flushOutput()
                 self.data = b""
                 try:
@@ -339,17 +298,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             QMessageBox.information(
                 self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
             self.textBrowser.append(self.usualTools.getTimeStamp() + "串口未打开")
-
-    def parseSettingResults(self):
-        tmp = self.data.decode("utf-8")
-        res = tmp[3:(len(tmp)-4)]
-        if res == "PARAOK":
-            print(self.usualTools.getTimeStamp() + "控制仪接收参数成功\n")
-        elif res == "PARAERR":
-            print(self.usualTools.getTimeStamp() + "控制仪接收参数失败\n")
-        elif res == "PARALESS":
-            print(self.usualTools.getTimeStamp() + "控制仪接收参数缺失\n")
-
+    
     def getUserPara(self):
         paraDict["th_DrainCurrent_Up"] = self.lineEdit_setDrainCurrentTop.text()
         paraDict["th_DrainCurrent_Down"] = self.lineEdit_setDrainCurrentBottom.text()
@@ -368,7 +317,17 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         paraDict["th_ComCurrent_Up"] = self.lineEdit_setComCurrentTop.text()
         paraDict["th_ComCurrent_Down"] = self.lineEdit_setComCurrentBottom.text()
 
-    def settingParaThreshold(self):
+    def parseSettingThreshold(self):
+        tmp = self.data.decode("utf-8")
+        res = tmp[3:(len(tmp)-4)]
+        if res == "PARAOK":
+            print(self.usualTools.getTimeStamp() + "控制仪接收参数成功\n")
+        elif res == "PARAERR":
+            print(self.usualTools.getTimeStamp() + "控制仪接收参数失败\n")
+        elif res == "PARALESS":
+            print(self.usualTools.getTimeStamp() + "控制仪接收参数缺失\n")
+
+    def settingThreshold(self):
         if self.serial.isOpen():
             self.serialSendData(Func.f_DevSettingPara)
             self.data = b''
@@ -380,80 +339,98 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 try:
                     self.num = self.serial.inWaiting()
                     # print("workModeCheck num:" + str(self.num)) # 输出收到的字节数
-                    if self.num <= 4:
+                    if self.num == 0:
+                        endTiming = dt.datetime.now()
+                        if (endTiming - startTiming).seconds >= 5:
+                            QApplication.processEvents()
+                            self.textBrowser.append(self.usualTools.getTimeStamp() + "设定阈值@@接收数据超时")
+                            break
+                        else:
+                            continue
+                    elif self.num > 0 and self.num <= 4:
                         self.serial.flushInput()
                     else:
                         time.sleep(0.1)
                         self.num = self.serial.inWaiting()
-                    if self.num >= 9:
-                        break
-                    elif self.num == 0:
-                        endTiming = dt.datetime.now()
-                        if (endTiming - startTiming).seconds >= 5:
-                            QApplication.processEvents()
-                            self.textBrowser.append(self.usualTools.getTimeStamp() + "@接收数据超时")
+                        if self.num >= 9:
                             break
-                        else:
-                            continue
                 except:
-                    continue
+                    self.textBrowser.append(self.usualTools.getTimeStamp() + "设定阈值@接收数据失败")
+                    pass
             if self.num >= 9:
                 self.data = self.serial.read(self.num)
-                print("settingParaThreshold:" +
-                      str(self.data, encoding="utf-8"))
+                print("settingThreshold:" +
+                      str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
                 if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
-                    self.parseSettingResults()
+                    self.parseSettingThreshold()
                 else:
                     self.textBrowser.append(
-                        self.usualTools.getTimeStamp() + "接收帧错误")
+                        self.usualTools.getTimeStamp() + "设定阈值@接收帧错误")
                 self.serial.flush()
             else:
                 self.serial.flush()
         else:
             self.textBrowser.append(self.usualTools.getTimeStamp() + "串口未打开")
-
-    def saveParaThreshold(self):
-        if self.serial.isOpen():
-            print("/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/")
-            print("Setting parameters's threshold ......")
-            print(self.usualTools.getTimeStamp() + "获取界面参数\n")
-            self.getUserPara()
-            print(self.usualTools.getTimeStamp() + "下发参数\n")
-            self.settingParaThreshold()
-            print(self.usualTools.getTimeStamp() + "保存参数\n")
-            configPath = r"E:\Learing\2021\719\Python\Terminal\config.txt"
-            with open(configPath, 'w') as f:
-                cnt = 0
-                for k, v in paraDict.items():
-                    if cnt == 10:
-                        para = "PA" + v
-                    elif cnt == 11:
-                        para = "PB" + v
-                    elif cnt == 12:
-                        para = "PC" + v
-                    elif cnt == 13:
-                        para = "PD" + v
-                    elif cnt == 14:
-                        para = "PE" + v
-                    elif cnt == 15:
-                        para = "PF" + v
-                    else:
-                        para = "P" + str(cnt) + v
-                    cnt += 1
-                    f.write(para)
-            self.textBrowser.append(
-                self.usualTools.getTimeStamp() + "保存配置参数成功")
-            self.textBrowser.append("文件保存至" + str(configPath))
+    
+    def paraChanged(self):
+        if self.lineEdit_setDrainCurrentTop.text() != paraDict["th_DrainCurrent_Up"]:
+            self.is_saved = False
         else:
-            self.textBrowser.append(
-                self.usualTools.getTimeStamp() + "未打开串口，无法下发参数")
+            self.is_saved = True
 
-    def readParaThreshold(self):
-        configPath = r"E:\Learing\2021\719\Python\Terminal\config.txt"
-        with open(configPath, 'r') as f:
-            s = f.read()
-            # print(s)
-        self.textBrowser.append(self.usualTools.getTimeStamp() + "读取配置参数成功")
+    def firstSaveThreshold(self, text):
+        self.path, _ =  QFileDialog.getSaveFileName(self, "保存文件", "./", "settingfiles (*.txt *.log)")
+        if self.path:
+            with open(self.path, "w") as fsf:
+                fsf.write(text)
+            self.is_saved_first = False
+            self.is_saved = True
+        self.textBrowser.append(self.usualTools.getTimeStamp() + "保存配置参数成功")
+        self.textBrowser.append(time.strftime("[@%H:%M:%S]>", time.localtime()) + "保存至\"" + str(self.path) + "\"")
+
+    def saveThreshold(self, text):
+        with open(self.path, 'w') as sf:
+            sf.write(text)
+        self.is_saved = True
+        self.textBrowser.append(self.usualTools.getTimeStamp() + "保存配置参数成功")
+
+    def userSaveThreshold(self):
+        print("/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/")
+        print("Setting parameters's threshold ......")
+        print(self.usualTools.getTimeStamp() + "获取界面参数\n")
+        self.getUserPara()
+        print(self.usualTools.getTimeStamp() + "保存参数\n")
+        cnt = 0
+        self.para = ""
+        for k, v in paraDict.items():
+            if cnt < 10:
+                self.para = self.para + ("P" + str(cnt) + v)
+            elif cnt == 10:
+                self.para = self.para + ("PA" + v)
+            elif cnt == 11:
+                self.para = self.para + ("PB" + v)
+            elif cnt == 12:
+                self.para = self.para + ("PC" + v)
+            elif cnt == 13:
+                self.para = self.para + ("PD" + v)
+            elif cnt == 14:
+                self.para = self.para + ("PE" + v)
+            elif cnt == 15:
+                self.para = self.para + ("PF" + v)
+            cnt += 1
+        if self.is_saved_first:
+            self.firstSaveThreshold(self.para)
+        elif self.is_saved:
+            self.saveThreshold(self.para)
+        print(self.usualTools.getTimeStamp() + "下发参数\n")
+        self.settingThreshold()
+
+    def userOpenThreshold(self):
+        settingfile, _ = QFileDialog.getOpenFileName(self, "打开文件", './', 'settingfiles (*.txt *.log)')
+        if settingfile:
+            with open(settingfile, 'r') as of:
+                print(of.read())
+                self.is_saved = True
 
     def setWorkMode(self):
         if self.data[len(self.data) - 6] == 48:
@@ -542,6 +519,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             break
                 except:
                     self.textBrowser.append(self.usualTools.getTimeStamp() + "工作模式检查@接收数据失败")
+                    pass
             if self.num >= 9:
                 self.data = self.serial.read(self.num)
                 print("workModeCheck:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
@@ -604,6 +582,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             break
                 except:
                     self.textBrowser.append(self.usualTools.getTimeStamp() + "控制仪自检@接收数据失败")
+                    pass
             if self.num >= 28:
                 self.data = self.serial.read(self.num)
                 print("getDevicePara:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
@@ -682,6 +661,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                     break
                         except:
                             self.textBrowser.append(self.usualTools.getTimeStamp() + "模块编码@接收数据失败")
+                            pass
                     if self.num >= 12:
                         self.data = self.serial.read(self.num)
                         QApplication.processEvents()
@@ -775,6 +755,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                     break
                         except:
                             self.textBrowser.append(self.usualTools.getTimeStamp() + "模块检测@接收数据失败")
+                            pass
                     if self.num >= 62:
                         self.data = self.serial.read(self.num)
                         print("detection:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
@@ -795,12 +776,15 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_uidInput.clear()
 
     def closeEvent(self, QCloseEvent):
-        choice = QMessageBox.question(
-            self, "窗口消息", "是否要关闭窗口？", QMessageBox.Yes | QMessageBox.Cancel)
-        if choice == QMessageBox.Yes:
-            QCloseEvent.accept()
-        elif choice == QMessageBox.Cancel:
-            QCloseEvent.ignore()
+        if not self.is_saved:
+            choice = QMessageBox.question(self, "保存文件", "是否保存配置文件", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
+            if choice == QMessageBox.Yes:               # 6
+                self.firstSaveThreshold()
+                QCloseEvent.accept()
+            elif choice == QMessageBox.No:
+                QCloseEvent.accept()
+            else:
+                QCloseEvent.ignore()
 
 if __name__ == "__main__":
     mainApp = QtWidgets.QApplication(sys.argv)

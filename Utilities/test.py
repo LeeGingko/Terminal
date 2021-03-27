@@ -10,7 +10,7 @@ import threading
 # 导入time相关模块
 import time
 
-from Utilities.usual import Tools
+import Tools
 
 t = Tools()
 a = b""
