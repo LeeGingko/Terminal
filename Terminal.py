@@ -59,7 +59,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         #
         # self.wmRefresh = WMThread(self.serial.port)
         # self.wmRefresh.start()
-        # self.wmRefresh.wmChangedSignal.connect(self.wmRefreshFunc)
+        # self.wmRefresh.wmChangedSignal.connect(self.wmRefreshFunc)  
 
     def __del__(self):
         print("{}程序结束，释放资源".format(__class__))
@@ -96,7 +96,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.textBrowser.setFontFamily("微软雅黑")
         self.textBrowser.setFontPointSize(12)
         self.textBrowser.append(self.usualTools.getTimeStamp() + "请先接入被测模块再进行操作")
-
+    
     def bindSignalSlot(self):
         self.pushBtn_serialSwitch.clicked.connect(self.switchPort)
         self.pushBtn_clearUidInput.clicked.connect(self.clearUidInput)
@@ -299,6 +299,23 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
             self.textBrowser.append(self.usualTools.getTimeStamp() + "串口未打开")
     
+    def saveFileRecord(self):
+        self.saved_info = ([self.is_saved_first, self.is_saved],  self.path)
+        with open("file_save_record.txt", "wb") as fsrf:
+            pk.dump( self.saved_info, fsrf) # 用dump函数将Python对象转成二进制对象文件
+        print("saveFileRecord:" + str(self.saved_info))
+
+    def openFileRecord(self):
+        try:
+            with open("file_save_record.txt", "rb") as fsrf:
+                ofr = pk.load(fsrf) # 将二进制文件对象转换成Python对象
+                print("openFileRecord:" + str(ofr))
+            self.is_saved_first = ofr[0][0]
+            self.is_saved = ofr[0][1]
+            self.path = ofr[1]
+        except:
+            pass
+
     def getUserPara(self):
         paraDict["th_DrainCurrent_Up"] = self.lineEdit_setDrainCurrentTop.text()
         paraDict["th_DrainCurrent_Down"] = self.lineEdit_setDrainCurrentBottom.text()
@@ -341,12 +358,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 QApplication.processEvents()
                 try:
                     self.num = self.serial.inWaiting()
-                    # print("workModeCheck num:" + str(self.num)) # 输出收到的字节数
+                    print("workModeCheck num:" + str(self.num)) # 输出收到的字节数
                     if self.num == 0:
                         endTiming = dt.datetime.now()
                         if (endTiming - startTiming).seconds >= 5:
                             QApplication.processEvents()
-                            self.textBrowser.append(self.usualTools.getTimeStamp() + "设定阈值@@接收数据超时")
+                            self.textBrowser.append(self.usualTools.getTimeStamp() + "设定阈值@接收数据超时")
                             break
                         else:
                             continue
@@ -379,22 +396,35 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.is_saved = False
         else:
             self.is_saved = True
+        self.saveFileRecord()
 
     def firstSaveThreshold(self, text):
-        self.path, _ =  QFileDialog.getSaveFileName(self, "保存文件", "./", "settingfiles (*.txt *.log)")
-        if self.path:
-            with open(self.path, "w") as fsf:
-                fsf.write(text)
-            self.is_saved_first = False
-            self.is_saved = True
-        self.textBrowser.append(self.usualTools.getTimeStamp() + "保存配置参数成功")
-        self.textBrowser.append(time.strftime("[@%H:%M:%S]>", time.localtime()) + "保存至\"" + str(self.path) + "\"")
+        if self.path == "":
+            self.path, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./", "settingfiles (*.txt *.log)")
+            if isAccept:
+                if self.path:
+                    with open(self.path, "w") as fsf:
+                        fsf.write(text)
+                    self.is_saved_first = False
+                    self.is_saved = True
+                self.textBrowser.append(self.usualTools.getTimeStamp() + "保存配置参数成功")
+                self.textBrowser.append(time.strftime("[@%H:%M:%S]>", time.localtime()) + "保存至\"" + str(self.path) + "\"")
+                self.saveFileRecord()
+                print(self.usualTools.getTimeStamp() + "下发参数\n")
+                self.settingThreshold()
+        else:
+            pass
 
     def saveThreshold(self, text):
+        time.sleep(0.1)
         with open(self.path, 'w') as sf:
             sf.write(text)
         self.is_saved = True
         self.textBrowser.append(self.usualTools.getTimeStamp() + "保存配置参数成功")
+        time.sleep(0.1)
+        self.saveFileRecord()
+        print(self.usualTools.getTimeStamp() + "下发参数\n")
+        self.settingThreshold()
 
     def userSaveThreshold(self):
         print("/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/")
@@ -420,19 +450,19 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             elif cnt == 15:
                 self.para = self.para + ("PF" + v)
             cnt += 1
+        self.openFileRecord()
         if self.is_saved_first:
             self.firstSaveThreshold(self.para)
         elif self.is_saved:
             self.saveThreshold(self.para)
-        print(self.usualTools.getTimeStamp() + "下发参数\n")
-        self.settingThreshold()
-
+        
     def userOpenThreshold(self):
         settingfile, _ = QFileDialog.getOpenFileName(self, "打开文件", './', 'settingfiles (*.txt *.log)')
         if settingfile:
             with open(settingfile, 'r') as of:
                 print(of.read())
                 self.is_saved = True
+                self.saveFileRecord()
 
     def setWorkMode(self):
         if self.data[len(self.data) - 6] == 48:
@@ -716,8 +746,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.label_resInDetCurrent.setText(tmp[69:72])
             # 被测模块
             self.label_resExDetID.setText(tmp[24:29])
-            self.label_resExDetVoltage.setText(tmp[83:85] + "." + tmp[85:86])
-            self.label_resExDetCurrent.setText(tmp[89:len(tmp)-4])
+            self.label_resExDetVoltage.setText(tmp[84:86] + "." + tmp[86:87])
+            self.label_resExDetCurrent.setText(tmp[90:len(tmp)-4])
             self.label_resIdCheck.setText("完成")
             self.label_resOnlineCheck.setText("在线")
             self.label_finalResult.setText("PASSED")

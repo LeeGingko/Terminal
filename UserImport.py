@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # 导入日期时间模块
 import datetime as dt
+# 导入pickle
+import pickle as pk
 # 导入系统模块
 import sys
 # 导入time相关模块
