@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 # 导入日期时间模块
 import datetime as dt
-# 导入pickle
+# 导入os
+import os
+# 导入pickle模块
 import pickle as pk
 # 导入系统模块
 import sys
@@ -26,6 +28,8 @@ from Ui_Detector import Ui_MainWindow
 from Utilities.Enum.FuncEnum import Func
 # 导入状态枚举
 from Utilities.Enum.StateEnum import State
+# 导入自定义Excel操作类
+from Utilities.Excel.OpenPyExcel import PersonalExcel
 # 工作模式更新类
 from Utilities.Monitor.WMMonitor import WMThread
 # 引入串口封装类

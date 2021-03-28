@@ -52,14 +52,15 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.getUserPara()
 
         # 配置文件保存变量的初始化
-        self.is_saved_first = True # 是否是第一次保存
-        self.is_saved = True # 是否是已经保存 
-        self.path = "" # 文件路径
+        self.is_config_saved_first = True # 是否是第一次保存
+        self.is_config_saved = True # 是否是已经保存 
+        self.configPath = "" # 文件路径
 
-        #
-        # self.wmRefresh = WMThread(self.serial.port)
-        # self.wmRefresh.start()
-        # self.wmRefresh.wmChangedSignal.connect(self.wmRefreshFunc)  
+        # 测试数据Excel文件保存变量的初始化
+        self.is_excel_saved_first = True
+        self.is_excel_saved = True
+        self.excelPath = "" # 文件路径
+        self.excel = PersonalExcel()
 
     def __del__(self):
         print("{}程序结束，释放资源".format(__class__))
@@ -92,7 +93,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             "QLabel{border-image: url(:/icons/toggle_none)}")
 
         # 消息提示窗口初始化
-        # self.textBrowser.setFontFamily("Times New Roman")
+        # self.textBrowser.setFontFamily("Monospaced")
         self.textBrowser.setFontFamily("微软雅黑")
         self.textBrowser.setFontPointSize(12)
         self.textBrowser.append(self.usualTools.getTimeStamp() + "请先接入被测模块再进行操作")
@@ -107,6 +108,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushBtn_deviceDetection.clicked.connect(self.detection)
         self.pushBtn_saveSettingsRecord.clicked.connect(self.userSaveThreshold)
         self.pushBtn_readSettingsRecord.clicked.connect(self.userOpenThreshold)
+        self.pushBtn_saveResults.clicked.connect(self.userSaveResults)
+        self.pushBtn_showResults.clicked.connect(self.userCheckResults)
         self.lineEdit_setDrainCurrentTop.textChanged.connect(self.paraChanged)
         self.lineEdit_uidInput.returnPressed.connect(self.encoding)
 
@@ -224,7 +227,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif func == Func.f_DevDetection:
             tmp = str("D" + str(self.serialNumber) + func + uid)
         elif func == Func.f_DevSettingPara:
-            with open(self.path, 'r') as rf:
+            with open(self.configPath, 'r') as rf:
                 s = rf.read()
             tmp = str("D" + str(self.serialNumber) + func + s)
         tmp = tmp.encode("utf-8")
@@ -299,23 +302,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
             self.textBrowser.append(self.usualTools.getTimeStamp() + "串口未打开")
     
-    def saveFileRecord(self):
-        self.saved_info = ([self.is_saved_first, self.is_saved],  self.path)
-        with open("file_save_record.txt", "wb") as fsrf:
-            pk.dump( self.saved_info, fsrf) # 用dump函数将Python对象转成二进制对象文件
-        print("saveFileRecord:" + str(self.saved_info))
-
-    def openFileRecord(self):
-        try:
-            with open("file_save_record.txt", "rb") as fsrf:
-                ofr = pk.load(fsrf) # 将二进制文件对象转换成Python对象
-                print("openFileRecord:" + str(ofr))
-            self.is_saved_first = ofr[0][0]
-            self.is_saved = ofr[0][1]
-            self.path = ofr[1]
-        except:
-            pass
-
     def getUserPara(self):
         paraDict["th_DrainCurrent_Up"] = self.lineEdit_setDrainCurrentTop.text()
         paraDict["th_DrainCurrent_Down"] = self.lineEdit_setDrainCurrentBottom.text()
@@ -333,7 +319,31 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         paraDict["th_ComVoltage_Down"] = self.lineEdit_setComVoltageBottom.text()
         paraDict["th_ComCurrent_Up"] = self.lineEdit_setComCurrentTop.text()
         paraDict["th_ComCurrent_Down"] = self.lineEdit_setComCurrentBottom.text()
+    
+    def saveConfigRecord(self):
+        self.saved_info = ([self.is_config_saved_first, self.is_config_saved],  self.configPath)
+        with open("config_save_record.txt", "wb") as fsrf:
+            pk.dump( self.saved_info, fsrf) # 用dump函数将Python对象转成二进制对象文件
+        print("saveConfigRecord:" + str(self.saved_info))
 
+    def openConfigRecord(self):
+        try:
+            with open("config_save_record.txt", "rb") as fsrf:
+                ofr = pk.load(fsrf) # 将二进制文件对象转换成Python对象
+                print("openConfigRecord:" + str(ofr))
+            self.is_config_saved_first = ofr[0][0]
+            self.is_config_saved = ofr[0][1]
+            self.configPath = ofr[1]
+        except:
+            pass
+    
+    def paraChanged(self):
+        if self.lineEdit_setDrainCurrentTop.text() != paraDict["th_DrainCurrent_Up"]:
+            self.is_config_saved = False
+        else:
+            self.is_config_saved = True
+        self.saveConfigRecord()
+ 
     def parseSettingThreshold(self):
         tmp = self.data.decode("utf-8")
         res = tmp[3:(len(tmp)-4)]
@@ -358,7 +368,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 QApplication.processEvents()
                 try:
                     self.num = self.serial.inWaiting()
-                    print("workModeCheck num:" + str(self.num)) # 输出收到的字节数
+                    # print("settingThreshold num:" + str(self.num)) # 输出收到的字节数
                     if self.num == 0:
                         endTiming = dt.datetime.now()
                         if (endTiming - startTiming).seconds >= 5:
@@ -372,12 +382,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     else:
                         time.sleep(0.1)
                         self.num = self.serial.inWaiting()
-                        if self.num >= 9:
+                        if self.num >= 13:
                             break
                 except:
                     self.textBrowser.append(self.usualTools.getTimeStamp() + "设定阈值@接收数据失败")
-                    pass
-            if self.num >= 9:
+                    break
+            if self.num >= 13:
                 self.data = self.serial.read(self.num)
                 print("settingThreshold:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
                 if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
@@ -391,38 +401,30 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.textBrowser.append(self.usualTools.getTimeStamp() + "串口未打开")
     
-    def paraChanged(self):
-        if self.lineEdit_setDrainCurrentTop.text() != paraDict["th_DrainCurrent_Up"]:
-            self.is_saved = False
-        else:
-            self.is_saved = True
-        self.saveFileRecord()
-
     def firstSaveThreshold(self, text):
-        if self.path == "":
-            self.path, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./", "settingfiles (*.txt *.log)")
+        if self.configPath == "":
+            self.configPath, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./", "settingfiles (*.txt *.log)")
             if isAccept:
-                if self.path:
-                    with open(self.path, "w") as fsf:
+                if self.configPath:
+                    with open(self.configPath, "w") as fsf:
                         fsf.write(text)
-                    self.is_saved_first = False
-                    self.is_saved = True
+                    self.is_config_saved_first = False
+                    self.is_config_saved = True
                 self.textBrowser.append(self.usualTools.getTimeStamp() + "保存配置参数成功")
-                self.textBrowser.append(time.strftime("[@%H:%M:%S]>", time.localtime()) + "保存至\"" + str(self.path) + "\"")
-                self.saveFileRecord()
+                self.textBrowser.append("@保存至\"" + str(self.configPath) + "\"")
+                self.saveConfigRecord()
                 print(self.usualTools.getTimeStamp() + "下发参数\n")
                 self.settingThreshold()
         else:
             pass
 
     def saveThreshold(self, text):
-        time.sleep(0.1)
-        with open(self.path, 'w') as sf:
+        with open(self.configPath, 'w') as sf:
             sf.write(text)
-        self.is_saved = True
+        self.is_config_saved = True
         self.textBrowser.append(self.usualTools.getTimeStamp() + "保存配置参数成功")
         time.sleep(0.1)
-        self.saveFileRecord()
+        self.saveConfigRecord()
         print(self.usualTools.getTimeStamp() + "下发参数\n")
         self.settingThreshold()
 
@@ -450,10 +452,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             elif cnt == 15:
                 self.para = self.para + ("PF" + v)
             cnt += 1
-        self.openFileRecord()
-        if self.is_saved_first:
+        self.openConfigRecord()
+        if self.is_config_saved_first:
             self.firstSaveThreshold(self.para)
-        elif self.is_saved:
+        elif self.is_config_saved:
             self.saveThreshold(self.para)
         
     def userOpenThreshold(self):
@@ -461,8 +463,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if settingfile:
             with open(settingfile, 'r') as of:
                 print(of.read())
-                self.is_saved = True
-                self.saveFileRecord()
+                self.is_config_saved = True
+                self.saveConfigRecord()
 
     def setWorkMode(self):
         if self.data[len(self.data) - 6] == 48:
@@ -811,11 +813,70 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.textBrowser.append(self.usualTools.getTimeStamp() + "检测模式【未开启】")
 
+    def openExcelRecord(self):
+        try:
+            with open("excel_save_record.txt", "rb") as esrf:
+                oer = pk.load(esrf) # 将二进制文件对象转换成Python对象
+                print("openExcelRecord:" + str(oer))
+            self.is_excel_saved_first = oer[0][0]
+            self.is_excel_saved = oer[0][1]
+            self.excelPath = oer[1]
+        except:
+            pass
+    
+    def saveExcelRecord(self):
+        self.saved_info = ([self.is_excel_saved_first, self.is_excel_saved],  self.excelPath)
+        with open("excel_save_record.txt", "wb") as esrf:
+            pk.dump( self.saved_info, esrf) # 用dump函数将Python对象转成二进制对象文件
+        print("saveExcelRecord:" + str(self.saved_info))
+
+    def firstSaveResults(self):
+        if self.excelPath == "":
+            self.excelPath, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./", "recorded data(*.xlsx)")
+            if isAccept:
+                if self.excelPath:
+                    # self.excel.filename = os.path.split(self.excelPath)[1]
+                    # self.excel.filename = self.excelPath
+                    self.excel.initWorkBook(self.excelPath)
+                    self.is_excel_saved_first = False
+                    self.is_excel_saved = True
+                    self.saveExcelRecord()
+                    self.textBrowser.append(self.usualTools.getTimeStamp() + "创建数据记录表成功")
+                    self.textBrowser.append("@保存至\"" + str(self.excelPath) + "\"")
+        else:
+            pass
+
+    def SaveResults(self):
+        self.excel.filename = self.excelPath
+        # self.excel.filename = os.path.split(self.excelPath)[1]
+        self.excel.openFile()
+        time.sleep(0.05)
+        self.excel.writeData(1,1,self.excel.filename)
+        self.excel.saveFile()
+        time.sleep(0.05)
+        self.excel.closeFile()
+        time.sleep(0.05)
+        self.is_excel_saved = True
+        self.saveExcelRecord()
+        self.textBrowser.append(self.usualTools.getTimeStamp() + "保存数据记录表成功")
+        # self.textBrowser.append("@保存至\"" + str(self.excelPath) + "\"")
+
+    def userSaveResults(self):
+        self.openExcelRecord()
+        if self.is_excel_saved_first:
+            self.firstSaveResults()
+        elif self.is_excel_saved:
+            self.SaveResults()
+
+    def userCheckResults(self):
+        self.openExcelRecord()
+        self.excel.readData()           
+
     def clearUidInput(self):
         self.lineEdit_uidInput.clear()
-
+        
     def closeEvent(self, QCloseEvent):
-        if not self.is_saved:
+        if not self.is_config_saved:
             choice = QMessageBox.question(self, "保存文件", "是否保存配置文件", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
             if choice == QMessageBox.Yes:               # 6
                 self.firstSaveThreshold()

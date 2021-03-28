@@ -1,7 +1,7 @@
 <RCC>
   <qresource>
-    <file alias="icons/toggle_on.ico">icons/toggle_on.ico</file>
-    <file alias="icons/toggle_off.ico">icons/toggle_off.ico</file>
+    <file>icons/toggle_off.ico</file>
+    <file>icons/toggle_on.ico</file>
     <file alias="icons/toggle_none.ico">icons/toggle_none.ico</file>
   </qresource>
 </RCC>
