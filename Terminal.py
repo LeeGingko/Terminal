@@ -16,8 +16,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # 串口初始化
         self.serialManager = PersonalSerial()  # 串口线程对象
-        self.serial = self.serialManager.serial  # 实例化串口对象
-        self.portDetection()
+        self.serial = self.serialManager.serial  # 串口实例化全局对象
+        self.portDetection() # 检测端口并加入combobox
 
         # 串口变量初始化
         self.txCheck = 0
@@ -29,9 +29,17 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.serialNumber = 0
 
         # 工作模式初始化
-        self.workMode = {"encoding": "X",  "detection": "X"}
+        self.workMode = {"encoding": "X",  "detection": "X"} # 未知状态
         self.data = b''
 
+        # 操作人员姓名录入
+        self.is_name_input = False
+        self.name = "操作员01" # 默认操作员姓名
+        self.nameInputThread = GetNameThread()
+        self.nameInputThread.inputNameSignal.connect(self.operatorNameCheck)
+        self.nameInputThread.start()
+        self.textBrowser.append(self.usualTools.getTimeStamp() + "请输入操作员姓名，20秒内未输入自动填入。")
+        
         # 自定义本地时间更新线程
         self.thread01 = TimeThread()
         self.thread01.secondSignal.connect(self.showDaetTime)
@@ -57,15 +65,16 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.configPath = "" # 文件路径
 
         # 测试数据Excel文件保存变量的初始化
+        self.excel = PersonalExcel() # Excel实例化全局对象
         self.is_excel_saved_first = True
         self.is_excel_saved = True
         self.excelPath = "" # 文件路径
-        self.excel = PersonalExcel()
 
     def __del__(self):
-        print("{}程序结束，释放资源".format(__class__))
         if self.serial.isOpen():
             self.serial.close()
+        self.excel.closeFile
+        print("{} 程序结束，释放资源".format(__class__))
 
     def initUi(self):
         self.setupUi(self)
@@ -93,7 +102,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             "QLabel{border-image: url(:/icons/toggle_none)}")
 
         # 消息提示窗口初始化
-        # self.textBrowser.setFontFamily("Monospaced")
         self.textBrowser.setFontFamily("微软雅黑")
         self.textBrowser.setFontPointSize(12)
         self.textBrowser.append(self.usualTools.getTimeStamp() + "请先接入被测模块再进行操作")
@@ -113,6 +121,21 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_setDrainCurrentTop.textChanged.connect(self.paraChanged)
         self.lineEdit_uidInput.returnPressed.connect(self.encoding)
 
+    def operatorNameCheck(self, str):
+        if str == "sec":
+            # if self.lineEdit_op_name.text() != "":
+            #         self.name = self.lineEdit_op_name.text()
+            #         if self.lineEdit_op_name.returnPressed:
+            #             self.textBrowser.append(self.usualTools.getTimeStamp() + "当前操作员：" + self.name)
+            #             self.lineEdit_op_name.setText(self.name)
+            #             self.is_name_input = True
+            pass
+        else:
+            self.textBrowser.append(self.usualTools.getTimeStamp() + "自动填入操作员姓名：" + self.name)
+            self.is_name_input = True
+            self.lineEdit_op_name.setText(self.name)
+            self.nameInputThread.quit()
+
     def clearMessage(self):
         if self.textBrowser.toPlainText() != "":
             choice = QMessageBox.question(
@@ -123,7 +146,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 pass
         else:
             pass
-
+    
     def saveMessage(self):
         if self.textBrowser.toPlainText() != "":
             choice = QMessageBox.question(
@@ -134,10 +157,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 pass
         else:
             pass
-
+    
     def showDaetTime(self, timeStr):
         self.label_localDateTime.setText(timeStr)
-
+    
     def portDetection(self):
         self.comboBox_selectComNum.clear()  # 清空端口选择按钮
         self.comPortList = serial.tools.list_ports.comports()
@@ -177,13 +200,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.serial.open()
                         if self.serial.isOpen():
                             self.textBrowser.append(self.usualTools.getTimeStamp(
-                            ) + "端口[" + self.comPortList[self.comIndex].device + "]已打开")
+                            ) + "[" + self.comPortList[self.comIndex].device + "]已打开")
                             self.pushBtn_serialSwitch.setText("关闭串口")
                             self.comboBox_selectComNum.setEnabled(False)
                     except:
                         QMessageBox.warning(self, "打开串口", "打开串口失败")
                         self.textBrowser.append(self.usualTools.getTimeStamp(
-                        ) + "端口[" + self.comPortList[self.comIndex].device + "]打开失败")
+                        ) + "[" + self.comPortList[self.comIndex].device + "]打开失败")
                 else:
                     QMessageBox.warning(self, "串口状态", "串口使用中")
             else:  # 打开时检测到无串口
@@ -194,7 +217,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif staText == "关闭串口":
             self.serial.close()
             self.textBrowser.append(self.usualTools.getTimeStamp(
-            ) + "端口[" + self.comPortList[self.comIndex].device + "]已关闭")
+            ) + "[" + self.comPortList[self.comIndex].device + "]已关闭")
             self.pushBtn_serialSwitch.setText("打开串口")
             self.comboBox_selectComNum.setEnabled(True)
 
@@ -320,23 +343,23 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         paraDict["th_ComCurrent_Up"] = self.lineEdit_setComCurrentTop.text()
         paraDict["th_ComCurrent_Down"] = self.lineEdit_setComCurrentBottom.text()
     
-    def saveConfigRecord(self):
-        self.saved_info = ([self.is_config_saved_first, self.is_config_saved],  self.configPath)
-        with open("config_save_record.txt", "wb") as fsrf:
-            pk.dump( self.saved_info, fsrf) # 用dump函数将Python对象转成二进制对象文件
-        print("saveConfigRecord:" + str(self.saved_info))
-
     def openConfigRecord(self):
         try:
             with open("config_save_record.txt", "rb") as fsrf:
                 ofr = pk.load(fsrf) # 将二进制文件对象转换成Python对象
-                print("openConfigRecord:" + str(ofr))
+                # print("openConfigRecord:" + str(ofr))
             self.is_config_saved_first = ofr[0][0]
             self.is_config_saved = ofr[0][1]
             self.configPath = ofr[1]
         except:
             pass
-    
+
+    def saveConfigRecord(self):
+        self.saved_info = ([self.is_config_saved_first, self.is_config_saved],  self.configPath)
+        with open("config_save_record.txt", "wb") as fsrf:
+            pk.dump( self.saved_info, fsrf) # 用dump函数将Python对象转成二进制对象文件
+        # print("saveConfigRecord:" + str(self.saved_info))
+
     def paraChanged(self):
         if self.lineEdit_setDrainCurrentTop.text() != paraDict["th_DrainCurrent_Up"]:
             self.is_config_saved = False
@@ -359,6 +382,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def settingThreshold(self):
         if self.serial.isOpen():
+            self.serial.flush()
             self.serialSendData(Func.f_DevSettingPara)
             self.data = b''
             self.rxCheck = 0
@@ -399,11 +423,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             else:
                 self.serial.flush()
         else:
-            self.textBrowser.append(self.usualTools.getTimeStamp() + "串口未打开")
+            self.textBrowser.append(self.usualTools.getTimeStamp() + "下发阈值参数@串口未打开")
     
     def firstSaveThreshold(self, text):
         if self.configPath == "":
-            self.configPath, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./", "settingfiles (*.txt *.log)")
+            self.configPath, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./config", "settingfiles (*.txt)")
             if isAccept:
                 if self.configPath:
                     with open(self.configPath, "w") as fsf:
@@ -459,7 +483,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.saveThreshold(self.para)
         
     def userOpenThreshold(self):
-        settingfile, _ = QFileDialog.getOpenFileName(self, "打开文件", './', 'settingfiles (*.txt *.log)')
+        settingfile, _ = QFileDialog.getOpenFileName(self, "打开文件", './', 'settingfiles (*.txt)')
         if settingfile:
             with open(settingfile, 'r') as of:
                 print(of.read())
@@ -716,7 +740,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.textBrowser.append(
                 self.usualTools.getTimeStamp() + "编码模式【未开启】")
 
-    def parseDetectResults(self):
+    def parseDetectResults(self): 
         global PwrVolSta, PwrCurSta
         PwrVolSta = 9
         PwrCurSta = 9
@@ -740,6 +764,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             PwrCurSta = 0
         elif res == "LVOKLCOK":
             self.textBrowser.append(self.usualTools.getTimeStamp() + "线路电压正常，线路电流正常")
+            tmp.find()
             self.label_resDrainCurrent.setText(tmp[13:15] + "." + tmp[15:16])
             self.label_resWorkCurrent.setText(tmp[18:21] + "." + tmp[21:22])
             # 内置模块
@@ -748,8 +773,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.label_resInDetCurrent.setText(tmp[69:72])
             # 被测模块
             self.label_resExDetID.setText(tmp[24:29])
-            self.label_resExDetVoltage.setText(tmp[84:86] + "." + tmp[86:87])
-            self.label_resExDetCurrent.setText(tmp[90:len(tmp)-4])
+            self.label_resExDetVoltage.setText(tmp[83:85] + "." + tmp[85:86])
+            self.label_resExDetCurrent.setText(tmp[89:len(tmp)-4])
             self.label_resIdCheck.setText("完成")
             self.label_resOnlineCheck.setText("在线")
             self.label_finalResult.setText("PASSED")
@@ -781,9 +806,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             # print(self.num)
                             if self.num == 0:
                                 endTiming = dt.datetime.now()
+                                QApplication.processEvents()                      
                                 if (endTiming - startTiming).seconds >= 30:
                                     self.textBrowser.append(self.usualTools.getTimeStamp() + "模块检测@接收数据超时")
-                                    QApplication.processEvents()
+                                    QApplication.processEvents()                      
                                     break
                                 else:
                                     continue
@@ -796,6 +822,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                     break
                         except:
                             self.textBrowser.append(self.usualTools.getTimeStamp() + "模块检测@接收数据失败")
+                            QApplication.processEvents() 
                             pass
                     if self.num >= 70:
                         self.data = self.serial.read(self.num)
@@ -817,7 +844,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         try:
             with open("excel_save_record.txt", "rb") as esrf:
                 oer = pk.load(esrf) # 将二进制文件对象转换成Python对象
-                print("openExcelRecord:" + str(oer))
+                # print("openExcelRecord:" + str(oer))
             self.is_excel_saved_first = oer[0][0]
             self.is_excel_saved = oer[0][1]
             self.excelPath = oer[1]
@@ -828,15 +855,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.saved_info = ([self.is_excel_saved_first, self.is_excel_saved],  self.excelPath)
         with open("excel_save_record.txt", "wb") as esrf:
             pk.dump( self.saved_info, esrf) # 用dump函数将Python对象转成二进制对象文件
-        print("saveExcelRecord:" + str(self.saved_info))
+        # print("saveExcelRecord:" + str(self.saved_info))
 
     def firstSaveResults(self):
         if self.excelPath == "":
             self.excelPath, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./", "recorded data(*.xlsx)")
             if isAccept:
                 if self.excelPath:
-                    # self.excel.filename = os.path.split(self.excelPath)[1]
-                    # self.excel.filename = self.excelPath
                     self.excel.initWorkBook(self.excelPath)
                     self.is_excel_saved_first = False
                     self.is_excel_saved = True
@@ -848,10 +873,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def SaveResults(self):
         self.excel.filename = self.excelPath
-        # self.excel.filename = os.path.split(self.excelPath)[1]
         self.excel.openFile()
         time.sleep(0.05)
-        self.excel.writeData(1,1,self.excel.filename)
+        self.excel.writeData(1, 1, self.excel.filename)
         self.excel.saveFile()
         time.sleep(0.05)
         self.excel.closeFile()

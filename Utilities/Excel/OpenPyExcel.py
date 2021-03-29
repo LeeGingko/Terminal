@@ -3,7 +3,7 @@ from openpyxl import *
 
 class PersonalExcel():
     def __init__(self, filename="", sheetname="Sheet"):
-        # super(PersonalExcel, self).__init__()
+        super(PersonalExcel, self).__init__()
         self.filename = filename
         self.sheetname = sheetname
 
@@ -38,8 +38,6 @@ class PersonalExcel():
         print(self.sheetname)
         print(self.workbook["Sheet"].cell(1, 1).value)
         self.closeFile()
-
-
 
     def saveFile(self):
         self.workbook.save(self.filename)

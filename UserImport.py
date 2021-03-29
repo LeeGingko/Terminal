@@ -36,5 +36,6 @@ from Utilities.Monitor.WMMonitor import WMThread
 from Utilities.Serial.SerialThread import PersonalSerial
 # 导入自定义线程类
 from Utilities.Time.LocalTimeThread import TimeThread
+from Utilities.Time.OpNameInput import GetNameThread
 # 导入自定义工具
 from Utilities.Time.usual import Tools

@@ -2927,7 +2927,7 @@
       </font>
      </property>
      <property name="text">
-      <string>查看表格</string>
+      <string>查看结果</string>
      </property>
      <property name="shortcut">
       <string>Ctrl+0</string>
