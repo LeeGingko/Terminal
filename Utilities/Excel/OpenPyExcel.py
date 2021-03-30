@@ -2,41 +2,40 @@
 from openpyxl import *
 
 class PersonalExcel():
-    def __init__(self, filename="", sheetname="Sheet"):
+    def __init__(self, filename="", sheetname=""):
         super(PersonalExcel, self).__init__()
         self.filename = filename
         self.sheetname = sheetname
+        self.workbook = None
+        self.worksheet = None
 
-    def initWorkBook(self, filename):
+    def initWorkBook(self, filename, sheetname):
         self.filename = filename
-        self.workbook = Workbook(self.filename)
-        # if self.sheetname == "":
-        #     self.sheetname = "Sheet No1"
-        # else:
-        #     self.sheetname = "RecordedDataSheet1"
+        self.sheetname = sheetname
+        self.workbook = Workbook(filename) # 创建工作簿
         self.workbook.save(self.filename)
+        self.worksheet = self.workbook.active
+        self.workbook.remove(self.worksheet)
+        self.workbook.create_sheet(self.sheetname, 1)
+        self.worksheet.title = self.sheetname
         self.workbook.close()
-
-    def setFileName(self, filename):
-        self.filename = filename
-
-    def getFileName(self):
-        return self.filename
-
-    def openFile(self):
-        self.workbook = load_workbook(self.filename)
 
     def closeFile(self):
         self.workbook.close()
 
-    def writeData(self, row, col, val):
-        self.workbook["Sheet"].cell(row, col, val)
+    def writeData(self, filename, row, col, val):
+        self.workbook = load_workbook(filename)
+        self.worksheet = self.workbook.active # 默认工作表
+        self.worksheet.cell(row, col, val)
+        self.workbook.save(filename)
+        self.workbook.close()
 
-    def readData(self):
-        self.openFile()
-        print(self.workbook["Sheet"])
-        print(self.sheetname)
-        print(self.workbook["Sheet"].cell(1, 1).value)
+    def readData(self, filename):
+        self.workbook = load_workbook(filename)
+        self.worksheet = self.workbook.active # 默认工作表
+        print(self.workbook.sheetnames)
+        print(self.worksheet.title)
+        print(self.worksheet.cell(1, 1).value)
         self.closeFile()
 
     def saveFile(self):

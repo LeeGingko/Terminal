@@ -69,6 +69,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.is_excel_saved_first = True
         self.is_excel_saved = True
         self.excelPath = "" # 文件路径
+        self.excel_file = ""
+        self.excel_sheet = ""
 
     def __del__(self):
         if self.serial.isOpen():
@@ -803,10 +805,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def firstSaveResults(self):
         if self.excelPath == "":
-            self.excelPath, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./records", "recorded data(*.xlsx)")
+            self.excelPath, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./", "recorded data(*.xlsx)")
             if isAccept:
                 if self.excelPath:
-                    self.excel.initWorkBook(self.excelPath)
+                    self.excel_file = os.path.split(self.excelPath)[1]
+                    self.excel_sheet = "sheet007"
+                    self.excel.initWorkBook(self.excel_file, self.excel_sheet)
                     self.is_excel_saved_first = False
                     self.is_excel_saved = True
                     self.saveExcelRecord()
@@ -816,18 +820,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             pass
 
     def SaveResults(self):
-        self.excel.filename = self.excelPath
-        self.excel.openFile()
-        time.sleep(0.05)
-        self.excel.writeData(1, 1, self.excel.filename)
-        self.excel.saveFile()
-        time.sleep(0.05)
-        self.excel.closeFile()
-        time.sleep(0.05)
+        self.openExcelRecord()
+        self.excel.writeData(self.excelPath, 1, 1, self.excelPath)
         self.is_excel_saved = True
         self.saveExcelRecord()
         self.textBrowser.append(self.usualTools.getTimeStamp() + "保存数据记录表成功")
-        # self.textBrowser.append("@保存至\"" + str(self.excelPath) + "\"")
 
     def userSaveResults(self):
         self.openExcelRecord()
@@ -838,7 +835,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def userCheckResults(self):
         self.openExcelRecord()
-        self.excel.readData()           
+        self.excel.readData(self.excelPath)
+        self.saveExcelRecord()       
 
     def clearUidInput(self):
         self.lineEdit_uidInput.clear()
