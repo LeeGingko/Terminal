@@ -241,9 +241,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def sendData2Bytes(self, func):
         uid = self.lineEdit_uidInput.text()
-        if func == Func.f_CheckWorkMode:
-            tmp = str("D" + str(self.serialNumber) + func)
-        elif func == Func.f_DevGetSelfPara:
+        if func == Func.f_DevGetSelfPara:
             tmp = str("D" + str(self.serialNumber) + func)
         elif func == Func.f_DevEncoding:
             tmp = str("D" + str(self.serialNumber) + func + uid)
@@ -286,7 +284,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.writeData = b""
         self.writeData = self.txFrameFormat(func)
         self.serial.write(self.writeData)
-        print("[self.writeData]>>" + str(self.writeData) + "<<")
+        print("[self.writeData]>" + str(self.writeData))
 
     def serialSendData(self, func):
         if self.serial.isOpen():
@@ -536,54 +534,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 "QLabel{border-image: url(:/icons/toggle_off)}")
             self.textBrowser.append(self.usualTools.getTimeStamp() + "编码模式【关闭】 检测模式【关闭】")
             self.textBrowser.append(self.usualTools.getTimeStamp() + "无法进行【编码】和【检测】，请按下功能按键！")
-
-    def workModeCheck(self):
-        print("/*---------------------------------------------*/")
-        print("Checking work mode ......")
-        if self.serial.isOpen():
-            self.serialSendData(Func.f_CheckWorkMode)
-            self.data = b''
-            self.rxCheck = 0
-            startTiming = dt.datetime.now()
-            self.serial.flush()
-            while True:
-                QApplication.processEvents()
-                try:
-                    self.num = self.serial.inWaiting()
-                    # print("workModeCheck num:" + str(self.num))  # 输出收到的字节数
-                    if self.num == 0:
-                        endTiming = dt.datetime.now()
-                        if (endTiming - startTiming).seconds >= 2:
-                            self.textBrowser.append(self.usualTools.getTimeStamp() + "工作模式检查@接收数据超时")
-                            QApplication.processEvents()
-                            break
-                        else:
-                            continue
-                    elif self.num > 0 and self.num < 9:
-                        self.serial.flushInput()
-                    else:
-                        time.sleep(0.01)
-                        self.num = self.serial.inWaiting()
-                        if self.num >= 9:
-                            break
-                except:
-                    self.textBrowser.append(self.usualTools.getTimeStamp() + "工作模式检查@接收数据失败")
-                    QApplication.processEvents()
-                    break
-            if self.num >= 9:
-                self.data = self.serial.read(self.num)
-                print("workModeCheck:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
-                if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
-                    self.setWorkMode()
-                    self.parseWorkMode()
-                else:
-                    self.textBrowser.append(self.usualTools.getTimeStamp() + "接收帧错误")
-                self.serial.flush()
-                QApplication.processEvents()
-            else:
-                self.serial.flush()
-        else:
-            self.textBrowser.append(self.usualTools.getTimeStamp() + "串口未打开")
 
     def parseDevicPara(self):
         self.setWorkMode(self.data)
