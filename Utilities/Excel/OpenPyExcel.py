@@ -16,7 +16,7 @@ class PersonalExcel():
         self.workbook = Workbook(filename) # 创建工作簿
         self.worksheet = self.workbook.create_sheet(self.sheetname, 0)
         self.worksheet.title = self.sheetname
-        self.worksheet.sheet_properties.tabColor = "00B0F0"
+        self.worksheet.sheet_properties.tabColor = "0000FF"
         self.workbook.save(self.filename)
 
     def closeFile(self):

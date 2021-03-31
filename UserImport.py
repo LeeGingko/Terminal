@@ -39,3 +39,5 @@ from Utilities.Time.LocalTimeThread import TimeThread
 from Utilities.Time.OpNameInput import GetNameThread
 # 导入自定义工具
 from Utilities.Time.usual import Tools
+# 表格视图委托
+from Utilities.ViewDelegation.TableViewDelegate import TableViewDelegate
