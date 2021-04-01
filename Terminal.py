@@ -13,11 +13,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # 绑定控件信号和槽函数
         self.bindSignalSlot()
-
-        # 串口初始化
-        self.serialManager = PersonalSerial()  # 串口线程对象
-        self.serial = self.serialManager.serial  # 串口实例化全局对象
-        self.portDetection() # 检测端口并加入combobox
+        
+        # 工作模式初始化
+        self.workMode = {"encoding": "X",  "detection": "X"} # 未知状态
+        self.data = b''
 
         # 串口变量初始化
         self.txCheck = 0
@@ -27,10 +26,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.rxHighCheck = b'0'
         self.rxLowCheck = b'0'
         self.serialNumber = 0
-
-        # 工作模式初始化
-        self.workMode = {"encoding": "X",  "detection": "X"} # 未知状态
-        self.data = b''
+        # 串口初始化
+        self.serialManager = PersonalSerial()  # 串口线程对象
+        self.prvSerial = self.serialManager.userSerial  # 串口实例化全局对象
+        self.portDetection() # 检测端口并加入combobox
+        self.serialManager.start()
+        self.serialManager.recvSignal.connect(self.updateWorkMode)
 
         # 操作人员姓名录入
         self.is_name_input = False
@@ -71,7 +72,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.excelFilePath = "" # 文件路径
         self.excel_file = ""
         self.table_headline = [
-            "测试人员", "时间",      "漏电流(uA)", "工作电流(uA)", "ID核对",
+            "测试员", "时间",      "漏电流(uA)", "工作电流(uA)", "ID核对",
             "在线检测", "被测选发",   "电流(mA)",  "电压(V)",      "电流判断",
             "内置选发", "电流(mA)",  "电压(V)",   "电流判断",      "结论" ]
         initTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -92,8 +93,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableRow = 0
     
     def __del__(self):
-        if self.serial.isOpen():
-            self.serial.close()
+        if self.prvSerial.isOpen():
+            self.prvSerial.close()
         self.excel.closeFile
         print("{} 程序结束，释放资源".format(__class__))
 
@@ -151,7 +152,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             #             self.is_name_input = True
             pass
         else:
-            self.textBrowser.append(self.usualTools.getTimeStamp() + "自动填入操作员姓名：" + self.name)
+            self.textBrowser.append(self.usualTools.getTimeStamp() + "默认操作员：" + self.name)
             self.is_name_input = True
             self.lineEdit_op_name.setText(self.name)
             self.nameInputThread.quit()
@@ -208,36 +209,28 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if staText == "打开串口":
             if len(self.idlePorts) >= 1:  # 打开时检测到有串口
                 self.comDescription = self.comboBox_selectComNum.currentText()  # 获取comboBox当前串口描述
-                self.comIndex = self.comDescriptionList.index(
-                    self.comDescription)
-                self.portInfo = QSerialPortInfo(
-                    self.comPortList[self.comIndex].device)  # 该串口信息
+                self.comIndex = self.comDescriptionList.index(self.comDescription)
+                self.portInfo = QSerialPortInfo(self.comPortList[self.comIndex].device)  # 该串口信息
                 self.portStatus = self.portInfo.isBusy()  # 该串口状态
                 if self.portStatus == False:  # 该串口空闲
-                    self.serialManager.initPort(
-                        self.comPortList[self.comIndex].device)
+                    self.serialManager.initPort(self.comPortList[self.comIndex].device)
                     try:
-                        self.serial.open()
-                        if self.serial.isOpen():
-                            self.textBrowser.append(self.usualTools.getTimeStamp(
-                            ) + "[" + self.comPortList[self.comIndex].device + "]已打开")
+                        self.prvSerial.open()
+                        if self.prvSerial.isOpen():
+                            self.textBrowser.append(self.usualTools.getTimeStamp() + "[" + self.comPortList[self.comIndex].device + "]已打开")
                             self.pushBtn_serialSwitch.setText("关闭串口")
                             self.comboBox_selectComNum.setEnabled(False)
                     except:
                         QMessageBox.warning(self, "打开串口", "打开串口失败")
-                        self.textBrowser.append(self.usualTools.getTimeStamp(
-                        ) + "[" + self.comPortList[self.comIndex].device + "]打开失败")
+                        self.textBrowser.append(self.usualTools.getTimeStamp() + "[" + self.comPortList[self.comIndex].device + "]打开失败")
                 else:
                     QMessageBox.warning(self, "串口状态", "串口使用中")
             else:  # 打开时检测到无串口
-                QMessageBox.information(
-                    self, "串口信息", "请连接好模块!", QMessageBox.Yes)
-                self.textBrowser.append(
-                    self.usualTools.getTimeStamp() + "未检测到串口，请连接备")
+                QMessageBox.information(self, "串口信息", "请连接好模块!", QMessageBox.Yes)
+                self.textBrowser.append(self.usualTools.getTimeStamp() + "未检测到串口，请连接备")
         elif staText == "关闭串口":
-            self.serial.close()
-            self.textBrowser.append(self.usualTools.getTimeStamp(
-            ) + "[" + self.comPortList[self.comIndex].device + "]已关闭")
+            self.prvSerial.close()
+            self.textBrowser.append(self.usualTools.getTimeStamp() + "[" + self.comPortList[self.comIndex].device + "]已关闭")
             self.pushBtn_serialSwitch.setText("打开串口")
             self.comboBox_selectComNum.setEnabled(True)
 
@@ -303,17 +296,17 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def sendByFunc(self, func):
         self.writeData = b""
         self.writeData = self.txFrameFormat(func)
-        self.serial.write(self.writeData)
+        self.prvSerial.write(self.writeData)
         print("[self.writeData]>" + str(self.writeData))
 
     def serialSendData(self, func):
-        if self.serial.isOpen():
+        if self.prvSerial.isOpen():
             self.comDescription = self.comboBox_selectComNum.currentText()  # 获取comboBox当前串口描述
             self.comIndex = self.comDescriptionList.index(self.comDescription) # 索引
             self.portInfo = QSerialPortInfo(self.comPortList[self.comIndex].device)  # 该串口信息
             self.uid = self.lineEdit_uidInput.text()  # 获取编号
             if self.portInfo.isBusy():# 该串口状态
-                self.serial.flush()
+                self.prvSerial.flush()
                 self.data = b""
                 try:
                     if func == Func.f_DevEncoding:
@@ -335,7 +328,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 except:
                     QMessageBox.critical(self, "串口信息", "发送数据失败")
                 finally:
-                    self.serial.flushOutput()
+                    self.prvSerial.flushOutput()
             else:
                 QMessageBox.warning(self, "串口信息", "串口使用中")
         else:
@@ -389,26 +382,26 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         tmp = self.data.decode("utf-8")
         res = tmp[3:(len(tmp)-4)]
         if res == "PARAOK":
-            print(self.usualTools.getTimeStamp() + "控制仪接收参数成功\n")
+            # print(self.usualTools.getTimeStamp() + "控制仪接收参数成功\n")
             self.textBrowser.append(self.usualTools.getTimeStamp() + "控制仪接收参数成功")
         elif res == "PARAERR":
-            print(self.usualTools.getTimeStamp() + "控制仪接收参数失败\n")
+            # print(self.usualTools.getTimeStamp() + "控制仪接收参数失败\n")
             self.textBrowser.append(self.usualTools.getTimeStamp() + "控制仪接收参数失败")
         elif res == "PARALESS":
-            print(self.usualTools.getTimeStamp() + "控制仪接收参数缺失\n")
+            # print(self.usualTools.getTimeStamp() + "控制仪接收参数缺失\n")
             self.textBrowser.append(self.usualTools.getTimeStamp() + "控制仪接收参数缺失")
 
     def settingThreshold(self):
-        if self.serial.isOpen():
+        if self.prvSerial.isOpen():
             self.data = b''
             self.rxCheck = 0
-            self.serial.flushInput()
+            self.prvSerial.flushInput()
             self.serialSendData(Func.f_DevSettingPara)
             startTiming = dt.datetime.now()
             while True:
                 QApplication.processEvents()
                 try:
-                    self.num = self.serial.inWaiting()
+                    self.num = self.prvSerial.inWaiting()
                     # print("settingThreshold num:" + str(self.num)) # 输出收到的字节数
                     if self.num == 0:
                         endTiming = dt.datetime.now()
@@ -419,10 +412,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         else:
                             continue
                     elif self.num > 0 and self.num <= 4:
-                        self.serial.flushInput()
+                        self.prvSerial.flushInput()
                     else:
                         time.sleep(0.1)
-                        self.num = self.serial.inWaiting()
+                        self.num = self.prvSerial.inWaiting()
                         if self.num >= 13:
                             break
                 except:
@@ -431,18 +424,18 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     break
             if self.num >= 13:
                 QApplication.processEvents()
-                self.data = self.serial.read(self.num)
+                self.data = self.prvSerial.read(self.num)
                 print("settingThreshold:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
                 if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
                     self.parseSettingThreshold()
                 else:
                     QApplication.processEvents()
                     self.textBrowser.append(self.usualTools.getTimeStamp() + "设定阈值@接收帧错误")
-                self.serial.flushInput()
+                self.prvSerial.flushInput()
             else:
                 pass
         else:
-            self.textBrowser.append(self.usualTools.getTimeStamp() + "下发阈值参数@串口未打开")
+            self.textBrowser.append(self.usualTools.getTimeStamp() + "下发阈值@串口未打开")
     
     def firstSaveThreshold(self, text):
         if self.configPath == "":
@@ -453,7 +446,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         fsf.write(text)
                     self.is_config_saved_first = False
                     self.is_config_saved = True
-                self.textBrowser.append(self.usualTools.getTimeStamp() + "保存配置参数成功")
+                self.textBrowser.append(self.usualTools.getTimeStamp() + "参数保存成功")
                 self.textBrowser.append("@保存至\"" + str(self.configPath) + "\"")
                 self.saveConfigRecord()
                 print(self.usualTools.getTimeStamp() + "下发参数\n")
@@ -508,6 +501,51 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.is_config_saved = True
                 self.saveConfigRecord()
 
+    def updateWorkMode(self, str):
+        # print("In updateWorkMode...............")
+        QApplication.processEvents()
+        endc = str[1]
+        dete = str[2]
+        if endc == "0":
+            self.workMode["encoding"] = "0"
+        else:
+            self.workMode["encoding"] = "1"
+        if dete == "0":
+            self.workMode["detection"] = "0"
+        else:
+            self.workMode["detection"] = "1"
+        if str[0] == "X":
+            if endc == "0":
+                self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/toggle_off)}")
+                self.textBrowser.append(self.usualTools.getTimeStamp() + "编码模式发生改变，编码模式【关闭】")
+            elif endc == "1":
+                self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/toggle_on)}")
+                self.textBrowser.append(self.usualTools.getTimeStamp() + "编码模式发生改变，编码模式【开启】")
+        elif str[0] == "Y":
+            if dete == "0":
+                self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/toggle_off)}")
+                self.textBrowser.append(self.usualTools.getTimeStamp() + "检测模式发生改变，检测模式【关闭】")
+            elif dete == "1":
+                self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/toggle_on)}")
+                self.textBrowser.append(self.usualTools.getTimeStamp() + "检测模式发生改变，检测模式【开启】")
+        elif str[0] == "Z":
+            if endc == "1" and dete == "1":
+                self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/toggle_on)}")
+                self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/toggle_on)}")
+                self.textBrowser.append(self.usualTools.getTimeStamp() + "编码检测发生改变，编码模式【开启】 检测模式【开启】")
+            elif endc == "1" and dete == "0":
+                self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/toggle_on)}")
+                self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/toggle_off)}")
+                self.textBrowser.append(self.usualTools.getTimeStamp() + "编码检测发生改变，编码模式【开启】 检测模式【关闭】")
+            elif endc == "0" and dete == "1":
+                self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/toggle_off)}")
+                self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/toggle_on)}")
+                self.textBrowser.append(self.usualTools.getTimeStamp() + "编码检测发生改变，编码模式【关闭】 检测模式【开启】")
+            elif endc == "0" and dete == "0":
+                self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/toggle_off)}")
+                self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/toggle_off)}")
+                self.textBrowser.append(self.usualTools.getTimeStamp() + "编码检测发生改变，编码模式【关闭】 检测模式【关闭】")
+
     def setWorkMode(self, tmp):
         # 2021年3月30日 09:29:36 工作模式获取整合到参数获取中
         if tmp[len(tmp) - 6] == 48:
@@ -527,31 +565,20 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         endc = wm["encoding"]
         dete = wm["detection"]
         if endc == "1" and dete == "1":
-            self.label_encoding.setStyleSheet(
-                "QLabel{border-image: url(:/icons/toggle_on)}")
-            self.label_detection.setStyleSheet(
-                "QLabel{border-image: url(:/icons/toggle_on)}")
-            self.textBrowser.append(
-                self.usualTools.getTimeStamp() + "编码模式【开启】 检测模式【开启】")
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/toggle_on)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/toggle_on)}")
+            self.textBrowser.append(self.usualTools.getTimeStamp() + "编码模式【开启】 检测模式【开启】")
         elif endc == "1" and dete == "0":
-            self.label_encoding.setStyleSheet(
-                "QLabel{border-image: url(:/icons/toggle_on)}")
-            self.label_detection.setStyleSheet(
-                "QLabel{border-image: url(:/icons/toggle_off)}")
-            self.textBrowser.append(
-                self.usualTools.getTimeStamp() + "编码模式【开启】 检测模式【关闭】")
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/toggle_on)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/toggle_off)}")
+            self.textBrowser.append(self.usualTools.getTimeStamp() + "编码模式【开启】 检测模式【关闭】")
         elif endc == "0" and dete == "1":
-            self.label_encoding.setStyleSheet(
-                "QLabel{border-image: url(:/icons/toggle_off)}")
-            self.label_detection.setStyleSheet(
-                "QLabel{border-image: url(:/icons/toggle_on)}")
-            self.textBrowser.append(
-                self.usualTools.getTimeStamp() + "编码模式【关闭】 检测模式【开启】")
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/toggle_off)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/toggle_on)}")
+            self.textBrowser.append(self.usualTools.getTimeStamp() + "编码模式【关闭】 检测模式【开启】")
         elif endc == "0" and dete == "0":
-            self.label_encoding.setStyleSheet(
-                "QLabel{border-image: url(:/icons/toggle_off)}")
-            self.label_detection.setStyleSheet(
-                "QLabel{border-image: url(:/icons/toggle_off)}")
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/toggle_off)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/toggle_off)}")
             self.textBrowser.append(self.usualTools.getTimeStamp() + "编码模式【关闭】 检测模式【关闭】")
             self.textBrowser.append(self.usualTools.getTimeStamp() + "无法进行【编码】和【检测】，请按下功能按键！")
 
@@ -575,17 +602,19 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def getDevicePara(self):
         print("/*+++++++++++++++++++++++++++++++++++++++++++++*/")
         print("Checking device parameters ......")
-        self.serial.flush()
-        if self.serial.isOpen:
+        self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/toggle_none)}")
+        self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/toggle_none)}")
+        self.workMode = {"encoding": "X",  "detection": "X"} # 未知状态
+        if self.prvSerial.isOpen:
             self.data = b''
             self.rxCheck = 0
-            self.serial.flushOutput()
+            self.prvSerial.flushOutput()
             self.serialSendData(Func.f_DevGetSelfPara)
             startTiming = dt.datetime.now()
             while True:
                 QApplication.processEvents()
                 try:
-                    self.num = self.serial.inWaiting()
+                    self.num = self.prvSerial.inWaiting()
                     # print(self.num) # 输出收到的字节数
                     if self.num == 0:
                         QApplication.processEvents()
@@ -593,14 +622,15 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         if (endTiming - startTiming).seconds >= 6:
                             QApplication.processEvents()
                             self.textBrowser.append(self.usualTools.getTimeStamp() + "控制仪自检@接收数据超时")
+                            self.textBrowser.append(self.usualTools.getTimeStamp() + "控制仪自检@工作模式未知")
                             break
                         else:
                             continue
                     elif self.num > 0 and self.num <= 4:
-                        self.serial.flushInput()
+                        self.prvSerial.flushInput()
                     else:
                         time.sleep(0.01)
-                        self.num = self.serial.inWaiting()
+                        self.num = self.prvSerial.inWaiting()
                         if self.num >= 30:
                             break
                 except:
@@ -609,24 +639,24 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     break
             if self.num >= 30:
                 QApplication.processEvents()
-                self.data = self.serial.read(self.num)
+                self.data = self.prvSerial.read(self.num)
                 print("getDevicePara:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
                 if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
                     self.parseDevicPara()
+                    self.parseWorkMode()
                 else:
                     QApplication.processEvents()
                     self.textBrowser.append(self.usualTools.getTimeStamp() + "接收帧错误")
-                self.serial.flushInput()
+                self.prvSerial.flushInput()
             else:
                 pass
         else:
             self.textBrowser.append(self.usualTools.getTimeStamp() + "串口未打开")
 
     def deviceSelfCheck(self):
-        if self.serial.isOpen() == True:
+        if self.prvSerial.isOpen() == True:
             self.textBrowser.append(self.usualTools.getTimeStamp() + "控制仪自检")
             self.getDevicePara()
-            self.parseWorkMode()
         else:
             QMessageBox.information(self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
 
@@ -657,18 +687,18 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
             print("Encoding......")
             self.textBrowser.append(self.usualTools.getTimeStamp() + "模块编码")
-            if self.serial.isOpen():
+            if self.prvSerial.isOpen():
                 if self.lineEdit_uidInput.text() != "":
                     self.textBrowser.append(self.usualTools.getTimeStamp() + "输入UID：" + self.lineEdit_uidInput.text())
                     self.data = b''
                     self.rxCheck = 0
-                    self.serial.flushOutput()
+                    self.prvSerial.flushOutput()
                     self.serialSendData(Func.f_DevEncoding)
                     startTiming = dt.datetime.now()
                     while True:
                         QApplication.processEvents()
                         try:
-                            self.num = self.serial.inWaiting()
+                            self.num = self.prvSerial.inWaiting()
                             if self.num == 0:
                                 endTiming = dt.datetime.now()
                                 if (endTiming - startTiming).seconds >= 10:
@@ -678,10 +708,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                 else:
                                     continue
                             elif self.num > 0 and self.num <= 4:
-                                self.serial.flushInput()
+                                self.prvSerial.flushInput()
                             else:
                                 time.sleep(0.01)
-                                self.num = self.serial.inWaiting()
+                                self.num = self.prvSerial.inWaiting()
                                 if self.num >= 12:
                                     break
                         except:
@@ -690,11 +720,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             break
                     if self.num >= 12:
                         QApplication.processEvents()
-                        self.data = self.serial.read(self.num)
+                        self.data = self.prvSerial.read(self.num)
                         print("encoding:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
                         self.rxFrameCheck()  # 接收帧检查
                         self.parseEncodeResults()
-                        self.serial.flushInput()
+                        self.prvSerial.flushInput()
                     else:
                         pass
                 else:
@@ -748,6 +778,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.resultList[12] = tmp[63:65] + "." + tmp[65:66]
             self.resultList[13] = "正常"
             self.resultList[14] = "通过"
+            # 更新model
+            for col in range(15):
+                item = QStandardItem(self.resultList[col])
+                self.tableViewModel.setItem(self.tableRow, col, item)
             self.label_resInDetCurrentJudge.setText(self.resultList[13])
             self.label_finalResult.setText("PASSED")
         elif tmp[3:8] == "NDETE":
@@ -763,18 +797,18 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             print("Detecting......")
             self.detectionTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
             self.textBrowser.append(self.usualTools.getTimeStamp() + "模块检测")
-            if self.serial.isOpen():
+            if self.prvSerial.isOpen():
                 if self.lineEdit_uidInput.text() != "":
                     self.textBrowser.append(self.usualTools.getTimeStamp() + "输入UID：" + self.lineEdit_uidInput.text())
                     self.data = b""
                     self.rxCheck = 0
-                    self.serial.flushOutput()
+                    self.prvSerial.flushOutput()
                     self.serialSendData(Func.f_DevDetection)
                     startTiming = dt.datetime.now()
                     while True:
                         QApplication.processEvents()
                         try:
-                            self.num = self.serial.inWaiting()
+                            self.num = self.prvSerial.inWaiting()
                             if self.num == 0:
                                 endTiming = dt.datetime.now()
                                 QApplication.processEvents() 
@@ -785,10 +819,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                 else:
                                     continue
                             elif self.num > 0 and self.num <= 4:
-                                self.serial.flushInput()
+                                self.prvSerial.flushInput()
                             else:
                                 time.sleep(0.01)
-                                self.num = self.serial.inWaiting()
+                                self.num = self.prvSerial.inWaiting()
                                 if self.num >= 70:
                                     break
                         except:
@@ -797,11 +831,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             break
                     if self.num >= 70:
                         QApplication.processEvents()
-                        self.data = self.serial.read(self.num)
+                        self.data = self.prvSerial.read(self.num)
                         print("detection:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
                         self.rxFrameCheck()  # 接收帧检查
                         self.parseDetectResults()
-                        self.serial.flushInput()
+                        self.prvSerial.flushInput()
                     else:
                         pass
                 else:
@@ -859,13 +893,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def SaveResults(self):
         self.openExcelRecord()
         self.excel.wrtieRow(self.excel_file, self.resultList)
-        for col in range(15):
-            item = QStandardItem(self.resultList[col])
-            self.tableViewModel.setItem(self.tableRow, col, item)
         self.is_excel_saved = True
         self.saveExcelRecord()
         QApplication.processEvents() 
-        self.textBrowser.append(self.usualTools.getTimeStamp() + "保存数据记录表成功")
+        self.textBrowser.append(self.usualTools.getTimeStamp() + "数据记录表保存成功")
         self.tableRow = self.tableRow + 1
 
     def clearShowResult(self):

@@ -30,4 +30,4 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=True , icon='E:\\Learing\\2021\\719\\Python\\Terminal\\resources\\icons\\robot.ico')
+          console=True , icon='resources\\icons\\robot.ico')

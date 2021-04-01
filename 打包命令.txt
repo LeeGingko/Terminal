@@ -1,2 +1,2 @@
  pyinstaller -F -w -i E:/Learing/2021/719/Python/Terminal/resources/icons/robot.ico Terminal.py
- pyinstaller -F -i E:/Learing/2021/719/Python/Terminal/resources/icons/robot.ico Terminal.py
+ pyinstaller -F -i ./resources/icons/robot.ico Terminal.py
