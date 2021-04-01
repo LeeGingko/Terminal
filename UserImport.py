@@ -30,8 +30,7 @@ from Utilities.Enum.FuncEnum import Func
 from Utilities.Enum.StateEnum import State
 # 导入自定义Excel操作类
 from Utilities.Excel.OpenPyExcel import PersonalExcel
-# 工作模式更新类
-from Utilities.Monitor.WMMonitor import WMThread
+
 # 引入串口封装类
 from Utilities.Serial.SerialThread import PersonalSerial
 # 导入自定义线程类

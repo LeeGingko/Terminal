@@ -3,7 +3,7 @@ class Func(object):
     f_DevGetSelfPara = "1"
     f_DevEncoding  = "2"
     f_DevDetection = "3"
-    f_DevSettingPara = "4"
+    f_DevSettingThreshold = "4"
     f_DevDetRepLineVA = "5"
     f_DevDetLogLineLoseA = "6"
     f_DevDetLogUid2BridgeSta = "7"

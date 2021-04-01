@@ -193,14 +193,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.comDescriptionList.append(self.comDescription)
                 self.comboBox_selectComNum.addItem(self.comDescription)
             print(self.comDescriptionList)
-            self.textBrowser.append(
-                self.usualTools.getTimeStamp() + "已检测到串口，请选择并打开串口")
-            self.textBrowser.append(self.usualTools.getTimeStamp() + "请进行控制仪自检")
+            self.textBrowser.append(self.usualTools.getTimeStamp() + "已检测到串口，请选择并打开串口")
         else:
             print("No port detected!")
             self.statusbar.showMessage("未检测到串口")
-            self.textBrowser.append(
-                self.usualTools.getTimeStamp() + "未检测到串口，请连接备")
+            self.textBrowser.append(self.usualTools.getTimeStamp() + "未检测到串口，请连接备")
             QMessageBox.information(self, "串口信息", "未检测到串口!", QMessageBox.Yes)
 
     def switchPort(self):
@@ -223,6 +220,30 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     except:
                         QMessageBox.warning(self, "打开串口", "打开串口失败")
                         self.textBrowser.append(self.usualTools.getTimeStamp() + "[" + self.comPortList[self.comIndex].device + "]打开失败")
+                    time.sleep(0.5)
+                    if self.prvSerial.isOpen(): 
+                        startTiming = dt.datetime.now()
+                        self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
+                        while True:
+                                QApplication.processEvents()
+                                num = self.prvSerial.inWaiting()
+                                # print("switchPort num:" + str(num)) # 输出收到的字节数
+                                endTiming = dt.datetime.now()
+                                if num == 0:
+                                    if (endTiming - startTiming).seconds >= 5:
+                                        QApplication.processEvents()
+                                        self.textBrowser.append(self.usualTools.getTimeStamp() + "控制仪无响应，请执行操作")
+                                        break
+                                elif (num > 0 and num <= 4):
+                                    self.prvSerial.flushInput()
+                                elif num >= 5:
+                                    time.sleep(0.1)
+                                    data = self.prvSerial.read(num)
+                                    if data.decode("utf-8") == "STM32":
+                                        QApplication.processEvents()
+                                        self.deviceSelfCheck()
+                                        self.textBrowser.append(self.usualTools.getTimeStamp() + "控制仪在线，请执行操作")
+                                        break
                 else:
                     QMessageBox.warning(self, "串口状态", "串口使用中")
             else:  # 打开时检测到无串口
@@ -260,7 +281,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             tmp = str("D" + str(self.serialNumber) + func + uid)
         elif func == Func.f_DevDetection:
             tmp = str("D" + str(self.serialNumber) + func + uid)
-        elif func == Func.f_DevSettingPara:
+        elif func == Func.f_DevSettingThreshold:
             with open(self.configPath, 'r') as rf:
                 s = rf.read()
             tmp = str("D" + str(self.serialNumber) + func + s)
@@ -274,8 +295,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def txFrameFormat(self, func):
         self.txCheck = int(0)  # 校验和清零
-        self.txHighCheck = "F",
-        self.txLowCheck = "F"
+        self.txHighCheck = "0",
+        self.txLowCheck = "0"
         try:
             txData = self.sendData2Bytes(func)
         except:
@@ -283,8 +304,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             return
         for ch in txData:  # 计算校验和
             self.txCheck += ch
-        self.txHighCheck, self.txLowCheck = self.usualTools.convertCheck(
-            self.txCheck & 0xFF)
+        self.txHighCheck, self.txLowCheck = self.usualTools.convertCheck(self.txCheck & 0xFF)
         byteTmp = bytearray(txData)
         byteTmp.append(self.txHighCheck)
         byteTmp.append(self.txLowCheck)
@@ -368,7 +388,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def saveConfigRecord(self):
         self.saved_info = ([self.is_config_saved_first, self.is_config_saved],  self.configPath)
         with open("config_save_record.txt", "wb") as fsrf:
-            pk.dump( self.saved_info, fsrf) # 用dump函数将Python对象转成二进制对象文件
+            pk.dump(self.saved_info, fsrf) # 用dump函数将Python对象转成二进制对象文件
         # print("saveConfigRecord:" + str(self.saved_info))
 
     def paraChanged(self):
@@ -390,13 +410,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif res == "PARALESS":
             # print(self.usualTools.getTimeStamp() + "控制仪接收参数缺失\n")
             self.textBrowser.append(self.usualTools.getTimeStamp() + "控制仪接收参数缺失")
+        QApplication.processEvents()
 
     def settingThreshold(self):
         if self.prvSerial.isOpen():
             self.data = b''
             self.rxCheck = 0
-            self.prvSerial.flushInput()
-            self.serialSendData(Func.f_DevSettingPara)
+            # self.prvSerial.flush()
+            self.serialSendData(Func.f_DevSettingThreshold)
             startTiming = dt.datetime.now()
             while True:
                 QApplication.processEvents()
@@ -405,7 +426,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     # print("settingThreshold num:" + str(self.num)) # 输出收到的字节数
                     if self.num == 0:
                         endTiming = dt.datetime.now()
-                        if (endTiming - startTiming).seconds >= 5:
+                        if (endTiming - startTiming).seconds >= 180:
                             QApplication.processEvents()
                             self.textBrowser.append(self.usualTools.getTimeStamp() + "设定阈值@接收数据超时")
                             break
@@ -426,11 +447,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 QApplication.processEvents()
                 self.data = self.prvSerial.read(self.num)
                 print("settingThreshold:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
-                if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
-                    self.parseSettingThreshold()
-                else:
-                    QApplication.processEvents()
-                    self.textBrowser.append(self.usualTools.getTimeStamp() + "设定阈值@接收帧错误")
+                self.rxFrameCheck()
+                self.parseSettingThreshold()
                 self.prvSerial.flushInput()
             else:
                 pass
@@ -459,9 +477,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             sf.write(text)
         self.is_config_saved = True
         self.textBrowser.append(self.usualTools.getTimeStamp() + "保存配置参数成功")
-        self.saveConfigRecord()
         print(self.usualTools.getTimeStamp() + "下发参数\n")
         self.settingThreshold()
+        self.saveConfigRecord()
 
     def userSaveThreshold(self):
         print("/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/")
@@ -494,12 +512,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.saveThreshold(self.para)
         
     def userOpenThreshold(self):
-        settingfile, _ = QFileDialog.getOpenFileName(self, "打开文件", './', 'settingfiles (*.txt)')
+        settingfile, _ = QFileDialog.getOpenFileName(self, "打开配置文件", './', 'settingfile (*.txt)')
         if settingfile:
-            with open(settingfile, 'r') as of:
-                print(of.read())
-                self.is_config_saved = True
-                self.saveConfigRecord()
+            os.startfile(settingfile)
+            self.is_config_saved = True
+            self.saveConfigRecord()
 
     def updateWorkMode(self, str):
         # print("In updateWorkMode...............")
@@ -913,8 +930,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def userCheckResults(self):
         self.openExcelRecord()
-        self.excel.readData(self.excelFilePath)
-        self.saveExcelRecord()       
+        recordsfile, _ = QFileDialog.getOpenFileName(self, "打开记录文件", './', 'records (*.xlsx)')
+        if recordsfile:
+            # with open(recordsfile, 'r') as of:
+                # print(of.read())
+                os.startfile(recordsfile)
+                self.is_config_saved = True
+        self.saveExcelRecord()     
 
     def clearUidInput(self):
         self.lineEdit_uidInput.clear()
