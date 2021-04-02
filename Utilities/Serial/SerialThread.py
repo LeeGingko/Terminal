@@ -51,8 +51,10 @@ class PersonalSerial(QThread):
                         if self.num == 6:
                             self.data = self.userSerial.read(self.num)
                             tmp = self.data.decode("utf-8")
-                            print(self.data.decode("utf-8"))
+                            # print(self.data.decode("utf-8"))
                             if tmp[0] == "R" and tmp[4] == "\r" and tmp[5] == "\n":
                                 self.recvSignal.emit(tmp[1:4])
                 except:
                     pass
+            else:
+                pass
