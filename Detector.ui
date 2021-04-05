@@ -414,6 +414,12 @@
        <height>40</height>
       </rect>
      </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="font">
       <font>
        <family>Times New Roman</family>
@@ -1795,6 +1801,9 @@
       <pointsize>16</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="inputMethodHints">
      <set>Qt::ImhNone</set>
     </property>
@@ -1822,7 +1831,7 @@
      <property name="font">
       <font>
        <family>Cascadia Mono PL SemiLight</family>
-       <pointsize>16</pointsize>
+       <pointsize>18</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -3261,13 +3270,13 @@
      <property name="font">
       <font>
        <family>Times New Roman</family>
-       <pointsize>26</pointsize>
+       <pointsize>24</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
      <property name="text">
-      <string>83479</string>
+      <string/>
      </property>
     </widget>
     <widget class="QPushButton" name="pushBtn_deviceDetection">
@@ -3330,6 +3339,12 @@
       <height>25</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="font">
      <font>
       <family>幼圆</family>
@@ -3351,6 +3366,12 @@
       <width>25</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="font">
      <font>
@@ -3377,6 +3398,12 @@
       <height>30</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="font">
      <font>
       <family>Times New Roman</family>
@@ -3387,7 +3414,7 @@
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 0, 0);</string>
+     <string notr="true">color: rgb(255, 66, 138);</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::WinPanel</enum>
@@ -3422,6 +3449,12 @@
       <width>60</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="font">
      <font>
@@ -3469,6 +3502,12 @@
       <height>30</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="font">
      <font>
       <family>幼圆</family>
@@ -3494,6 +3533,12 @@
       <height>25</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="font">
      <font>
       <family>幼圆</family>
@@ -3515,6 +3560,12 @@
       <width>60</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="font">
      <font>
@@ -3562,6 +3613,12 @@
       <height>30</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="font">
      <font>
       <family>幼圆</family>
@@ -3587,6 +3644,12 @@
       <height>25</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="font">
      <font>
       <family>幼圆</family>
@@ -3609,6 +3672,12 @@
       <height>30</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="font">
      <font>
       <family>Times New Roman</family>
@@ -3619,7 +3688,7 @@
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 0, 0);</string>
+     <string notr="true">color: rgb(255, 66, 138);</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::WinPanel</enum>
@@ -3655,6 +3724,12 @@
       <height>30</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="font">
      <font>
       <family>幼圆</family>
@@ -3679,6 +3754,12 @@
       <width>91</width>
       <height>25</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="font">
      <font>
@@ -3974,6 +4055,12 @@ p, li { white-space: pre-wrap; }
       <height>30</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="font">
      <font>
       <family>幼圆</family>
@@ -3998,6 +4085,12 @@ p, li { white-space: pre-wrap; }
       <width>25</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="font">
      <font>
@@ -4024,6 +4117,12 @@ p, li { white-space: pre-wrap; }
       <height>30</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="font">
      <font>
       <family>Times New Roman</family>
@@ -4034,7 +4133,7 @@ p, li { white-space: pre-wrap; }
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 0, 0);</string>
+     <string notr="true">color: rgb(255, 66, 138);</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::WinPanel</enum>
@@ -4070,6 +4169,12 @@ p, li { white-space: pre-wrap; }
       <height>25</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="font">
      <font>
       <family>幼圆</family>
@@ -4091,6 +4196,12 @@ p, li { white-space: pre-wrap; }
       <width>60</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="font">
      <font>
@@ -4138,6 +4249,12 @@ p, li { white-space: pre-wrap; }
       <height>25</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="font">
      <font>
       <family>幼圆</family>
@@ -4161,56 +4278,6 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout"/>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>1078</x>
-      <y>230</y>
-      <width>281</width>
-      <height>37</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="pushBtn_cleanMsgArea">
-       <property name="font">
-        <font>
-         <family>幼圆</family>
-         <pointsize>18</pointsize>
-         <weight>50</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>清除消息</string>
-       </property>
-       <property name="shortcut">
-        <string>Ctrl+/</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushBtn_saveMsgArea">
-       <property name="font">
-        <font>
-         <family>幼圆</family>
-         <pointsize>18</pointsize>
-         <weight>50</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>保存消息</string>
-       </property>
-       <property name="shortcut">
-        <string>Ctrl+*</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
    </widget>
    <widget class="QPushButton" name="pushBtn_saveSettingsRecord">
     <property name="geometry">
@@ -4260,6 +4327,56 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="shortcut">
      <string>Ctrl+9</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushBtn_saveMsgArea">
+    <property name="geometry">
+     <rect>
+      <x>1222</x>
+      <y>232</y>
+      <width>135</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>18</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>保存消息</string>
+    </property>
+    <property name="shortcut">
+     <string>Ctrl+*</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushBtn_cleanMsgArea">
+    <property name="geometry">
+     <rect>
+      <x>1077</x>
+      <y>232</y>
+      <width>145</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>18</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>清除消息</string>
+    </property>
+    <property name="shortcut">
+     <string>Ctrl+/</string>
     </property>
    </widget>
    <zorder>layoutWidget</zorder>

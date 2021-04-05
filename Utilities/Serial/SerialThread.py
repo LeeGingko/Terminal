@@ -19,6 +19,7 @@ class PersonalSerial(QThread):
         self.userSerial = serial.Serial()
         
     def  __del__(self):
+        self.quit()
         self.wait()
 
     def initPort(self, port):

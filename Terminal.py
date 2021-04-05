@@ -3,19 +3,37 @@ from UserImport import *
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
-        super(MainWin, self).__init__()  # 继承父类的所有属性
+        super(MainWin, self).__init__()  # 继承父类的所有属性   
+
+        # 初始化UI
+        self.initUi()
+    
+    def __del__(self):
+        if self.prvSerial.isOpen():
+            self.prvSerial.close()
+        print("{} 程序结束，释放资源".format(__class__))
+
+    def initUi(self):
+        self.setupUi(self)
 
         # 自定义工具实例化
         self.usualTools = Tools()
 
-        # self.btnQss = "QPushButton {color:blue; background-color:#FCFCFC}"
+        # set Window"s location
+        self.desktop = QApplication.desktop()
+        self.screenRect = self.desktop.screenGeometry()
+        self.width = self.screenRect.width()
+        self.height = self.screenRect.height()
+        print("Your screen's size is:", self.width, "X", self.height)
+        self.resize(self.width, self.height)
+        self.Wsize = self.geometry()
+        centerX = int((self.width-self.Wsize.width())/2)
+        centerY = int((self.height-self.Wsize.height())/2)
+        self.move(centerX, centerY)
+        self.setWindowTitle("Detector")
+        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
+        self.setWindowState(Qt.WindowMaximized)     
 
-        # 初始化UI
-        self.initUi()
-
-        # 绑定控件信号和槽函数
-        self.bindSignalSlot()
-        
         # 消息保存
         self.is_message_saved_first = True
         self.is_message_saved = True
@@ -25,28 +43,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.workMode = {"encoding": "X",  "detection": "X"} # 未知状态
         self.data = b''
 
-        # 串口变量初始化
-        self.txCheck = 0
-        self.txHighCheck = b'0'
-        self.txLowCheck = b'0'
-        self.rxCheck = 0
-        self.rxHighCheck = b'0'
-        self.rxLowCheck = b'0'
-        self.serialNumber = 0
-        # 串口初始化
-        self.serialManager = PersonalSerial()  # 串口线程对象
-        self.prvSerial = self.serialManager.userSerial  # 串口实例化全局对象
-        self.portDetection() # 检测端口并加入combobox
-        self.serialManager.start()
-        self.serialManager.recvSignal.connect(self.updateWorkMode)
-
         # 操作人员姓名录入
         self.is_name_input = False
-        self.name = "武则天" # 默认操作员姓名
-        self.nameInputThread = GetNameThread()
-        self.nameInputThread.inputNameSignal.connect(self.operatorNameCheck)
-        self.nameInputThread.start()
-        self.userTextBrowserAppend("请输入操作员姓名，20秒内未输入自动填入。")
+        self.name = "嬴政" # 默认操作员姓名
         
         # 自定义本地时间更新线程
         self.thread01 = TimeThread()
@@ -64,7 +63,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             "th_LineCurrent_Up":  "0", "th_LineCurrent_Down":  "0",
             "th_ComVoltage_Up":   "0", "th_ComVoltage_Down":   "0",
             "th_ComCurrent_Up":   "0", "th_ComCurrent_Down":   "0"}
-        self.userTextBrowserAppend("读取默认配置")
         self.getUserPara()
 
         # 配置文件保存变量的初始化
@@ -74,8 +72,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # 测试数据Excel文件保存变量的初始化
         self.excel = PersonalExcel() # Excel实例化全局对象
-        self.is_excel_saved_first = True
-        self.is_excel_saved = True
+        self.is_excel_saved_first = True # 是否是第一次保存
+        self.is_excel_saved = True # 是否是已经保存 
         self.excelFilePath = "" # 文件路径
         self.excel_file = ""
         self.table_headline = [
@@ -91,6 +89,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.name, initTime,   "0.0",  "0.0",  "成功",
               "在线",   "FFFFF",    "0",    "0",   "正常",
              "23456",    "0",      "0",    "正常", "通过" ]   
+             
         # 检测数据显示表格模型初始化
         self.tableViewModel = QStandardItemModel(1, 15, self)
         self.tableViewModel.setHorizontalHeaderLabels(self.table_headline)
@@ -98,38 +97,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableView_result.horizontalHeader().setStretchLastSection(True)
         # self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+
         # 表格视图委托初始化
         self.tableViewDelegate = TableViewDelegate()
         self.tableView_result.setItemDelegate(self.tableViewDelegate)
         self.tableRow = 0
-        # 
+        
+        # 第一次打开串口控自动检测制仪
         self.first_auto_detetion = 1
-    
-    def __del__(self):
-        if self.prvSerial.isOpen():
-            self.prvSerial.close()
-        self.excel.closeFile
-        print("{} 程序结束，释放资源".format(__class__))
-
-    def initUi(self):
-        self.setupUi(self)
-
-        # set Window"s location
-        self.desktop = QApplication.desktop()
-        self.screenRect = self.desktop.screenGeometry()
-        self.width = self.screenRect.width()
-        self.height = self.screenRect.height()
-        print("Your screen's size is:", self.width, "X", self.height)
-        self.resize(self.width, self.height)
-        self.Wsize = self.geometry()
-        centerX = int((self.width-self.Wsize.width())/2)
-        centerY = int((self.height-self.Wsize.height())/2)
-        self.move(centerX, centerY)
-        self.setWindowTitle("Detector")
-        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
-        self.setWindowState(Qt.WindowMaximized)     
-        self.setWindowIcon(QIcon("resources/icons/robot.ico"))
-        # self.setStyleSheet("QMainWindow {background-color:#FCFCFC}")
 
         # 检测以及编码默认状态设置
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
@@ -138,11 +113,37 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 消息提示窗口初始化
         self.textBrowser.setFontFamily("微软雅黑")
         self.textBrowser.setFontPointSize(12)
-        # self.textBrowser.setStyleSheet("QTextBrowser {color:#0055FF; background-color:#FCFCFC}")
-        self.userTextBrowserAppend("请先接入被测模块再进行操作")
+
+        # UID输入验证器设置
+        mixdedValidator = QRegExpValidator(self)
+        reg = QRegExp("[a-fA-F0-9]+$")
+        mixdedValidator.setRegExp(reg)
+        self.lineEdit_uidInput.setMaxLength(5)
+        self.lineEdit_uidInput.setValidator(mixdedValidator)
+        self.lineEdit_uidInput.setToolTip("字母范围a-f, A-F")
+
+        # 串口变量初始化
+        self.txCheck = 0
+        self.txHighCheck = b'0'
+        self.txLowCheck = b'0'
+        self.rxCheck = 0
+        self.rxHighCheck = b'0'
+        self.rxLowCheck = b'0'
+        self.serialNumber = 0
+
+        # 串口初始化
+        self.serialManager = PersonalSerial()  # 串口线程对象
+        self.prvSerial = self.serialManager.userSerial  # 串口实例化全局对象
+        self.detectPorts() # 检测端口并加入combobox
+        self.serialManager.start()
+        self.serialManager.recvSignal.connect(self.updateWorkMode)
+        self.isSTM32Online = False
+
+        # 绑定控件信号和槽函数
+        self.bindSignalSlot()
 
     def bindSignalSlot(self):
-        self.pushBtn_serialSwitch.clicked.connect(self.switchPort)
+        self.pushBtn_serialSwitch.clicked.connect(self.openClosePort)
         self.pushBtn_clearUidInput.clicked.connect(self.clearUidInput)
         self.pushBtn_cleanMsgArea.clicked.connect(self.clearMessage)
         self.pushBtn_saveMsgArea.clicked.connect(self.userSaveMessage)
@@ -157,25 +158,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushBtn_deviceEncodingDetection.clicked.connect(self.encodingDetection)
         self.lineEdit_setDrainCurrentTop.textChanged.connect(self.paraChanged)
         self.lineEdit_uidInput.returnPressed.connect(self.encoding)
+        self.lineEdit_uidInput.editingFinished.connect(self.inputOk)
+
+    def inputOk(self):
+        self.userTextBrowserAppend("编码输入完成")
 
     def userTextBrowserAppend(self, str):
         self.textBrowser.append(self.usualTools.getTimeStamp() + str)
         self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
-
-    def operatorNameCheck(self, str):
-        if str == "sec":
-            # if self.lineEdit_op_name.text() != "":
-            #         self.name = self.lineEdit_op_name.text()
-            #         if self.lineEdit_op_name.returnPressed:
-            #             self.userTextBrowserAppend("当前操作员：" + self.name)
-            #             self.lineEdit_op_name.setText(self.name)
-            #             self.is_name_input = True
-            pass
-        else:
-            self.userTextBrowserAppend("默认操作员：" + self.name)
-            self.is_name_input = True
-            self.lineEdit_op_name.setText(self.name)
-            self.nameInputThread.quit()
     
     def openMessageRecord(self):
         try:
@@ -251,7 +241,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def showDaetTime(self, timeStr):
         self.label_localDateTime.setText(timeStr)
     
-    def portDetection(self):
+    def detectPorts(self):
         self.comboBox_selectComNum.clear()  # 清空端口选择按钮
         self.comPortList = serial.tools.list_ports.comports()
         self.comPortList.sort()
@@ -263,13 +253,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.comboBox_selectComNum.addItem(self.comDescription)
             print(self.comDescriptionList)
             self.userTextBrowserAppend("已检测到串口，请选择并打开串口")
+            self.userTextBrowserAppend("请先接入被测模块！")
         else:
             print("No port detected!")
             # self.statusbar.showMessage("未检测到串口")
             self.userTextBrowserAppend("未检测到串口，请连接备")
             QMessageBox.information(self, "串口信息", "未检测到串口!", QMessageBox.Yes)
 
-    def switchPort(self):
+    def openClosePort(self):
         staText = self.pushBtn_serialSwitch.text()
         self.idlePorts = QSerialPortInfo.availablePorts()
         if staText == "打开串口":
@@ -289,32 +280,35 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     except:
                         QMessageBox.warning(self, "打开串口", "打开串口失败")
                         self.userTextBrowserAppend("[" + self.comPortList[self.comIndex].device + "]打开失败")
-                    time.sleep(1)
                     if self.prvSerial.isOpen(): 
-                        startTiming = dt.datetime.now()
+                        self.prvSerial.flush()
                         self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
+                        startTiming = dt.datetime.now()
                         while True:
-                                QApplication.processEvents()
-                                num = self.prvSerial.inWaiting()
-                                # print("switchPort num:" + str(num)) # 输出收到的字节数
-                                endTiming = dt.datetime.now()
-                                if num == 0:
-                                    if (endTiming - startTiming).seconds >= 5:
-                                        QApplication.processEvents()
-                                        self.userTextBrowserAppend("控制仪无响应，请执行操作")
-                                        break
-                                elif (num > 0 and num <= 4):
-                                    self.prvSerial.flushInput()
-                                elif num >= 5:
-                                    time.sleep(0.1)
-                                    data = self.prvSerial.read(num)
-                                    if data.decode("utf-8") == "STM32":
-                                        QApplication.processEvents()
-                                        self.userTextBrowserAppend("控制仪在线，请执行操作")
-                                        if self.first_auto_detetion == 1:
-                                            self.first_auto_detetion = 0
-                                            self.deviceSelfCheck() # 每次运行程序执行一次自检即可
-                                        break
+                            QApplication.processEvents()
+                            num = self.prvSerial.inWaiting()
+                            # print("openClosePort num:" + str(num)) # 输出收到的字节数
+                            endTiming = dt.datetime.now()
+                            if num == 0:
+                                if (endTiming - startTiming).seconds >= 5:
+                                    self.userTextBrowserAppend("控制仪无响应，请执行操作")
+                                    self.isSTM32Online = False
+                                    break
+                            elif (num > 0 and num <= 4):
+                                self.prvSerial.flushInput()
+                            elif num >= 5:
+                                time.sleep(0.1)
+                                data = self.prvSerial.read(num)
+                                if data.decode("utf-8") == "STM32":
+                                    self.isSTM32Online = True
+                                    break
+                        if self.isSTM32Online == True:
+                            if self.first_auto_detetion == 1: # 第一次打开软件会执行控制仪自检
+                                self.first_auto_detetion = 0
+                                self.userTextBrowserAppend("控制仪在线!")
+                                self.deviceSelfCheck() # 每次运行程序执行一次自检即可
+                            else:
+                                self.userTextBrowserAppend("控制仪在线，请执行操作")
                 else:
                     QMessageBox.warning(self, "串口状态", "串口使用中")
             else:  # 打开时检测到无串口
@@ -481,7 +475,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.prvSerial.isOpen():
             self.data = b''
             self.rxCheck = 0
-            # self.prvSerial.flush()
+            self.prvSerial.flush()
             self.serialSendData(Func.f_DevSettingThreshold)
             startTiming = dt.datetime.now()
             while True:
@@ -492,9 +486,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     if self.num == 0:
                         endTiming = dt.datetime.now()
                         if (endTiming - startTiming).seconds >= 180:
-                            QApplication.processEvents()
                             self.userTextBrowserAppend("设定阈值@接收数据超时")
-                            break
+                            return
                         else:
                             continue
                     elif self.num > 0 and self.num <= 4:
@@ -505,18 +498,16 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         if self.num >= 13:
                             break
                 except:
-                    QApplication.processEvents()
                     self.userTextBrowserAppend("设定阈值@接收数据失败")
-                    break
-            if self.num >= 13:
-                QApplication.processEvents()
-                self.data = self.prvSerial.read(self.num)
-                print("settingThreshold:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
-                self.rxFrameCheck()
-                self.parseSettingThreshold()
-                self.prvSerial.flushInput()
+                    return
+            QApplication.processEvents()
+            self.data = self.prvSerial.read(self.num)
+            print("settingThreshold:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
+            if self.rxFrameCheck() == State.s_RxFrameCheckOK:
+                self.parseSettingThreshold()   
             else:
-                pass
+                self.userTextBrowserAppend("设定阈值@接收帧错误")     
+            self.prvSerial.flushInput()
         else:
             self.userTextBrowserAppend("下发阈值@串口未打开")
     
@@ -539,7 +530,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             pass
 
     def saveThreshold(self, text):
-        with open(self.configPath, 'w') as sf:
+        with open(self.configPath, encoding="utf-8", mode="w") as sf:
             sf.write(text)
         self.is_config_saved = True
         self.userTextBrowserAppend("保存配置参数成功")
@@ -585,7 +576,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.saveConfigRecord()
 
     def updateWorkMode(self, str):
-        # print("In updateWorkMode...............")
+        print("In updateWorkMode...............")
         QApplication.processEvents()
         endc = str[1]
         dete = str[2]
@@ -691,7 +682,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.prvSerial.isOpen:
             self.data = b''
             self.rxCheck = 0
-            self.prvSerial.flushOutput()
+            self.prvSerial.flush()
             self.serialSendData(Func.f_DevGetSelfPara)
             startTiming = dt.datetime.now()
             while True:
@@ -700,12 +691,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.num = self.prvSerial.inWaiting()
                     # print(self.num) # 输出收到的字节数
                     if self.num == 0:
-                        QApplication.processEvents()
                         endTiming = dt.datetime.now()
                         if (endTiming - startTiming).seconds >= 6:
-                            QApplication.processEvents()
                             self.userTextBrowserAppend("控制仪自检@接收数据超时，工作模式未知")
-                            break
+                            return
                         else:
                             continue
                     elif self.num > 0 and self.num <= 4:
@@ -715,23 +704,23 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.num = self.prvSerial.inWaiting()
                         if self.num >= 30:
                             break
+                        elif self.num == 14:
+                            break
                 except:
-                    QApplication.processEvents()
                     self.userTextBrowserAppend("控制仪自检@接收数据失败")
-                    break
-            if self.num >= 30:
-                QApplication.processEvents()
-                self.data = self.prvSerial.read(self.num)
-                print("getDevicePara:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
+                    return
+            self.data = self.prvSerial.read(self.num)
+            print("getDevicePara:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
+            if self.data.decode("utf-8")[2] != "N":
                 if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
                     self.parseDevicPara()
                     self.parseWorkMode()
                 else:
-                    QApplication.processEvents()
-                    self.userTextBrowserAppend("接收帧错误")
-                self.prvSerial.flushInput()
+                    self.userTextBrowserAppend("控制仪自检@接收帧错误")
             else:
-                pass
+                self.userTextBrowserAppend("请接通控制仪电源")
+            self.prvSerial.flushInput()
+
         else:
             self.userTextBrowserAppend("串口未打开")
 
@@ -779,9 +768,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             if self.num == 0:
                                 endTiming = dt.datetime.now()
                                 if (endTiming - startTiming).seconds >= 10:
-                                    QApplication.processEvents()
                                     self.userTextBrowserAppend("模块编码@接收数据超时")
-                                    break
+                                    return
                                 else:
                                     continue
                             elif self.num > 0 and self.num <= 4:
@@ -792,18 +780,15 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                 if self.num >= 12:
                                     break
                         except:
-                            QApplication.processEvents()
                             self.userTextBrowserAppend("模块编码@接收数据失败")
-                            break
-                    if self.num >= 12:
-                        QApplication.processEvents()
-                        self.data = self.prvSerial.read(self.num)
-                        print("encoding:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
-                        self.rxFrameCheck()  # 接收帧检查
+                            return
+                    self.data = self.prvSerial.read(self.num)
+                    print("encoding:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
+                    if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
                         self.parseEncodingResults()
-                        self.prvSerial.flushInput()
                     else:
-                        pass
+                        self.userTextBrowserAppend("模块编码@接收帧错误")
+                    self.prvSerial.flushInput()
                 else:
                     self.userTextBrowserAppend("输入编号为空！")
             else:
@@ -886,9 +871,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                 endTiming = dt.datetime.now()
                                 QApplication.processEvents() 
                                 if (endTiming - startTiming).seconds >= 30:
-                                    QApplication.processEvents()
                                     self.userTextBrowserAppend("模块检测@接收数据超时")
-                                    break
+                                    return
                                 else:
                                     continue
                             elif self.num > 0 and self.num <= 4:
@@ -901,16 +885,15 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         except:
                             QApplication.processEvents() 
                             self.userTextBrowserAppend("模块检测@接收数据失败")
-                            break
-                    if self.num >= 70:
-                        QApplication.processEvents()
-                        self.data = self.prvSerial.read(self.num)
-                        print("detection:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
-                        self.rxFrameCheck()  # 接收帧检查
+                            return
+                    self.data = self.prvSerial.read(self.num)
+                    print("detection:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
+                    if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
                         self.parseDetectionResults()
-                        self.prvSerial.flushInput()
                     else:
-                        pass
+                        self.userTextBrowserAppend("模块检测@接收帧错误")
+                    self.prvSerial.flushInput()
+                    
                 else:
                     self.userTextBrowserAppend("输入编号为空！")
             else:
@@ -1028,15 +1011,19 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if not self.is_config_saved:
             choice = QMessageBox.question(self, "保存文件", "是否保存配置文件", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
             if choice == QMessageBox.Yes:               # 6
-                self.firstSaveThreshold()
                 QCloseEvent.accept()
+                self.firstSaveThreshold()
+                app = QApplication.instance()
+                app.quit()
             elif choice == QMessageBox.No:
                 QCloseEvent.accept()
             else:
                 QCloseEvent.ignore()
 
 if __name__ == "__main__":
-    mainApp = QtWidgets.QApplication(sys.argv)
+    mainApp = QApplication(sys.argv)
+    root = QFileInfo(__file__).absolutePath()
+    mainApp.setWindowIcon(QIcon(root + "/resources/icons/robot.ico"))
     Terminal = MainWin()
     Terminal.show()
     sys.exit(mainApp.exec_())

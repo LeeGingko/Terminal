@@ -10,6 +10,10 @@ class TimeThread(QThread):
         super(TimeThread, self).__init__()
         self.timeStamp = ""
 
+    def  __del__(self):
+        self.quit()
+        self.wait()
+        
     def run(self):
         dayOfWeek = time.localtime().tm_wday
         weekday = ""
