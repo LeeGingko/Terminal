@@ -34,11 +34,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
         self.setWindowState(Qt.WindowMaximized)     
 
-        # 消息保存
-        self.is_message_saved_first = True
-        self.is_message_saved = True
-        self.messagePath = ""
-
         # 工作模式初始化
         self.workMode = {"encoding": "X",  "detection": "X"} # 未知状态
         self.data = b''
@@ -65,46 +60,55 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             "th_ComCurrent_Up":   "0", "th_ComCurrent_Down":   "0"}
         self.getUserPara()
 
+        # 消息保存
+        self.isMessageSavedFirst = True
+        self.isMessageSaved = True
+        self.messagePath = ""
+
         # 配置文件保存变量的初始化
-        self.is_config_saved_first = True # 是否是第一次保存
-        self.is_config_saved = True # 是否是已经保存 
+        self.isConfigSavedFirst = True # 是否是第一次保存
+        self.isConfigSaved = True # 是否是已经保存 
         self.configPath = "" # 文件路径
 
         # 测试数据Excel文件保存变量的初始化
         self.excel = PersonalExcel() # Excel实例化全局对象
-        self.is_excel_saved_first = True # 是否是第一次保存
-        self.is_excel_saved = True # 是否是已经保存 
+        self.isExcelSavedFirst = True # 是否是第一次保存
+        self.isExcelSaved = True # 是否是已经保存 
         self.excelFilePath = "" # 文件路径
-        self.excel_file = ""
-        self.table_headline = [
+        self.excelFile = "" # 文件
+
+        # 默认检测结果
+        initTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        self.resultDefaultList = [
+            "name",  initTime,    "F",    "F",   "失败",
+            "离线",   "FFFFF",     "F",    "F",   "异常",
+            "SSSSS",    "F",      "F",    "异常", "拒绝" ]
+        # 测试检测结果，初始为默认检测结果
+        self.resultCurrentList = self.resultDefaultList.copy()
+        # 测试检测结果备份，进行重复检测结果判断
+        self.resultLastList = self.resultCurrentList.copy()
+        # 当前记录是否已经被保存，防止重复保存
+        self.currentResultSaved = False 
+
+        # 检测数据显示表格模型初始化
+        self.tableHeadline = [
             "测试员", "时间",      "漏电流(uA)", "工作电流(uA)", "ID核对",
             "在线检测", "被测选发",   "电流(mA)",  "电压(V)",      "电流判断",
-            "内置选发", "电流(mA)",  "电压(V)",   "电流判断",      "结论" ]
-        initTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        self.resultListDefault = [
-            self.name, initTime,   "0.0",  "0.0",  "成功",
-              "在线",   "FFFFF",    "0",    "0",   "正常",
-             "23456",    "0",      "0",    "正常", "通过" ]
-        self.resultList = [
-            self.name, initTime,   "0.0",  "0.0",  "成功",
-              "在线",   "FFFFF",    "0",    "0",   "正常",
-             "23456",    "0",      "0",    "正常", "通过" ]   
-             
-        # 检测数据显示表格模型初始化
+            "内置选发", "电流(mA)",  "电压(V)",   "电流判断",      "结论" ]        
         self.tableViewModel = QStandardItemModel(1, 15, self)
-        self.tableViewModel.setHorizontalHeaderLabels(self.table_headline)
+        self.tableViewModel.setHorizontalHeaderLabels(self.tableHeadline)
         self.tableView_result.setModel(self.tableViewModel)
         self.tableView_result.horizontalHeader().setStretchLastSection(True)
-        # self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        # self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch) # 拉伸
         self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
 
         # 表格视图委托初始化
         self.tableViewDelegate = TableViewDelegate()
         self.tableView_result.setItemDelegate(self.tableViewDelegate)
-        self.tableRow = 0
+        self.tableRow = 0 # 填入表格的行数
         
-        # 第一次打开串口控自动检测制仪
-        self.first_auto_detetion = 1
+        # 第一次打开串口控自动检测制仪使能
+        self.firstAutoDetetion = 1
 
         # 检测以及编码默认状态设置
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
@@ -120,7 +124,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         mixdedValidator.setRegExp(reg)
         self.lineEdit_uidInput.setMaxLength(5)
         self.lineEdit_uidInput.setValidator(mixdedValidator)
-        self.lineEdit_uidInput.setToolTip("字母范围a-f, A-F")
+        self.lineEdit_uidInput.setToolTip("字母范围a~f, A~F, 数字0~9")
 
         # 串口变量初始化
         self.txCheck = 0
@@ -172,14 +176,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             with open("message_save_record.txt", "rb") as msrf:
                 omr = pk.load(msrf) # 将二进制文件对象转换成Python对象
                 # print("openConfigRecord:" + str(ofr))
-            self.is_message_saved_first = omr[0][0]
-            self.is_message_saved = omr[0][1]
+            self.isMessageSavedFirst = omr[0][0]
+            self.isMessageSaved = omr[0][1]
             self.messagePath = omr[1]
         except:
             pass
 
     def saveMessageRecord(self):
-        self.saved_info = ([self.is_message_saved_first, self.is_message_saved],  self.messagePath)
+        self.saved_info = ([self.isMessageSavedFirst, self.isMessageSaved],  self.messagePath)
         with open("message_save_record.txt", "wb") as fsmf:
             pk.dump(self.saved_info, fsmf) # 用dump函数将Python对象转成二进制对象文件
         # print("saveConfigRecord:" + str(self.saved_info))
@@ -210,8 +214,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             pass
                     else:
                         pass 
-                    self.is_message_saved_first = False
-                    self.is_message_saved = True
+                    self.isMessageSavedFirst = False
+                    self.isMessageSaved = True
                 self.userTextBrowserAppend("消息保存成功")
                 self.textBrowser.append("@保存至\"" + str(self.messagePath) + "\"")
                 self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
@@ -233,9 +237,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     
     def userSaveMessage(self):
         self.openMessageRecord()
-        if self.is_message_saved_first:
+        if self.isMessageSavedFirst:
             self.firstSaveMessage()
-        elif self.is_message_saved:
+        elif self.isMessageSaved:
             self.saveMessage()
 
     def showDaetTime(self, timeStr):
@@ -303,8 +307,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                     self.isSTM32Online = True
                                     break
                         if self.isSTM32Online == True:
-                            if self.first_auto_detetion == 1: # 第一次打开软件会执行控制仪自检
-                                self.first_auto_detetion = 0
+                            if self.firstAutoDetetion == 1: # 第一次打开软件会执行控制仪自检
+                                self.firstAutoDetetion = 0
                                 self.userTextBrowserAppend("控制仪在线!")
                                 self.deviceSelfCheck() # 每次运行程序执行一次自检即可
                             else:
@@ -441,23 +445,23 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             with open("config_save_record.txt", "rb") as fsrf:
                 ofr = pk.load(fsrf) # 将二进制文件对象转换成Python对象
                 # print("openConfigRecord:" + str(ofr))
-            self.is_config_saved_first = ofr[0][0]
-            self.is_config_saved = ofr[0][1]
+            self.isConfigSavedFirst = ofr[0][0]
+            self.isConfigSaved = ofr[0][1]
             self.configPath = ofr[1]
         except:
             pass
 
     def saveConfigRecord(self):
-        self.saved_info = ([self.is_config_saved_first, self.is_config_saved],  self.configPath)
+        self.saved_info = ([self.isConfigSavedFirst, self.isConfigSaved],  self.configPath)
         with open("config_save_record.txt", "wb") as fsrf:
             pk.dump(self.saved_info, fsrf) # 用dump函数将Python对象转成二进制对象文件
         # print("saveConfigRecord:" + str(self.saved_info))
 
     def paraChanged(self):
         if self.lineEdit_setDrainCurrentTop.text() != paraDict["th_DrainCurrent_Up"]:
-            self.is_config_saved = False
+            self.isConfigSaved = False
         else:
-            self.is_config_saved = True
+            self.isConfigSaved = True
         self.saveConfigRecord()
  
     def parseSettingThreshold(self):
@@ -518,8 +522,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 if self.configPath:
                     with open(self.configPath, "w") as fsf:
                         fsf.write(text)
-                    self.is_config_saved_first = False
-                    self.is_config_saved = True
+                    self.isConfigSavedFirst = False
+                    self.isConfigSaved = True
                 self.userTextBrowserAppend("参数保存成功")
                 self.textBrowser.append("@保存至\"" + str(self.configPath) + "\"")
                 self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
@@ -532,7 +536,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def saveThreshold(self, text):
         with open(self.configPath, encoding="utf-8", mode="w") as sf:
             sf.write(text)
-        self.is_config_saved = True
+        self.isConfigSaved = True
         self.userTextBrowserAppend("保存配置参数成功")
         print(self.usualTools.getTimeStamp() + "下发参数\n")
         self.settingThreshold()
@@ -563,16 +567,16 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.para = self.para + ("PF" + v)
             cnt += 1
         self.openConfigRecord()
-        if self.is_config_saved_first:
+        if self.isConfigSavedFirst:
             self.firstSaveThreshold(self.para)
-        elif self.is_config_saved:
+        elif self.isConfigSaved:
             self.saveThreshold(self.para)
         
     def userOpenThreshold(self):
         settingfile, _ = QFileDialog.getOpenFileName(self, "打开配置文件", './', 'settingfile (*.txt)')
         if settingfile:
             os.startfile(settingfile)
-            self.is_config_saved = True
+            self.isConfigSaved = True
             self.saveConfigRecord()
 
     def updateWorkMode(self, str):
@@ -797,7 +801,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("编码【未开启】")
 
     def parseDetectionResults(self):
-        QApplication.processEvents() 
         res = ""
         tmp = self.data.decode("utf-8")
         res = tmp[3:11]
@@ -811,43 +814,41 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("线路电压正常，线路电流正常")
             self.label_resDrainCurrent.setText(tmp[13:15] + "." + tmp[15:16])
             self.label_resWorkCurrent.setText(tmp[18:21] + "." + tmp[21:22])
-            self.resultList[0] = self.name
-            self.resultList[1] = self.detectionTime
-            self.resultList[2] = tmp[13:15] + "." + tmp[15:16]
-            self.resultList[3] = tmp[18:21] + "." + tmp[21:22]
+            self.resultCurrentList[0] = self.name
+            self.resultCurrentList[1] = self.detectionTime
+            self.resultCurrentList[2] = tmp[13:15] + "." + tmp[15:16]
+            self.resultCurrentList[3] = tmp[18:21] + "." + tmp[21:22]
             # 被测模块
             self.label_resIdCheck.setText("完成")
             self.label_resOnlineCheck.setText("在线")
             self.label_resExDetID.setText(tmp[24:29])
             self.label_resExDetVoltage.setText(tmp[83:85] + "." + tmp[85:86])
             self.label_resExDetCurrent.setText(tmp[89:len(tmp)-4])
-            self.resultList[4] = "成功"
-            self.resultList[5] = "在线"
-            self.resultList[6] = tmp[24:29]
-            self.resultList[7] = tmp[89:len(tmp)-4]
-            self.resultList[8] = tmp[83:85] + "." + tmp[85:86]
-            self.resultList[9] = "正常"
-            self.label_resExDetCurrentJudge.setText(self.resultList[9])
+            self.resultCurrentList[4] = "成功"
+            self.resultCurrentList[5] = "在线"
+            self.resultCurrentList[6] = tmp[24:29]
+            self.resultCurrentList[7] = tmp[89:len(tmp)-4]
+            self.resultCurrentList[8] = tmp[83:85] + "." + tmp[85:86]
+            self.resultCurrentList[9] = "正常"
+            self.label_resExDetCurrentJudge.setText(self.resultCurrentList[9])
             # 内置模块
             self.label_resInDetID.setText(tmp[47:52])
             self.label_resInDetVoltage.setText(tmp[63:65] + "." + tmp[65:66])
             self.label_resInDetCurrent.setText(tmp[69:72])
-            self.resultList[10] = tmp[47:52]
-            self.resultList[11] = tmp[69:72]
-            self.resultList[12] = tmp[63:65] + "." + tmp[65:66]
-            self.resultList[13] = "正常"
-            self.resultList[14] = "通过"
+            self.resultCurrentList[10] = tmp[47:52]
+            self.resultCurrentList[11] = tmp[69:72]
+            self.resultCurrentList[12] = tmp[63:65] + "." + tmp[65:66]
+            self.resultCurrentList[13] = "正常"
+            self.resultCurrentList[14] = "通过"
             # 更新model
             for col in range(15):
-                item = QStandardItem(self.resultList[col])
+                item = QStandardItem(self.resultCurrentList[col])
                 self.tableViewModel.setItem(self.tableRow, col, item)
-            self.label_resInDetCurrentJudge.setText(self.resultList[13])
+            self.label_resInDetCurrentJudge.setText(self.resultCurrentList[13])
             self.label_finalResult.setText("PASSED")
         elif tmp[3:8] == "NDETE":
             self.workMode["detection"] = "0"
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/close)}")
             self.userTextBrowserAppend("无法进行检测，请检查检测按键")
-        QApplication.processEvents() 
 
     def detection(self):
         if self.workMode["detection"] == "1":
@@ -893,7 +894,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     else:
                         self.userTextBrowserAppend("模块检测@接收帧错误")
                     self.prvSerial.flushInput()
-                    
                 else:
                     self.userTextBrowserAppend("输入编号为空！")
             else:
@@ -905,55 +905,58 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         try:
             with open("excel_save_record.txt", "rb") as esrf:
                 oer = pk.load(esrf) # 将二进制文件对象转换成Python对象
-            self.is_excel_saved_first = oer[0][0]
-            self.is_excel_saved = oer[0][1]
+            self.isExcelSavedFirst = oer[0][0]
+            self.isExcelSaved = oer[0][1]
             self.excelFilePath = oer[1]
-            self.excel_file = os.path.split(self.excelFilePath)[1]
+            self.excelFile = os.path.split(self.excelFilePath)[1]
         except:
             pass
     
     def saveExcelRecord(self):
-        self.saved_info = ([self.is_excel_saved_first, self.is_excel_saved],  self.excelFilePath)
+        self.saved_info = ([self.isExcelSavedFirst, self.isExcelSaved],  self.excelFilePath)
         with open("excel_save_record.txt", "wb") as esrf:
             pk.dump( self.saved_info, esrf) # 用dump函数将Python对象转成二进制对象文件
         # print("saveExcelRecord:" + str(self.saved_info))
 
     def compareResult(self):
-        a = self.resultListDefault
-        b = self.resultList
-        cnt = 0
-        for i in range(15):
-            if a[i] == b[i]:
-                cnt += 1
-            else:
-                return -1
-        return cnt
+        diffDef = set(self.resultCurrentList).difference(set(self.resultDefaultList))
+        diffDet = set(self.resultCurrentList).difference(set(self.resultLastList))
+        if diffDef == set() and diffDet == set():
+            return -1
+        elif diffDef != set() and diffDet == set():
+            return 0
+        elif diffDef != set() and diffDet != set():
+            return 1    
             
     def firstSaveResults(self):
         if self.excelFilePath == "":
             self.excelFilePath, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./recording", "recorded data(*.xlsx)")
             if isAccept:
                 if self.excelFilePath:
-                    self.excel_file = os.path.split(self.excelFilePath)[1]
-                    self.excel_sheet = "record sheet"
-                    self.excel.initWorkBook(self.excel_file, self.excel_sheet)
-                    self.is_excel_saved_first = False
-                    self.is_excel_saved = True
-                    self.excel.wrtieRow(self.excel_file, self.table_headline) # 添加表头
+                    self.excelFile = os.path.split(self.excelFilePath)[1]
+                    self.excel_sheet = "Sheet Of Records"
+                    self.excel.initWorkBook(self.excelFile, self.excel_sheet)
+                    self.isExcelSavedFirst = False
+                    self.isExcelSaved = True
+                    self.excel.wrtieRow(self.excelFile, self.tableHeadline) # 添加表头
                     self.userTextBrowserAppend("创建数据记录表成功")
                     self.textBrowser.append("@保存至\"" + str(self.excelFilePath) + "\"")
                     self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
                     res = self.compareResult()
-                    if res == -1:
-                        self.excel.wrtieRow(self.excel_file, self.resultList)
+                    if res == 1:
+                        self.excel.wrtieRow(self.excelFile, self.resultCurrentList)
                         for col in range(15):
-                            item = QStandardItem(self.resultList[col])
+                            item = QStandardItem(self.resultCurrentList[col])
                             self.tableViewModel.setItem(0, col, item)
-                        self.tableRow = self.tableRow + 1
-                        self.is_excel_saved = True
-                    else:
-                        self.userTextBrowserAppend("未有检测结果，请进行检测")
-                    self.saveExcelRecord()
+                        self.tableRow = self.tableRow + 1.0
+                        self.isExcelSaved = True
+                        self.currentResultSaved = True
+                        self.saveExcelRecord()
+                    elif res == 0:
+                        self.userTextBrowserAppend("当前检测结果已记录，请重新进行编码和检测")  
+                    elif res == -1:
+                        self.userTextBrowserAppend("未有检测结果，请进行编码和检测")
+                    self.resultLastList = self.resultCurrentList.copy()
                     QApplication.processEvents() 
                 else:
                     pass
@@ -963,14 +966,21 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def SaveResults(self):
         self.openExcelRecord()
         res = self.compareResult()
-        if res == -1:
-            self.excel.wrtieRow(self.excel_file, self.resultList)
-            self.userTextBrowserAppend("数据记录表保存成功")
-            self.is_excel_saved = True
+        if res == 1:
+            self.excel.wrtieRow(self.excelFile, self.resultCurrentList)
+            self.userTextBrowserAppend("保存数据记录表成功")
+            for col in range(15):
+                item = QStandardItem(self.resultCurrentList[col])
+                self.tableViewModel.setItem(0, col, item)
+            self.tableRow = self.tableRow + 1.0
+            self.isExcelSaved = True
+            self.currentResultSaved = True
             self.saveExcelRecord()
-            self.tableRow = self.tableRow + 1
-        else:
-            self.userTextBrowserAppend("未有检测结果，请进行检测")
+        elif res == 0:
+            self.userTextBrowserAppend("当前检测结果已记录，请重新进行编码和检测")  
+        elif res == -1:
+            self.userTextBrowserAppend("未有检测结果，请进行编码和检测")
+        self.resultLastList = self.resultCurrentList.copy()
         QApplication.processEvents()
 
     def clearShowResult(self):
@@ -980,9 +990,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def userSaveResults(self):
         self.openExcelRecord()
-        if self.is_excel_saved_first:
+        if self.isExcelSavedFirst:
             self.firstSaveResults()
-        elif self.is_excel_saved:
+        elif self.isExcelSaved:
             self.SaveResults()
 
     def userCheckResults(self):
@@ -992,7 +1002,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             # with open(recordsfile, 'r') as of:
                 # print(of.read())
                 os.startfile(recordsfile)
-                self.is_config_saved = True
+                self.isConfigSaved = True
         self.saveExcelRecord()     
 
     def encodingDetection(self):
@@ -1008,7 +1018,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_uidInput.clear()
         
     def closeEvent(self, QCloseEvent):
-        if not self.is_config_saved:
+        if not self.isConfigSaved:
             choice = QMessageBox.question(self, "保存文件", "是否保存配置文件", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
             if choice == QMessageBox.Yes:               # 6
                 QCloseEvent.accept()
