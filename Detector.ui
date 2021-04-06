@@ -2067,7 +2067,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>16</pointsize>
+        <pointsize>14</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2142,7 +2142,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>16</pointsize>
+        <pointsize>14</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2226,7 +2226,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>16</pointsize>
+        <pointsize>14</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2274,7 +2274,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>16</pointsize>
+        <pointsize>14</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2373,7 +2373,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>16</pointsize>
+        <pointsize>14</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2484,7 +2484,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>16</pointsize>
+        <pointsize>14</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2595,7 +2595,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>16</pointsize>
+        <pointsize>14</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2697,7 +2697,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>16</pointsize>
+        <pointsize>14</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2745,7 +2745,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>16</pointsize>
+        <pointsize>14</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2793,7 +2793,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>16</pointsize>
+        <pointsize>14</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2868,7 +2868,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>16</pointsize>
+        <pointsize>14</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2943,7 +2943,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>16</pointsize>
+        <pointsize>14</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -3270,7 +3270,7 @@
      <property name="font">
       <font>
        <family>Times New Roman</family>
-       <pointsize>24</pointsize>
+       <pointsize>22</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -4379,7 +4379,8 @@ p, li { white-space: pre-wrap; }
      <string>Ctrl+/</string>
     </property>
    </widget>
-   <zorder>layoutWidget</zorder>
+   <zorder>pushBtn_saveMsgArea</zorder>
+   <zorder>pushBtn_cleanMsgArea</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>label_operator_5</zorder>
    <zorder>label_operator_21</zorder>

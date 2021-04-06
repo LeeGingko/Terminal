@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from PyQt5 import QtCore
 from UserImport import *
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -95,7 +96,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             "测试员", "时间",      "漏电流(uA)", "工作电流(uA)", "ID核对",
             "在线检测", "被测选发",   "电流(mA)",  "电压(V)",      "电流判断",
             "内置选发", "电流(mA)",  "电压(V)",   "电流判断",      "结论" ]        
-        self.tableViewModel = QStandardItemModel(1, 15, self)
+        self.tableViewModel = QStandardItemModel(3, 15, self)
         self.tableViewModel.setHorizontalHeaderLabels(self.tableHeadline)
         self.tableView_result.setModel(self.tableViewModel)
         self.tableView_result.horizontalHeader().setStretchLastSection(True)
@@ -146,25 +147,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 绑定控件信号和槽函数
         self.bindSignalSlot()
 
-    def bindSignalSlot(self):
-        self.pushBtn_serialSwitch.clicked.connect(self.openClosePort)
-        self.pushBtn_clearUidInput.clicked.connect(self.clearUidInput)
-        self.pushBtn_cleanMsgArea.clicked.connect(self.clearMessage)
-        self.pushBtn_saveMsgArea.clicked.connect(self.userSaveMessage)
-        self.pushBtn_deviceSelfCheck.clicked.connect(self.deviceSelfCheck)
-        self.pushBtn_deviceEncoding.clicked.connect(self.encoding)
-        self.pushBtn_deviceDetection.clicked.connect(self.detection)
-        self.pushBtn_saveSettingsRecord.clicked.connect(self.userSaveThreshold)
-        self.pushBtn_readSettingsRecord.clicked.connect(self.userOpenThreshold)
-        self.pushBtn_saveResults.clicked.connect(self.userSaveResults)
-        self.pushBtn_showResults.clicked.connect(self.userCheckResults)
-        self.pushBtn_clearResults.clicked.connect(self.clearShowResult)
-        self.pushBtn_deviceEncodingDetection.clicked.connect(self.encodingDetection)
-        self.lineEdit_setDrainCurrentTop.textChanged.connect(self.paraChanged)
-        self.lineEdit_uidInput.returnPressed.connect(self.encoding)
-        self.lineEdit_uidInput.editingFinished.connect(self.inputOk)
-
-    def inputOk(self):
+    @QtCore.pyqtSlot()
+    def on_lineEdit_uidInput_editingFinished(self):
         self.userTextBrowserAppend("编码输入完成")
 
     def userTextBrowserAppend(self, str):
@@ -188,7 +172,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             pk.dump(self.saved_info, fsmf) # 用dump函数将Python对象转成二进制对象文件
         # print("saveConfigRecord:" + str(self.saved_info))
 
-    def clearMessage(self):
+    @QtCore.pyqtSlot()
+    def on_pushBtn_cleanMsgArea_clicked(self):
         if self.textBrowser.toPlainText() != "":
             choice = QMessageBox.question(
                 self, "窗口消息", "确认清除消息？", QMessageBox.Yes | QMessageBox.Cancel)
@@ -235,7 +220,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.userTextBrowserAppend("当前无消息")
     
-    def userSaveMessage(self):
+    @QtCore.pyqtSlot()
+    def on_pushBtn_saveMsgArea_clicked(self):
         self.openMessageRecord()
         if self.isMessageSavedFirst:
             self.firstSaveMessage()
@@ -263,8 +249,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             # self.statusbar.showMessage("未检测到串口")
             self.userTextBrowserAppend("未检测到串口，请连接备")
             QMessageBox.information(self, "串口信息", "未检测到串口!", QMessageBox.Yes)
-
-    def openClosePort(self):
+    
+    @QtCore.pyqtSlot()
+    def on_pushBtn_serialSwitch_clicked(self):
         staText = self.pushBtn_serialSwitch.text()
         self.idlePorts = QSerialPortInfo.availablePorts()
         if staText == "打开串口":
@@ -310,7 +297,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             if self.firstAutoDetetion == 1: # 第一次打开软件会执行控制仪自检
                                 self.firstAutoDetetion = 0
                                 self.userTextBrowserAppend("控制仪在线!")
-                                self.deviceSelfCheck() # 每次运行程序执行一次自检即可
+                                self.on_pushBtn_deviceSelfCheck_clicked() # 每次运行程序执行一次自检即可
                             else:
                                 self.userTextBrowserAppend("控制仪在线，请执行操作")
                 else:
@@ -457,7 +444,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             pk.dump(self.saved_info, fsrf) # 用dump函数将Python对象转成二进制对象文件
         # print("saveConfigRecord:" + str(self.saved_info))
 
-    def paraChanged(self):
+    @QtCore.pyqtSlot()
+    def on_lineEdit_setDrainCurrentTop_textChanged(self):
         if self.lineEdit_setDrainCurrentTop.text() != paraDict["th_DrainCurrent_Up"]:
             self.isConfigSaved = False
         else:
@@ -474,7 +462,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif res == "PARALESS":
             self.userTextBrowserAppend("控制仪接收参数缺失")
         QApplication.processEvents()
-
+    
     def settingThreshold(self):
         if self.prvSerial.isOpen():
             self.data = b''
@@ -542,7 +530,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.settingThreshold()
         self.saveConfigRecord()
 
-    def userSaveThreshold(self):
+    @QtCore.pyqtSlot()
+    def on_pushBtn_saveSettingsRecord_clicked(self):
         print("/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/")
         print("Setting parameters's threshold ......")
         print(self.usualTools.getTimeStamp() + "获取界面参数\n")
@@ -572,7 +561,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif self.isConfigSaved:
             self.saveThreshold(self.para)
         
-    def userOpenThreshold(self):
+    @QtCore.pyqtSlot()
+    def on_pushBtn_readSettingsRecord_clicked(self):        
         settingfile, _ = QFileDialog.getOpenFileName(self, "打开配置文件", './', 'settingfile (*.txt)')
         if settingfile:
             os.startfile(settingfile)
@@ -728,7 +718,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.userTextBrowserAppend("串口未打开")
 
-    def deviceSelfCheck(self):
+    @QtCore.pyqtSlot()
+    def on_pushBtn_deviceSelfCheck_clicked(self):
         if self.prvSerial.isOpen() == True:
             self.userTextBrowserAppend("控制仪自检")
             self.getDevicePara()
@@ -751,8 +742,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.workMode["encoding"] = "0"
             self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/close)}")
             self.userTextBrowserAppend("无法进行编码，请检查编码按键")
-
-    def encoding(self):
+    
+    @QtCore.pyqtSlot()
+    def on_pushBtn_deviceEncoding_clicked(self):
         if self.workMode["encoding"] == "1":
             print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
             print("Encoding......")
@@ -850,7 +842,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.workMode["detection"] = "0"
             self.userTextBrowserAppend("无法进行检测，请检查检测按键")
 
-    def detection(self):
+    @QtCore.pyqtSlot()
+    def on_pushBtn_deviceDetection_clicked(self):
         if self.workMode["detection"] == "1":
             print("/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/")
             print("Detecting......")
@@ -945,10 +938,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     res = self.compareResult()
                     if res == 1:
                         self.excel.wrtieRow(self.excelFile, self.resultCurrentList)
-                        for col in range(15):
-                            item = QStandardItem(self.resultCurrentList[col])
-                            self.tableViewModel.setItem(0, col, item)
-                        self.tableRow = self.tableRow + 1.0
+                        # for col in range(15):
+                        #     item = QStandardItem(self.resultCurrentList[col])
+                        #     self.tableViewModel.setItem(0, col, item)
+                        self.tableRow = self.tableRow + 1
                         self.isExcelSaved = True
                         self.currentResultSaved = True
                         self.saveExcelRecord()
@@ -969,10 +962,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if res == 1:
             self.excel.wrtieRow(self.excelFile, self.resultCurrentList)
             self.userTextBrowserAppend("保存数据记录表成功")
-            for col in range(15):
-                item = QStandardItem(self.resultCurrentList[col])
-                self.tableViewModel.setItem(0, col, item)
-            self.tableRow = self.tableRow + 1.0
+            # for col in range(15):
+            #     item = QStandardItem(self.resultCurrentList[col])
+            #     self.tableViewModel.setItem(0, col, item)
+            self.tableRow = self.tableRow + 1
             self.isExcelSaved = True
             self.currentResultSaved = True
             self.saveExcelRecord()
@@ -983,38 +976,40 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.resultLastList = self.resultCurrentList.copy()
         QApplication.processEvents()
 
-    def clearShowResult(self):
-        # print("clearShowResult")
+    @QtCore.pyqtSlot()
+    def on_pushBtn_clearResults_clicked(self):
         self.tableRow = 0
         self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
 
-    def userSaveResults(self):
+    @QtCore.pyqtSlot()
+    def on_pushBtn_saveResults_clicked(self):
         self.openExcelRecord()
         if self.isExcelSavedFirst:
             self.firstSaveResults()
         elif self.isExcelSaved:
             self.SaveResults()
 
-    def userCheckResults(self):
+    @QtCore.pyqtSlot()
+    def on_pushBtn_showResults_clicked(self):
         self.openExcelRecord()
         recordsfile, _ = QFileDialog.getOpenFileName(self, "打开记录文件", './', 'records (*.xlsx)')
         if recordsfile:
-            # with open(recordsfile, 'r') as of:
-                # print(of.read())
                 os.startfile(recordsfile)
                 self.isConfigSaved = True
         self.saveExcelRecord()     
 
-    def encodingDetection(self):
+    @QtCore.pyqtSlot()
+    def on_pushBtn_deviceEncodingDetection_clicked(self):
         self.userTextBrowserAppend("执行编码和检测")
         if self.prvSerial.isOpen():
-            self.encoding()
+            self.on_pushBtn_deviceEncoding_clicked()
             time.sleep(0.2)
-            self.detection()
+            self.on_pushBtn_deviceDetection_clicked()
         else:
             self.userTextBrowserAppend("串口未打开")
 
-    def clearUidInput(self):
+    @QtCore.pyqtSlot()
+    def on_pushBtn_clearUidInput_clicked(self):
         self.lineEdit_uidInput.clear()
         
     def closeEvent(self, QCloseEvent):
