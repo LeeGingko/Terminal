@@ -9,9 +9,10 @@ class TableViewDelegate(QStyledItemDelegate):
         super(TableViewDelegate, self).__init__()
     
     def paint(self, painter, option, index):
-        font = QFont("Monospaced", 16, 10, False)
-        option.displayAlignment = Qt.AlignCenter
+        font = QFont("Monospaced", 22, 10, False)
         painter.setFont(font)
+        option.displayAlignment = Qt.AlignCenter
+        
         return super(TableViewDelegate, self).paint(painter, option, index)
  
     # def editorEvent(self, event, model, option, index):

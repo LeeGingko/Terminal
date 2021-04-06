@@ -1831,7 +1831,7 @@
      <property name="font">
       <font>
        <family>Cascadia Mono PL SemiLight</family>
-       <pointsize>20</pointsize>
+       <pointsize>16</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -1839,6 +1839,12 @@
      <property name="styleSheet">
       <string notr="true">background-color: rgb(235, 235, 235);</string>
      </property>
+     <attribute name="horizontalHeaderMinimumSectionSize">
+      <number>54</number>
+     </attribute>
+     <attribute name="verticalHeaderMinimumSectionSize">
+      <number>54</number>
+     </attribute>
     </widget>
     <widget class="QLabel" name="label_operator_70">
      <property name="geometry">
@@ -2067,7 +2073,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>14</pointsize>
+        <pointsize>16</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2226,7 +2232,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>14</pointsize>
+        <pointsize>16</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2274,7 +2280,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>14</pointsize>
+        <pointsize>16</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2373,7 +2379,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>14</pointsize>
+        <pointsize>16</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2595,7 +2601,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>14</pointsize>
+        <pointsize>16</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2697,7 +2703,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>14</pointsize>
+        <pointsize>16</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2745,7 +2751,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>14</pointsize>
+        <pointsize>16</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2793,7 +2799,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>14</pointsize>
+        <pointsize>16</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2868,7 +2874,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>14</pointsize>
+        <pointsize>16</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -2943,7 +2949,7 @@
       <property name="font">
        <font>
         <family>Times New Roman</family>
-        <pointsize>14</pointsize>
+        <pointsize>16</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>

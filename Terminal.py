@@ -17,16 +17,16 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 自定义工具实例化
         self.usualTools = Tools()
 
-        # set Window"s location
+        # 设置串口居中显示
         self.desktop = QApplication.desktop()
         self.screenRect = self.desktop.screenGeometry()
         self.width = self.screenRect.width()
         self.height = self.screenRect.height()
-        print("Your screen's size is:", self.width, "X", self.height)
+        # print("Your screen's size is:", self.width, "X", self.height)
         self.resize(self.width, self.height)
         self.Wsize = self.geometry()
-        centerX = int((self.width-self.Wsize.width())/2)
-        centerY = int((self.height-self.Wsize.height())/2)
+        centerX = int((self.width - self.Wsize.width()) / 2)
+        centerY = int((self.height - self.Wsize.height()) / 2)
         self.move(centerX, centerY)
         self.setWindowTitle("Detector")
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
@@ -38,7 +38,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # 操作人员姓名录入
         self.is_name_input = False
-        self.name = "嬴政" # 默认操作员姓名
+        self.name = "操作员01" # 默认操作员姓名
         
         # 自定义本地时间更新线程
         self.thread01 = TimeThread()
@@ -88,20 +88,20 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 当前记录是否已经被保存，防止重复保存
         self.currentResultSaved = False 
 
-        # 检测数据显示表格模型初始化
+        # 标准模型初始化
+        self.tableViewModel = QStandardItemModel(0, 15, self)
         self.tableHeadline = [
             "测试员", "时间",      "漏电流(uA)", "工作电流(uA)", "ID核对",
             "在线检测", "被测选发",   "电流(mA)",  "电压(V)",      "电流判断",
-            "内置选发", "电流(mA)",  "电压(V)",   "电流判断",      "结论" ]        
-        self.tableViewModel = QStandardItemModel(3, 15, self)
-        self.tableViewModel.setHorizontalHeaderLabels(self.tableHeadline)
+            "内置选发", "电流(mA)",  "电压(V)",   "电流判断",      "结论" ]   
+        self.tableViewModel.setHorizontalHeaderLabels(self.tableHeadline) # 表头
+        # 表格视图委托初始化
+        self.tableViewDelegate = TableViewDelegate()
+        # 检测数据显示表格模型初始化
         self.tableView_result.setModel(self.tableViewModel)
         self.tableView_result.horizontalHeader().setStretchLastSection(True)
         # self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch) # 拉伸
         self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
-
-        # 表格视图委托初始化
-        self.tableViewDelegate = TableViewDelegate()
         self.tableView_result.setItemDelegate(self.tableViewDelegate)
         self.tableRow = 0 # 填入表格的行数
         
@@ -137,9 +137,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.serialManager = PersonalSerial()  # 串口线程对象
         self.prvSerial = self.serialManager.userSerial  # 串口实例化全局对象
         self.detectPorts() # 检测端口并加入combobox
-        self.serialManager.start()
         self.serialManager.recvSignal.connect(self.serialRecvData)
-        self.isSTM32Online = False
+        self.isSTM32Online = False # 控制仪是否在线
+        self.serialManager.start()
 
     @QtCore.pyqtSlot()
     def on_lineEdit_uidInput_editingFinished(self):
@@ -822,9 +822,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     res = self.compareResult()
                     if res == 1:
                         self.excel.wrtieRow(self.excelFile, self.resultCurrentList)
-                        # for col in range(15):
-                        #     item = QStandardItem(self.resultCurrentList[col])
-                        #     self.tableViewModel.setItem(0, col, item)
                         self.tableRow = self.tableRow + 1
                         self.isExcelSaved = True
                         self.currentResultSaved = True
@@ -846,9 +843,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if res == 1:
             self.excel.wrtieRow(self.excelFile, self.resultCurrentList)
             self.userTextBrowserAppend("保存数据记录表成功")
-            # for col in range(15):
-            #     item = QStandardItem(self.resultCurrentList[col])
-            #     self.tableViewModel.setItem(0, col, item)
             self.tableRow = self.tableRow + 1
             self.isExcelSaved = True
             self.currentResultSaved = True
@@ -878,8 +872,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.openExcelRecord()
         recordsfile, _ = QFileDialog.getOpenFileName(self, "打开记录文件", './', 'records (*.xlsx)')
         if recordsfile:
-                os.startfile(recordsfile)
-                self.isConfigSaved = True
+            os.startfile(recordsfile)
+            self.isConfigSaved = True
         self.saveExcelRecord()     
 
     @QtCore.pyqtSlot()
@@ -920,8 +914,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     @QtCore.pyqtSlot()
     def on_pushBtn_clearUidInput_clicked(self):
-        self.lineEdit_uidInput.clear()
-        
+        self.lineEdit_uidInput.clear()   
+
     def closeEvent(self, QCloseEvent):
         if not self.isConfigSaved:
             choice = QMessageBox.question(self, "保存文件", "是否保存配置文件", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from PyQt5.QtCore import center
 from openpyxl import *
+from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
 
 class PersonalExcel():
     def __init__(self, filename = "", sheetname = ""):
@@ -17,7 +18,7 @@ class PersonalExcel():
         self.workbook = Workbook(filename) # 创建工作簿
         self.worksheet = self.workbook.create_sheet(self.sheetname, 0)
         self.worksheet.title = self.sheetname
-        self.worksheet.sheet_properties.tabColor = "0000FF"
+        self.worksheet.sheet_properties.tabColor = "1072BA"
         self.workbook.save(self.filename)
 
     def closeFile(self):
@@ -36,14 +37,6 @@ class PersonalExcel():
         self.worksheet.append(rowList)
         self.workbook.save(filename)
         self.workbook.close()
-
-    def readData(self, filename):
-        self.workbook = load_workbook(filename)
-        self.worksheet = self.workbook.active # 默认工作表
-        print(self.workbook.sheetnames)
-        print(self.worksheet.title)
-        print(self.worksheet.cell(1, 1).value)
-        self.closeFile()
 
     def saveFile(self):
         self.workbook.save(self.filename)
