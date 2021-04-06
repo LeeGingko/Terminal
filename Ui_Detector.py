@@ -756,7 +756,7 @@ class Ui_MainWindow(object):
         self.tableView_result.setGeometry(QtCore.QRect(4, 138, 1343, 167))
         font = QtGui.QFont()
         font.setFamily("Cascadia Mono PL SemiLight")
-        font.setPointSize(18)
+        font.setPointSize(20)
         font.setBold(False)
         font.setWeight(50)
         self.tableView_result.setFont(font)

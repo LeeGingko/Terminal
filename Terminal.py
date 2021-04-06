@@ -9,8 +9,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.initUi()
     
     def __del__(self):
-        if self.prvSerial.isOpen():
-            self.prvSerial.close()
         print("{} 程序结束，释放资源".format(__class__))
 
     def initUi(self):
@@ -336,8 +334,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             tmp = str("D" + str(self.serialNumber) + func + uid)
         elif func == Func.f_DevSettingThreshold:
             with open(self.configPath, 'r') as rf:
-                s = rf.read()
-            tmp = str("D" + str(self.serialNumber) + func + s)
+                configContents = rf.read()
+            tmp = str("D" + str(self.serialNumber) + func + configContents)
         tmp = tmp.encode("utf-8")
         if self.serialNumber == 9:  # 流水号
             self.serialNumber = 0
@@ -381,13 +379,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.prvSerial.flush()
                 self.data = b""
                 try:
-                    if func == Func.f_DevEncoding:
-                        if self.uid != "":
-                            self.sendByFunc(func)
-                            print("InputSN:" + self.uid)
-                        else:
-                            QMessageBox.information(self, "输入编号", "编号输入为空!\n请输入编号", QMessageBox.Yes)
-                    elif func == Func.f_DevDetection:
+                    if func == Func.f_DevEncoding or func == Func.f_DevDetection or func == Func.f_DevEncoding:
                         if self.uid != "":
                             self.sendByFunc(func)
                             print("InputSN:" + self.uid)
@@ -486,37 +478,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.rxCheck = 0
             self.prvSerial.flush()
             self.serialSendData(Func.f_DevSettingThreshold)
-            # startTiming = dt.datetime.now()
-            # while True:
-            #     QApplication.processEvents()
-            #     try:
-            #         self.num = self.prvSerial.inWaiting()
-            #         # print("settingThreshold num:" + str(self.num)) # 输出收到的字节数
-            #         if self.num == 0:
-            #             endTiming = dt.datetime.now()
-            #             if (endTiming - startTiming).seconds >= 180:
-            #                 self.userTextBrowserAppend("设定阈值@接收数据超时")
-            #                 return
-            #             else:
-            #                 continue
-            #         elif self.num > 0 and self.num <= 4:
-            #             self.prvSerial.flushInput()
-            #         else:
-            #             time.sleep(0.1)
-            #             self.num = self.prvSerial.inWaiting()
-            #             if self.num >= 13:
-            #                 break
-            #     except:
-            #         self.userTextBrowserAppend("设定阈值@接收数据失败")
-            #         return
-            # QApplication.processEvents()
-            # self.data = self.prvSerial.read(self.num)
-            # print("settingThreshold:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
-            # if self.rxFrameCheck() == State.s_RxFrameCheckOK:
-            #     self.parseSettingThreshold()   
-            # else:
-            #     self.userTextBrowserAppend("设定阈值@接收帧错误")     
-            # self.prvSerial.flushInput()
         else:
             self.userTextBrowserAppend("下发阈值@串口未打开")
     
@@ -533,7 +494,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.textBrowser.append("@保存至\"" + str(self.configPath) + "\"")
                 self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
                 self.saveConfigRecord()
-                print(self.usualTools.getTimeStamp() + "下发参数\n")
+                print(self.usualTools.getTimeStamp() + "下发参数")
                 self.settingThreshold()
         else:
             pass
@@ -543,7 +504,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             sf.write(text)
         self.isConfigSaved = True
         self.userTextBrowserAppend("保存配置参数成功")
-        print(self.usualTools.getTimeStamp() + "下发参数\n")
+        print(self.usualTools.getTimeStamp() + "下发参数")
         self.settingThreshold()
         self.saveConfigRecord()
 
@@ -551,9 +512,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_pushBtn_saveSettingsRecord_clicked(self):
         print("/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/")
         print("Setting parameters's threshold ......")
-        print(self.usualTools.getTimeStamp() + "获取界面参数\n")
+        print(self.usualTools.getTimeStamp() + "获取界面参数")
         self.getUserPara()
-        print(self.usualTools.getTimeStamp() + "保存参数\n")
+        print(self.usualTools.getTimeStamp() + "保存参数")
         cnt = 0
         self.para = ""
         for k, v in paraDict.items():
@@ -698,42 +659,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.rxCheck = 0
             self.prvSerial.flush()
             self.serialSendData(Func.f_DevGetSelfPara)
-            # startTiming = dt.datetime.now()
-            # while True:
-            #     QApplication.processEvents()
-            #     try:
-            #         self.num = self.prvSerial.inWaiting()
-            #         # print(self.num) # 输出收到的字节数
-            #         if self.num == 0:
-            #             endTiming = dt.datetime.now()
-            #             if (endTiming - startTiming).seconds >= 6:
-            #                 self.userTextBrowserAppend("控制仪自检@接收数据超时，工作模式未知")
-            #                 return
-            #             else:
-            #                 continue
-            #         elif self.num > 0 and self.num <= 4:
-            #             self.prvSerial.flushInput()
-            #         else:
-            #             time.sleep(0.01)
-            #             self.num = self.prvSerial.inWaiting()
-            #             if self.num >= 30:
-            #                 break
-            #             elif self.num == 14:
-            #                 break
-            #     except:
-            #         self.userTextBrowserAppend("控制仪自检@接收数据失败")
-            #         return
-            # self.data = self.prvSerial.read(self.num)
-            # print("getDevicePara:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
-            # if self.data.decode("utf-8")[2] != "N":
-            #     if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
-            #         self.parseDevicPara()
-            #         self.parseWorkMode()
-            #     else:
-            #         self.userTextBrowserAppend("控制仪自检@接收帧错误")
-            # else:
-            #     self.userTextBrowserAppend("请接通控制仪电源")
-            # self.prvSerial.flushInput()
         else:
             self.userTextBrowserAppend("串口未打开")
 
@@ -775,35 +700,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.rxCheck = 0
                     self.prvSerial.flushOutput()
                     self.serialSendData(Func.f_DevEncoding)
-                    # startTiming = dt.datetime.now()
-                    # while True:
-                    #     QApplication.processEvents()
-                    #     try:
-                    #         self.num = self.prvSerial.inWaiting()
-                    #         if self.num == 0:
-                    #             endTiming = dt.datetime.now()
-                    #             if (endTiming - startTiming).seconds >= 10:
-                    #                 self.userTextBrowserAppend("模块编码@接收数据超时")
-                    #                 return
-                    #             else:
-                    #                 continue
-                    #         elif self.num > 0 and self.num <= 4:
-                    #             self.prvSerial.flushInput()
-                    #         else:
-                    #             time.sleep(0.01)
-                    #             self.num = self.prvSerial.inWaiting()
-                    #             if self.num >= 12:
-                    #                 break
-                    #     except:
-                    #         self.userTextBrowserAppend("模块编码@接收数据失败")
-                    #         return
-                    # self.data = self.prvSerial.read(self.num)
-                    # print("encoding:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
-                    # if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
-                    #     self.parseEncodingResults()
-                    # else:
-                    #     self.userTextBrowserAppend("模块编码@接收帧错误")
-                    # self.prvSerial.flushInput()
                 else:
                     self.userTextBrowserAppend("输入编号为空！")
             else:
@@ -875,37 +771,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.rxCheck = 0
                     self.prvSerial.flushOutput()
                     self.serialSendData(Func.f_DevDetection)
-                    # startTiming = dt.datetime.now()
-                    # while True:
-                    #     QApplication.processEvents()
-                    #     try:
-                    #         self.num = self.prvSerial.inWaiting()
-                    #         if self.num == 0:
-                    #             endTiming = dt.datetime.now()
-                    #             QApplication.processEvents() 
-                    #             if (endTiming - startTiming).seconds >= 30:
-                    #                 self.userTextBrowserAppend("模块检测@接收数据超时")
-                    #                 return
-                    #             else:
-                    #                 continue
-                    #         elif self.num > 0 and self.num <= 4:
-                    #             self.prvSerial.flushInput()
-                    #         else:
-                    #             time.sleep(0.01)
-                    #             self.num = self.prvSerial.inWaiting()
-                    #             if self.num >= 70:
-                    #                 break
-                    #     except:
-                    #         QApplication.processEvents() 
-                    #         self.userTextBrowserAppend("模块检测@接收数据失败")
-                    #         return
-                    # self.data = self.prvSerial.read(self.num)
-                    # print("detection:" + str(self.data, encoding="utf-8") + "self.num:{}".format(self.num))
-                    # if self.rxFrameCheck() == State.s_RxFrameCheckOK:  # 接收帧检查
-                    #     self.parseDetectionResults()
-                    # else:
-                    #     self.userTextBrowserAppend("模块检测@接收帧错误")
-                    # self.prvSerial.flushInput()
                 else:
                     self.userTextBrowserAppend("输入编号为空！")
             else:
@@ -1037,8 +902,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         QApplication.processEvents()
                         time.sleep(0.1)
                         if self.data != b"":
-                            f = self.data[2]
-                            if f != 50:
+                            if self.data[2] != 50:
                                 continue
                             else:
                                 break
