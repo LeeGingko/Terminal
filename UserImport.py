@@ -15,6 +15,7 @@ import serial
 import serial.tools.list_ports
 # 默认导入
 from PyQt5 import QtWidgets
+from PyQt5 import QtCore
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtSerialPort import QSerialPortInfo

@@ -12,7 +12,7 @@ from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication
 
 class PersonalSerial(QThread):
-    recvSignal = pyqtSignal(str)
+    recvSignal = pyqtSignal(bytes)
 
     def __init__(self):
         super(PersonalSerial, self).__init__()
@@ -35,27 +35,33 @@ class PersonalSerial(QThread):
 
     def run(self):
         while True:
-            QApplication.processEvents()
-            time.sleep(0.1)
+            time.sleep(0.01)
             self.data = b""
             tmp = ""
             if self.userSerial.isOpen():
                 try:
                     self.num = self.userSerial.inWaiting()
-                    # print(self.num)
-                    if self.num > 0 and self.num <= 4:
+                    if self.num == 0:
+                        continue
+                    elif self.num > 0 and self.num <= 4:
                         self.userSerial.flushInput()
-                    elif self.num == 6:
+                    else:
                         time.sleep(0.01)
                         self.num = self.userSerial.inWaiting()
                         # print("PersonalSerial->run->" + str(self.num)) # 输出收到的字节数
-                        if self.num == 6:
+                        if self.num >= 9:
                             self.data = self.userSerial.read(self.num)
                             tmp = self.data.decode("utf-8")
-                            # print(self.data.decode("utf-8"))
-                            if tmp[0] == "R" and tmp[4] == "\r" and tmp[5] == "\n":
-                                self.recvSignal.emit(tmp[1:4])
+                            # print("@PersonalSerial->run->" + tmp) 
+                            if (tmp[0] == "U")  and (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"):
+                                self.recvSignal.emit(self.data)
+                        elif self.num == 6:
+                            self.data = self.userSerial.read(self.num)
+                            tmp = self.data.decode("utf-8")
+                            # print("@PersonalSerial->run->" + tmp) 
+                            if (tmp[0] == "R")  and (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"):
+                                self.recvSignal.emit(self.data)
                 except:
-                    pass
+                    self.recvSignal.emit("接收数据失败")
             else:
                 pass
