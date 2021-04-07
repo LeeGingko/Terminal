@@ -396,7 +396,16 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             QMessageBox.information(self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
             self.userTextBrowserAppend("串口未打开")
-
+    
+    def reportSystemPower(self, str):
+        print("In reportSystemPower...............")
+        if str == "RMPO\r\n":
+            self.userTextBrowserAppend("控制仪已上电，线路供电接通")
+            time.sleep(1)
+            self.on_pushBtn_deviceSelfCheck_clicked()
+        else:
+            self.userTextBrowserAppend("控制仪已上电，线路供电断开")
+    
     def serialRecvData(self, data):
         self.data = data
         if data.decode("utf-8") == "接收数据失败":
@@ -920,13 +929,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def on_pushBtn_clearUidInput_clicked(self):
         self.lineEdit_uidInput.clear()   
-
-    def reportSystemPower(self, str):
-        print("In reportSystemPower...............")
-        if str == "RMPO\r\n":
-            self.userTextBrowserAppend("控制仪已上电，线路供电接通")
-        else:
-            self.userTextBrowserAppend("控制仪已上电，线路供电断开")
 
     def closeEvent(self, QCloseEvent):
         if not self.isConfigSaved:
