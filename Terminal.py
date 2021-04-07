@@ -91,9 +91,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 标准模型初始化
         self.tableViewModel = QStandardItemModel(0, 15, self)
         self.tableHeadline = [
-            "测试员", "时间",      "漏电流(uA)", "工作电流(uA)", "ID核对",
-            "在线检测", "被测选发",   "电流(mA)",  "电压(V)",      "电流判断",
-            "内置选发", "电流(mA)",  "电压(V)",   "电流判断",      "结论" ]   
+            "测试员",   "时间",      "漏电流(uA)", "工作电流(uA)",  "ID核对",
+            "在线检测", "被测选发",   "电流(mA)",   "电压(V)",      "电流判断",
+            "内置选发", "电流(mA)",  "电压(V)",    "电流判断",      "结论" ]   
         self.tableViewModel.setHorizontalHeaderLabels(self.tableHeadline) # 表头
         # 表格视图委托初始化
         self.tableViewDelegate = TableViewDelegate()
@@ -114,7 +114,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # 消息提示窗口初始化
         self.textBrowser.setFontFamily("微软雅黑")
-        self.textBrowser.setFontPointSize(12)
+        self.textBrowser.setFontPointSize(13)
 
         # UID输入验证器设置
         mixdedValidator = QRegExpValidator(self)
@@ -269,7 +269,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.prvSerial.flush()
                         self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
                         startTiming = dt.datetime.now()
-                        while True:
+                        while True: # 等待控制仪回应
                             QApplication.processEvents()
                             num = self.prvSerial.inWaiting()
                             # print("openClosePort num:" + str(num)) # 输出收到的字节数
@@ -399,7 +399,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def serialRecvData(self, data):
         self.data = data
-        if data == "接收数据失败":
+        if data.decode("utf-8") == "接收数据失败":
             self.userTextBrowserAppend("接收数据失败")
         else:
             tmp = data.decode("utf-8")
@@ -415,8 +415,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.parseDetectionResults()
                     elif tmp[2] == Func.f_DevEncodingDetection:
                         self.parseDetectionResults()
+                else:
+                    self.userTextBrowserAppend("接收帧错误")
             elif tmp[0] == "R":
-                self.updateWorkMode(tmp)
+                if tmp[1] == "M":
+                    self.reportSystemPower(tmp)
+                else:
+                    self.updateWorkMode(tmp)
 
     def getUserPara(self):
         paraDict["th_DrainCurrent_Up"] = self.lineEdit_setDrainCurrentTop.text()
@@ -548,7 +553,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.saveConfigRecord()
 
     def updateWorkMode(self, str):
-        print("In updateWorkMode...............")
+        # print("In updateWorkMode...............")
         endc = str[2]
         dete = str[3]
         if endc == "0":
@@ -916,18 +921,25 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_pushBtn_clearUidInput_clicked(self):
         self.lineEdit_uidInput.clear()   
 
+    def reportSystemPower(self, str):
+        print("In reportSystemPower...............")
+        if str == "RMPO\r\n":
+            self.userTextBrowserAppend("控制仪已上电，线路供电接通")
+        else:
+            self.userTextBrowserAppend("控制仪已上电，线路供电断开")
+
     def closeEvent(self, QCloseEvent):
         if not self.isConfigSaved:
             choice = QMessageBox.question(self, "保存文件", "是否保存配置文件", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
-            if choice == QMessageBox.Yes:               # 6
+            if choice == QMessageBox.Yes:
                 QCloseEvent.accept()
                 self.firstSaveThreshold()
-                app = QApplication.instance()
-                app.quit()
             elif choice == QMessageBox.No:
                 QCloseEvent.accept()
             else:
                 QCloseEvent.ignore()
+        app = QApplication.instance()
+        app.quit()
 
 if __name__ == "__main__":
     mainApp = QApplication(sys.argv)

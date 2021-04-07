@@ -9,7 +9,7 @@ class TableViewDelegate(QStyledItemDelegate):
         super(TableViewDelegate, self).__init__()
     
     def paint(self, painter, option, index):
-        font = QFont("Monospaced", 22, 10, False)
+        font = QFont("Times New Roman", 22, 10, False)
         painter.setFont(font)
         option.displayAlignment = Qt.AlignCenter
         

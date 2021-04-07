@@ -32,10 +32,10 @@ class TimeThread(QThread):
         elif dayOfWeek == 6:
             weekday = "星期天"
         while True:
-            APM = str((time.strftime("%p"),time.localtime()[0]))
-            if APM[0:2] == "AM":
+            AMPM = str((time.strftime("%p"), time.localtime()[0])[0])
+            if AMPM[0:2] == "AM":
                 self.timeStamp = time.strftime("%Y年%m月%d日\n上午 %H:%M:%S ", time.localtime())
-            else: # PM
+            elif AMPM[0:2] == "PM": # PM
                 self.timeStamp = time.strftime("%Y年%m月%d日\n下午 %H:%M:%S ", time.localtime())
             self.secondSignal.emit(self.timeStamp + weekday)
             self.sleep(1)

@@ -60,10 +60,10 @@ class PersonalSerial(QThread):
                         elif self.num == 6: # 工作模式改变
                             self.data = self.userSerial.read(self.num)
                             tmp = self.data.decode("utf-8")
-                            print("@PersonalSerial->run->" + tmp) 
+                            # print("@PersonalSerial->run->" + tmp) 
                             if (tmp[0] == "R")  and (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"):
                                 self.recvSignal.emit(self.data)
                 except:
-                    self.recvSignal.emit("接收数据失败")
+                    self.recvSignal.emit(bytes("接收数据失败", encoding="utf-8"))
             else:
                 pass
