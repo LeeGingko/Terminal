@@ -11,8 +11,8 @@ class TimeThread(QThread):
         self.timeStamp = ""
 
     def  __del__(self):
-        self.quit()
         self.wait()
+        self.quit()
         
     def run(self):
         dayOfWeek = time.localtime().tm_wday

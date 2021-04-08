@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from UserImport import *
 
+
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MainWin, self).__init__()  # 继承父类的所有属性   
@@ -9,7 +10,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.initUi()
     
     def __del__(self):
-        print("{} 程序结束，释放资源".format(__class__))
+        print("{} 退出主窗口".format(__class__))
 
     def initUi(self):
         self.setupUi(self)
@@ -17,7 +18,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 自定义工具实例化
         self.usualTools = Tools()
 
-        # 设置串口居中显示
+        # 设置窗口居中显示
         self.desktop = QApplication.desktop()
         self.screenRect = self.desktop.screenGeometry()
         self.width = self.screenRect.width()
@@ -153,7 +154,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         try:
             with open("message_save_record.txt", "rb") as msrf:
                 omr = pk.load(msrf) # 将二进制文件对象转换成Python对象
-                # print("openConfigRecord:" + str(ofr))
             self.isMessageSavedFirst = omr[0][0]
             self.isMessageSaved = omr[0][1]
             self.messagePath = omr[1]
@@ -164,7 +164,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.saved_info = ([self.isMessageSavedFirst, self.isMessageSaved],  self.messagePath)
         with open("message_save_record.txt", "wb") as fsmf:
             pk.dump(self.saved_info, fsmf) # 用dump函数将Python对象转成二进制对象文件
-        # print("saveConfigRecord:" + str(self.saved_info))
 
     @QtCore.pyqtSlot()
     def on_pushBtn_cleanMsgArea_clicked(self):
@@ -402,7 +401,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if str == "RMPO\r\n":
             self.userTextBrowserAppend("控制仪已上电，线路供电接通")
             time.sleep(1)
-            self.on_pushBtn_deviceSelfCheck_clicked()
+            self.on_pushBtn_deviceSelfCheck_clicked() # 进行一次控制仪自检
         else:
             self.userTextBrowserAppend("控制仪已上电，线路供电断开")
     
@@ -526,7 +525,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_pushBtn_saveSettingsRecord_clicked(self):
         print("/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/")
         print("Setting parameters's threshold ......")
-        print(self.usualTools.getTimeStamp() + "获取界面参数")
+        print(self.usualTools.getTimeStamp() + "获取参数")
         self.getUserPara()
         print(self.usualTools.getTimeStamp() + "保存参数")
         cnt = 0
@@ -908,7 +907,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.serialSendData(Func.f_DevEncoding)
                     while True:
                         QApplication.processEvents()
-                        time.sleep(0.1)
+                        time.sleep(0.01)
                         if self.data != b"":
                             if self.data[2] != 50:
                                 continue
@@ -940,13 +939,20 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 QCloseEvent.accept()
             else:
                 QCloseEvent.ignore()
-        app = QApplication.instance()
-        app.quit()
+        else:
+            choice = QMessageBox.question(self, "关闭窗口", "是否关闭窗口？", QMessageBox.Yes | QMessageBox.Cancel)
+            if choice == QMessageBox.Yes:
+                QCloseEvent.accept()
+                app = QApplication.instance()
+                app.quit()
+            elif choice == QMessageBox.Cancel:
+                QCloseEvent.ignore()    
 
 if __name__ == "__main__":
     mainApp = QApplication(sys.argv)
-    root = QFileInfo(__file__).absolutePath()
-    mainApp.setWindowIcon(QIcon(root + "/resources/icons/robot.ico"))
+    # root = QFileInfo(__file__).absolutePath()
+    # mainApp.setWindowIcon(QIcon(root + "/resources/icons/robot.ico"))
+    mainApp.setWindowIcon(QIcon("./resources/icons/robot.ico"))
     Terminal = MainWin()
     Terminal.show()
     sys.exit(mainApp.exec_())

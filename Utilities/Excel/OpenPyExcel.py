@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtCore import center
 from openpyxl import *
-from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
 
 class PersonalExcel():
     def __init__(self, filename = "", sheetname = ""):

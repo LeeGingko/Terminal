@@ -37,7 +37,7 @@ class PersonalSerial(QThread):
 
     def run(self):
         while True:
-            time.sleep(0.01)
+            self.msleep(10)
             self.data = b""
             tmp = ""
             if self.userSerial.isOpen():
@@ -48,19 +48,19 @@ class PersonalSerial(QThread):
                     elif self.num > 0 and self.num <= 4: # 解决00\r\n这个bug
                         self.userSerial.flushInput()
                     else:
-                        time.sleep(0.01)
+                        self.msleep(10)
                         self.num = self.userSerial.inWaiting()
-                        # print("PersonalSerial->run->" + str(self.num)) # 输出收到的字节数
                         if self.num >= 9: # 正常接收，至少都是9字节
+                            print("PersonalSerial->run->" + str(self.num)) # 输出收到的字节数
                             self.data = self.userSerial.read(self.num)
                             tmp = self.data.decode("utf-8")
-                            # print("@PersonalSerial->run->" + tmp) 
+                            print("@PersonalSerial->run->" + tmp) 
                             if (tmp[0] == "U")  and (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"):
                                 self.recvSignal.emit(self.data)
                         elif self.num == 6: # 工作模式改变
                             self.data = self.userSerial.read(self.num)
                             tmp = self.data.decode("utf-8")
-                            # print("@PersonalSerial->run->" + tmp) 
+                            print("@PersonalSerial->run->" + tmp) 
                             if (tmp[0] == "R")  and (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"):
                                 self.recvSignal.emit(self.data)
                 except:
