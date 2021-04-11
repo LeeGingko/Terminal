@@ -30,10 +30,11 @@ from Utilities.Enum.FuncEnum import Func
 # 导入状态枚举
 from Utilities.Enum.StateEnum import State
 # 导入自定义Excel操作类
-from Utilities.Excel.OpenPyExcel import PersonalExcel
+from Utilities.Excel.OpenPyExcel import PrivateExcel
 
 # 引入串口封装类
-from Utilities.Serial.SerialThread import PersonalSerial
+from Utilities.Serial.SerialThread import PrivateSerialThread
+from Utilities.Serial.SerialMonitor import PrivateSerialMonitor
 # 导入自定义线程类
 from Utilities.Time.LocalTimeThread import TimeThread
 from Utilities.Time.OpNameInput import GetNameThread

@@ -70,7 +70,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.configPath = "" # 文件路径
 
         # 测试数据Excel文件保存变量的初始化
-        self.excel = PersonalExcel() # Excel实例化全局对象
+        self.excel = PrivateExcel() # Excel实例化全局对象
         self.isExcelSavedFirst = True # 是否是第一次保存
         self.isExcelSaved = True # 是否是已经保存 
         self.excelFilePath = "" # 文件路径
@@ -134,10 +134,17 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.rxLowCheck = b'0'
         self.serialNumber = 0
 
+        # 串口检测
+        self.serialMonitor = PrivateSerialMonitor()  # 串口线程对象
+        self.comPortList = list()
+        self.comDescriptionList = list()
+        self.detectPorts()
+        self.serialMonitor.portChangeSignal.connect(self.monitorPorts)
+        self.serialMonitor.start()
+
         # 串口初始化
-        self.serialManager = PersonalSerial()  # 串口线程对象
+        self.serialManager = PrivateSerialThread()  # 串口线程对象
         self.prvSerial = self.serialManager.userSerial  # 串口实例化全局对象
-        self.detectPorts() # 检测端口并加入combobox
         self.serialManager.recvSignal.connect(self.serialRecvData)
         self.isSTM32Online = False # 控制仪是否在线
         self.serialManager.start()
@@ -179,7 +186,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def firstSaveMessage(self):
         if self.messagePath == "":
-            self.messagePath, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./message", "logfiles (*.log)")
+            self.messagePath, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./message", "messagefiles (*.log)")
             if isAccept:
                 if self.messagePath:
                     if self.textBrowser.toPlainText() != "":
@@ -226,23 +233,22 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     
     def detectPorts(self):
         self.comboBox_selectComNum.clear()  # 清空端口选择按钮
-        self.comPortList = serial.tools.list_ports.comports()
-        self.comPortList.sort()
-        self.comDescriptionList = list()
+        self.serialMonitor.searchPorts()
+        self.comPortList = self.serialMonitor.portList
+        self.comDescriptionList = self.serialMonitor.descriptionList
+        print(self.comDescriptionList)
         if len(self.comPortList) >= 1:
-            for p in self.comPortList:
-                self.comDescription = p.description
-                self.comDescriptionList.append(self.comDescription)
-                self.comboBox_selectComNum.addItem(self.comDescription)
-            print(self.comDescriptionList)
+            for p in self.comDescriptionList:
+                self.comboBox_selectComNum.addItem(p)
             self.userTextBrowserAppend("已检测到串口，请选择并打开串口")
             self.userTextBrowserAppend("请先接入被测模块！")
         else:
-            print("No port detected!")
-            # self.statusbar.showMessage("未检测到串口")
             self.userTextBrowserAppend("未检测到串口，请连接备")
             QMessageBox.information(self, "串口信息", "未检测到串口!", QMessageBox.Yes)
     
+    def monitorPorts(self, list):
+        print(list)
+
     @QtCore.pyqtSlot()
     def on_pushBtn_serialSwitch_clicked(self):
         staText = self.pushBtn_serialSwitch.text()
@@ -666,6 +672,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         print("Checking device parameters ......")
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
         self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
+        self.label_selfLineVoltage.setText("-")
+        self.label_selfLineCurrent.setText("-")
+        self.label_selfComVoltage.setText("-")
+        self.label_selfComCurrent.setText("-")
+        self.label_selfFireVoltage.setText("-")
+        self.label_selfFireCurrent.setText("-")
         self.workMode = {"encoding": "X",  "detection": "X"} # 未知状态
         if self.prvSerial.isOpen:
             self.data = b''
@@ -950,8 +962,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     mainApp = QApplication(sys.argv)
-    # root = QFileInfo(__file__).absolutePath()
-    # mainApp.setWindowIcon(QIcon(root + "/resources/icons/robot.ico"))
     mainApp.setWindowIcon(QIcon("./resources/icons/robot.ico"))
     Terminal = MainWin()
     Terminal.show()
