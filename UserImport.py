@@ -14,8 +14,7 @@ import time
 import serial
 import serial.tools.list_ports
 # 默认导入
-from PyQt5 import QtWidgets
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtSerialPort import QSerialPortInfo
@@ -31,13 +30,11 @@ from Utilities.Enum.FuncEnum import Func
 from Utilities.Enum.StateEnum import State
 # 导入自定义Excel操作类
 from Utilities.Excel.OpenPyExcel import PrivateExcel
-
+from Utilities.Serial.SerialMonitor import PrivateSerialMonitor
 # 引入串口封装类
 from Utilities.Serial.SerialThread import PrivateSerialThread
-from Utilities.Serial.SerialMonitor import PrivateSerialMonitor
 # 导入自定义线程类
-from Utilities.Time.LocalTimeThread import TimeThread
-from Utilities.Time.OpNameInput import GetNameThread
+from Utilities.Time.LocalTimeThread import LocalTimeThread
 # 导入自定义工具
 from Utilities.Time.usual import Tools
 # 表格视图委托

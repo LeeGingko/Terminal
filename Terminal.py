@@ -10,7 +10,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.initUi()
     
     def __del__(self):
-        print("{} 退出主窗口".format(__class__))
+        print("{} 退出主窗口".format(__file__))
 
     def initUi(self):
         self.setupUi(self)
@@ -42,9 +42,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.name = "操作员01" # 默认操作员姓名
         
         # 自定义本地时间更新线程
-        self.thread01 = TimeThread()
-        self.thread01.secondSignal.connect(self.showDaetTime)
-        self.thread01.start()
+        self.timsRefresh = LocalTimeThread()
+        self.timsRefresh.secondSignal.connect(self.showDaetTime)
+        self.timsRefresh.start()
 
         # 阈值初始化
         global paraDict  # 参数字典
@@ -106,7 +106,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableView_result.setItemDelegate(self.tableViewDelegate)
         self.tableRow = 0 # 填入表格的行数
         
-        # 第一次打开串口控自动检测制仪使能
+        # 第一次打开串口控制仪自动检测使能
         self.firstAutoDetetion = 1
 
         # 检测以及编码默认状态设置
@@ -135,7 +135,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.serialNumber = 0
 
         # 串口检测
-        self.serialMonitor = PrivateSerialMonitor()  # 串口线程对象
+        self.serialMonitor = PrivateSerialMonitor()  # 串口检测线程对象
         self.comPortList = list()
         self.comDescriptionList = list()
         self.detectPorts()
@@ -143,8 +143,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.serialMonitor.start()
 
         # 串口初始化
-        self.serialManager = PrivateSerialThread()  # 串口线程对象
-        self.prvSerial = self.serialManager.userSerial  # 串口实例化全局对象
+        self.serialManager = PrivateSerialThread()  # 串口接收线程对象
+        self.prvSerial = self.serialManager.userSerial  # 获取全局实例化串口对象
         self.serialManager.recvSignal.connect(self.serialRecvData)
         self.isSTM32Online = False # 控制仪是否在线
         self.serialManager.start()
@@ -274,13 +274,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.prvSerial.flush()
                         self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
                         startTiming = dt.datetime.now()
+                        endTiming = startTiming
+                        self.userTextBrowserAppend("等待控制仪回应")
                         while True: # 等待控制仪回应
                             QApplication.processEvents()
                             num = self.prvSerial.inWaiting()
                             # print("openClosePort num:" + str(num)) # 输出收到的字节数
-                            endTiming = dt.datetime.now()
                             if num == 0:
-                                if (endTiming - startTiming).seconds >= 5:
+                                if (endTiming - startTiming).seconds >= 2:
                                     self.userTextBrowserAppend("控制仪无响应，请执行操作")
                                     self.isSTM32Online = False
                                     break
@@ -292,6 +293,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                 if data.decode("utf-8") == "STM32":
                                     self.isSTM32Online = True
                                     break
+                            endTiming = dt.datetime.now()        
                         if self.isSTM32Online == True:
                             if self.firstAutoDetetion == 1: # 第一次打开软件会执行控制仪自检
                                 self.firstAutoDetetion = 0
@@ -373,7 +375,16 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.writeData = b""
         self.writeData = self.txFrameFormatting(func)
         self.prvSerial.write(self.writeData)
-
+    
+    def reportSystemPower(self, str):
+        print("In reportSystemPower...............")
+        if str == "RMPO\r\n":
+            self.userTextBrowserAppend("控制仪已上电，线路供电接通")
+            time.sleep(1)
+            self.on_pushBtn_deviceSelfCheck_clicked() # 进行一次控制仪自检
+        else:
+            self.userTextBrowserAppend("控制仪已上电，线路供电断开")
+    
     def serialSendData(self, func):
         if self.prvSerial.isOpen():
             self.comDescription = self.comboBox_selectComNum.currentText()  # 获取comboBox当前串口描述
@@ -401,16 +412,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             QMessageBox.information(self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
             self.userTextBrowserAppend("串口未打开")
-    
-    def reportSystemPower(self, str):
-        print("In reportSystemPower...............")
-        if str == "RMPO\r\n":
-            self.userTextBrowserAppend("控制仪已上电，线路供电接通")
-            time.sleep(1)
-            self.on_pushBtn_deviceSelfCheck_clicked() # 进行一次控制仪自检
-        else:
-            self.userTextBrowserAppend("控制仪已上电，线路供电断开")
-    
+     
     def serialRecvData(self, data):
         self.data = data
         if data.decode("utf-8") == "接收数据失败":
@@ -965,4 +967,4 @@ if __name__ == "__main__":
     mainApp.setWindowIcon(QIcon("./resources/icons/robot.ico"))
     Terminal = MainWin()
     Terminal.show()
-    sys.exit(mainApp.exec_())
+    sys.exit(mainApp.exec_()) 

@@ -3,16 +3,17 @@ import time
 
 from PyQt5.QtCore import QThread, pyqtSignal
 
-class TimeThread(QThread):
+class LocalTimeThread(QThread):
     secondSignal = pyqtSignal(str)
 
     def __init__(self):
-        super(TimeThread, self).__init__()
+        super(LocalTimeThread, self).__init__()
         self.timeStamp = ""
 
     def  __del__(self):
-        self.wait()
+        self.secondSignal.__del__()
         self.quit()
+        self.wait()
         
     def run(self):
         dayOfWeek = time.localtime().tm_wday
