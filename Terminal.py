@@ -879,7 +879,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif res == -1:
             self.userTextBrowserAppend("未有检测结果，请进行编码和检测")
         self.resultLastList = self.resultCurrentList.copy()
-        QApplication.processEvents()
 
     @QtCore.pyqtSlot()
     def on_pushBtn_clearResults_clicked(self):

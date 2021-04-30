@@ -50,7 +50,7 @@ class PrivateSerialThread(QThread):
                             # print("@PrivateSerialThread->run->" + str(self.num)) # 输出收到的字节数
                             self.data = self.userSerial.read(self.num)
                             tmp = self.data.decode("utf-8")
-                            # print("@PrivateSerialThread->run->" + tmp) 
+                            print("@PrivateSerialThread->run->" + tmp) 
                             if (tmp[0] == "U")  and (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"):
                                 self.recvSignal.emit(self.data)
                         elif self.num == 6: # 工作模式改变
@@ -59,6 +59,8 @@ class PrivateSerialThread(QThread):
                             # print("@PrivateSerialThread->run->" + tmp) 
                             if (tmp[0] == "R")  and (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"):
                                 self.recvSignal.emit(self.data)
+                        else:
+                            pass
                 except:
                     # self.recvSignal.emit(bytes("接收数据失败", encoding = "utf-8"))
                     pass

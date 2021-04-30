@@ -29,7 +29,7 @@ class PrivateExcel():
         self.workbook.save(filename)
         self.workbook.close()
 
-    def wrtieRow(self, filename, rowList): # 会覆盖之前的内容
+    def wrtieRow(self, filename, rowList):
         self.workbook = load_workbook(filename)
         self.worksheet = self.workbook.active # 默认工作表
         self.worksheet.append(rowList)
