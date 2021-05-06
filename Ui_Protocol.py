@@ -11,11 +11,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_protocolDialog(object):
-    def setupUi(self, protocolDialog):
-        protocolDialog.setObjectName("protocolDialog")
-        protocolDialog.resize(304, 163)
-        self.groupBox = QtWidgets.QGroupBox(protocolDialog)
+class Ui_ProtocolDialog(object):
+    def setupUi(self, ProtocolDialog):
+        ProtocolDialog.setObjectName("ProtocolDialog")
+        ProtocolDialog.resize(304, 163)
+        self.groupBox = QtWidgets.QGroupBox(ProtocolDialog)
         self.groupBox.setGeometry(QtCore.QRect(8, 14, 281, 125))
         font = QtGui.QFont()
         font.setFamily("幼圆")
@@ -55,12 +55,12 @@ class Ui_protocolDialog(object):
 "}")
         self.pushBtn_serialSwitch.setObjectName("pushBtn_serialSwitch")
 
-        self.retranslateUi(protocolDialog)
-        QtCore.QMetaObject.connectSlotsByName(protocolDialog)
+        self.retranslateUi(ProtocolDialog)
+        QtCore.QMetaObject.connectSlotsByName(ProtocolDialog)
 
-    def retranslateUi(self, protocolDialog):
+    def retranslateUi(self, ProtocolDialog):
         _translate = QtCore.QCoreApplication.translate
-        protocolDialog.setWindowTitle(_translate("protocolDialog", "Dialog"))
-        self.groupBox.setTitle(_translate("protocolDialog", "端口设置"))
-        self.pushBtn_serialSwitch.setText(_translate("protocolDialog", "打开串口"))
-        self.pushBtn_serialSwitch.setShortcut(_translate("protocolDialog", "Ctrl+1"))
+        ProtocolDialog.setWindowTitle(_translate("ProtocolDialog", "Dialog"))
+        self.groupBox.setTitle(_translate("ProtocolDialog", "端口设置"))
+        self.pushBtn_serialSwitch.setText(_translate("ProtocolDialog", "打开串口"))
+        self.pushBtn_serialSwitch.setShortcut(_translate("ProtocolDialog", "Ctrl+1"))

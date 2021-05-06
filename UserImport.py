@@ -20,8 +20,12 @@ from PyQt5.QtGui import *
 from PyQt5.QtSerialPort import QSerialPortInfo
 from PyQt5.QtWidgets import *
 
+# 导入协议窗口类
+from Protocol import ProtocolWin
 # 导入qrc资源
 from resources import resources_rc
+# 导入阈值设定窗口类
+from Threshold import ThresholdWin
 # 导入主窗口类
 from Ui_Detector import Ui_MainWindow
 # 导入功能枚举
@@ -30,8 +34,8 @@ from Utilities.Enum.FuncEnum import Func
 from Utilities.Enum.StateEnum import State
 # 导入自定义Excel操作类
 from Utilities.Excel.OpenPyExcel import PrivateExcel
-from Utilities.Serial.SerialMonitor import PrivateSerialMonitor
 # 引入串口封装类
+from Utilities.Serial.SerialMonitor import PrivateSerialMonitor
 from Utilities.Serial.SerialThread import PrivateSerialThread
 # 导入自定义线程类
 from Utilities.Time.LocalTimeThread import LocalTimeThread

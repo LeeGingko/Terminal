@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-# 时间
-import time
-# 导入日期时间模块
-import datetime as dt
 from PyQt5.QtWidgets import *
 # 导入serial相关模块
 import serial
@@ -31,7 +27,7 @@ class PrivateSerialMonitor(QThread):
 
     def run(self):
         while True:
-            self.msleep(500)
+            self.msleep(100)
             self.descriptionList = []
             list = serial.tools.list_ports.comports()
             list.sort()

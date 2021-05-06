@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from UserImport import *
 
-
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MainWin, self).__init__()  # 继承父类的所有属性   
@@ -15,9 +14,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def initUi(self):
         self.setupUi(self)
 
-        # 自定义工具实例化
-        self.usualTools = Tools()
-
         # 设置窗口居中显示
         self.desktop = QApplication.desktop()
         self.screenRect = self.desktop.screenGeometry()
@@ -30,22 +26,34 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         centerY = int((self.height - self.Wsize.height()) / 2)
         self.move(centerX, centerY)
         self.setWindowTitle("Detector")
-        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
-        self.setWindowState(Qt.WindowMaximized)     
-
+        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.WindowMaximizeButtonHint)
+        self.setWindowState(Qt.WindowMaximized) 
+        # 消息提示窗口初始化
+        self.textBrowser.setFontFamily("微软雅黑")
+        self.textBrowser.setFontPointSize(13)    
+        # 状态栏初始化
+        self.myStatusBar = QStatusBar()
+        self.myStatusBar.setFont(QFont("Times New Roman", 16, QFont.Light))
+        self.setStatusBar(self.myStatusBar)
+        # 配置界面类实例
+        self.protocolWin = ProtocolWin()
+        self.protocolWin.appendStringSignal.connect(self.userTextBrowserAppend)
+        self.thresholdWin = ThresholdWin()
+        # 自定义工具实例
+        self.usualTools = self.protocolWin.usualTools
         # 工作模式初始化
         self.workMode = {"encoding": "X",  "detection": "X"} # 未知状态
-        self.data = b''
-
         # 操作人员姓名录入
         self.is_name_input = False
         self.name = "操作员01" # 默认操作员姓名
-        
+        self.lineEdit_op_name.setText(self.name)
         # 自定义本地时间更新线程
         self.timsRefresh = LocalTimeThread()
         self.timsRefresh.secondSignal.connect(self.showDaetTime)
         self.timsRefresh.start()
-
+        # 串口线程实例
+        self.protocolWin.serialManager.recvSignal.connect(self.serialRecvData)
+        self.protocolWin.detectPorts()
         # 阈值初始化
         global paraDict  # 参数字典
         paraDict = {
@@ -57,7 +65,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             "th_LineCurrent_Up":  "0", "th_LineCurrent_Down":  "0",
             "th_ComVoltage_Up":   "0", "th_ComVoltage_Down":   "0",
             "th_ComCurrent_Up":   "0", "th_ComCurrent_Down":   "0"}
-        self.getUserPara()
 
         # 消息保存
         self.isMessageSavedFirst = True
@@ -105,17 +112,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.tableView_result.setItemDelegate(self.tableViewDelegate)
         self.tableRow = 0 # 填入表格的行数
-        
-        # 第一次打开串口控制仪自动检测使能
-        self.firstAutoDetetion = 1
 
         # 检测以及编码默认状态设置
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
         self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
-
-        # 消息提示窗口初始化
-        self.textBrowser.setFontFamily("微软雅黑")
-        self.textBrowser.setFontPointSize(13)
 
         # UID输入验证器设置
         mixdedValidator = QRegExpValidator(self)
@@ -125,29 +125,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_uidInput.setValidator(mixdedValidator)
         self.lineEdit_uidInput.setToolTip("字母范围a~f, A~F, 数字0~9")
 
-        # 串口变量初始化
-        self.txCheck = 0
-        self.txHighCheck = b'0'
-        self.txLowCheck = b'0'
-        self.rxCheck = 0
-        self.rxHighCheck = b'0'
-        self.rxLowCheck = b'0'
-        self.serialNumber = 0
+    @QtCore.pyqtSlot()
+    def on_pushBtn_protocolSetting_clicked(self):
+        self.protocolWin.show()
 
-        # 串口检测
-        self.serialMonitor = PrivateSerialMonitor()  # 串口检测线程对象
-        self.comPortList = list()
-        self.comDescriptionList = list()
-        self.detectPorts()
-        self.serialMonitor.portChangeSignal.connect(self.monitorPorts)
-        self.serialMonitor.start()
-
-        # 串口初始化
-        self.serialManager = PrivateSerialThread()  # 串口接收线程对象
-        self.prvSerial = self.serialManager.userSerial  # 获取全局实例化串口对象
-        self.serialManager.recvSignal.connect(self.serialRecvData)
-        self.isSTM32Online = False # 控制仪是否在线
-        self.serialManager.start()
+    @QtCore.pyqtSlot()
+    def on_pushBtn_thresholdSetting_clicked(self):
+        self.thresholdWin.show()
 
     @QtCore.pyqtSlot()
     def on_lineEdit_uidInput_editingFinished(self):
@@ -229,216 +213,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.saveMessage()
 
     def showDaetTime(self, timeStr):
-        self.label_localDateTime.setText(timeStr)
+        self.myStatusBar.showMessage(timeStr)
     
-    def detectPorts(self):
-        self.comboBox_selectComNum.clear()  # 清空端口选择按钮
-        self.serialMonitor.searchPorts()
-        self.comPortList = self.serialMonitor.portList
-        self.comDescriptionList = self.serialMonitor.descriptionList
-        print(self.comDescriptionList)
-        if len(self.comPortList) >= 1:
-            for p in self.comDescriptionList:
-                self.comboBox_selectComNum.addItem(p)
-            self.userTextBrowserAppend("已检测到串口，请选择并打开串口")
-            self.userTextBrowserAppend("请先接入被测模块！")
-        else:
-            self.userTextBrowserAppend("未检测到串口，请连接备")
-            QMessageBox.information(self, "串口信息", "未检测到串口!", QMessageBox.Yes)
-    
-    def monitorPorts(self, list):
-        print(list)
-
-    @QtCore.pyqtSlot()
-    def on_pushBtn_serialSwitch_clicked(self):
-        staText = self.pushBtn_serialSwitch.text()
-        self.idlePorts = QSerialPortInfo.availablePorts()
-        if staText == "打开串口":
-            if len(self.idlePorts) >= 1:  # 打开时检测到有串口
-                self.comDescription = self.comboBox_selectComNum.currentText()  # 获取comboBox当前串口描述
-                self.comIndex = self.comDescriptionList.index(self.comDescription)
-                self.portInfo = QSerialPortInfo(self.comPortList[self.comIndex].device)  # 该串口信息
-                self.portStatus = self.portInfo.isBusy()  # 该串口状态
-                if self.portStatus == False:  # 该串口空闲
-                    self.serialManager.initPort(self.comPortList[self.comIndex].device)
-                    try:
-                        self.prvSerial.open()
-                        if self.prvSerial.isOpen():
-                            self.userTextBrowserAppend("[" + self.comPortList[self.comIndex].device + "]已打开")
-                            self.pushBtn_serialSwitch.setText("关闭串口")
-                            self.comboBox_selectComNum.setEnabled(False)
-                    except:
-                        QMessageBox.warning(self, "打开串口", "打开串口失败")
-                        self.userTextBrowserAppend("[" + self.comPortList[self.comIndex].device + "]打开失败")
-                    if self.prvSerial.isOpen(): 
-                        self.prvSerial.flush()
-                        self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
-                        startTiming = dt.datetime.now()
-                        endTiming = startTiming
-                        self.userTextBrowserAppend("等待控制仪回应")
-                        while True: # 等待控制仪回应
-                            QApplication.processEvents()
-                            num = self.prvSerial.inWaiting()
-                            # print("openClosePort num:" + str(num)) # 输出收到的字节数
-                            if num == 0:
-                                if (endTiming - startTiming).seconds >= 2:
-                                    self.userTextBrowserAppend("控制仪无响应，请执行操作")
-                                    self.isSTM32Online = False
-                                    break
-                            elif (num > 0 and num <= 4):
-                                self.prvSerial.flushInput()
-                            elif num >= 5:
-                                time.sleep(0.1)
-                                data = self.prvSerial.read(num)
-                                if data.decode("utf-8") == "STM32":
-                                    self.isSTM32Online = True
-                                    break
-                            endTiming = dt.datetime.now()        
-                        if self.isSTM32Online == True:
-                            if self.firstAutoDetetion == 1: # 第一次打开软件会执行控制仪自检
-                                self.firstAutoDetetion = 0
-                                self.userTextBrowserAppend("控制仪在线!")
-                                self.on_pushBtn_deviceSelfCheck_clicked() # 每次运行程序执行一次自检即可
-                            else:
-                                self.userTextBrowserAppend("控制仪在线，请执行操作")
-                else:
-                    QMessageBox.warning(self, "串口状态", "串口使用中")
-            else:  # 打开时检测到无串口
-                QMessageBox.information(self, "串口信息", "请连接好模块!", QMessageBox.Yes)
-                self.userTextBrowserAppend("未检测到串口，请连接备")
-        elif staText == "关闭串口":
-            self.prvSerial.close()
-            self.userTextBrowserAppend("[" + self.comPortList[self.comIndex].device + "]已关闭")
-            self.pushBtn_serialSwitch.setText("打开串口")
-            self.comboBox_selectComNum.setEnabled(True)
-
-    def rxFrameCheck(self):
-        self.rxCheck = int(0)  # 校验和清零
-        self.rxHighCheck = "F",
-        self.rxLowCheck = "F"
-        dataLength = len(self.data)
-        data = self.data[0:(dataLength - 4)]
-        for ch in data:  # 计算校验和
-            self.rxCheck += ch
-        self.rxHighCheck, self.rxLowCheck = self.usualTools.convertCheck(self.rxCheck & 0xFF)
-        if (self.data[0] == 85) and (self.data[dataLength - 4] == self.rxHighCheck) and (self.data[dataLength - 3] == self.rxLowCheck) and \
-           (self.data[dataLength - 2] == 13) and (self.data[dataLength - 1] == 10):
-            print("RxFrame is right!")
-            return State.s_RxFrameCheckOK
-        else:
-            print("RxFrame is wrong!")
-            return State.s_RxFrameCheckErr
-
-    def sendData2Bytes(self, func):
-        uid = self.lineEdit_uidInput.text()
-        if func == Func.f_DevGetSelfPara:
-            tmp = str("D" + str(self.serialNumber) + func)
-        elif func == Func.f_DevEncoding:
-            tmp = str("D" + str(self.serialNumber) + func + uid)
-        elif func == Func.f_DevDetection:
-            tmp = str("D" + str(self.serialNumber) + func + uid)
-        elif func == Func.f_DevEncodingDetection:
-            tmp = str("D" + str(self.serialNumber) + func + uid)
-        elif func == Func.f_DevSettingThreshold:
-            with open(self.configPath, 'r') as rf:
-                configContents = rf.read()
-            tmp = str("D" + str(self.serialNumber) + func + configContents)
-        tmp = tmp.encode("utf-8")
-        if self.serialNumber == 9:  # 流水号
-            self.serialNumber = 0
-        else:
-            self.serialNumber += 1
-
-        return tmp
-
-    def txFrameFormatting(self, func):
-        self.txCheck = int(0)  # 校验和清零
-        self.txHighCheck = "0",
-        self.txLowCheck = "0"
-        try:
-            txData = self.sendData2Bytes(func)
-        except:
-            print("Transfrom txData to bytes type failed!")
-            return
-        for ch in txData:  # 计算校验和
-            self.txCheck += ch
-        self.txHighCheck, self.txLowCheck = self.usualTools.convertCheck(self.txCheck & 0xFF)
-        byteTmp = bytearray(txData)
-        byteTmp.append(self.txHighCheck)
-        byteTmp.append(self.txLowCheck)
-        byteTmp.append(0x0D)
-        byteTmp.append(0x0A)
-
-        return byteTmp
-
-    def sendByFunc(self, func):
-        self.writeData = b""
-        self.writeData = self.txFrameFormatting(func)
-        self.prvSerial.write(self.writeData)
-    
-    def reportSystemPower(self, str):
-        print("In reportSystemPower...............")
-        if str == "RMPO\r\n":
-            self.userTextBrowserAppend("控制仪已上电，线路供电接通")
-            time.sleep(1)
-            self.on_pushBtn_deviceSelfCheck_clicked() # 进行一次控制仪自检
-        else:
-            self.userTextBrowserAppend("控制仪已上电，线路供电断开")
-    
-    def serialSendData(self, func):
-        if self.prvSerial.isOpen():
-            self.comDescription = self.comboBox_selectComNum.currentText()  # 获取comboBox当前串口描述
-            self.comIndex = self.comDescriptionList.index(self.comDescription) # 索引
-            self.portInfo = QSerialPortInfo(self.comPortList[self.comIndex].device)  # 该串口信息
-            self.uid = self.lineEdit_uidInput.text()  # 获取编号
-            if self.portInfo.isBusy():# 该串口状态
-                self.prvSerial.flush()
-                self.data = b""
-                try:
-                    if func == Func.f_DevEncoding or func == Func.f_DevDetection or func == Func.f_DevEncoding:
-                        if self.uid != "":
-                            self.sendByFunc(func)
-                            print("InputSN:" + self.uid)
-                        else:
-                            QMessageBox.information(self, "输入编号", "编号输入为空!\n请输入编号", QMessageBox.Yes)
-                    else:
-                        self.sendByFunc(func)
-                except:
-                    QMessageBox.critical(self, "串口信息", "发送数据失败")
-                finally:
-                    self.prvSerial.flushOutput()
-            else:
-                QMessageBox.warning(self, "串口信息", "串口使用中")
-        else:
-            QMessageBox.information(self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
-            self.userTextBrowserAppend("串口未打开")
-     
-    def serialRecvData(self, data):
-        self.data = data
-        if data.decode("utf-8") == "接收数据失败":
-            self.userTextBrowserAppend("接收数据失败")
-        else:
-            tmp = data.decode("utf-8")
-            if tmp[0] == "U":
-                if self.rxFrameCheck() == State.s_RxFrameCheckOK:
-                    if tmp[2] == Func.f_DevSettingThreshold:
-                        self.parseSettingThreshold()
-                    elif tmp[2] == Func.f_DevGetSelfPara:
-                        self.parseDevicPara()
-                    elif tmp[2] == Func.f_DevEncoding:
-                        self.parseEncodingResults()
-                    elif tmp[2] == Func.f_DevDetection:
-                        self.parseDetectionResults()
-                    elif tmp[2] == Func.f_DevEncodingDetection:
-                        self.parseDetectionResults()
-                else:
-                    self.userTextBrowserAppend("接收帧错误")
-            elif tmp[0] == "R":
-                if tmp[1] == "M":
-                    self.reportSystemPower(tmp)
-                else:
-                    self.updateWorkMode(tmp)
-
     def getUserPara(self):
         paraDict["th_DrainCurrent_Up"] = self.lineEdit_setDrainCurrentTop.text()
         paraDict["th_DrainCurrent_Down"] = self.lineEdit_setDrainCurrentBottom.text()
@@ -494,11 +270,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         QApplication.processEvents()
     
     def settingThreshold(self):
-        if self.prvSerial.isOpen():
-            self.data = b''
-            self.rxCheck = 0
-            self.prvSerial.flush()
-            self.serialSendData(Func.f_DevSettingThreshold)
+        if self.protocolWin.prvSerial.isOpen():
+            self.protocolWin.data = b''
+            self.protocolWin.rxCheck = 0
+            self.protocolWin.prvSerial.flush()
+            self.protocolWin.serialSendData(Func.f_DevSettingThreshold, '', self.configPath)
         else:
             self.userTextBrowserAppend("下发阈值@串口未打开")
     
@@ -649,8 +425,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("无法进行【编码】和【检测】，请按下功能按键！")
 
     def parseDevicPara(self):
-        self.setWorkMode(self.data)
-        tmp = self.data.decode("utf-8")
+        self.setWorkMode(self.protocolWin.data)
+        tmp = self.protocolWin.data.decode("utf-8")
         if tmp[3:10] != "NOPOWER":
             PwrVol  = tmp[3:6]
             PwrCur  = tmp[6:10]
@@ -681,17 +457,52 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_selfFireVoltage.setText("-")
         self.label_selfFireCurrent.setText("-")
         self.workMode = {"encoding": "X",  "detection": "X"} # 未知状态
-        if self.prvSerial.isOpen:
-            self.data = b''
-            self.rxCheck = 0
-            self.prvSerial.flush()
-            self.serialSendData(Func.f_DevGetSelfPara)
+        if self.protocolWin.prvSerial.isOpen:
+            self.protocolWin.data = b''
+            self.protocolWin.rxCheck = 0
+            self.protocolWin.prvSerial.flush()
+            self.protocolWin.serialSendData(Func.f_DevGetSelfPara, '', '')
         else:
             self.userTextBrowserAppend("串口未打开")
 
+    def reportSystemPower(self, str):
+        print("In reportSystemPower...............")
+        if str == "RMPO\r\n":
+            self.userTextBrowserAppend("控制仪已上电，线路供电接通")
+            time.sleep(1)
+            self.on_pushBtn_deviceSelfCheck_clicked() # 进行一次控制仪自检
+        else:
+            self.userTextBrowserAppend("控制仪已上电，线路供电断开")
+
+    def serialRecvData(self, data):
+        self.protocolWin.data = data
+        if data.decode("utf-8") == "接收数据失败":
+            self.userTextBrowserAppend("接收数据失败")
+        else:
+            tmp = data.decode("utf-8")
+            if tmp[0] == "U":
+                if self.protocolWin.rxFrameCheck() == State.s_RxFrameCheckOK:
+                    if tmp[2] == Func.f_DevSettingThreshold:
+                        self.parseSettingThreshold()
+                    elif tmp[2] == Func.f_DevGetSelfPara:
+                        self.parseDevicPara()
+                    elif tmp[2] == Func.f_DevEncoding:
+                        self.parseEncodingResults()
+                    elif tmp[2] == Func.f_DevDetection:
+                        self.parseDetectionResults()
+                    elif tmp[2] == Func.f_DevEncodingDetection:
+                        self.parseDetectionResults()
+                else:
+                    self.userTextBrowserAppend("接收帧错误")
+            elif tmp[0] == "R":
+                if tmp[1] == "M":
+                    self.reportSystemPower(tmp)
+                else:
+                    self.updateWorkMode(tmp)
+
     @QtCore.pyqtSlot()
     def on_pushBtn_deviceSelfCheck_clicked(self):
-        if self.prvSerial.isOpen() == True:
+        if self.protocolWin.prvSerial.isOpen() == True:
             self.userTextBrowserAppend("控制仪自检")
             self.getDevicePara()
         else:
@@ -699,7 +510,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def parseEncodingResults(self):
         res = ""
-        tmp = self.data.decode("utf-8")
+        tmp = self.protocolWin.data.decode("utf-8")
         # print("tmp:" + tmp)
         res = tmp[3:(len(tmp) - 4)]
         if tmp.find("UID"):
@@ -720,13 +531,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
             print("Encoding......")
             self.userTextBrowserAppend("模块编码")
-            if self.prvSerial.isOpen():
-                if self.lineEdit_uidInput.text() != "":
+            if self.protocolWin.prvSerial.isOpen():
+                uid = self.lineEdit_uidInput.text()
+                if uid != "":
                     self.userTextBrowserAppend("输入UID：" + self.lineEdit_uidInput.text())
-                    self.data = b''
-                    self.rxCheck = 0
-                    self.prvSerial.flushOutput()
-                    self.serialSendData(Func.f_DevEncoding)
+                    self.protocolWin.data = b''
+                    self.protocolWin.rxCheck = 0
+                    self.protocolWin.prvSerial.flushOutput()
+                    self.protocolWin.serialSendData(Func.f_DevEncoding, uid, '')
                 else:
                     self.userTextBrowserAppend("输入编号为空！")
             else:
@@ -736,7 +548,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def parseDetectionResults(self):
         res = ""
-        tmp = self.data.decode("utf-8")
+        tmp = self.protocolWin.data.decode("utf-8")
         res = tmp[3:11]
         if res == "LVERLCER":
             self.userTextBrowserAppend("线路电流超限，线路电压超限")
@@ -791,13 +603,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             print("Detecting......")
             self.detectionTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
             self.userTextBrowserAppend("模块检测")
-            if self.prvSerial.isOpen():
-                if self.lineEdit_uidInput.text() != "":
+            if self.protocolWin.prvSerial.isOpen():
+                uid = self.lineEdit_uidInput.text()
+                if uid != "":
                     self.userTextBrowserAppend("输入UID：" + self.lineEdit_uidInput.text())
-                    self.data = b""
-                    self.rxCheck = 0
-                    self.prvSerial.flushOutput()
-                    self.serialSendData(Func.f_DevDetection)
+                    self.protocolWin.data = b""
+                    self.protocolWin.rxCheck = 0
+                    self.protocolWin.prvSerial.flushOutput()
+                    self.protocolWin.serialSendData(Func.f_DevDetection, uid, '')
                 else:
                     self.userTextBrowserAppend("输入编号为空！")
             else:
@@ -905,39 +718,39 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def on_pushBtn_deviceEncodingDetection_clicked(self):
         self.userTextBrowserAppend("执行编码和检测")
-        if self.prvSerial.isOpen():
-            if self.workMode["encoding"] == "1" and self.workMode["detection"] == "1":
+        if self.workMode["encoding"] == "1" and self.workMode["detection"] == "1":
+            if self.protocolWin.prvSerial.isOpen():
                 self.detectionTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
                 if self.lineEdit_uidInput.text() != "":
                     self.userTextBrowserAppend("输入UID：" + self.lineEdit_uidInput.text())
-                    self.data = b""
-                    self.rxCheck = 0
-                    self.prvSerial.flushOutput()
+                    self.protocolWin.data = b""
+                    self.protocolWin.rxCheck = 0
+                    self.protocolWin.prvSerial.flushOutput()
                     print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
                     print("Encoding......")
                     self.userTextBrowserAppend("模块编码")
-                    self.prvSerial.flushOutput()
-                    self.serialSendData(Func.f_DevEncoding)
+                    self.protocolWin.prvSerial.flushOutput()
+                    self.protocolWin.serialSendData(Func.f_DevEncoding)
                     while True:
                         QApplication.processEvents()
                         time.sleep(0.01)
-                        if self.data != b"":
-                            if self.data[2] != 50:
+                        if self.protocolWin.data != b"":
+                            if self.protocolWin.data[2] != 50:
                                 continue
                             else:
                                 break
                     print("/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/")
                     print("Detecting......")
                     self.userTextBrowserAppend("模块检测")
-                    self.prvSerial.flushOutput()
-                    self.serialSendData(Func.f_DevDetection)
+                    self.protocolWin.prvSerial.flushOutput()
+                    self.protocolWin.serialSendData(Func.f_DevDetection)
                 else:
                     self.userTextBrowserAppend("输入编号为空！")
             else:
-                self.userTextBrowserAppend("编码和检测未开启")
+                self.userTextBrowserAppend("串口未打开")
         else:
-            self.userTextBrowserAppend("串口未打开")
-
+            self.userTextBrowserAppend("编码和检测未开启")
+        
     @QtCore.pyqtSlot()
     def on_pushBtn_clearUidInput_clicked(self):
         self.lineEdit_uidInput.clear()   

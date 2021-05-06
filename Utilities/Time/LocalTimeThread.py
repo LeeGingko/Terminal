@@ -35,8 +35,8 @@ class LocalTimeThread(QThread):
         while True:
             AMPM = str((time.strftime("%p"), time.localtime()[0])[0])
             if AMPM[0:2] == "AM":
-                self.timeStamp = time.strftime("%Y年%m月%d日\n上午 %H:%M:%S ", time.localtime())
+                self.timeStamp = time.strftime("%Y年%m月%d日 上午 %H:%M:%S ", time.localtime())
             elif AMPM[0:2] == "PM": # PM
-                self.timeStamp = time.strftime("%Y年%m月%d日\n下午 %H:%M:%S ", time.localtime())
+                self.timeStamp = time.strftime("%Y年%m月%d日 下午 %H:%M:%S ", time.localtime())
             self.secondSignal.emit(self.timeStamp + weekday)
             self.sleep(1)
