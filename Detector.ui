@@ -131,8 +131,8 @@
     <widget class="QLabel" name="label_operator_3">
      <property name="geometry">
       <rect>
-       <x>260</x>
-       <y>36</y>
+       <x>230</x>
+       <y>32</y>
        <width>64</width>
        <height>33</height>
       </rect>
@@ -167,8 +167,8 @@
     <widget class="QLabel" name="label_operator_2">
      <property name="geometry">
       <rect>
-       <x>12</x>
-       <y>36</y>
+       <x>10</x>
+       <y>32</y>
        <width>64</width>
        <height>33</height>
       </rect>
@@ -203,8 +203,8 @@
     <widget class="QLabel" name="label_detection">
      <property name="geometry">
       <rect>
-       <x>332</x>
-       <y>12</y>
+       <x>302</x>
+       <y>8</y>
        <width>80</width>
        <height>80</height>
       </rect>
@@ -216,8 +216,8 @@
     <widget class="QLabel" name="label_encoding">
      <property name="geometry">
       <rect>
-       <x>84</x>
-       <y>12</y>
+       <x>82</x>
+       <y>8</y>
        <width>80</width>
        <height>80</height>
       </rect>
@@ -539,7 +539,7 @@
    <widget class="QLabel" name="label_operator_22">
     <property name="geometry">
      <rect>
-      <x>572</x>
+      <x>574</x>
       <y>114</y>
       <width>25</width>
       <height>30</height>
@@ -674,7 +674,7 @@
    <widget class="QLabel" name="label_operator_23">
     <property name="geometry">
      <rect>
-      <x>394</x>
+      <x>396</x>
       <y>164</y>
       <width>25</width>
       <height>30</height>
@@ -813,7 +813,7 @@
    <widget class="QLabel" name="label_operator_40">
     <property name="geometry">
      <rect>
-      <x>394</x>
+      <x>396</x>
       <y>212</y>
       <width>25</width>
       <height>30</height>
@@ -924,7 +924,7 @@
    <widget class="QLabel" name="label_operator_27">
     <property name="geometry">
      <rect>
-      <x>572</x>
+      <x>574</x>
       <y>212</y>
       <width>25</width>
       <height>30</height>
@@ -1011,7 +1011,7 @@
    <widget class="QLabel" name="label_operator_24">
     <property name="geometry">
      <rect>
-      <x>572</x>
+      <x>574</x>
       <y>164</y>
       <width>25</width>
       <height>30</height>
@@ -1042,7 +1042,7 @@
    <widget class="QLabel" name="label_operator_21">
     <property name="geometry">
      <rect>
-      <x>394</x>
+      <x>396</x>
       <y>114</y>
       <width>25</width>
       <height>30</height>

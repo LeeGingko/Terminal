@@ -54,6 +54,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 串口线程实例
         self.protocolWin.serialManager.recvSignal.connect(self.serialRecvData)
         self.protocolWin.detectPorts()
+        # time.sleep(1)
+        self.protocolWin.autoConnectController()
         # 阈值初始化
         global paraDict  # 参数字典
         paraDict = {

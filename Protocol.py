@@ -81,24 +81,20 @@ class ProtocolWin(QDialog, Ui_ProtocolDialog):
             self.appendStringSignal.emit("未检测到串口，请连接备")
             QMessageBox.information(self, "串口信息", "未检测到串口!", QMessageBox.Yes)
     
-    def autoConnectController(self, comDescriptionList = ''):
+    def autoConnectController(self):
         self.comPortList = self.serialMonitor.portList
         self.comDescriptionList = []
         for i in self.comPortList:
+            self.comDescription = i.description
             self.comDescriptionList.append(i.description)
-        comDescriptionList = self.comDescriptionList
-        for p in comDescriptionList:
-            self.comDescription = p
-            QApplication.processEvents()
-            self.comIndex = comDescriptionList.index(p)
-            pInfo = QSerialPortInfo(self.comPortList[self.comIndex].device)
+            pInfo = QSerialPortInfo(i.device)
             pSta = pInfo.isBusy()  # 该串口状态
             if pSta == False:  # 该串口空闲
-                self.serialManager.initPort(self.comPortList[self.comIndex].device)
+                self.serialManager.initPort(i.device)
                 try:
                     self.prvSerial.open()
                     if self.prvSerial.isOpen():
-                        self.appendStringSignal.emit("[" + self.comPortList[self.comIndex].device + "]已打开")
+                        self.appendStringSignal.emit("[" + i.device + "]已打开")
                         self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
                         startTiming = dt.datetime.now()
                         endTiming = startTiming
@@ -111,6 +107,7 @@ class ProtocolWin(QDialog, Ui_ProtocolDialog):
                                 if (endTiming - startTiming).seconds >= 2:
                                     self.appendStringSignal.emit("控制仪无响应，请执行操作")
                                     self.isSTM32Online = False
+                                    self.prvSerial.close()
                                     break
                             elif (num > 0 and num <= 4):
                                 self.prvSerial.flushInput()
@@ -121,8 +118,10 @@ class ProtocolWin(QDialog, Ui_ProtocolDialog):
                                     self.isSTM32Online = True
                                     self.appendStringSignal.emit("控制仪在线!")
                                     self.deviceSelfCheck() # 每次运行程序执行一次自检即可
-                            endTiming = dt.datetime.now()
-                        self.prvSerial.close()
+                                    self.comboBox_selectComNum.setEnabled(False)
+                                    self.pushBtn_serialSwitch.setText("关闭串口")
+                                    break
+                            endTiming = dt.datetime.now()  
                 except:
                     QMessageBox.warning(self, "打开串口", "打开串口失败")
                     self.appendStringSignal.emit("[" + self.comPortList[self.comIndex].device + "] 打开失败")
@@ -131,7 +130,6 @@ class ProtocolWin(QDialog, Ui_ProtocolDialog):
 
     def monitorPorts(self, list):
         print(list)
-        # self.autoConnectController(list)
 
     @QtCore.pyqtSlot()
     def on_pushBtn_serialSwitch_clicked(self):
@@ -258,9 +256,8 @@ class ProtocolWin(QDialog, Ui_ProtocolDialog):
             if self.portInfo.isBusy():# 该串口状态
                 self.prvSerial.flush()
                 self.data = b""
+                self.writeData = b""
                 try:
-                    # self.sendByFunc(func, uid, configPath)
-                    self.writeData = b""
                     self.writeData = self.txFrameFormatting(func, uid, configPath)
                     self.prvSerial.write(self.writeData)
                 except:
