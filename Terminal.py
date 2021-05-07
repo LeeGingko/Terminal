@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from UserImport import *
+from GlobalVariable import GlobalVar
+import SetGObj
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
-        super(MainWin, self).__init__()  # 继承父类的所有属性   
-
+        super(MainWin, self).__init__()  # 继承父类的所有属性
         # 初始化UI
         self.initUi()
     
@@ -37,8 +38,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setStatusBar(self.myStatusBar)
         # 配置界面类实例
         self.protocolWin = ProtocolWin()
-        self.protocolWin.appendStringSignal.connect(self.userTextBrowserAppend)
+        self.protocolWin.protocolAppendSignal.connect(self.userTextBrowserAppend)
         self.thresholdWin = ThresholdWin()
+        self.thresholdWin.thresholdAppendSignal.connect(self.userTextBrowserAppend)
+        SetGObj.set(self.protocolWin)
         # 自定义工具实例
         self.usualTools = self.protocolWin.usualTools
         # 工作模式初始化
@@ -54,37 +57,18 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 串口线程实例
         self.protocolWin.serialManager.recvSignal.connect(self.serialRecvData)
         self.protocolWin.detectPorts()
-        # time.sleep(1)
         self.protocolWin.autoConnectController()
-        # 阈值初始化
-        global paraDict  # 参数字典
-        paraDict = {
-            "th_DrainCurrent_Up": "0", "th_DrainCurrent_Down": "0",
-            "th_WorkCurrent_Up":  "0", "th_WorkCurrent_Down":  "0",
-            "th_FireVoltage_Up":  "0", "th_FireVoltage_Down":  "0",
-            "th_FireCurrent_Up":  "0", "th_FireCurrent_Down":  "0",
-            "th_LineVoltage_Up":  "0", "th_LineVoltage_Down":  "0",
-            "th_LineCurrent_Up":  "0", "th_LineCurrent_Down":  "0",
-            "th_ComVoltage_Up":   "0", "th_ComVoltage_Down":   "0",
-            "th_ComCurrent_Up":   "0", "th_ComCurrent_Down":   "0"}
-
         # 消息保存
         self.isMessageSavedFirst = True
         self.isMessageSaved = True
         self.messagePath = ""
-
-        # 配置文件保存变量的初始化
-        self.isConfigSavedFirst = True # 是否是第一次保存
-        self.isConfigSaved = True # 是否是已经保存 
-        self.configPath = "" # 文件路径
-
+        
         # 测试数据Excel文件保存变量的初始化
         self.excel = PrivateExcel() # Excel实例化全局对象
         self.isExcelSavedFirst = True # 是否是第一次保存
         self.isExcelSaved = True # 是否是已经保存 
         self.excelFilePath = "" # 文件路径
         self.excelFile = "" # 文件
-
         # 默认检测结果
         initTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         self.resultDefaultList = [
@@ -97,7 +81,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.resultLastList = self.resultCurrentList.copy()
         # 当前记录是否已经被保存，防止重复保存
         self.currentResultSaved = False 
-
         # 标准模型初始化
         self.tableViewModel = QStandardItemModel(0, 15, self)
         self.tableHeadline = [
@@ -114,11 +97,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.tableView_result.setItemDelegate(self.tableViewDelegate)
         self.tableRow = 0 # 填入表格的行数
-
         # 检测以及编码默认状态设置
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
         self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
-
         # UID输入验证器设置
         mixdedValidator = QRegExpValidator(self)
         reg = QRegExp("[a-fA-F0-9]+$")
@@ -216,138 +197,28 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def showDaetTime(self, timeStr):
         self.myStatusBar.showMessage(timeStr)
-    
-    def getUserPara(self):
-        paraDict["th_DrainCurrent_Up"] = self.lineEdit_setDrainCurrentTop.text()
-        paraDict["th_DrainCurrent_Down"] = self.lineEdit_setDrainCurrentBottom.text()
-        paraDict["th_WorkCurrent_Up"] = self.lineEdit_setWorkCurrentTop.text()
-        paraDict["th_WorkCurrent_Down"] = self.lineEdit_setWorkCurrentBottom.text()
-        paraDict["th_FireVoltage_Up"] = self.lineEdit_setFireVoltageTop.text()
-        paraDict["th_FireVoltage_Down"] = self.lineEdit_setFireVoltageBottom.text()
-        paraDict["th_FireCurrent_Up"] = self.lineEdit_setFireCurrentTop.text()
-        paraDict["th_FireCurrent_Down"] = self.lineEdit_setFireCurrentBottom.text()
-        paraDict["th_LineVoltage_Up"] = self.lineEdit_setLineVoltageTop.text()
-        paraDict["th_LineVoltage_Down"] = self.lineEdit_setLineVoltageBottom.text()
-        paraDict["th_LineCurrent_Up"] = self.lineEdit_setLineCurrentTop.text()
-        paraDict["th_LineCurrent_Down"] = self.lineEdit_setLineCurrentBottom.text()
-        paraDict["th_ComVoltage_Up"] = self.lineEdit_setComVoltageTop.text()
-        paraDict["th_ComVoltage_Down"] = self.lineEdit_setComVoltageBottom.text()
-        paraDict["th_ComCurrent_Up"] = self.lineEdit_setComCurrentTop.text()
-        paraDict["th_ComCurrent_Down"] = self.lineEdit_setComCurrentBottom.text()
-    
-    def openConfigRecord(self):
-        try:
-            with open("config_save_record.txt", "rb") as fsrf:
-                ofr = pk.load(fsrf) # 将二进制文件对象转换成Python对象
-                # print("openConfigRecord:" + str(ofr))
-            self.isConfigSavedFirst = ofr[0][0]
-            self.isConfigSaved = ofr[0][1]
-            self.configPath = ofr[1]
-        except:
-            pass
-
-    def saveConfigRecord(self):
-        self.saved_info = ([self.isConfigSavedFirst, self.isConfigSaved],  self.configPath)
-        with open("config_save_record.txt", "wb") as fsrf:
-            pk.dump(self.saved_info, fsrf) # 用dump函数将Python对象转成二进制对象文件
-        # print("saveConfigRecord:" + str(self.saved_info))
+       
 
     @QtCore.pyqtSlot()
     def on_lineEdit_setDrainCurrentTop_textChanged(self):
-        if self.lineEdit_setDrainCurrentTop.text() != paraDict["th_DrainCurrent_Up"]:
+        if self.lineEdit_setDrainCurrentTop.text() != self.thresholdWin.paraDict["th_DrainCurrent_Up"]:
             self.isConfigSaved = False
         else:
             self.isConfigSaved = True
         self.saveConfigRecord()
  
     def parseSettingThreshold(self):
-        tmp = self.data.decode("utf-8")
+        tmp = self.protocolWin.data.decode("utf-8")
         res = tmp[3:(len(tmp)-4)]
         if res == "PARAOK":
-            self.userTextBrowserAppend("控制仪接收参数成功")
+            self.userTextBrowserAppend("测试仪接收参数成功")
         elif res == "PARAERR":
-            self.userTextBrowserAppend("控制仪接收参数失败")
+            self.userTextBrowserAppend("测试仪接收参数失败")
         elif res == "PARALESS":
-            self.userTextBrowserAppend("控制仪接收参数缺失")
-        QApplication.processEvents()
+            self.userTextBrowserAppend("测试仪接收参数缺失")
     
-    def settingThreshold(self):
-        if self.protocolWin.prvSerial.isOpen():
-            self.protocolWin.data = b''
-            self.protocolWin.rxCheck = 0
-            self.protocolWin.prvSerial.flush()
-            self.protocolWin.serialSendData(Func.f_DevSettingThreshold, '', self.configPath)
-        else:
-            self.userTextBrowserAppend("下发阈值@串口未打开")
-    
-    def firstSaveThreshold(self, text):
-        if self.configPath == "":
-            self.configPath, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./config", "settingfiles (*.txt)")
-            if isAccept:
-                if self.configPath:
-                    with open(self.configPath, "w") as fsf:
-                        fsf.write(text)
-                    self.isConfigSavedFirst = False
-                    self.isConfigSaved = True
-                self.userTextBrowserAppend("参数保存成功")
-                self.textBrowser.append("@保存至\"" + str(self.configPath) + "\"")
-                self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
-                self.saveConfigRecord()
-                print(self.usualTools.getTimeStamp() + "下发参数")
-                self.settingThreshold()
-        else:
-            pass
-
-    def saveThreshold(self, text):
-        with open(self.configPath, encoding="utf-8", mode="w") as sf:
-            sf.write(text)
-        self.isConfigSaved = True
-        self.userTextBrowserAppend("保存配置参数成功")
-        print(self.usualTools.getTimeStamp() + "下发参数")
-        self.settingThreshold()
-        self.saveConfigRecord()
-
-    @QtCore.pyqtSlot()
-    def on_pushBtn_saveSettingsRecord_clicked(self):
-        print("/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/")
-        print("Setting parameters's threshold ......")
-        print(self.usualTools.getTimeStamp() + "获取参数")
-        self.getUserPara()
-        print(self.usualTools.getTimeStamp() + "保存参数")
-        cnt = 0
-        self.para = ""
-        for k, v in paraDict.items():
-            if cnt < 10:
-                self.para = self.para + ("P" + str(cnt) + v)
-            elif cnt == 10:
-                self.para = self.para + ("PA" + v)
-            elif cnt == 11:
-                self.para = self.para + ("PB" + v)
-            elif cnt == 12:
-                self.para = self.para + ("PC" + v)
-            elif cnt == 13:
-                self.para = self.para + ("PD" + v)
-            elif cnt == 14:
-                self.para = self.para + ("PE" + v)
-            elif cnt == 15:
-                self.para = self.para + ("PF" + v)
-            cnt += 1
-        self.openConfigRecord()
-        if self.isConfigSavedFirst:
-            self.firstSaveThreshold(self.para)
-        elif self.isConfigSaved:
-            self.saveThreshold(self.para)
-        
-    @QtCore.pyqtSlot()
-    def on_pushBtn_readSettingsRecord_clicked(self):        
-        settingfile, _ = QFileDialog.getOpenFileName(self, "打开配置文件", './', 'settingfile (*.txt)')
-        if settingfile:
-            os.startfile(settingfile)
-            self.isConfigSaved = True
-            self.saveConfigRecord()
-
     def updateWorkMode(self, str):
-        # print("In updateWorkMode...............")
+        print("In updateWorkMode...............")
         endc = str[2]
         dete = str[3]
         if endc == "0":
@@ -442,10 +313,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.label_selfComCurrent.setText(ComCur[0:1] + "." + ComCur[1:4])
             self.label_selfFireVoltage.setText(FireVol[0:2] + "." + FireVol[2:3])
             self.label_selfFireCurrent.setText(FireCur[0:1] + "." + FireCur[1:4])
-            self.userTextBrowserAppend("已获取控制仪参数")
+            self.userTextBrowserAppend("已获取测试仪自检参数")
             self.parseWorkMode()
         else:
-            self.userTextBrowserAppend("请接通控制仪电源")
+            self.userTextBrowserAppend("请接通测试仪电源")
         
     def getDevicePara(self):
         print("/*+++++++++++++++++++++++++++++++++++++++++++++*/")
@@ -470,11 +341,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def reportSystemPower(self, str):
         print("In reportSystemPower...............")
         if str == "RMPO\r\n":
-            self.userTextBrowserAppend("控制仪已上电，线路供电接通")
+            self.userTextBrowserAppend("测试仪已上电，线路供电接通")
             time.sleep(1)
-            self.on_pushBtn_deviceSelfCheck_clicked() # 进行一次控制仪自检
+            self.on_pushBtn_deviceSelfCheck_clicked() # 进行一次测试仪自检
         else:
-            self.userTextBrowserAppend("控制仪已上电，线路供电断开")
+            self.userTextBrowserAppend("测试仪已上电，线路供电断开")
 
     def serialRecvData(self, data):
         self.protocolWin.data = data
@@ -505,7 +376,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def on_pushBtn_deviceSelfCheck_clicked(self):
         if self.protocolWin.prvSerial.isOpen() == True:
-            self.userTextBrowserAppend("控制仪自检")
+            self.userTextBrowserAppend("测试仪自检")
             self.getDevicePara()
         else:
             QMessageBox.information(self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
@@ -560,29 +431,18 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("线路电压超限，线路电流正常")
         elif res == "LVOKLCOK":
             self.userTextBrowserAppend("线路电压正常，线路电流正常")
-            self.label_resDrainCurrent.setText(tmp[13:15] + "." + tmp[15:16])
-            self.label_resWorkCurrent.setText(tmp[18:21] + "." + tmp[21:22])
             self.resultCurrentList[0] = self.name
             self.resultCurrentList[1] = self.detectionTime
             self.resultCurrentList[2] = tmp[13:15] + "." + tmp[15:16]
             self.resultCurrentList[3] = tmp[18:21] + "." + tmp[21:22]
             # 被测模块
-            self.label_resIdCheck.setText("完成")
-            self.label_resOnlineCheck.setText("在线")
-            self.label_resExDetID.setText(tmp[24:29])
-            self.label_resExDetVoltage.setText(tmp[83:85] + "." + tmp[85:86])
-            self.label_resExDetCurrent.setText(tmp[89:len(tmp)-4])
             self.resultCurrentList[4] = "成功"
             self.resultCurrentList[5] = "在线"
             self.resultCurrentList[6] = tmp[24:29]
             self.resultCurrentList[7] = tmp[89:len(tmp)-4]
             self.resultCurrentList[8] = tmp[83:85] + "." + tmp[85:86]
             self.resultCurrentList[9] = "正常"
-            self.label_resExDetCurrentJudge.setText(self.resultCurrentList[9])
             # 内置模块
-            self.label_resInDetID.setText(tmp[47:52])
-            self.label_resInDetVoltage.setText(tmp[63:65] + "." + tmp[65:66])
-            self.label_resInDetCurrent.setText(tmp[69:72])
             self.resultCurrentList[10] = tmp[47:52]
             self.resultCurrentList[11] = tmp[69:72]
             self.resultCurrentList[12] = tmp[63:65] + "." + tmp[65:66]
@@ -592,8 +452,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             for col in range(15):
                 item = QStandardItem(self.resultCurrentList[col])
                 self.tableViewModel.setItem(self.tableRow, col, item)
-            self.label_resInDetCurrentJudge.setText(self.resultCurrentList[13])
-            self.label_finalResult.setText("PASSED")
         elif tmp[3:8] == "NDETE":
             self.workMode["detection"] = "0"
             self.userTextBrowserAppend("无法进行检测，请检查检测按键")
@@ -723,7 +581,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.workMode["encoding"] == "1" and self.workMode["detection"] == "1":
             if self.protocolWin.prvSerial.isOpen():
                 self.detectionTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-                if self.lineEdit_uidInput.text() != "":
+                uid = self.lineEdit_uidInput.text()
+                if uid != "":
                     self.userTextBrowserAppend("输入UID：" + self.lineEdit_uidInput.text())
                     self.protocolWin.data = b""
                     self.protocolWin.rxCheck = 0
@@ -732,7 +591,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     print("Encoding......")
                     self.userTextBrowserAppend("模块编码")
                     self.protocolWin.prvSerial.flushOutput()
-                    self.protocolWin.serialSendData(Func.f_DevEncoding)
+                    self.protocolWin.serialSendData(Func.f_DevEncoding, uid, '')
                     while True:
                         QApplication.processEvents()
                         time.sleep(0.01)
@@ -745,7 +604,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     print("Detecting......")
                     self.userTextBrowserAppend("模块检测")
                     self.protocolWin.prvSerial.flushOutput()
-                    self.protocolWin.serialSendData(Func.f_DevDetection)
+                    self.protocolWin.serialSendData(Func.f_DevDetection, uid, '')
                 else:
                     self.userTextBrowserAppend("输入编号为空！")
             else:

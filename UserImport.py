@@ -20,6 +20,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtSerialPort import QSerialPortInfo
 from PyQt5.QtWidgets import *
 
+# 全局变量
+import GlobalVariable
 # 导入协议窗口类
 from Protocol import ProtocolWin
 # 导入qrc资源
@@ -41,5 +43,5 @@ from Utilities.Serial.SerialThread import PrivateSerialThread
 from Utilities.Time.LocalTimeThread import LocalTimeThread
 # 导入自定义工具
 from Utilities.Time.usual import Tools
-# 表格视图委托
+# 导入表格视图委托
 from Utilities.ViewDelegation.TableViewDelegate import TableViewDelegate
