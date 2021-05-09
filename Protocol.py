@@ -3,8 +3,8 @@
 import datetime as dt
 # 导入time相关模块
 import time
-
-from PyQt5 import QtCore
+# 默认导入
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtSerialPort import QSerialPortInfo
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox
@@ -20,16 +20,13 @@ from Utilities.Serial.SerialThread import PrivateSerialThread
 # 导入自定义工具
 from Utilities.Time.usual import Tools
 
-class ProtocolWin(QDialog, Ui_ProtocolDialog):
+class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
     protocolAppendSignal = pyqtSignal(str)
 
     def __init__(self):
         super(ProtocolWin, self).__init__()  # 继承父类的所有属性
         self.initUi()
-
-        # 自定义工具实例化
-        self.usualTools = Tools()
-        
+        self.convert = Tools()
         # 串口变量初始化
         self.txCheck = 0
         self.txHighCheck = b'0'
@@ -42,8 +39,8 @@ class ProtocolWin(QDialog, Ui_ProtocolDialog):
         self.firstAutoDetetion = 1 # 第一次打开串口测试仪自动检测使能
         # 串口检测
         self.serialMonitor = PrivateSerialMonitor()  # 串口检测线程对象
-        self.comPortList = list()
-        self.comDescriptionList = list()
+        # self.comPortList = list()
+        # self.comDescriptionList = list()
         self.serialMonitor.portChangeSignal.connect(self.monitorPorts)
         self.serialMonitor.start()
         # 串口初始化
@@ -69,24 +66,32 @@ class ProtocolWin(QDialog, Ui_ProtocolDialog):
     def detectPorts(self):
         self.comboBox_selectComNum.clear()  # 清空端口选择按钮
         self.serialMonitor.searchPorts()
-        self.comPortList = self.serialMonitor.portList
-        self.comDescriptionList = self.serialMonitor.descriptionList
+        self.comPortList = self.serialMonitor.portList.copy()
+        # print(self.comPortList)
+        self.comDescriptionList = self.serialMonitor.descriptionList.copy()
         print(self.comDescriptionList)
-        if len(self.comPortList) >= 1:
+        if len(self.comDescriptionList) >= 1:
             for p in self.comDescriptionList:
                 self.comboBox_selectComNum.addItem(p)
-            self.protocolAppendSignal.emit("已检测到串口，请选择并打开串口")
-            self.protocolAppendSignal.emit("请先接入被测模块！")
         else:
             self.protocolAppendSignal.emit("未检测到串口，请连接设备！")
             QMessageBox.information(self, "串口信息", "未检测到串口!", QMessageBox.Yes)
-    
-    def autoConnectController(self):
-        self.comPortList = self.serialMonitor.portList
-        self.comDescriptionList = []
+
+    def autoConnectDetector(self):
+        self.comboBox_selectComNum.setEnabled(True)
+        self.comboBox_selectComNum.clear()  # 清空端口选择按钮
+        self.serialMonitor.portList.clear()
+        self.serialMonitor.descriptionList.clear()
+        self.serialMonitor.searchPorts()
+        self.comPortList = self.serialMonitor.portList.copy()
+        self.comDescriptionList = self.serialMonitor.descriptionList.copy()
+        print(self.comDescriptionList)
+        self.comboBox_selectComNum.addItems(self.comDescriptionList)
+        print(self.comboBox_selectComNum.currentText())
+        self.comboBox_selectComNum.setEnabled(False)
         for i in self.comPortList:
+            QApplication.processEvents()
             self.comDescription = i.description
-            self.comDescriptionList.append(i.description)
             pInfo = QSerialPortInfo(i.device)
             pSta = pInfo.isBusy()  # 该串口状态
             if pSta == False:  # 该串口空闲
@@ -98,22 +103,23 @@ class ProtocolWin(QDialog, Ui_ProtocolDialog):
                         self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
                         startTiming = dt.datetime.now()
                         endTiming = startTiming
-                        self.protocolAppendSignal.emit("等待测试仪回应")
+                        # self.protocolAppendSignal.emit("等待测试仪回应")
                         while True: # 等待测试仪回应
                             QApplication.processEvents()
                             num = self.prvSerial.inWaiting()
                             # print("openClosePort num:" + str(num)) # 输出收到的字节数
                             if num == 0:
                                 if (endTiming - startTiming).seconds >= 2:
-                                    self.protocolAppendSignal.emit("测试仪无响应，请执行操作")
                                     self.isSTM32Online = False
                                     self.prvSerial.close()
-                                    self.protocolAppendSignal.emit("测试仪无响应，已关闭串口")
+                                    self.protocolAppendSignal.emit("测试仪无响应，已关闭[" + i.device + "]，请执行操作")
                                     break
                             elif (num > 0 and num <= 4):
                                 self.prvSerial.flushInput()
                             elif num >= 5:
+                                QApplication.processEvents()
                                 time.sleep(0.1)
+                                QApplication.processEvents()
                                 data = self.prvSerial.read(num)
                                 if data.decode("utf-8") == "STM32":
                                     self.isSTM32Online = True
@@ -131,6 +137,12 @@ class ProtocolWin(QDialog, Ui_ProtocolDialog):
 
     def monitorPorts(self, list):
         print(list)
+        # self.comboBox_selectComNum.setEnabled(True)
+        # self.comboBox_selectComNum.clear()  # 清空端口选择按钮
+        # self.comPortList = self.serialMonitor.portList
+        # self.comDescriptionList = self.serialMonitor.descriptionList
+        # for p in self.comDescriptionList:
+        #     self.comboBox_selectComNum.addItem(p)
 
     @QtCore.pyqtSlot()
     def on_pushBtn_serialSwitch_clicked(self):
@@ -158,7 +170,7 @@ class ProtocolWin(QDialog, Ui_ProtocolDialog):
                         self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
                         startTiming = dt.datetime.now()
                         endTiming = startTiming
-                        self.protocolAppendSignal.emit("等待测试仪回应")
+                        # self.protocolAppendSignal.emit("等待测试仪回应")
                         while True: # 等待测试仪回应
                             QApplication.processEvents()
                             num = self.prvSerial.inWaiting()
@@ -203,7 +215,7 @@ class ProtocolWin(QDialog, Ui_ProtocolDialog):
         data = self.data[0:(dataLength - 4)]
         for ch in data:  # 计算校验和
             self.rxCheck += ch
-        self.rxHighCheck, self.rxLowCheck = self.usualTools.convertCheck(self.rxCheck & 0xFF)
+        self.rxHighCheck, self.rxLowCheck = self.convert.convertCheck(self.rxCheck & 0xFF)
         if (self.data[0] == 85) and (self.data[dataLength - 4] == self.rxHighCheck) and (self.data[dataLength - 3] == self.rxLowCheck) and \
            (self.data[dataLength - 2] == 13) and (self.data[dataLength - 1] == 10):
             print("RxFrame is right!")
@@ -240,7 +252,7 @@ class ProtocolWin(QDialog, Ui_ProtocolDialog):
             return
         for ch in txData:  # 计算校验和
             self.txCheck += ch
-        self.txHighCheck, self.txLowCheck = self.usualTools.convertCheck(self.txCheck & 0xFF)
+        self.txHighCheck, self.txLowCheck = self.convert.convertCheck(self.txCheck & 0xFF)
         byteTmp = bytearray(txData)
         byteTmp.append(self.txHighCheck)
         byteTmp.append(self.txLowCheck)
@@ -273,8 +285,9 @@ class ProtocolWin(QDialog, Ui_ProtocolDialog):
 
     def deviceSelfCheck(self):
         self.prvSerial.flush()
-        self.protocolAppendSignal.emit("测试仪自检")
         self.data = b''
         self.rxCheck = 0
         self.prvSerial.flush()
+        time.sleep(1)
+        self.protocolAppendSignal.emit("测试仪自检")
         self.serialSendData(Func.f_DevGetSelfPara, '', '')

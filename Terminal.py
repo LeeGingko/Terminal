@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from UserImport import *
 from GlobalVariable import GlobalVar
-import SetGObj
+import GetSetObj
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
+    
     def __init__(self):
         super(MainWin, self).__init__()  # 继承父类的所有属性
         # 初始化UI
@@ -14,7 +15,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def initUi(self):
         self.setupUi(self)
-
+        # 自定义工具实例化
+        self.usualTools = Tools()
         # 设置窗口居中显示
         self.desktop = QApplication.desktop()
         self.screenRect = self.desktop.screenGeometry()
@@ -31,7 +33,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setWindowState(Qt.WindowMaximized) 
         # 消息提示窗口初始化
         self.textBrowser.setFontFamily("微软雅黑")
-        self.textBrowser.setFontPointSize(13)    
+        self.textBrowser.setFontPointSize(14)    
         # 状态栏初始化
         self.myStatusBar = QStatusBar()
         self.myStatusBar.setFont(QFont("Times New Roman", 16, QFont.Light))
@@ -39,11 +41,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 配置界面类实例
         self.protocolWin = ProtocolWin()
         self.protocolWin.protocolAppendSignal.connect(self.userTextBrowserAppend)
+        GetSetObj.set(self.protocolWin)
+        self.protocolWin.serialManager.recvSignal.connect(self.serialRecvData) # 串口线程实例
         self.thresholdWin = ThresholdWin()
         self.thresholdWin.thresholdAppendSignal.connect(self.userTextBrowserAppend)
-        SetGObj.set(self.protocolWin)
-        # 自定义工具实例
-        self.usualTools = self.protocolWin.usualTools
         # 工作模式初始化
         self.workMode = {"encoding": "X",  "detection": "X"} # 未知状态
         # 操作人员姓名录入
@@ -54,15 +55,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.timsRefresh = LocalTimeThread()
         self.timsRefresh.secondSignal.connect(self.showDaetTime)
         self.timsRefresh.start()
-        # 串口线程实例
-        self.protocolWin.serialManager.recvSignal.connect(self.serialRecvData)
-        self.protocolWin.detectPorts()
-        self.protocolWin.autoConnectController()
         # 消息保存
         self.isMessageSavedFirst = True
         self.isMessageSaved = True
         self.messagePath = ""
-        
         # 测试数据Excel文件保存变量的初始化
         self.excel = PrivateExcel() # Excel实例化全局对象
         self.isExcelSavedFirst = True # 是否是第一次保存
@@ -107,7 +103,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_uidInput.setMaxLength(5)
         self.lineEdit_uidInput.setValidator(mixdedValidator)
         self.lineEdit_uidInput.setToolTip("字母范围a~f, A~F, 数字0~9")
-
+        
     @QtCore.pyqtSlot()
     def on_pushBtn_protocolSetting_clicked(self):
         self.protocolWin.show()
@@ -121,7 +117,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.userTextBrowserAppend("编码输入完成")
 
     def userTextBrowserAppend(self, str):
-        self.textBrowser.append(self.usualTools.getTimeStamp() + str)
+        t = self.usualTools.getTimeStamp()
+        self.textBrowser.append(t + str)
         self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
     
     def openMessageRecord(self):
@@ -198,7 +195,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def showDaetTime(self, timeStr):
         self.myStatusBar.showMessage(timeStr)
        
-
     @QtCore.pyqtSlot()
     def on_lineEdit_setDrainCurrentTop_textChanged(self):
         if self.lineEdit_setDrainCurrentTop.text() != self.thresholdWin.paraDict["th_DrainCurrent_Up"]:
@@ -212,6 +208,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         res = tmp[3:(len(tmp)-4)]
         if res == "PARAOK":
             self.userTextBrowserAppend("测试仪接收参数成功")
+            time.sleep(2)
+            self.thresholdWin.close()
         elif res == "PARAERR":
             self.userTextBrowserAppend("测试仪接收参数失败")
         elif res == "PARALESS":
@@ -221,14 +219,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         print("In updateWorkMode...............")
         endc = str[2]
         dete = str[3]
-        if endc == "0":
-            self.workMode["encoding"] = "0"
-        else:
-            self.workMode["encoding"] = "1"
-        if dete == "0":
-            self.workMode["detection"] = "0"
-        else:
-            self.workMode["detection"] = "1"
+        self.workMode["encoding" ] = "0" if endc == "0" else "1"
+        self.workMode["detection"] = "0" if dete == "0" else "1"
         if str[1] == "X":
             if endc == "0":
                 self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
@@ -277,6 +269,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def parseWorkMode(self):
         wm = self.getWorkMode()
+        # print("In parseWorkMode...............")
         endc = wm["encoding"]
         dete = wm["detection"]
         if endc == "1" and dete == "1":
@@ -617,7 +610,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_uidInput.clear()   
 
     def closeEvent(self, QCloseEvent):
-        if not self.isConfigSaved:
+        if not self.thresholdWin.isConfigSaved:
             choice = QMessageBox.question(self, "保存文件", "是否保存配置文件", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
             if choice == QMessageBox.Yes:
                 QCloseEvent.accept()
@@ -635,9 +628,24 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             elif choice == QMessageBox.Cancel:
                 QCloseEvent.ignore()    
 
+def auto(Terminal):
+    Terminal.protocolWin.autoConnectDetector()
+    time.sleep(3)
+    Terminal.thresholdWin.openConfigRecord()
+    Terminal.thresholdWin.settingThreshold()
+
+class autoConnectThread(QThread):
+    def __init__(self):
+        super(autoConnectThread, self).__init__()
+
+    def run(self):
+        auto(Terminal)
+
 if __name__ == "__main__":
     mainApp = QApplication(sys.argv)
     mainApp.setWindowIcon(QIcon("./resources/icons/robot.ico"))
     Terminal = MainWin()
     Terminal.show()
+    autoInit = autoConnectThread()
+    autoInit.start()
     sys.exit(mainApp.exec_()) 

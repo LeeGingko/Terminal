@@ -11,7 +11,7 @@ class LocalTimeThread(QThread):
         self.timeStamp = ""
 
     def  __del__(self):
-        self.secondSignal.__del__()
+        # self.secondSignal.__del__()
         self.quit()
         self.wait()
         

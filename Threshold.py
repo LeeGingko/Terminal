@@ -2,7 +2,7 @@
 import os
 # 导入pickle模块
 import pickle as pk
-import GetGObj
+import GetSetObj
 from PyQt5 import QtCore
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog
@@ -31,9 +31,8 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
             "th_LineCurrent_Up":  "0", "th_LineCurrent_Down":  "0",
             "th_ComVoltage_Up":   "0", "th_ComVoltage_Down":   "0",
             "th_ComCurrent_Up":   "0", "th_ComCurrent_Down":   "0" }
-
         self.getUserPara()
-        self.pw = GetGObj.get()
+        # self.settingThreshold()
 
     def initUi(self):
         self.setupUi(self)
@@ -85,12 +84,14 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
         # print("saveConfigRecord:" + str(self.saved_info))
 
     def settingThreshold(self):
-        self.pw = GetGObj.get()
-        if self.pw.prvSerial.isOpen():
-            self.pw.data = b''
-            self.pw.rxCheck = 0
-            self.pw.prvSerial.flush()
-            self.pw.serialSendData(Func.f_DevSettingThreshold, '', self.configPath)
+        print("settingThreshold: ")
+        self.thresholdAppendSignal.emit("下发参数到测试仪")
+        self.pSerial = GetSetObj.get()
+        if self.pSerial.prvSerial.isOpen():
+            self.pSerial.data = b''
+            self.pSerial.rxCheck = 0
+            self.pSerial.prvSerial.flush()
+            self.pSerial.serialSendData(Func.f_DevSettingThreshold, '', self.configPath)
         else:
             self.thresholdAppendSignal.emit("下发阈值@串口未打开")
     
@@ -105,9 +106,7 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
                     self.isConfigSaved = True
                 self.thresholdAppendSignal.emit("参数保存成功")
                 self.thresholdAppendSignal.emit("@保存至\"" + str(self.configPath) + "\"")
-                # self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
                 self.saveConfigRecord()
-                # print(self.usualTools.getTimeStamp() + "下发参数")
                 self.settingThreshold()
         else:
             pass

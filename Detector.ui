@@ -373,7 +373,7 @@
     <widget class="QPushButton" name="pushBtn_deviceDetection">
      <property name="geometry">
       <rect>
-       <x>206</x>
+       <x>208</x>
        <y>86</y>
        <width>180</width>
        <height>45</height>
@@ -1482,7 +1482,7 @@ p, li { white-space: pre-wrap; }
      <rect>
       <x>6</x>
       <y>406</y>
-      <width>60</width>
+      <width>100</width>
       <height>40</height>
      </rect>
     </property>
@@ -1514,9 +1514,9 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="pushBtn_showResults">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>110</x>
       <y>406</y>
-      <width>60</width>
+      <width>100</width>
       <height>40</height>
      </rect>
     </property>
@@ -1542,9 +1542,9 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="pushBtn_clearResults">
     <property name="geometry">
      <rect>
-      <x>132</x>
+      <x>214</x>
       <y>406</y>
-      <width>60</width>
+      <width>100</width>
       <height>40</height>
      </rect>
     </property>
@@ -1635,10 +1635,10 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="pushBtn_cleanMsgArea">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>412</y>
-      <width>145</width>
-      <height>32</height>
+      <x>396</x>
+      <y>406</y>
+      <width>102</width>
+      <height>40</height>
      </rect>
     </property>
     <property name="font">
@@ -1660,10 +1660,10 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="pushBtn_saveMsgArea">
     <property name="geometry">
      <rect>
-      <x>478</x>
-      <y>412</y>
-      <width>135</width>
-      <height>32</height>
+      <x>498</x>
+      <y>406</y>
+      <width>102</width>
+      <height>40</height>
      </rect>
     </property>
     <property name="font">
