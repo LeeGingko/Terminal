@@ -293,19 +293,20 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def parseDevicPara(self):
         self.setWorkMode(self.protocolWin.data)
         tmp = self.protocolWin.data.decode("utf-8")
+        l = len(tmp)
         if tmp[3:10] != "NOPOWER":
-            PwrVol  = tmp[3:6]
-            PwrCur  = tmp[6:10]
-            ComVol  = tmp[10:13]
-            ComCur  = tmp[13:17]
-            FireVol = tmp[17:20]
-            FireCur = tmp[20:24]
-            self.label_selfLineVoltage.setText(PwrVol[0:2] + "." + PwrVol[2:3])
-            self.label_selfLineCurrent.setText(PwrCur[0:1] + "." + PwrCur[1:4])
-            self.label_selfComVoltage.setText(ComVol[0:2] + "." + ComVol[2:3])
-            self.label_selfComCurrent.setText(ComCur[0:1] + "." + ComCur[1:4])
-            self.label_selfFireVoltage.setText(FireVol[0:2] + "." + FireVol[2:3])
-            self.label_selfFireCurrent.setText(FireCur[0:1] + "." + FireCur[1:4])
+            PwrVol  = tmp[tmp.find("V1", 0, l) + 2 : tmp.find("A1", 0, l)]
+            PwrCur  = tmp[tmp.find("A1", 0, l) + 2 : tmp.find("V2", 0, l)]
+            ComVol  = tmp[tmp.find("V2", 0, l) + 2 : tmp.find("A2", 0, l)]
+            ComCur  = tmp[tmp.find("A2", 0, l) + 2 : tmp.find("V3", 0, l)]
+            FireVol = tmp[tmp.find("V3", 0, l) + 2 : tmp.find("A3", 0, l)]
+            FireCur = tmp[tmp.find("A3", 0, l) + 2 : tmp.find("M" , 0, l)]
+            self.label_selfLineVoltage.setText(PwrVol)
+            self.label_selfLineCurrent.setText(PwrCur)
+            self.label_selfComVoltage.setText(ComVol)
+            self.label_selfComCurrent.setText(ComCur)
+            self.label_selfFireVoltage.setText(FireVol)
+            self.label_selfFireCurrent.setText(FireCur)
             self.userTextBrowserAppend("已获取测试仪自检参数")
             self.parseWorkMode()
         else:
@@ -415,6 +416,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def parseDetectionResults(self):
         res = ""
         tmp = self.protocolWin.data.decode("utf-8")
+        l = len(tmp)
         res = tmp[3:11]
         if res == "LVERLCER":
             self.userTextBrowserAppend("线路电流超限，线路电压超限")
@@ -426,28 +428,35 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("线路电压正常，线路电流正常")
             self.resultCurrentList[0] = self.name
             self.resultCurrentList[1] = self.detectionTime
-            self.resultCurrentList[2] = tmp[13:15] + "." + tmp[15:16]
-            self.resultCurrentList[3] = tmp[18:21] + "." + tmp[21:22]
-            # 被测模块
-            self.resultCurrentList[4] = "成功"
-            self.resultCurrentList[5] = "在线"
-            self.resultCurrentList[6] = tmp[24:29]
-            self.resultCurrentList[7] = tmp[89:len(tmp)-4]
-            self.resultCurrentList[8] = tmp[83:85] + "." + tmp[85:86]
-            self.resultCurrentList[9] = "正常"
-            # 内置模块
-            self.resultCurrentList[10] = tmp[47:52]
-            self.resultCurrentList[11] = tmp[69:72]
-            self.resultCurrentList[12] = tmp[63:65] + "." + tmp[65:66]
-            self.resultCurrentList[13] = "正常"
-            self.resultCurrentList[14] = "通过"
-            # 更新model
-            for col in range(15):
-                item = QStandardItem(self.resultCurrentList[col])
-                self.tableViewModel.setItem(self.tableRow, col, item)
-        elif tmp[3:8] == "NDETE":
-            self.workMode["detection"] = "0"
-            self.userTextBrowserAppend("无法进行检测，请检查检测按键")
+            if tmp.find("U2ERROR", 11, l) != -1:
+                self.userTextBrowserAppend("UID核对失败，请检查输入编码！")
+            else:
+                DA = tmp[tmp.find("DA", 11, l) + 2 : tmp.find("WA", 11, l)]
+                self.resultCurrentList[2] = DA[0 : len(DA) - 1] + "." + DA[len(DA)-1]
+                WA = tmp[tmp.find("WA", 11, l) + 2 : tmp.find("U1", 11, l)]
+                self.resultCurrentList[3] = WA[0 : len(WA) - 1] + "." + WA[len(WA)-1]
+                # 被测模块
+                self.resultCurrentList[4] = "成功"
+                self.resultCurrentList[5] = "在线"
+                self.resultCurrentList[6] = tmp[tmp.find("U1",  11, 25) + 2 : tmp.find("PIOK", 11, l)]
+                self.resultCurrentList[7] = tmp[tmp.find("U1A", l - 10, l) + 3 : l - 4]
+                tv = tmp[tmp.find("U1V", l - 20, l) + 3 : tmp.find("U1A", l - 10, l)]
+                self.resultCurrentList[8] = tv[0 : len(tv) - 1] + '.' + tv[len(DA) - 1]
+                self.resultCurrentList[9] = "正常"
+                # 内置模块
+                self.resultCurrentList[10] = tmp[tmp.find("U2",   11, l) + 2 : tmp.find("U2RE", 11, l)]
+                self.resultCurrentList[11] = tmp[tmp.find("U2A",  11, l) + 3 : tmp.find("U1RE", 11, l)]
+                iv = tmp[tmp.find("U2V",  11, l) + 3 : tmp.find("U2A", 11, l)]
+                self.resultCurrentList[12] = iv[0 : len(iv) - 1] + '.' + iv[len(iv) - 1]
+                self.resultCurrentList[13] = "正常"
+                self.resultCurrentList[14] = "通过"
+                # 更新model
+                for col in range(15):
+                    item = QStandardItem(self.resultCurrentList[col])
+                    self.tableViewModel.setItem(self.tableRow, col, item)
+        # elif tmp[3:8] == "NDETE":
+        #     self.workMode["detection"] = "0"
+        #     self.userTextBrowserAppend("无法进行检测，请检查检测按键")
 
     @QtCore.pyqtSlot()
     def on_pushBtn_deviceDetection_clicked(self):

@@ -86,8 +86,8 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.comPortList = self.serialMonitor.portList.copy()
         self.comDescriptionList = self.serialMonitor.descriptionList.copy()
         print(self.comDescriptionList)
-        self.comboBox_selectComNum.addItems(self.comDescriptionList)
-        print(self.comboBox_selectComNum.currentText())
+        self.comboBox_selectComNum.addItems(self.comDescriptionList) # 
+        # print(self.comboBox_selectComNum.currentText())
         self.comboBox_selectComNum.setEnabled(False)
         for i in self.comPortList:
             QApplication.processEvents()

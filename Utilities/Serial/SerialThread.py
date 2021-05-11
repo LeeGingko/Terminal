@@ -32,8 +32,8 @@ class PrivateSerialThread(QThread):
     def run(self):
         while True:
             self.msleep(5)
-            self.data = b""
-            tmp = ""
+            self.data = b''
+            tmp = ''
             if self.userSerial.isOpen():
                 try:
                     self.num = self.userSerial.inWaiting()
