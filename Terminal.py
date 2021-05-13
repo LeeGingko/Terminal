@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from UserImport import *
-from GlobalVariable import GlobalVar
-import GetSetObj
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
-    
+
     def __init__(self):
         super(MainWin, self).__init__()  # 继承父类的所有属性
         # 初始化UI
@@ -33,7 +31,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setWindowState(Qt.WindowMaximized) 
         # 消息提示窗口初始化
         self.textBrowser.setFontFamily("微软雅黑")
-        self.textBrowser.setFontPointSize(14)    
+        self.textBrowser.setFontPointSize(14)
         # 状态栏初始化
         self.myStatusBar = QStatusBar()
         self.myStatusBar.setFont(QFont("Times New Roman", 16, QFont.Light))
@@ -97,13 +95,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
         self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
         # UID输入验证器设置
-        mixdedValidator = QRegExpValidator(self)
+        regValidator = QRegExpValidator(self)
         reg = QRegExp("[a-fA-F0-9]+$")
-        mixdedValidator.setRegExp(reg)
+        regValidator.setRegExp(reg)
+        # UID输入编辑栏初始化
         self.lineEdit_uidInput.setMaxLength(5)
-        self.lineEdit_uidInput.setValidator(mixdedValidator)
+        self.lineEdit_uidInput.setValidator(regValidator)
         self.lineEdit_uidInput.setToolTip("字母范围a~f, A~F, 数字0~9")
-        
+
     @QtCore.pyqtSlot()
     def on_pushBtn_protocolSetting_clicked(self):
         self.protocolWin.show()
@@ -114,7 +113,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     @QtCore.pyqtSlot()
     def on_lineEdit_uidInput_editingFinished(self):
-        self.userTextBrowserAppend("编码输入完成")
+        self.userTextBrowserAppend("获取编码：" + self.lineEdit_uidInput.text())
+
+    @QtCore.pyqtSlot()
+    def on_lineEdit_uidInput_textChanged(self):
+        self.userTextBrowserAppend("on_lineEdit_uidInput_textChanged")
 
     def userTextBrowserAppend(self, str):
         t = self.usualTools.getTimeStamp()
@@ -207,9 +210,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         tmp = self.protocolWin.data.decode("utf-8")
         res = tmp[3:(len(tmp)-4)]
         if res == "PARAOK":
+            # self.sleepUpdate(2) 导致主窗口卡顿的地方
+            if self.thresholdWin.isActiveWindow():
+                self.thresholdWin.close()
             self.userTextBrowserAppend("测试仪接收参数成功")
-            time.sleep(2)
-            self.thresholdWin.close()
         elif res == "PARAERR":
             self.userTextBrowserAppend("测试仪接收参数失败")
         elif res == "PARALESS":
@@ -342,6 +346,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("测试仪已上电，线路供电断开")
 
     def serialRecvData(self, data):
+        QApplication.processEvents()
         self.protocolWin.data = data
         if data.decode("utf-8") == "接收数据失败":
             self.userTextBrowserAppend("接收数据失败")
@@ -454,6 +459,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 for col in range(15):
                     item = QStandardItem(self.resultCurrentList[col])
                     self.tableViewModel.setItem(self.tableRow, col, item)
+                self.tableRow = self.tableRow + 1
         # elif tmp[3:8] == "NDETE":
         #     self.workMode["detection"] = "0"
         #     self.userTextBrowserAppend("无法进行检测，请检查检测按键")
@@ -524,7 +530,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     res = self.compareResult()
                     if res == 1:
                         self.excel.wrtieRow(self.excelFile, self.resultCurrentList)
-                        self.tableRow = self.tableRow + 1
                         self.isExcelSaved = True
                         self.currentResultSaved = True
                         self.saveExcelRecord()
@@ -545,7 +550,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if res == 1:
             self.excel.wrtieRow(self.excelFile, self.resultCurrentList)
             self.userTextBrowserAppend("保存数据记录表成功")
-            self.tableRow = self.tableRow + 1
             self.isExcelSaved = True
             self.currentResultSaved = True
             self.saveExcelRecord()
@@ -637,9 +641,18 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             elif choice == QMessageBox.Cancel:
                 QCloseEvent.ignore()    
 
+    def sleepUpdate(self, sec):
+        cnt = 0
+        while True:
+            QApplication.processEvents()
+            time.sleep(1)
+            cnt = cnt + 1
+            if cnt == sec:
+                break
+
 def auto(Terminal):
     Terminal.protocolWin.autoConnectDetector()
-    time.sleep(3)
+    Terminal.sleepUpdate(3)
     Terminal.thresholdWin.openConfigRecord()
     Terminal.thresholdWin.settingThreshold()
 
@@ -651,10 +664,10 @@ class autoConnectThread(QThread):
         auto(Terminal)
 
 if __name__ == "__main__":
-    mainApp = QApplication(sys.argv)
-    mainApp.setWindowIcon(QIcon("./resources/icons/robot.ico"))
+    MainApp = QApplication(sys.argv)
+    MainApp.setWindowIcon(QIcon("./resources/icons/robot.ico"))
     Terminal = MainWin()
     Terminal.show()
-    autoInit = autoConnectThread()
-    autoInit.start()
-    sys.exit(mainApp.exec_()) 
+    AutoInit = autoConnectThread()
+    AutoInit.start()
+    sys.exit(MainApp.exec_()) 

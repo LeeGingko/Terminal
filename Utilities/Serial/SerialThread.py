@@ -12,11 +12,11 @@ class PrivateSerialThread(QThread):
     def __init__(self):
         super(PrivateSerialThread, self).__init__()
         self.userSerial = serial.Serial()
+        self.recvComEvent = QThread.event
         
     def  __del__(self):
         if self.userSerial.isOpen:
             self.userSerial.close()
-        
 
     def initPort(self, port):
         self.userSerial.port = port

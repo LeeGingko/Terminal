@@ -13,6 +13,9 @@ import time
 # 导入serial相关模块
 import serial
 import serial.tools.list_ports
+# USB Lib
+import usb.util
+import usb.core
 # 默认导入
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import *
@@ -20,8 +23,11 @@ from PyQt5.QtGui import *
 from PyQt5.QtSerialPort import QSerialPortInfo
 from PyQt5.QtWidgets import *
 
+# getset全局变量
+import GetSetObj
 # 全局变量
 import GlobalVariable
+from GlobalVariable import GlobalVar
 # 导入协议窗口类
 from Protocol import ProtocolWin
 # 导入qrc资源
