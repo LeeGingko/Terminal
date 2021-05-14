@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1366</width>
+    <width>1361</width>
     <height>728</height>
    </rect>
   </property>
@@ -278,7 +278,7 @@
       </font>
      </property>
      <property name="cursor">
-      <cursorShape>OpenHandCursor</cursorShape>
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="text">
       <string>清除</string>
@@ -312,7 +312,7 @@
       </font>
      </property>
      <property name="cursor">
-      <cursorShape>OpenHandCursor</cursorShape>
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="text">
       <string>模块编码</string>
@@ -340,7 +340,7 @@
       </font>
      </property>
      <property name="cursor">
-      <cursorShape>OpenHandCursor</cursorShape>
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="text">
       <string>查询编码</string>
@@ -365,6 +365,9 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
      </property>
      <property name="text">
       <string/>
@@ -404,7 +407,7 @@
       </font>
      </property>
      <property name="cursor">
-      <cursorShape>OpenHandCursor</cursorShape>
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="text">
       <string>模块检测</string>
@@ -432,7 +435,7 @@
       </font>
      </property>
      <property name="cursor">
-      <cursorShape>OpenHandCursor</cursorShape>
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="text">
       <string>编码检测</string>
@@ -461,7 +464,7 @@
      </font>
     </property>
     <property name="cursor">
-     <cursorShape>OpenHandCursor</cursorShape>
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>设备
@@ -1455,7 +1458,7 @@ p, li { white-space: pre-wrap; }
      </font>
     </property>
     <property name="cursor">
-     <cursorShape>OpenHandCursor</cursorShape>
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>通信设置</string>
@@ -1483,7 +1486,7 @@ p, li { white-space: pre-wrap; }
      </font>
     </property>
     <property name="cursor">
-     <cursorShape>OpenHandCursor</cursorShape>
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>阈值设置</string>
@@ -1665,6 +1668,9 @@ p, li { white-space: pre-wrap; }
       <bold>false</bold>
      </font>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
      <string>清除消息</string>
     </property>
@@ -1690,6 +1696,9 @@ p, li { white-space: pre-wrap; }
       <bold>false</bold>
      </font>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
      <string>保存消息</string>
     </property>
@@ -1703,7 +1712,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1366</width>
+     <width>1361</width>
      <height>25</height>
     </rect>
    </property>
@@ -1711,23 +1720,23 @@ p, li { white-space: pre-wrap; }
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
-  <tabstop>lineEdit_uidInput</tabstop>
-  <tabstop>pushBtn_clearUidInput</tabstop>
-  <tabstop>pushBtn_deviceEncoding</tabstop>
-  <tabstop>pushBtn_queryCode</tabstop>
   <tabstop>lineEdit_op_name</tabstop>
-  <tabstop>pushBtn_deviceDetection</tabstop>
-  <tabstop>pushBtn_deviceEncodingDetection</tabstop>
-  <tabstop>pushBtn_deviceSelfCheck</tabstop>
-  <tabstop>textBrowser</tabstop>
-  <tabstop>tableView_result</tabstop>
   <tabstop>pushBtn_protocolSetting</tabstop>
   <tabstop>pushBtn_thresholdSetting</tabstop>
+  <tabstop>pushBtn_deviceSelfCheck</tabstop>
+  <tabstop>lineEdit_uidInput</tabstop>
+  <tabstop>pushBtn_queryCode</tabstop>
+  <tabstop>pushBtn_clearUidInput</tabstop>
+  <tabstop>pushBtn_deviceEncoding</tabstop>
+  <tabstop>pushBtn_deviceDetection</tabstop>
+  <tabstop>pushBtn_deviceEncodingDetection</tabstop>
   <tabstop>pushBtn_saveResults</tabstop>
   <tabstop>pushBtn_showResults</tabstop>
   <tabstop>pushBtn_clearResults</tabstop>
   <tabstop>pushBtn_cleanMsgArea</tabstop>
   <tabstop>pushBtn_saveMsgArea</tabstop>
+  <tabstop>tableView_result</tabstop>
+  <tabstop>textBrowser</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -12,8 +12,9 @@ class LocalTimeThread(QThread):
 
     def  __del__(self):
         # self.secondSignal.__del__()
-        self.quit()
         self.wait()
+        self.quit()
+
         
     def run(self):
         dayOfWeek = time.localtime().tm_wday

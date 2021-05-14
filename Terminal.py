@@ -90,6 +90,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch) # 拉伸
         self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.tableView_result.setItemDelegate(self.tableViewDelegate)
+        self.tableView_result.horizontalHeader().setFont(QFont("Times New Roman", 12, QFont.Bold))
         self.tableRow = 0 # 填入表格的行数
         # 检测以及编码默认状态设置
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
@@ -99,18 +100,21 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         reg = QRegExp("[a-fA-F0-9]+$")
         regValidator.setRegExp(reg)
         # UID输入编辑栏初始化
-        self.lineEdit_uidInput.setMaxLength(10)
+        self.lineEdit_uidInput.setMaxLength(5)
         self.lineEdit_uidInput.setValidator(regValidator)
         self.lineEdit_uidInput.setToolTip("字母范围a~f, A~F, 数字0~9")
         self.codeList = []
+        self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
     def on_pushBtn_protocolSetting_clicked(self):
         self.protocolWin.show()
+        self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
     def on_pushBtn_thresholdSetting_clicked(self):
         self.thresholdWin.show()
+        self.lineEdit_uidInput.setFocus()
 
     # @QtCore.pyqtSlot()
     # def on_lineEdit_uidInput_editingFinished(self):
@@ -393,9 +397,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     @QtCore.pyqtSlot()
     def on_pushBtn_queryCode_clicked(self):
-        print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
+        print("/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/")
         print("Querying......")
-        self.userTextBrowserAppend("模块查询")
+        self.userTextBrowserAppend("执行查询")
         if self.protocolWin.prvSerial.isOpen(): 
             self.protocolWin.data = b''
             self.protocolWin.rxCheck = 0
@@ -427,7 +431,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.workMode["encoding"] == "1":
             print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
             print("Encoding......")
-            self.userTextBrowserAppend("模块编码")
+            self.userTextBrowserAppend("执行编码")
             if self.protocolWin.prvSerial.isOpen():
                 uid = self.lineEdit_uidInput.text()
                 if uid != "":
@@ -497,7 +501,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             print("/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/")
             print("Detecting......")
             self.detectionTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-            self.userTextBrowserAppend("模块检测")
+            self.userTextBrowserAppend("执行检测")
             if self.protocolWin.prvSerial.isOpen():
                 uid = self.lineEdit_uidInput.text()
                 if uid != "":
