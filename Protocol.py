@@ -162,6 +162,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                             self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "]已打开")
                             self.pushBtn_serialSwitch.setText("关闭串口")
                             self.comboBox_selectComNum.setEnabled(False)
+                            self.close()
                     except:
                         QMessageBox.warning(self, "打开串口", "打开串口失败")
                         self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "]打开失败")
@@ -196,6 +197,8 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                 self.deviceSelfCheck() # 每次运行程序执行一次自检即可
                             else:
                                 self.protocolAppendSignal.emit("测试仪在线，请执行操作")
+                        
+                    
                 else:
                     QMessageBox.warning(self, "串口状态", "串口使用中")
             else:  # 打开时检测到无串口
@@ -225,11 +228,11 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
             return State.s_RxFrameCheckErr
 
     def txFrameFormatting(self, func, uid, configPath):
-        self.txCheck = int(0)  # 校验和清零
+        self.txCheck = 0 # 校验和清零
         self.txHighCheck = "0",
         self.txLowCheck = "0"
         try:
-            if func == Func.f_DevGetSelfPara:
+            if func == Func.f_DevGetSelfPara or func == Func.f_DevQueryCurrentCode:
                 tmp = str("D" + str(self.serialNumber) + func)
             elif func == Func.f_DevEncoding or func == Func.f_DevDetection or func == Func.f_DevEncodingDetection:
                 tmp = str("D" + str(self.serialNumber) + func + uid)

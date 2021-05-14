@@ -111,13 +111,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_pushBtn_thresholdSetting_clicked(self):
         self.thresholdWin.show()
 
-    @QtCore.pyqtSlot()
-    def on_lineEdit_uidInput_editingFinished(self):
-        self.userTextBrowserAppend("获取编码：" + self.lineEdit_uidInput.text())
+    # @QtCore.pyqtSlot()
+    # def on_lineEdit_uidInput_editingFinished(self):
+    #     self.userTextBrowserAppend("获取编码：" + self.lineEdit_uidInput.text())
 
-    @QtCore.pyqtSlot()
-    def on_lineEdit_uidInput_textChanged(self):
-        self.userTextBrowserAppend("on_lineEdit_uidInput_textChanged")
+    # @QtCore.pyqtSlot()
+    # def on_lineEdit_uidInput_textChanged(self):
+    #     self.userTextBrowserAppend("on_lineEdit_uidInput_textChanged")
 
     def userTextBrowserAppend(self, str):
         t = self.usualTools.getTimeStamp()
@@ -364,6 +364,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.parseDetectionResults()
                     elif tmp[2] == Func.f_DevEncodingDetection:
                         self.parseDetectionResults()
+                    elif tmp[2] == Func.f_DevQueryCurrentCode:
+                        self.parseQueryCodeResults()
                 else:
                     self.userTextBrowserAppend("接收帧错误")
             elif tmp[0] == "R":
@@ -379,7 +381,25 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.getDevicePara()
         else:
             QMessageBox.information(self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
+    
+    def parseQueryCodeResults(self):
+        tmp = self.protocolWin.data.decode("utf-8")
+        tmp = tmp[tmp.find("UID", 0, len(tmp)) + 3 : len(tmp) - 4]
+        self.userTextBrowserAppend("当前模块编号：" + tmp)
 
+    @QtCore.pyqtSlot()
+    def on_pushBtn_queryCode_clicked(self):
+        print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
+        print("Querying......")
+        self.userTextBrowserAppend("模块查询")
+        if self.protocolWin.prvSerial.isOpen(): 
+            self.protocolWin.data = b''
+            self.protocolWin.rxCheck = 0
+            self.protocolWin.prvSerial.flushOutput()
+            self.protocolWin.serialSendData(Func.f_DevQueryCurrentCode, '', '')
+        else:
+            self.userTextBrowserAppend("串口未打开")
+    
     def parseEncodingResults(self):
         res = ""
         tmp = self.protocolWin.data.decode("utf-8")
@@ -396,7 +416,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.workMode["encoding"] = "0"
             self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/close)}")
             self.userTextBrowserAppend("无法进行编码，请检查编码按键")
-    
+
     @QtCore.pyqtSlot()
     def on_pushBtn_deviceEncoding_clicked(self):
         if self.workMode["encoding"] == "1":
@@ -433,7 +453,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("线路电压正常，线路电流正常")
             self.resultCurrentList[0] = self.name
             self.resultCurrentList[1] = self.detectionTime
-            if tmp.find("U2ERROR", 11, l) != -1:
+            if tmp.find("U1ERROR", 11, l) != -1:
                 self.userTextBrowserAppend("UID核对失败，请检查输入编码！")
             else:
                 DA = tmp[tmp.find("DA", 11, l) + 2 : tmp.find("WA", 11, l)]
@@ -460,6 +480,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     item = QStandardItem(self.resultCurrentList[col])
                     self.tableViewModel.setItem(self.tableRow, col, item)
                 self.tableRow = self.tableRow + 1
+                self.lineEdit_uidInput.clear()
+        
         # elif tmp[3:8] == "NDETE":
         #     self.workMode["detection"] = "0"
         #     self.userTextBrowserAppend("无法进行检测，请检查检测按键")
