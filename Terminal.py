@@ -99,9 +99,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         reg = QRegExp("[a-fA-F0-9]+$")
         regValidator.setRegExp(reg)
         # UID输入编辑栏初始化
-        self.lineEdit_uidInput.setMaxLength(5)
+        self.lineEdit_uidInput.setMaxLength(10)
         self.lineEdit_uidInput.setValidator(regValidator)
         self.lineEdit_uidInput.setToolTip("字母范围a~f, A~F, 数字0~9")
+        self.codeList = []
 
     @QtCore.pyqtSlot()
     def on_pushBtn_protocolSetting_clicked(self):
@@ -218,6 +219,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("测试仪接收参数失败")
         elif res == "PARALESS":
             self.userTextBrowserAppend("测试仪接收参数缺失")
+        self.lineEdit_uidInput.setFocus()
     
     def updateWorkMode(self, str):
         print("In updateWorkMode...............")
@@ -379,6 +381,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.protocolWin.prvSerial.isOpen() == True:
             self.userTextBrowserAppend("测试仪自检")
             self.getDevicePara()
+            self.lineEdit_uidInput.setFocus()
         else:
             QMessageBox.information(self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
     
@@ -386,6 +389,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         tmp = self.protocolWin.data.decode("utf-8")
         tmp = tmp[tmp.find("UID", 0, len(tmp)) + 3 : len(tmp) - 4]
         self.userTextBrowserAppend("当前模块编号：" + tmp)
+        self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
     def on_pushBtn_queryCode_clicked(self):
@@ -416,6 +420,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.workMode["encoding"] = "0"
             self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/close)}")
             self.userTextBrowserAppend("无法进行编码，请检查编码按键")
+        self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
     def on_pushBtn_deviceEncoding_clicked(self):
@@ -481,7 +486,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.tableViewModel.setItem(self.tableRow, col, item)
                 self.tableRow = self.tableRow + 1
                 self.lineEdit_uidInput.clear()
-        
+        self.lineEdit_uidInput.setFocus()
         # elif tmp[3:8] == "NDETE":
         #     self.workMode["detection"] = "0"
         #     self.userTextBrowserAppend("无法进行检测，请检查检测按键")
@@ -561,6 +566,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.userTextBrowserAppend("未有检测结果，请进行编码和检测")
                     self.resultLastList = self.resultCurrentList.copy()
                     QApplication.processEvents() 
+                    self.lineEdit_uidInput.setFocus()
                 else:
                     pass
         else:
@@ -580,11 +586,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif res == -1:
             self.userTextBrowserAppend("未有检测结果，请进行编码和检测")
         self.resultLastList = self.resultCurrentList.copy()
+        self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
     def on_pushBtn_clearResults_clicked(self):
         self.tableRow = 0
         self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
+        self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
     def on_pushBtn_saveResults_clicked(self):
@@ -593,6 +601,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.firstSaveResults()
         elif self.isExcelSaved:
             self.SaveResults()
+        self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
     def on_pushBtn_showResults_clicked(self):
@@ -601,7 +610,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if recordsfile:
             os.startfile(recordsfile)
             self.isConfigSaved = True
-        self.saveExcelRecord()     
+        self.saveExcelRecord()   
+        self.lineEdit_uidInput.setFocus()  
 
     @QtCore.pyqtSlot()
     def on_pushBtn_deviceEncodingDetection_clicked(self):
