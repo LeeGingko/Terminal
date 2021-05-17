@@ -90,7 +90,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch) # 拉伸
         self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.tableView_result.setItemDelegate(self.tableViewDelegate)
-        self.tableView_result.horizontalHeader().setFont(QFont("Times New Roman", 12, QFont.Bold))
+        self.tableView_result.horizontalHeader().setFont(QFont("Times New Roman", 12, QFont.Light))
         self.tableRow = 0 # 填入表格的行数
         # 检测以及编码默认状态设置
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
