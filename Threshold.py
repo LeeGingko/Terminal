@@ -124,9 +124,7 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
     def on_pushBtn_saveSettingsRecord_clicked(self):
         print("/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/")
         print("Setting parameters's threshold ......")
-        # print(self.usualTools.getTimeStamp() + "获取参数")
         self.getUserPara()
-        # print(self.usualTools.getTimeStamp() + "保存参数")
         cnt = 0
         self.para = ""
         for k, v in self.paraDict.items():

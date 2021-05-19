@@ -233,7 +233,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>10.0</string>
+        <string>500.0</string>
        </property>
       </widget>
      </item>

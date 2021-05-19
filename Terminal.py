@@ -70,9 +70,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             "离线",   "FFFFF",     "F",    "F",   "异常",
             "SSSSS",    "F",      "F",    "异常", "拒绝" ]
         # 测试检测结果，初始为默认检测结果
-        self.resultCurrentList = self.resultDefaultList.copy()
+        self.resultList = self.resultDefaultList.copy()
         # 测试检测结果备份，进行重复检测结果判断
-        self.resultLastList = self.resultCurrentList.copy()
+        self.resultLastList = self.resultList.copy()
         # 当前记录是否已经被保存，防止重复保存
         self.currentResultSaved = False 
         # 标准模型初始化
@@ -418,9 +418,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.userTextBrowserAppend("写入UID成功")
             elif res == "UIDERR":
                 self.userTextBrowserAppend("写入UID失败")
-        elif res == "FACULTY":
+        elif tmp.find("FACULTY"):
             self.userTextBrowserAppend("模块已出故障，请更换模块！")
-        elif res == "NCODE":
+        elif tmp.find("NCODE"):
             self.workMode["encoding"] = "0"
             self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/close)}")
             self.userTextBrowserAppend("无法进行编码，请检查编码按键")
@@ -460,33 +460,49 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("线路电压超限，线路电流正常")
         elif res == "LVOKLCOK":
             self.userTextBrowserAppend("线路电压正常，线路电流正常")
-            self.resultCurrentList[0] = self.name
-            self.resultCurrentList[1] = self.detectionTime
+            self.resultList[0] = self.lineEdit_op_name.text()
+            self.resultList[1] = self.detectionTime
             if tmp.find("U1ERROR", 11, l) != -1:
                 self.userTextBrowserAppend("UID核对失败，请检查输入编码！")
             else:
                 DA = tmp[tmp.find("DA", 11, l) + 2 : tmp.find("WA", 11, l)]
-                self.resultCurrentList[2] = DA[0 : len(DA) - 1] + "." + DA[len(DA)-1]
+                self.resultList[2] = DA[0 : len(DA) - 1] + "." + DA[len(DA)-1]
                 WA = tmp[tmp.find("WA", 11, l) + 2 : tmp.find("U1", 11, l)]
-                self.resultCurrentList[3] = WA[0 : len(WA) - 1] + "." + WA[len(WA)-1]
+                self.resultList[3] = WA[0 : len(WA) - 1] + "." + WA[len(WA)-1]
                 # 被测模块
-                self.resultCurrentList[4] = "成功"
-                self.resultCurrentList[5] = "在线"
-                self.resultCurrentList[6] = tmp[tmp.find("U1",  11, 25) + 2 : tmp.find("PIOK", 11, l)]
-                self.resultCurrentList[7] = tmp[tmp.find("U1A", l - 10, l) + 3 : l - 4]
-                tv = tmp[tmp.find("U1V", l - 20, l) + 3 : tmp.find("U1A", l - 10, l)]
-                self.resultCurrentList[8] = tv[0 : len(tv) - 1] + '.' + tv[len(DA) - 1]
-                self.resultCurrentList[9] = "正常"
+                if tmp[tmp.find("U1",  11, 25) + 2 : tmp.find("PIOK", 11, l)] != '':
+                    self.resultList[4] = "成功"
+                    if tmp[tmp.find("PIOK", 0, l)] != -1 and tmp[tmp.find("U1REC", 0, l)] != -1:
+                        self.resultList[5] = "在线"
+                        self.resultList[6] = tmp[tmp.find("U1",  11, 25) + 2 : tmp.find("PIOK", 11, l)] # UID
+                        fc = tmp[tmp.find("U1A", l - 10, l) + 3 : l - 4] #引爆电流
+                        self.resultList[7] = fc
+                        fv = tmp[tmp.find("U1V", l - 20, l) + 3 : tmp.find("U1A", l - 10, l)] #引爆电压
+                        self.resultList[8] = fv[0 : len(fv) - 1] + '.' + fv[len(DA) - 1]
+                        if float(fc) > float(self.thresholdWin.paraDict['th_FireCurrent_Down']) and float(fc) < float(self.thresholdWin.paraDict['th_FireCurrent_Up']):
+                            self.resultList[9] = "正常"
+                            self.resultList[14] = "通过"
+                        else:
+                            self.resultList[9] = "超限"
+                            self.resultList[14] = "未通过"
+                    else:
+                        self.resultList[5] = "离线"
+                        self.resultList[6] = tmp[tmp.find("U1",  11, 25) + 2 : tmp.find("PIOK", 11, l)] # UID
+                        self.resultList[7] = "-"
+                        self.resultList[8] = "-"
+                        self.resultList[9] = "-"
+                else:
+                    self.resultList[4] = "失败"
+                    self.resultList[5] = "离线"
                 # 内置模块
-                self.resultCurrentList[10] = tmp[tmp.find("U2",   11, l) + 2 : tmp.find("U2RE", 11, l)]
-                self.resultCurrentList[11] = tmp[tmp.find("U2A",  11, l) + 3 : tmp.find("U1RE", 11, l)]
+                self.resultList[10] = tmp[tmp.find("U2",   11, l) + 2 : tmp.find("U2RE", 11, l)]
+                self.resultList[11] = tmp[tmp.find("U2A",  11, l) + 3 : tmp.find("U1RE", 11, l)]
                 iv = tmp[tmp.find("U2V",  11, l) + 3 : tmp.find("U2A", 11, l)]
-                self.resultCurrentList[12] = iv[0 : len(iv) - 1] + '.' + iv[len(iv) - 1]
-                self.resultCurrentList[13] = "正常"
-                self.resultCurrentList[14] = "通过"
+                self.resultList[12] = iv[0 : len(iv) - 1] + '.' + iv[len(iv) - 1]
+                self.resultList[13] = "正常"
                 # 更新model
                 for col in range(15):
-                    item = QStandardItem(self.resultCurrentList[col])
+                    item = QStandardItem(self.resultList[col])
                     self.tableViewModel.setItem(self.tableRow, col, item)
                 self.tableRow = self.tableRow + 1
                 self.lineEdit_uidInput.clear()
@@ -535,8 +551,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # print("saveExcelRecord:" + str(self.saved_info))
 
     def compareResult(self):
-        diffDef = set(self.resultCurrentList).difference(set(self.resultDefaultList))
-        diffDet = set(self.resultCurrentList).difference(set(self.resultLastList))
+        diffDef = set(self.resultList).difference(set(self.resultDefaultList))
+        diffDet = set(self.resultList).difference(set(self.resultLastList))
         if diffDef == set() and diffDet == set():
             return -1
         elif diffDef != set() and diffDet == set():
@@ -544,7 +560,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif diffDef != set() and diffDet != set():
             return 1    
             
-    def firstSaveResults(self):
+    def firstsaveResults(self):
         if self.excelFilePath == "":
             self.excelFilePath, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./recording", "recorded data(*.xlsx)")
             if isAccept:
@@ -560,7 +576,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
                     res = self.compareResult()
                     if res == 1:
-                        self.excel.wrtieRow(self.excelFile, self.resultCurrentList)
+                        self.excel.wrtieRow(self.excelFile, self.resultList)
                         self.isExcelSaved = True
                         self.currentResultSaved = True
                         self.saveExcelRecord()
@@ -568,7 +584,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.userTextBrowserAppend("当前检测结果已记录，请重新进行编码和检测")  
                     elif res == -1:
                         self.userTextBrowserAppend("未有检测结果，请进行编码和检测")
-                    self.resultLastList = self.resultCurrentList.copy()
+                    self.resultLastList = self.resultList.copy()
                     QApplication.processEvents() 
                     self.lineEdit_uidInput.setFocus()
                 else:
@@ -576,11 +592,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             pass
 
-    def SaveResults(self):
+    def saveResults(self):
         self.openExcelRecord()
         res = self.compareResult()
         if res == 1:
-            self.excel.wrtieRow(self.excelFile, self.resultCurrentList)
+            self.excel.wrtieRow(self.excelFile, self.resultList)
             self.userTextBrowserAppend("保存数据记录表成功")
             self.isExcelSaved = True
             self.currentResultSaved = True
@@ -589,7 +605,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("当前检测结果已记录，请重新进行编码和检测")  
         elif res == -1:
             self.userTextBrowserAppend("未有检测结果，请进行编码和检测")
-        self.resultLastList = self.resultCurrentList.copy()
+        self.resultLastList = self.resultList.copy()
         self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
@@ -602,9 +618,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_pushBtn_saveResults_clicked(self):
         self.openExcelRecord()
         if self.isExcelSavedFirst:
-            self.firstSaveResults()
+            self.firstsaveResults()
         elif self.isExcelSaved:
-            self.SaveResults()
+            self.saveResults()
         self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
@@ -686,24 +702,24 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             if cnt == sec:
                 break
 
-def auto(Terminal):
-    Terminal.protocolWin.autoConnectDetector()
-    Terminal.sleepUpdate(3)
-    Terminal.thresholdWin.openConfigRecord()
-    Terminal.thresholdWin.settingThreshold()
+def auto():
+    MainTerminal.protocolWin.autoConnectDetector()
+    MainTerminal.sleepUpdate(3)
+    MainTerminal.thresholdWin.openConfigRecord()
+    MainTerminal.thresholdWin.settingThreshold()
 
 class autoConnectThread(QThread):
     def __init__(self):
         super(autoConnectThread, self).__init__()
 
     def run(self):
-        auto(Terminal)
+        auto()
 
 if __name__ == "__main__":
     MainApp = QApplication(sys.argv)
     MainApp.setWindowIcon(QIcon("./resources/icons/robot.ico"))
-    Terminal = MainWin()
-    Terminal.show()
-    AutoInit = autoConnectThread()
-    AutoInit.start()
+    MainTerminal = MainWin()
+    MainTerminal.show()
+    AutoInitProcedure = autoConnectThread()
+    AutoInitProcedure.start()
     sys.exit(MainApp.exec_()) 
