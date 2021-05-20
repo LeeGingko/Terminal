@@ -7,6 +7,34 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         super(MainWin, self).__init__()  # 继承父类的所有属性
         # 初始化UI
         self.initUi()
+        for col in range(15):
+            item = QStandardItem(self.resultList[col])
+            self.tableViewModel.setItem(self.tableRow, col, item)
+        self.tableRow = self.tableRow + 1
+        time.sleep(1)
+        self.resultList[1] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        for col in range(15):
+            item = QStandardItem(self.resultList[col])
+            self.tableViewModel.setItem(self.tableRow, col, item)
+        self.tableRow = self.tableRow + 1
+        time.sleep(1)
+        self.resultList[1] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        for col in range(15):
+            item = QStandardItem(self.resultList[col])
+            self.tableViewModel.setItem(self.tableRow, col, item)
+        self.tableRow = self.tableRow + 1
+        time.sleep(1)
+        self.resultList[1] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        for col in range(15):
+            item = QStandardItem(self.resultList[col])
+            self.tableViewModel.setItem(self.tableRow, col, item)
+        self.tableRow = self.tableRow + 1
+        time.sleep(1)
+        self.resultList[1] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        for col in range(15):
+            item = QStandardItem(self.resultList[col])
+            self.tableViewModel.setItem(self.tableRow, col, item)
+        self.tableRow = self.tableRow + 1
     
     def __del__(self):
         print("{} 退出主窗口".format(__file__))
@@ -58,7 +86,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.isMessageSaved = True
         self.messagePath = ""
         # 测试数据Excel文件保存变量的初始化
-        self.excel = PrivateExcel() # Excel实例化全局对象
+        self.excel = PrivateOpenPyxl() # Excel实例化全局对象
         self.isExcelSavedFirst = True # 是否是第一次保存
         self.isExcelSaved = True # 是否是已经保存 
         self.excelFilePath = "" # 文件路径
@@ -75,23 +103,44 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.resultLastList = self.resultList.copy()
         # 当前记录是否已经被保存，防止重复保存
         self.currentResultSaved = False 
-        # 标准模型初始化
-        self.tableViewModel = QStandardItemModel(0, 15, self)
+        # 表格模型初始化
+        self.tableRow = 0 # 填入表格的行数
         self.tableHeadline = [
             "测试员",   "时间",      "漏电流(uA)", "工作电流(uA)",  "ID核对",
             "在线检测", "被测选发",   "电流(mA)",   "电压(V)",      "电流判断",
             "内置选发", "电流(mA)",  "电压(V)",    "电流判断",      "结论" ]   
+        self.tableViewModel = QStandardItemModel(0, 15, self)
         self.tableViewModel.setHorizontalHeaderLabels(self.tableHeadline) # 表头
         # 表格视图委托初始化
-        self.tableViewDelegate = TableViewDelegate()
+        self.tableViewDelegate = PrivateTableViewDelegate()
         # 检测数据显示表格模型初始化
         self.tableView_result.setModel(self.tableViewModel)
         self.tableView_result.horizontalHeader().setStretchLastSection(True)
-        # self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch) # 拉伸
         self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.tableView_result.setItemDelegate(self.tableViewDelegate)
-        self.tableView_result.horizontalHeader().setFont(QFont("Times New Roman", 12, QFont.Light))
-        self.tableRow = 0 # 填入表格的行数
+        self.tableView_result.horizontalHeader().setFont(QFont("微软雅黑", 12, QFont.Light))
+        self.tableView_result.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.tableView_result.verticalHeader().hide()
+        self.tableView_result.setContextMenuPolicy(Qt.CustomContextMenu)
+        # 表格视图上下文菜单
+        self.tableView_result.customContextMenuRequested.connect(self.tvCustomContextMenuRequested)
+        self.tvMenu = QMenu(self.tableView_result)
+        self.saveSelected = QAction()
+        self.saveAll = QAction()
+        self.dropSelected = QAction()
+        self.dropAll = QAction()
+        self.saveSelected.setText('保存选中行')
+        self.saveAll.setText('保存全部行')
+        self.dropSelected.setText('删除选中行')
+        self.dropAll.setText('删除全部行')
+        self.saveSelected.triggered.connect(self.tvSaveSelected)
+        self.saveAll.triggered.connect(self.tvSaveAll)
+        self.dropSelected.triggered.connect(self.tvDropSelected)
+        self.dropAll.triggered.connect(self.tvDropAll)
+        self.tvMenu.addAction(self.saveSelected)
+        self.tvMenu.addAction(self.saveAll)
+        self.tvMenu.addAction(self.dropSelected)
+        self.tvMenu.addAction(self.dropAll)
         # 检测以及编码默认状态设置
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
         self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
@@ -103,9 +152,35 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_uidInput.setMaxLength(5)
         self.lineEdit_uidInput.setValidator(regValidator)
         self.lineEdit_uidInput.setToolTip("字母范围a~f, A~F, 数字0~9")
-        self.codeList = []
         self.lineEdit_uidInput.setFocus()
-        # self.setMouseTracking(True)
+        self.setMouseTracking(True)
+        # 编号记录列表
+        self.codeList = []
+
+    def tvSaveSelected(self):
+        self.userTextBrowserAppend('保存选中数据')
+
+    def tvSaveAll(self):
+        self.userTextBrowserAppend('保存全部数据')
+
+    def tvDropSelected(self):
+        self.userTextBrowserAppend('删除选中数据')
+        for n in self.tvRowList:
+            self.tableViewModel.removeRow(n)
+        
+    def tvDropAll(self):
+        self.userTextBrowserAppend('删除全部数据')
+        self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
+        # self.tableViewModel.removeRows(self.tableView_result.selectionModel().allRows())
+
+    def tvCustomContextMenuRequested(self, p):
+        self.tvIndex = self.tableView_result.selectionModel().selectedRows()
+        self.tvRowList = []
+        for i in self.tvIndex:
+            self.tvRowList.append(i.row())
+        self.tvRowList.sort(key=int, reverse=True)
+        print(self.tvRowList)
+        self.tvMenu.exec_(self.tableView_result.mapToGlobal(p))
 
     @QtCore.pyqtSlot()
     def on_pushBtn_protocolSetting_clicked(self):
@@ -667,6 +742,20 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_pushBtn_clearUidInput_clicked(self):
         self.lineEdit_uidInput.clear()   
 
+    def sleepUpdate(self, sec):
+        cnt = 0
+        while True:
+            QApplication.processEvents()
+            time.sleep(1)
+            cnt = cnt + 1
+            if cnt == sec:
+                break
+    
+    def mousePressEvent(self, e):
+        if e.buttons() == QtCore.Qt.LeftButton:
+            # print('鼠标单击')
+            self.lineEdit_uidInput.setFocus()
+    
     def closeEvent(self, QCloseEvent):
         if not self.thresholdWin.isConfigSaved:
             choice = QMessageBox.question(self, "保存文件", "是否保存配置文件", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
@@ -684,26 +773,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 app = QApplication.instance()
                 app.quit()
             elif choice == QMessageBox.Cancel:
-                QCloseEvent.ignore()    
+                QCloseEvent.ignore()
 
-    def sleepUpdate(self, sec):
-        cnt = 0
-        while True:
-            QApplication.processEvents()
-            time.sleep(1)
-            cnt = cnt + 1
-            if cnt == sec:
-                break
-    
-    def mousePressEvent(self, e):
-        if e.buttons() == QtCore.Qt.LeftButton:
-            # print('鼠标单击')
-            self.lineEdit_uidInput.setFocus()
-
-    def enterEvent(self, a0: QtCore.QEvent) -> None:
-        self.lineEdit_uidInput.setFocus()
-        return super().enterEvent(a0)
-    
 def auto():
     MainTerminal.protocolWin.autoConnectDetector()
     if len(MainTerminal.protocolWin.comDescriptionList) != 0:

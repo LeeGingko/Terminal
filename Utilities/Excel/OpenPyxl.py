@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from openpyxl import *
 
-class PrivateExcel():
+class PrivateOpenPyxl():
     def __init__(self, filename = "", sheetname = ""):
-        super(PrivateExcel, self).__init__()
+        super(PrivateOpenPyxl, self).__init__()
         # 添加属性
         self.filename  = filename
         self.sheetname = sheetname

@@ -41,7 +41,7 @@ from Utilities.Enum.FuncEnum import Func
 # 导入状态枚举
 from Utilities.Enum.StateEnum import State
 # 导入自定义Excel操作类
-from Utilities.Excel.OpenPyExcel import PrivateExcel
+from Utilities.Excel.OpenPyxl import PrivateOpenPyxl
 # 引入串口封装类
 from Utilities.Serial.SerialMonitor import PrivateSerialMonitor
 from Utilities.Serial.SerialThread import PrivateSerialThread
@@ -50,4 +50,4 @@ from Utilities.Time.LocalTimeThread import LocalTimeThread
 # 导入自定义工具
 from Utilities.Time.usual import Tools
 # 导入表格视图委托
-from Utilities.ViewDelegation.TableViewDelegate import TableViewDelegate
+from Utilities.ViewDelegation.TableViewDelegate import PrivateTableViewDelegate

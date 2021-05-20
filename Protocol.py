@@ -45,7 +45,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.serialMonitor.start()
         # 串口初始化
         self.serialManager = PrivateSerialThread()  # 串口接收线程对象
-        self.prvSerial = self.serialManager.userSerial  # 获取全局实例化串口对象
+        self.prvSerial = self.serialManager.inUseSerial  # 获取全局实例化串口对象
         self.isSTM32Online = False # 测试仪是否在线
         self.serialManager.start()
 
@@ -139,22 +139,24 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                     break
 
     def monitorPorts(self, list):
-        if list[0] == 'CLEAR':
-            print(str(list) + ' comboBox_selectComNum')
+        if list[0] == 'NOCOM':
+            print(str(list[0]))
             self.comboBox_selectComNum.setEnabled(True)
             self.comboBox_selectComNum.clear()  # 清空端口选择按钮 
             if self.prvSerial.isOpen():
                 self.prvSerial.close()
             self.pushBtn_serialSwitch.setText('打开串口')
-        if len(list) >= 1 and list[0] != 'CLEAR':
-            print('monitorPorts：' + str(list))
+        if len(list) >= 1 and list[0] != 'NOCOM':
+            print(str(list))
             self.comboBox_selectComNum.setEnabled(True)
             self.comboBox_selectComNum.clear()  # 清空端口选择按钮
             self.comPortList = self.serialMonitor.portList.copy()
             self.comDescriptionList = self.serialMonitor.descriptionList.copy()
-            if self.comDescriptionList != []:
+            if len(self.comDescriptionList) != 0:
                 for p in self.comDescriptionList:
                     self.comboBox_selectComNum.addItem(p)
+            if self.prvSerial.isOpen():
+                self.comboBox_selectComNum.setEnabled(False) # 串口发生变化时，已打开的串口需要把下拉框给禁止
 
     @QtCore.pyqtSlot()
     def on_pushBtn_serialSwitch_clicked(self):
@@ -196,7 +198,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                             elif (num > 0 and num <= 4):
                                 self.prvSerial.flushInput()
                             elif num >= 5:
-                                time.sleep(0.1)
+                                time.sleep(0.01)
                                 data = self.prvSerial.read(num)
                                 if data.decode("utf-8") == "STM32":
                                     self.isSTM32Online = True
