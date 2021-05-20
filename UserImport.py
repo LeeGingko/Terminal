@@ -13,11 +13,11 @@ import time
 # 导入serial相关模块
 import serial
 import serial.tools.list_ports
+import usb.core
 # USB Lib
 import usb.util
-import usb.core
 # 默认导入
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtSerialPort import QSerialPortInfo

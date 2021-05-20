@@ -22,17 +22,23 @@ class PrivateSerialMonitor(QThread):
                 self.descriptionList.append(p.description)
 
     def run(self):
-        # while True:
-        #     self.msleep(100)
-        #     list = serial.tools.list_ports.comports()
-        #     list.sort()
-        #     if len(list) >= 1:
-        #         if len(list) != len(self.portList):
-        #             self.portList = list.copy()
-        #             self.descriptionList.clear()
-        #             for p in list:
-        #                 self.descriptionList.append(p.description)
-        #             self.portChangeSignal.emit(self.descriptionList)
-        #         else:
-        #             pass
-        pass
+        while True:
+            self.msleep(500)
+            list = serial.tools.list_ports.comports()
+            list.sort()
+            # print("tlist：" + str(len(list)))
+            # print("plist：" + str(len(self.portList)))
+            if len(list) == 0 and len(self.portList) == 1:
+                self.portChangeSignal.emit(['CLEAR'])
+            if len(list) >= 1:
+                if len(list) != len(self.portList):
+                    self.portList.clear()
+                    self.descriptionList.clear()
+                    self.portList = list.copy()
+                    for p in list:
+                        self.descriptionList.append(p.description)
+                    self.portChangeSignal.emit(self.descriptionList)
+                else:
+                    pass
+            else:
+                self.portList.clear()

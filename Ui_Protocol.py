@@ -49,6 +49,7 @@ class Ui_ProtocolDialog(object):
         font.setItalic(False)
         font.setWeight(50)
         self.pushBtn_serialSwitch.setFont(font)
+        self.pushBtn_serialSwitch.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushBtn_serialSwitch.setAutoFillBackground(True)
         self.pushBtn_serialSwitch.setStyleSheet("QPushButton{\n"
 "    \n"

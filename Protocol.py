@@ -85,64 +85,76 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.serialMonitor.searchPorts()
         self.comPortList = self.serialMonitor.portList.copy()
         self.comDescriptionList = self.serialMonitor.descriptionList.copy()
-        print(self.comDescriptionList)
-        self.comboBox_selectComNum.addItems(self.comDescriptionList) # 
-        # print(self.comboBox_selectComNum.currentText())
-        self.comboBox_selectComNum.setEnabled(False)
-        for i in self.comPortList:
-            QApplication.processEvents()
-            self.comDescription = i.description
-            pInfo = QSerialPortInfo(i.device)
-            pSta = pInfo.isBusy()  # 该串口状态
-            if pSta == False:  # 该串口空闲
-                self.serialManager.initPort(i.device)
-                try:
-                    self.prvSerial.open()
-                    if self.prvSerial.isOpen():
-                        self.protocolAppendSignal.emit("[" + i.device + "]已打开")
-                        self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
-                        startTiming = dt.datetime.now()
-                        endTiming = startTiming
-                        # self.protocolAppendSignal.emit("等待测试仪回应")
-                        while True: # 等待测试仪回应
-                            QApplication.processEvents()
-                            num = self.prvSerial.inWaiting()
-                            # print("openClosePort num:" + str(num)) # 输出收到的字节数
-                            if num == 0:
-                                if (endTiming - startTiming).seconds >= 2:
-                                    self.isSTM32Online = False
-                                    self.prvSerial.close()
-                                    self.protocolAppendSignal.emit("测试仪无响应，已关闭[" + i.device + "]，请执行操作")
-                                    break
-                            elif (num > 0 and num <= 4):
-                                self.prvSerial.flushInput()
-                            elif num >= 5:
+        print('串口描述列表：' + str(self.comDescriptionList))
+        if self.comDescriptionList == []:
+            self.protocolAppendSignal.emit("未检测到串口，请连接设备！")
+        else:
+            self.comboBox_selectComNum.addItems(self.comDescriptionList) # 
+            # print(self.comboBox_selectComNum.currentText())
+            self.comboBox_selectComNum.setEnabled(False)
+            for i in self.comPortList:
+                QApplication.processEvents()
+                self.comDescription = i.description
+                pInfo = QSerialPortInfo(i.device)
+                pSta = pInfo.isBusy()  # 该串口状态
+                if pSta == False:  # 该串口空闲
+                    self.serialManager.initPort(i.device)
+                    try:
+                        self.prvSerial.open()
+                        if self.prvSerial.isOpen():
+                            self.protocolAppendSignal.emit("[" + i.device + "]已打开")
+                            self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
+                            startTiming = dt.datetime.now()
+                            endTiming = startTiming
+                            # self.protocolAppendSignal.emit("等待测试仪回应")
+                            while True: # 等待测试仪回应
                                 QApplication.processEvents()
-                                time.sleep(0.1)
-                                QApplication.processEvents()
-                                data = self.prvSerial.read(num)
-                                if data.decode("utf-8") == "STM32":
-                                    self.isSTM32Online = True
-                                    self.protocolAppendSignal.emit("测试仪在线!")
-                                    self.deviceSelfCheck() # 每次运行程序执行一次自检即可
-                                    self.comboBox_selectComNum.setEnabled(False)
-                                    self.pushBtn_serialSwitch.setText("关闭串口")
-                                    break
-                            endTiming = dt.datetime.now()  
-                except:
-                    QMessageBox.warning(self, "打开串口", "打开串口失败")
-                    self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "] 打开失败")
-            if self.isSTM32Online == True:
-                break
+                                num = self.prvSerial.inWaiting()
+                                # print("openClosePort num:" + str(num)) # 输出收到的字节数
+                                if num == 0:
+                                    if (endTiming - startTiming).seconds >= 2:
+                                        self.isSTM32Online = False
+                                        self.prvSerial.close()
+                                        self.protocolAppendSignal.emit("测试仪无响应，已关闭[" + i.device + "]，请执行操作")
+                                        break
+                                elif (num > 0 and num <= 4):
+                                    self.prvSerial.flushInput()
+                                elif num >= 5:
+                                    QApplication.processEvents()
+                                    time.sleep(0.1)
+                                    QApplication.processEvents()
+                                    data = self.prvSerial.read(num)
+                                    if data.decode("utf-8") == "STM32":
+                                        self.isSTM32Online = True
+                                        self.protocolAppendSignal.emit("测试仪在线!")
+                                        self.deviceSelfCheck() # 每次运行程序执行一次自检即可
+                                        self.comboBox_selectComNum.setEnabled(False)
+                                        self.pushBtn_serialSwitch.setText("关闭串口")
+                                        break
+                                endTiming = dt.datetime.now()  
+                    except:
+                        QMessageBox.warning(self, "打开串口", "打开串口失败")
+                        self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "] 打开失败")
+                if self.isSTM32Online == True:
+                    break
 
     def monitorPorts(self, list):
-        print(list)
-        # self.comboBox_selectComNum.setEnabled(True)
-        # self.comboBox_selectComNum.clear()  # 清空端口选择按钮
-        # self.comPortList = self.serialMonitor.portList
-        # self.comDescriptionList = self.serialMonitor.descriptionList
-        # for p in self.comDescriptionList:
-        #     self.comboBox_selectComNum.addItem(p)
+        if list[0] == 'CLEAR':
+            print(str(list) + ' comboBox_selectComNum')
+            self.comboBox_selectComNum.setEnabled(True)
+            self.comboBox_selectComNum.clear()  # 清空端口选择按钮 
+            if self.prvSerial.isOpen():
+                self.prvSerial.close()
+            self.pushBtn_serialSwitch.setText('打开串口')
+        if len(list) >= 1 and list[0] != 'CLEAR':
+            print('monitorPorts：' + str(list))
+            self.comboBox_selectComNum.setEnabled(True)
+            self.comboBox_selectComNum.clear()  # 清空端口选择按钮
+            self.comPortList = self.serialMonitor.portList.copy()
+            self.comDescriptionList = self.serialMonitor.descriptionList.copy()
+            if self.comDescriptionList != []:
+                for p in self.comDescriptionList:
+                    self.comboBox_selectComNum.addItem(p)
 
     @QtCore.pyqtSlot()
     def on_pushBtn_serialSwitch_clicked(self):
@@ -197,13 +209,11 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                 self.deviceSelfCheck() # 每次运行程序执行一次自检即可
                             else:
                                 self.protocolAppendSignal.emit("测试仪在线，请执行操作")
-                        
-                    
                 else:
                     QMessageBox.warning(self, "串口状态", "串口使用中")
             else:  # 打开时检测到无串口
-                QMessageBox.information(self, "串口信息", "请连接好模块!", QMessageBox.Yes)
                 self.protocolAppendSignal.emit("未检测到串口，请连接设备")
+                QMessageBox.information(self, "串口信息", "未检测到串口!", QMessageBox.Yes)
         elif staText == "关闭串口":
             self.prvSerial.close()
             self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "]已关闭")

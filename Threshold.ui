@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>674</width>
-    <height>442</height>
+    <width>345</width>
+    <height>425</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>318</x>
-     <y>20</y>
+     <x>4</x>
+     <y>8</y>
      <width>337</width>
      <height>409</height>
     </rect>
@@ -1043,84 +1043,6 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-  </widget>
-  <widget class="QCheckBox" name="checkBox">
-   <property name="geometry">
-    <rect>
-     <x>44</x>
-     <y>122</y>
-     <width>71</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>CheckBox</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox_2">
-   <property name="geometry">
-    <rect>
-     <x>44</x>
-     <y>152</y>
-     <width>71</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>CheckBox</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox_3">
-   <property name="geometry">
-    <rect>
-     <x>44</x>
-     <y>212</y>
-     <width>71</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>CheckBox</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox_4">
-   <property name="geometry">
-    <rect>
-     <x>44</x>
-     <y>182</y>
-     <width>71</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>CheckBox</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox_5">
-   <property name="geometry">
-    <rect>
-     <x>44</x>
-     <y>276</y>
-     <width>71</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>CheckBox</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox_6">
-   <property name="geometry">
-    <rect>
-     <x>44</x>
-     <y>246</y>
-     <width>71</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>CheckBox</string>
-   </property>
   </widget>
  </widget>
  <tabstops>

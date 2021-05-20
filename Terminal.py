@@ -2,7 +2,7 @@
 from UserImport import *
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
-
+    nextStateSginal = pyqtSignal(str)
     def __init__(self):
         super(MainWin, self).__init__()  # 继承父类的所有属性
         # 初始化UI
@@ -105,6 +105,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_uidInput.setToolTip("字母范围a~f, A~F, 数字0~9")
         self.codeList = []
         self.lineEdit_uidInput.setFocus()
+        # self.setMouseTracking(True)
 
     @QtCore.pyqtSlot()
     def on_pushBtn_protocolSetting_clicked(self):
@@ -115,14 +116,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_pushBtn_thresholdSetting_clicked(self):
         self.thresholdWin.show()
         self.lineEdit_uidInput.setFocus()
-
-    # @QtCore.pyqtSlot()
-    # def on_lineEdit_uidInput_editingFinished(self):
-    #     self.userTextBrowserAppend("获取编码：" + self.lineEdit_uidInput.text())
-
-    # @QtCore.pyqtSlot()
-    # def on_lineEdit_uidInput_textChanged(self):
-    #     self.userTextBrowserAppend("on_lineEdit_uidInput_textChanged")
 
     def userTextBrowserAppend(self, str):
         t = self.usualTools.getTimeStamp()
@@ -701,12 +694,24 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             cnt = cnt + 1
             if cnt == sec:
                 break
+    
+    def mousePressEvent(self, e):
+        if e.buttons() == QtCore.Qt.LeftButton:
+            # print('鼠标单击')
+            self.lineEdit_uidInput.setFocus()
 
+    def enterEvent(self, a0: QtCore.QEvent) -> None:
+        self.lineEdit_uidInput.setFocus()
+        return super().enterEvent(a0)
+    
 def auto():
     MainTerminal.protocolWin.autoConnectDetector()
-    MainTerminal.sleepUpdate(3)
-    MainTerminal.thresholdWin.openConfigRecord()
-    MainTerminal.thresholdWin.settingThreshold()
+    if len(MainTerminal.protocolWin.comDescriptionList) != 0:
+        MainTerminal.sleepUpdate(3)
+        MainTerminal.thresholdWin.openConfigRecord()
+        MainTerminal.thresholdWin.settingThreshold()
+    else:
+        pass
 
 class autoConnectThread(QThread):
     def __init__(self):

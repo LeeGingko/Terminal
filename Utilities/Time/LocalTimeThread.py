@@ -12,8 +12,9 @@ class LocalTimeThread(QThread):
 
     def  __del__(self):
         # self.secondSignal.__del__()
-        self.wait()
-        self.quit()
+        # self.wait()
+        # self.quit()
+        pass
 
         
     def run(self):
