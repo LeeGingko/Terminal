@@ -28,9 +28,10 @@ class PrivateSerialMonitor(QThread):
             self.list.clear()
             self.list = serial.tools.list_ports.comports()
             self.list.sort()
-            # print("tlist：" + str(len(list)))
+            # print("tlist：" + str(len(self.list)))
             # print("plist：" + str(len(self.portList)))
             if len(self.list) == 0 and len(self.portList) == 1:
+                self.portList.clear()
                 self.portChangeSignal.emit(['NOCOM'])
             elif len(self.list) >= 1:
                 if len(self.list) != len(self.portList):

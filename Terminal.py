@@ -3,6 +3,7 @@ from UserImport import *
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     nextStateSginal = pyqtSignal(str)
+    
     def __init__(self):
         super(MainWin, self).__init__()  # 继承父类的所有属性
         # 初始化UI

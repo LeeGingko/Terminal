@@ -15,7 +15,6 @@ class LocalTimeThread(QThread):
         # self.wait()
         # self.quit()
         pass
-
         
     def run(self):
         dayOfWeek = time.localtime().tm_wday

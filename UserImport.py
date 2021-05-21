@@ -13,9 +13,6 @@ import time
 # 导入serial相关模块
 import serial
 import serial.tools.list_ports
-import usb.core
-# USB Lib
-import usb.util
 # 默认导入
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
@@ -46,8 +43,8 @@ from Utilities.Excel.OpenPyxl import PrivateOpenPyxl
 from Utilities.Serial.SerialMonitor import PrivateSerialMonitor
 from Utilities.Serial.SerialThread import PrivateSerialThread
 # 导入自定义线程类
-from Utilities.Time.LocalTimeThread import LocalTimeThread
+from Utilities.Tool.LocalTimeThread import LocalTimeThread
 # 导入自定义工具
-from Utilities.Time.usual import Tools
+from Utilities.Tool.usual import Tools
 # 导入表格视图委托
 from Utilities.ViewDelegation.TableViewDelegate import PrivateTableViewDelegate

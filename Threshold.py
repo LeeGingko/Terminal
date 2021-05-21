@@ -2,14 +2,19 @@
 import os
 # 导入pickle模块
 import pickle as pk
-import GetSetObj
+
+# 默认导入
 from PyQt5 import QtCore
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog
 
+# getset全局变量
+import GetSetObj
+# 导入参数设置界面
 from Ui_Threshold import Ui_ThresholdDialog
+# 导入功能枚举
 from Utilities.Enum.FuncEnum import Func
-from GlobalVariable import GlobalVar
+
 
 class ThresholdWin(QDialog, Ui_ThresholdDialog):
     thresholdAppendSignal = pyqtSignal(str)

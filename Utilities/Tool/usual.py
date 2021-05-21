@@ -3,6 +3,7 @@
 import time
 
 class Tools:
+    
     def getTimeStamp(self):
         return time.strftime("[At %H:%M:%S]>", time.localtime())
 
