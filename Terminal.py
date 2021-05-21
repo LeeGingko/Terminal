@@ -7,34 +7,34 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         super(MainWin, self).__init__()  # 继承父类的所有属性
         # 初始化UI
         self.initUi()
-        for col in range(15):
-            item = QStandardItem(self.resultList[col])
-            self.tableViewModel.setItem(self.tableRow, col, item)
-        self.tableRow = self.tableRow + 1
-        time.sleep(1)
-        self.resultList[1] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        for col in range(15):
-            item = QStandardItem(self.resultList[col])
-            self.tableViewModel.setItem(self.tableRow, col, item)
-        self.tableRow = self.tableRow + 1
-        time.sleep(1)
-        self.resultList[1] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        for col in range(15):
-            item = QStandardItem(self.resultList[col])
-            self.tableViewModel.setItem(self.tableRow, col, item)
-        self.tableRow = self.tableRow + 1
-        time.sleep(1)
-        self.resultList[1] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        for col in range(15):
-            item = QStandardItem(self.resultList[col])
-            self.tableViewModel.setItem(self.tableRow, col, item)
-        self.tableRow = self.tableRow + 1
-        time.sleep(1)
-        self.resultList[1] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        for col in range(15):
-            item = QStandardItem(self.resultList[col])
-            self.tableViewModel.setItem(self.tableRow, col, item)
-        self.tableRow = self.tableRow + 1
+        # for col in range(15):
+        #     item = QStandardItem(self.resultList[col])
+        #     self.tableViewModel.setItem(self.tableRow, col, item)
+        # self.tableRow = self.tableRow + 1
+        # time.sleep(1)
+        # self.resultList[1] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        # for col in range(15):
+        #     item = QStandardItem(self.resultList[col])
+        #     self.tableViewModel.setItem(self.tableRow, col, item)
+        # self.tableRow = self.tableRow + 1
+        # time.sleep(1)
+        # self.resultList[1] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        # for col in range(15):
+        #     item = QStandardItem(self.resultList[col])
+        #     self.tableViewModel.setItem(self.tableRow, col, item)
+        # self.tableRow = self.tableRow + 1
+        # time.sleep(1)
+        # self.resultList[1] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        # for col in range(15):
+        #     item = QStandardItem(self.resultList[col])
+        #     self.tableViewModel.setItem(self.tableRow, col, item)
+        # self.tableRow = self.tableRow + 1
+        # time.sleep(1)
+        # self.resultList[1] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        # for col in range(15):
+        #     item = QStandardItem(self.resultList[col])
+        #     self.tableViewModel.setItem(self.tableRow, col, item)
+        # self.tableRow = self.tableRow + 1
     
     def __del__(self):
         print("{} 退出主窗口".format(__file__))
@@ -158,20 +158,31 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.codeList = []
 
     def tvSaveSelected(self):
-        self.userTextBrowserAppend('保存选中数据')
+        if len(self.tvRowList) != 0:
+            self.userTextBrowserAppend('保存选中数据')
+        else:
+            self.userTextBrowserAppend('数据已清空')
 
     def tvSaveAll(self):
-        self.userTextBrowserAppend('保存全部数据')
+        if len(self.tvRowList) != 0:
+            self.userTextBrowserAppend('保存全部数据')
+        else:
+            self.userTextBrowserAppend('数据已清空')
 
     def tvDropSelected(self):
-        self.userTextBrowserAppend('删除选中数据')
-        for n in self.tvRowList:
-            self.tableViewModel.removeRow(n)
+        if len(self.tvRowList) != 0:
+            for n in self.tvRowList:
+                self.tableViewModel.removeRow(n)
+            self.userTextBrowserAppend('删除选中数据')
+        else:
+            self.userTextBrowserAppend('数据已清空')
         
     def tvDropAll(self):
-        self.userTextBrowserAppend('删除全部数据')
-        self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
-        # self.tableViewModel.removeRows(self.tableView_result.selectionModel().allRows())
+        if len(self.tvRowList) != 0:
+            self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
+            self.userTextBrowserAppend('删除全部数据')
+        else:
+            self.userTextBrowserAppend('数据已清空')
 
     def tvCustomContextMenuRequested(self, p):
         self.tvIndex = self.tableView_result.selectionModel().selectedRows()
@@ -405,7 +416,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.protocolWin.prvSerial.isOpen:
             self.protocolWin.data = b''
             self.protocolWin.rxCheck = 0
-            self.protocolWin.prvSerial.flush()
+            # self.protocolWin.prvSerial.flush()
             self.protocolWin.serialSendData(Func.f_DevGetSelfPara, '', '')
         else:
             self.userTextBrowserAppend("串口未打开")
@@ -778,9 +789,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 def auto():
     MainTerminal.protocolWin.autoConnectDetector()
     if len(MainTerminal.protocolWin.comDescriptionList) != 0:
-        MainTerminal.sleepUpdate(3)
-        MainTerminal.thresholdWin.openConfigRecord()
-        MainTerminal.thresholdWin.settingThreshold()
+        if MainTerminal.protocolWin.prvSerial.isOpen():
+            MainTerminal.sleepUpdate(3)
+            MainTerminal.thresholdWin.openConfigRecord()
+            MainTerminal.thresholdWin.settingThreshold()
     else:
         pass
 
