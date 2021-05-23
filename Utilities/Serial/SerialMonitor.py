@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-# 时间
-import time
-# 导入日期时间模块
-import datetime as dt
 from PyQt5.QtWidgets import *
 # 导入serial相关模块
 import serial
@@ -15,12 +11,9 @@ class PrivateSerialMonitor(QThread):
 
     def __init__(self):
         super(PrivateSerialMonitor, self).__init__()
+        self.list = []
         self.portList = []
         self.descriptionList = []
-
-    def __del__(self):
-        self.quit()
-        self.wait()
 
     def searchPorts(self):
         self.portList = serial.tools.list_ports.comports()
@@ -31,15 +24,24 @@ class PrivateSerialMonitor(QThread):
 
     def run(self):
         while True:
-            self.msleep(500)
-            self.descriptionList = []
-            list = serial.tools.list_ports.comports()
-            list.sort()
-            if len(list) >= 1:
-                for p in list:
-                    self.descriptionList.append(p.description)
-                if len(list) != len(self.portList):
-                    self.portList = list.copy()
+            self.msleep(1000)
+            self.list.clear()
+            self.list = serial.tools.list_ports.comports()
+            self.list.sort()
+            # print("tlist：" + str(len(self.list)))
+            # print("plist：" + str(len(self.portList)))
+            if len(self.list) == 0 and len(self.portList) == 1:
+                self.portList.clear()
+                self.portChangeSignal.emit(['NOCOM'])
+            elif len(self.list) >= 1:
+                if len(self.list) != len(self.portList):
+                    self.portList.clear()
+                    self.descriptionList.clear()
+                    self.portList = self.list.copy()
+                    for p in self.list:
+                        self.descriptionList.append(p.description)
                     self.portChangeSignal.emit(self.descriptionList)
                 else:
                     pass
+            else:
+                self.portList.clear()
