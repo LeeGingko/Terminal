@@ -2,7 +2,6 @@
 from UserImport import *
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
-    nextStateSginal = pyqtSignal(str)
     
     def __init__(self):
         super(MainWin, self).__init__()  # 继承父类的所有属性
@@ -38,6 +37,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.tableRow = self.tableRow + 1
     
     def __del__(self):
+        self.protocolWin.serialManager.wait()
+        self.protocolWin.serialMonitor.wait()
+        self.timsRefresh.wait()
         print("{} 退出主窗口".format(__file__))
 
     def initUi(self):
@@ -752,7 +754,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         
     @QtCore.pyqtSlot()
     def on_pushBtn_clearUidInput_clicked(self):
-        self.lineEdit_uidInput.clear()   
+        self.lineEdit_uidInput.clear()
+        self.lineEdit_uidInput.setFocus()
 
     def sleepUpdate(self, sec):
         cnt = 0
@@ -792,8 +795,31 @@ def auto():
     if len(MainTerminal.protocolWin.comDescriptionList) != 0:
         if MainTerminal.protocolWin.prvSerial.isOpen():
             MainTerminal.sleepUpdate(3)
+            # MainTerminal.thresholdWin.on_pushBtn_saveSettingsRecord_clicked()
+            MainTerminal.thresholdWin.getUserPara()
+            cnt = 0
+            MainTerminal.thresholdWin.para = ""
+            for k, v in MainTerminal.thresholdWin.paraDict.items():
+                if cnt < 10:
+                    MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("P" + str(cnt) + v)
+                elif cnt == 10:
+                    MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("PA" + v)
+                elif cnt == 11:
+                    MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("PB" + v)
+                elif cnt == 12:
+                    MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("PC" + v)
+                elif cnt == 13:
+                    MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("PD" + v)
+                elif cnt == 14:
+                    MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("PE" + v)
+                elif cnt == 15:
+                    MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("PF" + v)
+                cnt += 1
             MainTerminal.thresholdWin.openConfigRecord()
-            MainTerminal.thresholdWin.settingThreshold()
+            if MainTerminal.thresholdWin.isConfigSavedFirst:
+                MainTerminal.thresholdWin.firstSaveThreshold(MainTerminal.thresholdWin.para)
+            elif MainTerminal.thresholdWin.isConfigSaved:
+                MainTerminal.thresholdWin.settingThreshold()
     else:
         pass
 

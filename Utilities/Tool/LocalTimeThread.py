@@ -10,11 +10,10 @@ class LocalTimeThread(QThread):
         super(LocalTimeThread, self).__init__()
         self.timeStamp = ""
 
-    def  __del__(self):
-        # self.secondSignal.__del__()
-        # self.wait()
-        # self.quit()
-        pass
+    # def  __del__(self):
+    #     # self.secondSignal.__del__()
+    #     self.wait()
+    #     self.quit()
         
     def run(self):
         dayOfWeek = time.localtime().tm_wday
