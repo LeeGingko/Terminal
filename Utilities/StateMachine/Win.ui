@@ -222,6 +222,16 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>74</y>
+     <width>179</width>
+     <height>59</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

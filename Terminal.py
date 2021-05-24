@@ -40,7 +40,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.protocolWin.serialManager.wait()
         self.protocolWin.serialMonitor.wait()
         self.timsRefresh.wait()
-        print("{} 退出主窗口".format(__file__))
+        print("{} 退出主线程".format(__file__))
 
     def initUi(self):
         self.setupUi(self)
@@ -94,6 +94,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.isExcelSaved = True # 是否是已经保存 
         self.excelFilePath = "" # 文件路径
         self.excelFile = "" # 文件
+        self.excelOpenState = False
         # 默认检测结果
         initTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         self.resultDefaultList = [
@@ -106,7 +107,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.resultLastList = self.resultList.copy()
         # 当前记录是否已经被保存，防止重复保存
         self.currentResultSaved = False 
-        # 表格模型初始化
+        # 表格之模型、委托、视图初始化
+        # 1 表格模型初始化
         self.tableRow = 0 # 填入表格的行数
         self.tableHeadline = [
             "测试员",   "时间",      "漏电流(uA)", "工作电流(uA)",  "ID核对",
@@ -114,9 +116,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             "内置选发", "电流(mA)",  "电压(V)",    "电流判断",      "结论" ]   
         self.tableViewModel = QStandardItemModel(0, 15, self)
         self.tableViewModel.setHorizontalHeaderLabels(self.tableHeadline) # 表头
-        # 表格视图委托初始化
+        # 2 表格委托初始化
         self.tableViewDelegate = PrivateTableViewDelegate()
-        # 检测数据显示表格模型初始化
+        # 3 表格视图初始化
         self.tableView_result.setModel(self.tableViewModel)
         self.tableView_result.horizontalHeader().setStretchLastSection(True)
         self.tableView_result.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
@@ -159,11 +161,32 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setMouseTracking(True)
         # 编号记录列表
         self.codeList = []
+        # 软件运行初始化
+        # 1 连接控制仪串口
         self.protocolWin.autoConnectDetector()
-        self.autoTimer = QTimer()
-        self.autoTimer.start(1000)
-        self.autoTimer.timeout.connect(self.autoSendParameters)       
+        # 2 下发参数阈值
+        self.autoTimer = QTimer() # 使用定时器，防止主界面卡在步骤1中
+        self.autoTimer.start(100)
+        self.autoTimer.timeout.connect(self.autoSendParameters)
+        # 初始化编码状态机
+        # self.autoInitSM = PrivateStateMachine()
+        # self.autoInitSM.autoInitState.setInitialState(self.autoInitSM.autoInitInitialState)
+        # self.autoInitSM.autoInitInitialState.addTransition(self.pushBtn_deviceSelfCheck.clicked, self.autoInitSM.autoInitSendState)
+        # self.autoInitDoneSignal = QSignalTransition()
+        # self.autoInitDoneSignal.setSignal(self.encodingResponedSingal)
+        # self.autoInitDoneSignal.triggered.connect(self.test)
+        
+    def test(self):
+        print('self.autoInitDoneSignal.triggered')
 
+    def showDaetTime(self, timeStr):
+        self.myStatusBar.showMessage(timeStr)    
+    
+    def userTextBrowserAppend(self, str):
+        t = self.usualTools.getTimeStamp()
+        self.textBrowser.append(t + str)
+        self.textBrowser.moveCursor(self.textBrowser.textCursor().End)   
+    
     def tvSaveSelected(self):
         if len(self.tvRowList) != 0:
             self.userTextBrowserAppend('保存选中数据')
@@ -210,85 +233,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.thresholdWin.show()
         self.lineEdit_uidInput.setFocus()
 
-    def userTextBrowserAppend(self, str):
-        t = self.usualTools.getTimeStamp()
-        self.textBrowser.append(t + str)
-        self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
-    
-    def openMessageRecord(self):
-        try:
-            with open("message_save_record.txt", "rb") as msrf:
-                omr = pk.load(msrf) # 将二进制文件对象转换成Python对象
-            self.isMessageSavedFirst = omr[0][0]
-            self.isMessageSaved = omr[0][1]
-            self.messagePath = omr[1]
-        except:
-            pass
-
-    def saveMessageRecord(self):
-        self.saved_info = ([self.isMessageSavedFirst, self.isMessageSaved],  self.messagePath)
-        with open("message_save_record.txt", "wb") as fsmf:
-            pk.dump(self.saved_info, fsmf) # 用dump函数将Python对象转成二进制对象文件
-
     @QtCore.pyqtSlot()
     def on_pushBtn_cleanMsgArea_clicked(self):
         if self.textBrowser.toPlainText() != "":
-                self.textBrowser.clear()
-
-    def firstSaveMessage(self):
-        if self.messagePath == "":
-            self.messagePath, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./message", "messagefiles (*.log)")
-            if isAccept:
-                if self.messagePath:
-                    if self.textBrowser.toPlainText() != "":
-                        choice = QMessageBox.question(self, "窗口消息", "保存消息？", QMessageBox.Yes | QMessageBox.Cancel)
-                        if choice == QMessageBox.Yes:
-                            text = bytes(self.textBrowser.toPlainText(), encoding="utf-8")
-                            with open(self.messagePath, "ab") as fsf:
-                                fsf.write(text)
-                        elif choice == QMessageBox.Cancel:
-                            pass
-                    else:
-                        pass 
-                    self.isMessageSavedFirst = False
-                    self.isMessageSaved = True
-                self.userTextBrowserAppend("消息保存成功")
-                self.textBrowser.append("@保存至\"" + str(self.messagePath) + "\"")
-                self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
-                self.saveMessageRecord()
-        else:
-            self.userTextBrowserAppend("当前无消息")
-        
-    def saveMessage(self):
-        if self.textBrowser.toPlainText() != "":
-            text = bytes(self.textBrowser.toPlainText(), encoding="utf-8")
-            with open(self.messagePath, "ab") as fsf:
-                fsf.write(text)
-            self.userTextBrowserAppend("消息保存成功")
-            self.textBrowser.append("@保存至\"" + str(self.messagePath) + "\"")
-            self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
-            self.saveMessageRecord()
-        else:
-            self.userTextBrowserAppend("当前无消息")
-    
-    @QtCore.pyqtSlot()
-    def on_pushBtn_saveMsgArea_clicked(self):
-        self.openMessageRecord()
-        if self.isMessageSavedFirst:
-            self.firstSaveMessage()
-        elif self.isMessageSaved:
-            self.saveMessage()
-
-    def showDaetTime(self, timeStr):
-        self.myStatusBar.showMessage(timeStr)
-       
-    @QtCore.pyqtSlot()
-    def on_lineEdit_setDrainCurrentTop_textChanged(self):
-        if self.lineEdit_setDrainCurrentTop.text() != self.thresholdWin.paraDict["th_DrainCurrent_Up"]:
-            self.isConfigSaved = False
-        else:
-            self.isConfigSaved = True
-        self.saveConfigRecord()
+            self.textBrowser.clear()
  
     def parseSettingThreshold(self):
         tmp = self.protocolWin.data.decode("utf-8")
@@ -304,8 +252,47 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("测试仪接收参数缺失")
         self.lineEdit_uidInput.setFocus()
     
+    def setWorkMode(self, tmp):
+        # 2021年3月30日 09:29:36 工作模式获取整合到参数获取中
+        self.workMode["encoding" ] = "0" if tmp[len(tmp) - 6] == 48 else "1"
+        self.workMode["detection"] = "0" if tmp[len(tmp) - 5] == 48 else "1"
+        # if tmp[len(tmp) - 6] == 48:
+        #     self.workMode["encoding"] = "0"
+        # else:
+        #     self.workMode["encoding"] = "1"
+        # if tmp[len(tmp) - 5] == 48:
+        #     self.workMode["detection"] = "0"
+        # else:
+        #     self.workMode["detection"] = "1"
+
+    def getWorkMode(self):
+        return self.workMode
+
+    def parseWorkMode(self):
+        wm = self.getWorkMode()
+        # print("In parseWorkMode...............")
+        endc = wm["encoding"]
+        dete = wm["detection"]
+        if endc == "1" and dete == "1":
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
+            self.userTextBrowserAppend("编码【开启】 检测【开启】")
+        elif endc == "1" and dete == "0":
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
+            self.userTextBrowserAppend("编码【开启】 检测【关闭】")
+        elif endc == "0" and dete == "1":
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
+            self.userTextBrowserAppend("编码【关闭】 检测【开启】")
+        elif endc == "0" and dete == "0":
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
+            self.userTextBrowserAppend("编码【关闭】 检测【关闭】")
+            self.userTextBrowserAppend("无法进行【编码】和【检测】，请按下功能按键！")
+    
     def updateWorkMode(self, str):
-        print("In updateWorkMode...............")
+        # print("In updateWorkMode...............")
         endc = str[2]
         dete = str[3]
         self.workMode["encoding" ] = "0" if endc == "0" else "1"
@@ -342,44 +329,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
                 self.userTextBrowserAppend("编码检测发生改变，编码【关闭】 检测【关闭】")
 
-    def setWorkMode(self, tmp):
-        # 2021年3月30日 09:29:36 工作模式获取整合到参数获取中
-        if tmp[len(tmp) - 6] == 48:
-            self.workMode["encoding"] = "0"
-        else:
-            self.workMode["encoding"] = "1"
-        if tmp[len(tmp) - 5] == 48:
-            self.workMode["detection"] = "0"
-        else:
-            self.workMode["detection"] = "1"
-
-    def getWorkMode(self):
-        return self.workMode
-
-    def parseWorkMode(self):
-        wm = self.getWorkMode()
-        # print("In parseWorkMode...............")
-        endc = wm["encoding"]
-        dete = wm["detection"]
-        if endc == "1" and dete == "1":
-            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
-            self.userTextBrowserAppend("编码【开启】 检测【开启】")
-        elif endc == "1" and dete == "0":
-            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
-            self.userTextBrowserAppend("编码【开启】 检测【关闭】")
-        elif endc == "0" and dete == "1":
-            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
-            self.userTextBrowserAppend("编码【关闭】 检测【开启】")
-        elif endc == "0" and dete == "0":
-            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
-            self.userTextBrowserAppend("编码【关闭】 检测【关闭】")
-            self.userTextBrowserAppend("无法进行【编码】和【检测】，请按下功能按键！")
-
-    def parseDevicPara(self):
+    def parseCheckGetParameters(self):
         self.setWorkMode(self.protocolWin.data)
         tmp = self.protocolWin.data.decode("utf-8")
         l = len(tmp)
@@ -401,7 +351,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.userTextBrowserAppend("请接通测试仪电源")
         
-    def getDevicePara(self):
+    def selfCheckGetParameters(self):
         print("/*+++++++++++++++++++++++++++++++++++++++++++++*/")
         print("Checking device parameters ......")
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
@@ -431,7 +381,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("测试仪已上电，线路供电断开")
 
     def serialRecvData(self, data):
-        QApplication.processEvents()
         self.protocolWin.data = data
         if data.decode("utf-8") == "接收数据失败":
             self.userTextBrowserAppend("接收数据失败")
@@ -442,7 +391,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     if tmp[2] == Func.f_DevSettingThreshold:
                         self.parseSettingThreshold()
                     elif tmp[2] == Func.f_DevGetSelfPara:
-                        self.parseDevicPara()
+                        self.parseCheckGetParameters()
                     elif tmp[2] == Func.f_DevEncoding:
                         self.parseEncodingResults()
                     elif tmp[2] == Func.f_DevDetection:
@@ -463,7 +412,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_pushBtn_deviceSelfCheck_clicked(self):
         if self.protocolWin.prvSerial.isOpen() == True:
             self.userTextBrowserAppend("测试仪自检")
-            self.getDevicePara()
+            self.selfCheckGetParameters()
             self.lineEdit_uidInput.setFocus()
         else:
             QMessageBox.information(self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
@@ -629,7 +578,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def saveExcelRecord(self):
         self.saved_info = ([self.isExcelSavedFirst, self.isExcelSaved],  self.excelFilePath)
         with open("excel_save_record.txt", "wb") as esrf:
-            pk.dump( self.saved_info, esrf) # 用dump函数将Python对象转成二进制对象文件
+            pk.dump(self.saved_info, esrf) # 用dump函数将Python对象转成二进制对象文件
         # print("saveExcelRecord:" + str(self.saved_info))
 
     def compareResult(self):
@@ -654,8 +603,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.isExcelSaved = True
                     self.excel.wrtieRow(self.excelFile, self.tableHeadline) # 添加表头
                     self.userTextBrowserAppend("创建数据记录表成功")
-                    self.textBrowser.append("@保存至\"" + str(self.excelFilePath) + "\"")
-                    self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
+                    self.userTextBrowserAppend("@保存至\"" + str(self.excelFilePath) + "\"")
                     res = self.compareResult()
                     if res == 1:
                         self.excel.wrtieRow(self.excelFile, self.resultList)
@@ -695,24 +643,40 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableRow = 0
         self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
         self.lineEdit_uidInput.setFocus()
+    
+    def isExcelOpened(self):
+        if os.path.exists('~$' + self.excelFile):
+            # print('excel已被打开')
+            return True
+        else:
+            # print('excel未被打开')
+            return False
 
     @QtCore.pyqtSlot()
     def on_pushBtn_saveResults_clicked(self):
         self.openExcelRecord()
-        if self.isExcelSavedFirst:
-            self.firstsaveResults()
-        elif self.isExcelSaved:
-            self.saveResults()
+        self.excelOpenState = self.isExcelOpened()
+        if self.excelOpenState:
+            self.userTextBrowserAppend(self.excelFilePath + '已被打开, 请关闭文件后再写入')
+        else:
+            if self.isExcelSavedFirst:
+                self.firstsaveResults()
+            elif self.isExcelSaved:
+                self.saveResults()
         self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
     def on_pushBtn_showResults_clicked(self):
-        self.openExcelRecord()
-        recordsfile, _ = QFileDialog.getOpenFileName(self, "打开记录文件", './', 'records (*.xlsx)')
-        if recordsfile:
-            os.startfile(recordsfile)
-            self.isConfigSaved = True
-        self.saveExcelRecord()   
+        isOpenState = self.isExcelOpened()
+        if isOpenState:
+            self.userTextBrowserAppend(self.excelFilePath + '已打开')
+        else:
+            self.openExcelRecord()
+            recordsfile, _ = QFileDialog.getOpenFileName(self, "打开记录文件", './', 'records (*.xlsx)')
+            if recordsfile:
+                os.startfile(recordsfile)
+                self.isConfigSaved = True
+            self.saveExcelRecord()   
         self.lineEdit_uidInput.setFocus()  
 
     @QtCore.pyqtSlot()
@@ -764,30 +728,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             cnt = cnt + 1
             if cnt == sec:
                 break
-    
-    def mousePressEvent(self, e):
-        if e.buttons() == QtCore.Qt.LeftButton:
-            # print('鼠标单击')
-            self.lineEdit_uidInput.setFocus()
-    
-    def closeEvent(self, QCloseEvent):
-        if not self.thresholdWin.isConfigSaved:
-            choice = QMessageBox.question(self, "保存文件", "是否保存配置文件", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
-            if choice == QMessageBox.Yes:
-                QCloseEvent.accept()
-                self.firstSaveThreshold()
-            elif choice == QMessageBox.No:
-                QCloseEvent.accept()
-            else:
-                QCloseEvent.ignore()
-        else:
-            choice = QMessageBox.question(self, "关闭窗口", "是否关闭窗口？", QMessageBox.Yes | QMessageBox.Cancel)
-            if choice == QMessageBox.Yes:
-                QCloseEvent.accept()
-                app = QApplication.instance()
-                app.quit()
-            elif choice == QMessageBox.Cancel:
-                QCloseEvent.ignore()
 
     def autoSendParameters(self):
         # self.protocolWin.autoConnectDetector()
@@ -823,6 +763,20 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.autoTimer.stop()
         else:
             pass
+    
+    def mousePressEvent(self, e):
+        if e.buttons() == QtCore.Qt.LeftButton:
+            # print('鼠标单击')
+            self.lineEdit_uidInput.setFocus()
+    
+    def closeEvent(self, QCloseEvent):
+        choice = QMessageBox.question(self, "关闭窗口", "是否关闭窗口？", QMessageBox.Yes | QMessageBox.Cancel)
+        if choice == QMessageBox.Yes:
+            QCloseEvent.accept()
+            app = QApplication.instance()
+            app.quit()
+        elif choice == QMessageBox.Cancel:
+            QCloseEvent.ignore()
 
 if __name__ == "__main__":
     MainApp = QApplication(sys.argv)

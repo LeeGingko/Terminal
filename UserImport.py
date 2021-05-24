@@ -40,8 +40,10 @@ from Utilities.Enum.StateEnum import State
 # 导入自定义Excel操作类
 from Utilities.Excel.OpenPyxl import PrivateOpenPyxl
 # 引入串口封装类
-from Utilities.Serial.SerialMonitor import PrivateSerialMonitor
-from Utilities.Serial.SerialThread import PrivateSerialThread
+from Utilities.Serial.SerialMonitor import PrivateSerialMonitor  # 串口端口监测
+from Utilities.Serial.SerialThread import PrivateSerialThread  # 串口数据传输
+# 导入状态机类
+from Utilities.StateMachine.StateMachine import PrivateStateMachine
 # 导入自定义线程类
 from Utilities.Tool.LocalTimeThread import LocalTimeThread
 # 导入自定义工具

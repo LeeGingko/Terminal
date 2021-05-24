@@ -61,7 +61,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.height = self.screenRect.height()
         self.Wsize = self.geometry()
         centerX = int((self.width - self.Wsize.width()) / 2)
-        centerY = int((self.height - self.Wsize.height()) / 2)
+        centerY = int((self.height - self.Wsize.height()) / 2 - 20)
         self.move(centerX, centerY)
         self.setWindowTitle("Protocol")
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
@@ -112,7 +112,6 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                             elif num >= 5:
                                 QApplication.processEvents()
                                 time.sleep(0.1)
-                                QApplication.processEvents()
                                 data = self.prvSerial.read(num)
                                 if data.decode("utf-8") == "STM32":
                                     self.isSTM32Online = True
@@ -121,7 +120,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                     self.comboBox_selectComNum.setCurrentText(self.comController)
                                     self.comboBox_selectComNum.setEnabled(False)
                                     self.pushBtn_serialSwitch.setText("关闭串口")
-                                    print('deviceSelfCheck:')
+                                    print('/*+++++++++++++++++++++++++++++++++++++++++++++*/\r\nChecking device parameters ......:')
                                     self.deviceSelfCheck() # 每次运行程序执行一次自检即可
                                     break
                             endTiming = dt.datetime.now()  
@@ -182,8 +181,8 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                         self.prvSerial.open()
                         # if self.prvSerial.isOpen():
                         self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "]已打开")
-                        self.comboBox_selectComNum.setEnabled(False)
                         self.pushBtn_serialSwitch.setText("关闭串口")
+                        self.comboBox_selectComNum.setEnabled(False)
                         self.pushBtn_serialSwitch.setEnabled(False)
                     except:
                         QMessageBox.warning(self, "打开串口", "打开串口失败")
@@ -223,7 +222,6 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                 self.protocolAppendSignal.emit("测试仪在线!")
                                 self.close()
                                 self.deviceSelfCheck() # 每次重新运行程序执行一次自检
-                                self.comboBox_selectComNum.setEnabled(True)
                             else:
                                 self.protocolAppendSignal.emit("测试仪在线，请执行操作")
                                 self.close()
@@ -266,10 +264,6 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                 tmp = str("D" + str(self.serialNumber) + func)
             elif func == Func.f_DevEncoding or func == Func.f_DevDetection or func == Func.f_DevEncodingDetection:
                 tmp = str("D" + str(self.serialNumber) + func + uid)
-            # elif func == Func.f_DevDetection:
-            #     tmp = str("D" + str(self.serialNumber) + func + uid)
-            # elif func == Func.f_DevEncodingDetection:
-            #     tmp = str("D" + str(self.serialNumber) + func + uid)
             elif func == Func.f_DevSettingThreshold:
                 with open(configPath, 'r') as rf:
                     configContents = rf.read()
@@ -281,7 +275,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                 self.serialNumber += 1
             txData = tmp
         except:
-            print("Transfrom txData to bytes type failed!")
+            print("Transfromed txData to bytes type failed!")
             return
         for ch in txData:  # 计算校验和
             self.txCheck += ch

@@ -76,6 +76,9 @@ class Ui_StateMachineWin(object):
         self.label_carAir.setGeometry(QtCore.QRect(382, 382, 185, 37))
         self.label_carAir.setAlignment(QtCore.Qt.AlignCenter)
         self.label_carAir.setObjectName("label_carAir")
+        self.lineEdit = QtWidgets.QLineEdit(StateMachineWin)
+        self.lineEdit.setGeometry(QtCore.QRect(220, 74, 179, 59))
+        self.lineEdit.setObjectName("lineEdit")
 
         self.retranslateUi(StateMachineWin)
         QtCore.QMetaObject.connectSlotsByName(StateMachineWin)
