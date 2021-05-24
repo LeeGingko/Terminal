@@ -474,7 +474,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def parseQueryCodeResults(self):
         tmp = self.protocolWin.data.decode("utf-8")
         tmp = tmp[tmp.find("UID", 0, len(tmp)) + 3 : len(tmp) - 4]
-        self.userTextBrowserAppend("当前模块编号：" + tmp)
+        if tmp == 'NODET':
+            self.userTextBrowserAppend("无模块连接")
+        else:
+            self.userTextBrowserAppend("当前模块编号：" + tmp)
         self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
@@ -755,7 +758,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def on_pushBtn_clearUidInput_clicked(self):
         self.lineEdit_uidInput.clear()
-        self.lineEdit_uidInput.setFocus()
 
     def sleepUpdate(self, sec):
         cnt = 0
@@ -816,7 +818,7 @@ def auto():
                     MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("PF" + v)
                 cnt += 1
             MainTerminal.thresholdWin.openConfigRecord()
-            if MainTerminal.thresholdWin.isConfigSavedFirst:
+            if MainTerminal.thresholdWin.isConfigSavedFirst == True:
                 MainTerminal.thresholdWin.firstSaveThreshold(MainTerminal.thresholdWin.para)
             elif MainTerminal.thresholdWin.isConfigSaved:
                 MainTerminal.thresholdWin.settingThreshold()
