@@ -159,18 +159,22 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setMouseTracking(True)
         # 编号记录列表
         self.codeList = []
+        self.protocolWin.autoConnectDetector()
+        self.autoTimer = QTimer()
+        self.autoTimer.start(1000)
+        self.autoTimer.timeout.connect(self.autoSendParameters)       
 
     def tvSaveSelected(self):
         if len(self.tvRowList) != 0:
             self.userTextBrowserAppend('保存选中数据')
         else:
-            self.userTextBrowserAppend('数据已清空')
+            self.userTextBrowserAppend('无显示数据')
 
     def tvSaveAll(self):
         if len(self.tvRowList) != 0:
             self.userTextBrowserAppend('保存全部数据')
         else:
-            self.userTextBrowserAppend('数据已清空')
+            self.userTextBrowserAppend('无显示数据')
 
     def tvDropSelected(self):
         if len(self.tvRowList) != 0:
@@ -178,14 +182,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.tableViewModel.removeRow(n)
             self.userTextBrowserAppend('删除选中数据')
         else:
-            self.userTextBrowserAppend('数据已清空')
+            self.userTextBrowserAppend('无显示数据')
         
     def tvDropAll(self):
         if len(self.tvRowList) != 0:
             self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
             self.userTextBrowserAppend('删除全部数据')
         else:
-            self.userTextBrowserAppend('数据已清空')
+            self.userTextBrowserAppend('无显示数据')
 
     def tvCustomContextMenuRequested(self, p):
         self.tvIndex = self.tableView_result.selectionModel().selectedRows()
@@ -229,14 +233,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def on_pushBtn_cleanMsgArea_clicked(self):
         if self.textBrowser.toPlainText() != "":
-            choice = QMessageBox.question(
-                self, "窗口消息", "确认清除消息？", QMessageBox.Yes | QMessageBox.Cancel)
-            if choice == QMessageBox.Yes:
                 self.textBrowser.clear()
-            elif choice == QMessageBox.Cancel:
-                pass
-        else:
-            pass
 
     def firstSaveMessage(self):
         if self.messagePath == "":
@@ -792,51 +789,44 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             elif choice == QMessageBox.Cancel:
                 QCloseEvent.ignore()
 
-def auto():
-    MainTerminal.protocolWin.autoConnectDetector()
-    if len(MainTerminal.protocolWin.comDescriptionList) != 0:
-        if MainTerminal.protocolWin.prvSerial.isOpen():
-            MainTerminal.sleepUpdate(3)
-            # MainTerminal.thresholdWin.on_pushBtn_saveSettingsRecord_clicked()
-            MainTerminal.thresholdWin.getUserPara()
-            cnt = 0
-            MainTerminal.thresholdWin.para = ""
-            for k, v in MainTerminal.thresholdWin.paraDict.items():
-                if cnt < 10:
-                    MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("P" + str(cnt) + v)
-                elif cnt == 10:
-                    MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("PA" + v)
-                elif cnt == 11:
-                    MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("PB" + v)
-                elif cnt == 12:
-                    MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("PC" + v)
-                elif cnt == 13:
-                    MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("PD" + v)
-                elif cnt == 14:
-                    MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("PE" + v)
-                elif cnt == 15:
-                    MainTerminal.thresholdWin.para = MainTerminal.thresholdWin.para + ("PF" + v)
-                cnt += 1
-            MainTerminal.thresholdWin.openConfigRecord()
-            if MainTerminal.thresholdWin.isConfigSavedFirst == True:
-                MainTerminal.thresholdWin.firstSaveThreshold(MainTerminal.thresholdWin.para)
-            elif MainTerminal.thresholdWin.isConfigSaved:
-                MainTerminal.thresholdWin.settingThreshold()
-    else:
-        pass
-
-class autoConnectThread(QThread):
-    def __init__(self):
-        super(autoConnectThread, self).__init__()
-
-    def run(self):
-        auto()
+    def autoSendParameters(self):
+        # self.protocolWin.autoConnectDetector()
+        if len(self.protocolWin.comDescriptionList) != 0:
+            if self.protocolWin.prvSerial.isOpen():
+                QApplication.processEvents()
+                self.sleepUpdate(3)
+                # self.thresholdWin.on_pushBtn_saveSettingsRecord_clicked()
+                self.thresholdWin.getUserPara()
+                cnt = 0
+                self.thresholdWin.para = ""
+                for k, v in self.thresholdWin.paraDict.items():
+                    if cnt < 10:
+                        self.thresholdWin.para = self.thresholdWin.para + ("P" + str(cnt) + v)
+                    elif cnt == 10:
+                        self.thresholdWin.para = self.thresholdWin.para + ("PA" + v)
+                    elif cnt == 11:
+                        self.thresholdWin.para = self.thresholdWin.para + ("PB" + v)
+                    elif cnt == 12:
+                        self.thresholdWin.para = self.thresholdWin.para + ("PC" + v)
+                    elif cnt == 13:
+                        self.thresholdWin.para = self.thresholdWin.para + ("PD" + v)
+                    elif cnt == 14:
+                        self.thresholdWin.para = self.thresholdWin.para + ("PE" + v)
+                    elif cnt == 15:
+                        self.thresholdWin.para = self.thresholdWin.para + ("PF" + v)
+                    cnt += 1
+                self.thresholdWin.openConfigRecord()
+                if self.thresholdWin.isConfigSavedFirst == True:
+                    self.thresholdWin.firstSaveThreshold(self.thresholdWin.para)
+                elif self.thresholdWin.isConfigSaved:
+                    self.thresholdWin.settingThreshold()
+            self.autoTimer.stop()
+        else:
+            pass
 
 if __name__ == "__main__":
     MainApp = QApplication(sys.argv)
     MainApp.setWindowIcon(QIcon("./resources/icons/robot.ico"))
     MainTerminal = MainWin()
     MainTerminal.show()
-    AutoInitProcedure = autoConnectThread()
-    AutoInitProcedure.start()
     sys.exit(MainApp.exec_()) 
