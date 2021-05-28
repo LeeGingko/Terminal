@@ -11,7 +11,7 @@ class PrivateSerialMonitor(QThread):
 
     def __init__(self):
         super(PrivateSerialMonitor, self).__init__()
-        self.list = []
+        self.tmpList = []
         self.portList = []
         self.descriptionList = []
 
@@ -25,20 +25,20 @@ class PrivateSerialMonitor(QThread):
     def run(self):
         while True:
             self.msleep(1000)
-            self.list.clear()
-            self.list = serial.tools.list_ports.comports()
-            self.list.sort()
-            # print("tlist：" + str(len(self.list)))
+            self.tmpList.clear()
+            self.tmpList = serial.tools.list_ports.comports()
+            self.tmpList.sort()
+            # print("tlist：" + str(len(self.tmpList)))
             # print("plist：" + str(len(self.portList)))
-            if len(self.list) == 0 and len(self.portList) == 1:
+            if len(self.tmpList) == 0 and len(self.portList) == 1:
                 self.portList.clear()
                 self.portChangeSignal.emit(['NOCOM'])
-            elif len(self.list) >= 1:
-                if len(self.list) != len(self.portList):
+            elif len(self.tmpList) >= 1:
+                if len(self.tmpList) != len(self.portList):
                     self.portList.clear()
                     self.descriptionList.clear()
-                    self.portList = self.list.copy()
-                    for p in self.list:
+                    self.portList = self.tmpList.copy()
+                    for p in self.tmpList:
                         self.descriptionList.append(p.description)
                     self.portChangeSignal.emit(self.descriptionList)
                 else:

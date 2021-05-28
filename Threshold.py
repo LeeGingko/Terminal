@@ -149,13 +149,13 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
                 self.para = self.para + ("PF" + v)
             cnt += 1
         self.openConfigRecord()
-        if self.isConfigSavedFirst:
-            self.firstSaveThreshold(self.para)
-        elif self.isConfigSaved:
-            self.saveThreshold(self.para)
+        # if self.isConfigSavedFirst:
+        #     self.firstSaveThreshold(self.para)
+        # elif self.isConfigSaved:
+        self.saveThreshold(self.para)
         
     @QtCore.pyqtSlot()
-    def on_pushBtn_readSettingsRecord_clicked(self):        
+    def on_pushBtn_readSettingsRecord_clicked(self):
         settingfile, _ = QFileDialog.getOpenFileName(self, "打开配置文件", './', 'settingfile (*.txt)')
         if settingfile:
             os.startfile(settingfile)

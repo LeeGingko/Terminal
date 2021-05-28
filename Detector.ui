@@ -2,12 +2,18 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>1366</width>
-    <height>728</height>
+    <height>748</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -27,6 +33,9 @@
     <width>0</width>
     <height>0</height>
    </size>
+  </property>
+  <property name="focusPolicy">
+   <enum>Qt::StrongFocus</enum>
   </property>
   <property name="contextMenuPolicy">
    <enum>Qt::DefaultContextMenu</enum>
@@ -65,7 +74,7 @@
        <property name="font">
         <font>
          <family>幼圆</family>
-         <pointsize>18</pointsize>
+         <pointsize>22</pointsize>
          <weight>50</weight>
          <italic>false</italic>
          <bold>false</bold>
@@ -266,7 +275,7 @@
        <property name="font">
         <font>
          <family>幼圆</family>
-         <pointsize>18</pointsize>
+         <pointsize>22</pointsize>
          <weight>50</weight>
          <italic>false</italic>
          <bold>false</bold>
@@ -446,7 +455,7 @@
        <property name="font">
         <font>
          <family>幼圆</family>
-         <pointsize>16</pointsize>
+         <pointsize>22</pointsize>
          <weight>50</weight>
          <italic>false</italic>
          <bold>false</bold>
@@ -585,7 +594,7 @@
        <property name="font">
         <font>
          <family>幼圆</family>
-         <pointsize>16</pointsize>
+         <pointsize>22</pointsize>
          <weight>50</weight>
          <italic>false</italic>
          <bold>false</bold>
@@ -769,7 +778,7 @@
        <property name="font">
         <font>
          <family>幼圆</family>
-         <pointsize>18</pointsize>
+         <pointsize>22</pointsize>
          <weight>50</weight>
          <italic>false</italic>
          <bold>false</bold>
@@ -830,7 +839,7 @@
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>18</pointsize>
+          <pointsize>22</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -864,7 +873,7 @@
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>18</pointsize>
+          <pointsize>22</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -931,7 +940,7 @@
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>18</pointsize>
+          <pointsize>22</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -959,7 +968,7 @@
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>18</pointsize>
+          <pointsize>22</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -969,7 +978,7 @@
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="text">
-         <string>编码检测</string>
+         <string>一键编码检测</string>
         </property>
         <property name="shortcut">
          <string>Ctrl+7</string>
@@ -987,7 +996,7 @@
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>18</pointsize>
+          <pointsize>22</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -1159,7 +1168,7 @@
        <property name="font">
         <font>
          <family>幼圆</family>
-         <pointsize>16</pointsize>
+         <pointsize>22</pointsize>
          <weight>50</weight>
          <italic>false</italic>
          <bold>false</bold>
@@ -1267,7 +1276,7 @@
        <property name="font">
         <font>
          <family>幼圆</family>
-         <pointsize>18</pointsize>
+         <pointsize>22</pointsize>
          <weight>50</weight>
          <italic>false</italic>
          <bold>false</bold>

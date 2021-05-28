@@ -6,7 +6,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MainWin, self).__init__()  # 继承父类的所有属性
         # 初始化UI
-        self.initUi()
+        self.currentWorkDirectory = ''
+        self.currentWorkDirectory = os.getcwd()
+        self.initUi()       
+        # print(os.path.exists('Terminal.exe'))
+        # self.userTextBrowserAppend(os.path.abspath(__file__))
+        # self.userTextBrowserAppend(os.path.dirname(os.path.abspath(__file__)))
+        # self.userTextBrowserAppend(os.getcwd())
+
         # for col in range(15):
         #     item = QStandardItem(self.resultList[col])
         #     self.tableViewModel.setItem(self.tableRow, col, item)
@@ -44,6 +51,16 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def initUi(self):
         self.setupUi(self)
+        # 发送命令响应
+        self.deviceIsResponsed = False
+        # 编号记录列表
+        self.codeList = []
+        self.codes = 'codes.txt'
+        self.codesPath = os.path.join(self.currentWorkDirectory, self.codes)
+        self.configFile = 'config.txt'
+        self.configFilePath = os.path.join(self.currentWorkDirectory, self.configFile)
+        self.saveInputUIDCodes()
+        self.saveConfigFile()
         # 自定义工具实例化
         self.usualTools = Tools()
         # 设置窗口居中显示
@@ -55,7 +72,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.resize(self.width, self.height)
         self.Wsize = self.geometry()
         centerX = int((self.width - self.Wsize.width()) / 2)
-        centerY = int((self.height - self.Wsize.height()) / 2)
+        centerY = int((self.height - self.Wsize.height()) / 2 - 10)
         self.move(centerX, centerY)
         self.setWindowTitle("Detector")
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.WindowMaximizeButtonHint)
@@ -159,28 +176,40 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_uidInput.setToolTip("字母范围a~f, A~F, 数字0~9")
         self.lineEdit_uidInput.setFocus()
         self.setMouseTracking(True)
-        # 编号记录列表
-        self.codeList = []
-        # 软件运行初始化
+        # 
+        self.thresholdWin.configPath = self.configFilePath
+        ## 软件运行初始化
         # 1 连接控制仪串口
         self.protocolWin.autoConnectDetector()
         # 2 下发参数阈值
         self.autoTimer = QTimer() # 使用定时器，防止主界面卡在步骤1中
-        self.autoTimer.start(100)
+        self.autoTimer.start(2000)
         self.autoTimer.timeout.connect(self.autoSendParameters)
-        # 初始化编码状态机
-        # self.autoInitSM = PrivateStateMachine()
-        # self.autoInitSM.autoInitState.setInitialState(self.autoInitSM.autoInitInitialState)
-        # self.autoInitSM.autoInitInitialState.addTransition(self.pushBtn_deviceSelfCheck.clicked, self.autoInitSM.autoInitSendState)
-        # self.autoInitDoneSignal = QSignalTransition()
-        # self.autoInitDoneSignal.setSignal(self.encodingResponedSingal)
-        # self.autoInitDoneSignal.triggered.connect(self.test)
-        
-    def test(self):
-        print('self.autoInitDoneSignal.triggered')
+        # 测试仪响应定时器
+        self.devResponseTimer = QTimer()
+        self.devResponseTimer.timeout.connect(self.deviceNoResponse)
+ 
+    def saveConfigFile(self):
+        try:
+            with open(self.configFilePath, "w") as scpf:
+                scpf.write(self.configFilePath)
+        except:
+            pass
+
+    def saveInputUIDCodes(self):
+        try:
+            with open(self.codesPath, "w") as scpf:
+                scpf.write(self.codesPath)
+        except:
+            pass
 
     def showDaetTime(self, timeStr):
         self.myStatusBar.showMessage(timeStr)    
+    
+    def deviceNoResponse(self):
+        if not self.deviceIsResponsed:
+            self.userTextBrowserAppend("测试仪无响应，请执行操作")
+        self.devResponseTimer.stop()    
     
     def userTextBrowserAppend(self, str):
         t = self.usualTools.getTimeStamp()
@@ -253,9 +282,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_uidInput.setFocus()
     
     def setWorkMode(self, tmp):
-        # 2021年3月30日 09:29:36 工作模式获取整合到参数获取中
         self.workMode["encoding" ] = "0" if tmp[len(tmp) - 6] == 48 else "1"
         self.workMode["detection"] = "0" if tmp[len(tmp) - 5] == 48 else "1"
+        # 2021年3月30日 09:29:36 工作模式获取整合到参数获取中
         # if tmp[len(tmp) - 6] == 48:
         #     self.workMode["encoding"] = "0"
         # else:
@@ -329,7 +358,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
                 self.userTextBrowserAppend("编码检测发生改变，编码【关闭】 检测【关闭】")
 
-    def parseCheckGetParameters(self):
+    def parseSelfCheckGetParameters(self):
         self.setWorkMode(self.protocolWin.data)
         tmp = self.protocolWin.data.decode("utf-8")
         l = len(tmp)
@@ -348,6 +377,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.label_selfFireCurrent.setText(FireCur)
             self.userTextBrowserAppend("已获取测试仪自检参数")
             self.parseWorkMode()
+            self.deviceIsResponsed = True
         else:
             self.userTextBrowserAppend("请接通测试仪电源")
         
@@ -368,6 +398,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.protocolWin.rxCheck = 0
             # self.protocolWin.prvSerial.flush()
             self.protocolWin.serialSendData(Func.f_DevGetSelfPara, '', '')
+            self.deviceIsResponsed = False
+            self.devResponseTimer.start(2000)
         else:
             self.userTextBrowserAppend("串口未打开")
 
@@ -391,7 +423,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     if tmp[2] == Func.f_DevSettingThreshold:
                         self.parseSettingThreshold()
                     elif tmp[2] == Func.f_DevGetSelfPara:
-                        self.parseCheckGetParameters()
+                        self.parseSelfCheckGetParameters()
                     elif tmp[2] == Func.f_DevEncoding:
                         self.parseEncodingResults()
                     elif tmp[2] == Func.f_DevDetection:
@@ -424,6 +456,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("无模块连接")
         else:
             self.userTextBrowserAppend("当前模块编号：" + tmp)
+        self.deviceIsResponsed = True
         self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
@@ -436,6 +469,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.protocolWin.rxCheck = 0
             self.protocolWin.prvSerial.flushOutput()
             self.protocolWin.serialSendData(Func.f_DevQueryCurrentCode, '', '')
+            self.deviceIsResponsed = False
+            self.devResponseTimer.start(2000)
         else:
             self.userTextBrowserAppend("串口未打开")
     
@@ -470,6 +505,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.protocolWin.data = b''
                     self.protocolWin.rxCheck = 0
                     self.protocolWin.prvSerial.flushOutput()
+                    if not uid in self.codeList:
+                        self.codeList.append(uid)
                     self.protocolWin.serialSendData(Func.f_DevEncoding, uid, '')
                 else:
                     self.userTextBrowserAppend("输入编号为空！")
@@ -644,7 +681,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
         self.lineEdit_uidInput.setFocus()
     
-    def isExcelOpened(self):
+    def isExcelResultsFileOpened(self):
         if os.path.exists('~$' + self.excelFile):
             # print('excel已被打开')
             return True
@@ -655,7 +692,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def on_pushBtn_saveResults_clicked(self):
         self.openExcelRecord()
-        self.excelOpenState = self.isExcelOpened()
+        self.excelOpenState = self.isExcelResultsFileOpened()
         if self.excelOpenState:
             self.userTextBrowserAppend(self.excelFilePath + '已被打开, 请关闭文件后再写入')
         else:
@@ -667,7 +704,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     @QtCore.pyqtSlot()
     def on_pushBtn_showResults_clicked(self):
-        isOpenState = self.isExcelOpened()
+        isOpenState = self.isExcelResultsFileOpened()
         if isOpenState:
             self.userTextBrowserAppend(self.excelFilePath + '已打开')
         else:
@@ -730,11 +767,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 break
 
     def autoSendParameters(self):
-        # self.protocolWin.autoConnectDetector()
         if len(self.protocolWin.comDescriptionList) != 0:
             if self.protocolWin.prvSerial.isOpen():
                 QApplication.processEvents()
-                self.sleepUpdate(3)
+                # self.sleepUpdate(3)
                 # self.thresholdWin.on_pushBtn_saveSettingsRecord_clicked()
                 self.thresholdWin.getUserPara()
                 cnt = 0
@@ -757,17 +793,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     cnt += 1
                 self.thresholdWin.openConfigRecord()
                 if self.thresholdWin.isConfigSavedFirst == True:
-                    self.thresholdWin.firstSaveThreshold(self.thresholdWin.para)
+                    self.thresholdWin.saveThreshold(self.thresholdWin.para)
                 elif self.thresholdWin.isConfigSaved:
                     self.thresholdWin.settingThreshold()
             self.autoTimer.stop()
         else:
             pass
-    
-    def mousePressEvent(self, e):
-        if e.buttons() == QtCore.Qt.LeftButton:
-            # print('鼠标单击')
-            self.lineEdit_uidInput.setFocus()
     
     def closeEvent(self, QCloseEvent):
         choice = QMessageBox.question(self, "关闭窗口", "是否关闭窗口？", QMessageBox.Yes | QMessageBox.Cancel)

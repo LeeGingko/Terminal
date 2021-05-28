@@ -67,7 +67,6 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 
     def autoConnectDetector(self):
-        QApplication.processEvents()
         self.comboBox_selectComNum.setEnabled(True)
         self.comboBox_selectComNum.clear()  # 清空端口选择按钮
         self.serialMonitor.portList.clear()
@@ -123,7 +122,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                     print('/*+++++++++++++++++++++++++++++++++++++++++++++*/\r\nChecking device parameters ......:')
                                     self.deviceSelfCheck() # 每次运行程序执行一次自检即可
                                     break
-                            endTiming = dt.datetime.now()  
+                            endTiming = dt.datetime.now()
                     except:
                         QMessageBox.warning(self, "打开串口", "打开串口失败")
                         self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "] 打开失败")
@@ -132,16 +131,21 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
 
     def portsMonitoring(self, list):
         if list[0] == 'NOCOM':
+            self.comController = ''
+            self.comPortList.clear()
+            self.comDescriptionList.clear()
+            self.protocolAppendSignal.emit("当前已无串口")
             print(str(list[0]))
             self.comboBox_selectComNum.setEnabled(True)
-            self.comboBox_selectComNum.clear()  # 清空端口选择按钮 
+            self.comboBox_selectComNum.clear() # 清空端口选择按钮 
             if self.prvSerial.isOpen():
                 self.prvSerial.close()
             self.pushBtn_serialSwitch.setText('打开串口')
-        elif list[0] != 'NOCOM':
+        else:
             print(str(list))
+            self.protocolAppendSignal.emit("串口发生改变")
             self.comboBox_selectComNum.setEnabled(True)
-            self.comboBox_selectComNum.clear()  # 清空端口选择按钮
+            self.comboBox_selectComNum.clear() # 清空端口选择按钮
             self.comPortList = self.serialMonitor.portList.copy()
             self.comDescriptionList = self.serialMonitor.descriptionList.copy()
             if len(self.comDescriptionList) != 0:
@@ -149,10 +153,10 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                     self.comboBox_selectComNum.addItem(p)
             self.pushBtn_serialSwitch.setText('打开串口')
             if (self.comController != '') and (not self.comController in self.comDescriptionList):
-                self.protocolAppendSignal.emit('控制仪串口已拔出')
                 self.prvSerial.close()
+                # self.protocolAppendSignal.emit('控制仪串口已拔出')
                 self.comboBox_selectComNum.setCurrentText(self.comDescription)
-                self.comboBox_selectComNum.setEnabled(True) 
+                self.comboBox_selectComNum.setEnabled(True)
             elif (self.comController != '') and (self.comController in self.comDescriptionList):
                 # self.protocolAppendSignal.emit('控制仪串口已接入')
                 self.comIndex = self.comDescriptionList.index(self.comController)
@@ -160,7 +164,8 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                 self.portStatus = self.portInfo.isBusy()  # 该串口状态
                 if self.portStatus == False:  # 该串口空闲
                     self.serialManager.initPort(self.comPortList[self.comIndex].device)
-                    self.prvSerial.open()
+                    if not self.prvSerial.isOpen():
+                        self.prvSerial.open()
                 self.pushBtn_serialSwitch.setText('关闭串口')
                 self.comboBox_selectComNum.setCurrentText(self.comController)
                 self.comboBox_selectComNum.setEnabled(False)
