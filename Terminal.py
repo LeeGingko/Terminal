@@ -8,12 +8,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 初始化UI
         self.currentWorkDirectory = ''
         self.currentWorkDirectory = os.getcwd()
-        self.initUi()       
-        # print(os.path.exists('Terminal.exe'))
-        # self.userTextBrowserAppend(os.path.abspath(__file__))
-        # self.userTextBrowserAppend(os.path.dirname(os.path.abspath(__file__)))
-        # self.userTextBrowserAppend(os.getcwd())
-
+        self.initUi()
         # for col in range(15):
         #     item = QStandardItem(self.resultList[col])
         #     self.tableViewModel.setItem(self.tableRow, col, item)
@@ -53,14 +48,20 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         # 发送命令响应
         self.deviceIsResponsed = False
+        # 编号记录文件
+        self.uidCodes = 'uidCodes.txt'
+        self.uidCodesPath = os.path.join(self.currentWorkDirectory, self.uidCodes)
         # 编号记录列表
         self.codeList = []
-        self.codes = 'codes.txt'
-        self.codesPath = os.path.join(self.currentWorkDirectory, self.codes)
+        self.codeListFile = 'codeList.txt'
+        self.codesListPath = os.path.join(self.currentWorkDirectory, self.codeListFile) # 每获取一个编号，则存入到硬盘
+        # 配置文件路径
         self.configFile = 'config.txt'
         self.configFilePath = os.path.join(self.currentWorkDirectory, self.configFile)
-        self.saveInputUIDCodes()
-        self.saveConfigFile()
+        # 分别创建文件
+        self.createCodeListFile()
+        self.createConfigFile()
+        self.createUIDCodesFile()
         # 自定义工具实例化
         self.usualTools = Tools()
         # 设置窗口居中显示
@@ -84,11 +85,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.myStatusBar = QStatusBar()
         self.myStatusBar.setFont(QFont("Times New Roman", 16, QFont.Light))
         self.setStatusBar(self.myStatusBar)
-        # 配置界面类实例
+        # 通信配置界面类实例
         self.protocolWin = ProtocolWin()
         self.protocolWin.protocolAppendSignal.connect(self.userTextBrowserAppend)
+        # 通信实例传入到全局对象，供阈值设置实例访问
         GetSetObj.set(self.protocolWin)
-        self.protocolWin.serialManager.recvSignal.connect(self.serialRecvData) # 串口线程实例
+        self.protocolWin.serialManager.recvSignal.connect(self.serialRecvData)
+        # 阈值设置界面类实例
         self.thresholdWin = ThresholdWin()
         self.thresholdWin.thresholdAppendSignal.connect(self.userTextBrowserAppend)
         # 工作模式初始化
@@ -101,10 +104,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.timsRefresh = LocalTimeThread()
         self.timsRefresh.secondSignal.connect(self.showDaetTime)
         self.timsRefresh.start()
-        # 消息保存
-        self.isMessageSavedFirst = True
-        self.isMessageSaved = True
-        self.messagePath = ""
         # 测试数据Excel文件保存变量的初始化
         self.excel = PrivateOpenPyxl() # Excel实例化全局对象
         self.isExcelSavedFirst = True # 是否是第一次保存
@@ -144,7 +143,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableView_result.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.tableView_result.verticalHeader().hide()
         self.tableView_result.setContextMenuPolicy(Qt.CustomContextMenu)
-        # 表格视图上下文菜单
+        # 3.1 表格视图上下文菜单
         self.tableView_result.customContextMenuRequested.connect(self.tvCustomContextMenuRequested)
         self.tvMenu = QMenu(self.tableView_result)
         self.saveSelected = QAction()
@@ -168,7 +167,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
         # UID输入验证器设置
         regValidator = QRegExpValidator(self)
-        reg = QRegExp("[a-fA-F0-9]+$")
+        reg = QRegExp("[a-fA-F0-9]+$") # 字母范围a~f, A~F, 数字0~9
         regValidator.setRegExp(reg)
         # UID输入编辑栏初始化
         self.lineEdit_uidInput.setMaxLength(5)
@@ -176,35 +175,54 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_uidInput.setToolTip("字母范围a~f, A~F, 数字0~9")
         self.lineEdit_uidInput.setFocus()
         self.setMouseTracking(True)
-        # 
+        # 配置文件路径
         self.thresholdWin.configPath = self.configFilePath
-        ## 软件运行初始化
+        ## 界面显示前初始化
         # 1 连接控制仪串口
         self.protocolWin.autoConnectDetector()
         # 2 下发参数阈值
         self.autoTimer = QTimer() # 使用定时器，防止主界面卡在步骤1中
-        self.autoTimer.start(2000)
+        self.autoTimer.start(2000) # 两秒后执行参数下发
         self.autoTimer.timeout.connect(self.autoSendParameters)
         # 测试仪响应定时器
         self.devResponseTimer = QTimer()
         self.devResponseTimer.timeout.connect(self.deviceNoResponse)
- 
-    def saveConfigFile(self):
-        try:
-            with open(self.configFilePath, "w") as scpf:
-                scpf.write(self.configFilePath)
-        except:
-            pass
-
-    def saveInputUIDCodes(self):
-        try:
-            with open(self.codesPath, "w") as scpf:
-                scpf.write(self.codesPath)
-        except:
-            pass
-
+    
     def showDaetTime(self, timeStr):
-        self.myStatusBar.showMessage(timeStr)    
+        self.myStatusBar.showMessage(timeStr)        
+    
+    def createCodeListFile(self):
+        if os.path.isfile(self.codesListPath): # 文件已存在
+            pass
+        else: # 创建文件
+            try:
+                with open(self.codesListPath, "w") as sclp:
+                    sclp.write(self.codeList)
+            except:
+                pass 
+    
+    def createConfigFile(self):
+        if os.path.isfile(self.configFilePath): # 文件已存在
+            pass
+        else: # 创建文件
+            try:
+                with open(self.configFilePath, "w") as scfp:
+                    scfp.write(self.configFilePath)
+            except:
+                pass
+
+    def createUIDCodesFile(self):
+        if os.path.isfile(self.uidCodesPath): # 文件已存在
+            pass
+        else: # 创建文件
+            try:
+                with open(self.uidCodesPath, "w") as sucp:
+                    sucp.write(self.uidCodesPath)
+            except:
+                pass
+    
+    def appendInputCode(self):
+        pass
     
     def deviceNoResponse(self):
         if not self.deviceIsResponsed:
@@ -251,6 +269,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tvRowList.sort(key=int, reverse=True)
         print(self.tvRowList)
         self.tvMenu.exec_(self.tableView_result.mapToGlobal(p))
+    
+    def isExcelResultsFileOpened(self):
+        if os.path.exists('~$' + self.excelFile):
+            # print('excel已被打开')
+            return True
+        else:
+            # print('excel未被打开')
+            return False
 
     @QtCore.pyqtSlot()
     def on_pushBtn_protocolSetting_clicked(self):
@@ -261,64 +287,198 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_pushBtn_thresholdSetting_clicked(self):
         self.thresholdWin.show()
         self.lineEdit_uidInput.setFocus()
+    
+    @QtCore.pyqtSlot()
+    def on_pushBtn_deviceSelfCheck_clicked(self):
+        if self.protocolWin.prvSerial.isOpen() == True:
+            self.userTextBrowserAppend("测试仪自检")
+            self.selfCheckGetParameters()
+            self.lineEdit_uidInput.setFocus()
+        else:
+            QMessageBox.information(self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
 
+    @QtCore.pyqtSlot()
+    def on_pushBtn_clearUidInput_clicked(self):
+        self.lineEdit_uidInput.clear()
+    
+    @QtCore.pyqtSlot()
+    def on_pushBtn_queryCode_clicked(self):
+        print("/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/")
+        print("Querying......")
+        self.userTextBrowserAppend("执行查询")
+        if self.protocolWin.prvSerial.isOpen(): 
+            self.protocolWin.data = b''
+            self.protocolWin.rxCheck = 0
+            self.protocolWin.prvSerial.flushOutput()
+            self.protocolWin.serialSendData(Func.f_DevQueryCurrentCode, '', '')
+            self.deviceIsResponsed = False
+            self.devResponseTimer.start(2000)
+        else:
+            self.userTextBrowserAppend("串口未打开")
+
+    @QtCore.pyqtSlot()
+    def on_pushBtn_deviceEncoding_clicked(self):
+        if self.workMode["encoding"] == "1":
+            print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
+            print("Encoding......")
+            self.userTextBrowserAppend("执行编码")
+            if self.protocolWin.prvSerial.isOpen():
+                uid = self.lineEdit_uidInput.text()
+                if uid != "":
+                    self.userTextBrowserAppend("输入UID：" + self.lineEdit_uidInput.text())
+                    self.protocolWin.data = b''
+                    self.protocolWin.rxCheck = 0
+                    self.protocolWin.prvSerial.flushOutput()
+                    if not uid in self.codeList:
+                        self.codeList.append(uid)
+                    self.protocolWin.serialSendData(Func.f_DevEncoding, uid, '')
+                else:
+                    self.userTextBrowserAppend("输入编号为空！")
+            else:
+                self.userTextBrowserAppend("串口未打开")
+        else:
+            self.userTextBrowserAppend("编码【未开启】")
+
+    @QtCore.pyqtSlot()
+    def on_pushBtn_deviceDetection_clicked(self):
+        if self.workMode["detection"] == "1":
+            print("/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/")
+            print("Detecting......")
+            self.detectionTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+            self.userTextBrowserAppend("执行检测")
+            if self.protocolWin.prvSerial.isOpen():
+                uid = self.lineEdit_uidInput.text()
+                if uid != "":
+                    self.userTextBrowserAppend("输入UID：" + self.lineEdit_uidInput.text())
+                    self.protocolWin.data = b""
+                    self.protocolWin.rxCheck = 0
+                    self.protocolWin.prvSerial.flushOutput()
+                    self.protocolWin.serialSendData(Func.f_DevDetection, uid, '')
+                else:
+                    self.userTextBrowserAppend("输入编号为空！")
+            else:
+                self.userTextBrowserAppend("串口未打开")
+        else:
+            self.userTextBrowserAppend("检测【未开启】")
+    
+    @QtCore.pyqtSlot()
+    def on_pushBtn_deviceEncodingDetection_clicked(self):
+        self.userTextBrowserAppend("执行编码和检测")
+        if self.workMode["encoding"] == "1" and self.workMode["detection"] == "1":
+            if self.protocolWin.prvSerial.isOpen():
+                self.detectionTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                uid = self.lineEdit_uidInput.text()
+                if uid != "":
+                    self.userTextBrowserAppend("输入UID：" + self.lineEdit_uidInput.text())
+                    self.protocolWin.data = b""
+                    self.protocolWin.rxCheck = 0
+                    self.protocolWin.prvSerial.flushOutput()
+                    print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
+                    print("Encoding......")
+                    self.userTextBrowserAppend("模块编码")
+                    self.protocolWin.prvSerial.flushOutput()
+                    self.protocolWin.serialSendData(Func.f_DevEncoding, uid, '')
+                    while True:
+                        QApplication.processEvents()
+                        time.sleep(0.01)
+                        if self.protocolWin.data != b"":
+                            if self.protocolWin.data[2] != 50:
+                                continue
+                            else:
+                                break
+                    print("/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/")
+                    print("Detecting......")
+                    self.userTextBrowserAppend("模块检测")
+                    self.protocolWin.prvSerial.flushOutput()
+                    self.protocolWin.serialSendData(Func.f_DevDetection, uid, '')
+                else:
+                    self.userTextBrowserAppend("输入编号为空！")
+            else:
+                self.userTextBrowserAppend("串口未打开")
+        else:
+            self.userTextBrowserAppend("编码和检测未开启") 
+
+    @QtCore.pyqtSlot()
+    def on_pushBtn_saveResults_clicked(self):
+        self.openExcelRecord()
+        self.excelOpenState = self.isExcelResultsFileOpened()
+        if self.excelOpenState:
+            self.userTextBrowserAppend(self.excelFilePath + '已被打开, 请关闭文件后再写入')
+        else:
+            if self.isExcelSavedFirst:
+                self.firstsaveResults()
+            elif self.isExcelSaved:
+                self.saveResults()
+        self.lineEdit_uidInput.setFocus()
+
+    @QtCore.pyqtSlot()
+    def on_pushBtn_showResults_clicked(self):
+        isOpenState = self.isExcelResultsFileOpened()
+        if isOpenState:
+            self.userTextBrowserAppend(self.excelFilePath + '已打开')
+        else:
+            self.openExcelRecord()
+            recordsfile, _ = QFileDialog.getOpenFileName(self, "打开记录文件", './', 'records (*.xlsx)')
+            if recordsfile:
+                os.startfile(recordsfile)
+                self.isConfigSaved = True
+            self.saveExcelRecord()   
+        self.lineEdit_uidInput.setFocus()  
+
+    @QtCore.pyqtSlot()
+    def on_pushBtn_clearResults_clicked(self):
+        self.tableRow = 0
+        self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
+        self.lineEdit_uidInput.setFocus()
+    
     @QtCore.pyqtSlot()
     def on_pushBtn_cleanMsgArea_clicked(self):
         if self.textBrowser.toPlainText() != "":
             self.textBrowser.clear()
- 
-    def parseSettingThreshold(self):
-        tmp = self.protocolWin.data.decode("utf-8")
-        res = tmp[3:(len(tmp)-4)]
-        if res == "PARAOK":
-            # self.sleepUpdate(2) 导致主窗口卡顿的地方
-            if self.thresholdWin.isActiveWindow():
-                self.thresholdWin.close()
-            self.userTextBrowserAppend("测试仪接收参数成功")
-        elif res == "PARAERR":
-            self.userTextBrowserAppend("测试仪接收参数失败")
-        elif res == "PARALESS":
-            self.userTextBrowserAppend("测试仪接收参数缺失")
-        self.lineEdit_uidInput.setFocus()
     
+    def serialRecvData(self, data):
+        self.protocolWin.data = data
+        if data.decode("utf-8") == "接收数据失败":
+            self.userTextBrowserAppend("接收数据失败")
+        else:
+            tmp = data.decode("utf-8")
+            if tmp[0] == "U":
+                if self.protocolWin.rxFrameCheck() == State.s_RxFrameCheckOK:
+                    if tmp[2] == Func.f_DevSettingThreshold:
+                        self.parseSettingThreshold()
+                    elif tmp[2] == Func.f_DevGetSelfPara:
+                        self.parseSelfCheckGetParameters()
+                    elif tmp[2] == Func.f_DevEncoding:
+                        self.parseEncodingResults()
+                    elif tmp[2] == Func.f_DevDetection:
+                        self.parseDetectionResults()
+                    elif tmp[2] == Func.f_DevEncodingDetection:
+                        self.parseDetectionResults()
+                    elif tmp[2] == Func.f_DevQueryCurrentCode:
+                        self.parseQueryCodeResults()
+                else:
+                    self.userTextBrowserAppend("接收帧错误")
+            elif tmp[0] == "R":
+                if tmp[1] == "M":
+                    self.reportSystemPower(tmp)
+                else:
+                    self.updateWorkMode(tmp)
+    
+    def reportSystemPower(self, str):
+        print("In reportSystemPower...............")
+        if str == "RMPO\r\n":
+            self.userTextBrowserAppend("测试仪已上电，线路供电接通")
+            time.sleep(1)
+            self.on_pushBtn_deviceSelfCheck_clicked() # 进行一次测试仪自检
+        else:
+            self.userTextBrowserAppend("测试仪已上电，线路供电断开")   
+   
     def setWorkMode(self, tmp):
         self.workMode["encoding" ] = "0" if tmp[len(tmp) - 6] == 48 else "1"
         self.workMode["detection"] = "0" if tmp[len(tmp) - 5] == 48 else "1"
-        # 2021年3月30日 09:29:36 工作模式获取整合到参数获取中
-        # if tmp[len(tmp) - 6] == 48:
-        #     self.workMode["encoding"] = "0"
-        # else:
-        #     self.workMode["encoding"] = "1"
-        # if tmp[len(tmp) - 5] == 48:
-        #     self.workMode["detection"] = "0"
-        # else:
-        #     self.workMode["detection"] = "1"
 
     def getWorkMode(self):
         return self.workMode
-
-    def parseWorkMode(self):
-        wm = self.getWorkMode()
-        # print("In parseWorkMode...............")
-        endc = wm["encoding"]
-        dete = wm["detection"]
-        if endc == "1" and dete == "1":
-            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
-            self.userTextBrowserAppend("编码【开启】 检测【开启】")
-        elif endc == "1" and dete == "0":
-            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
-            self.userTextBrowserAppend("编码【开启】 检测【关闭】")
-        elif endc == "0" and dete == "1":
-            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
-            self.userTextBrowserAppend("编码【关闭】 检测【开启】")
-        elif endc == "0" and dete == "0":
-            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
-            self.userTextBrowserAppend("编码【关闭】 检测【关闭】")
-            self.userTextBrowserAppend("无法进行【编码】和【检测】，请按下功能按键！")
     
     def updateWorkMode(self, str):
         # print("In updateWorkMode...............")
@@ -358,29 +518,29 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
                 self.userTextBrowserAppend("编码检测发生改变，编码【关闭】 检测【关闭】")
 
-    def parseSelfCheckGetParameters(self):
-        self.setWorkMode(self.protocolWin.data)
-        tmp = self.protocolWin.data.decode("utf-8")
-        l = len(tmp)
-        if tmp[3:10] != "NOPOWER":
-            PwrVol  = tmp[tmp.find("V1", 0, l) + 2 : tmp.find("A1", 0, l)]
-            PwrCur  = tmp[tmp.find("A1", 0, l) + 2 : tmp.find("V2", 0, l)]
-            ComVol  = tmp[tmp.find("V2", 0, l) + 2 : tmp.find("A2", 0, l)]
-            ComCur  = tmp[tmp.find("A2", 0, l) + 2 : tmp.find("V3", 0, l)]
-            FireVol = tmp[tmp.find("V3", 0, l) + 2 : tmp.find("A3", 0, l)]
-            FireCur = tmp[tmp.find("A3", 0, l) + 2 : tmp.find("M" , 0, l)]
-            self.label_selfLineVoltage.setText(PwrVol)
-            self.label_selfLineCurrent.setText(PwrCur)
-            self.label_selfComVoltage.setText(ComVol)
-            self.label_selfComCurrent.setText(ComCur)
-            self.label_selfFireVoltage.setText(FireVol)
-            self.label_selfFireCurrent.setText(FireCur)
-            self.userTextBrowserAppend("已获取测试仪自检参数")
-            self.parseWorkMode()
-            self.deviceIsResponsed = True
-        else:
-            self.userTextBrowserAppend("请接通测试仪电源")
-        
+    def parseWorkMode(self):
+        wm = self.getWorkMode()
+        # print("In parseWorkMode...............")
+        endc = wm["encoding"]
+        dete = wm["detection"]
+        if endc == "1" and dete == "1":
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
+            self.userTextBrowserAppend("编码【开启】 检测【开启】")
+        elif endc == "1" and dete == "0":
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
+            self.userTextBrowserAppend("编码【开启】 检测【关闭】")
+        elif endc == "0" and dete == "1":
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
+            self.userTextBrowserAppend("编码【关闭】 检测【开启】")
+        elif endc == "0" and dete == "0":
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
+            self.userTextBrowserAppend("编码【关闭】 检测【关闭】")
+            self.userTextBrowserAppend("无法进行【编码】和【检测】，请按下功能按键！")
+    
     def selfCheckGetParameters(self):
         print("/*+++++++++++++++++++++++++++++++++++++++++++++*/")
         print("Checking device parameters ......")
@@ -402,53 +562,75 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.devResponseTimer.start(2000)
         else:
             self.userTextBrowserAppend("串口未打开")
-
-    def reportSystemPower(self, str):
-        print("In reportSystemPower...............")
-        if str == "RMPO\r\n":
-            self.userTextBrowserAppend("测试仪已上电，线路供电接通")
-            time.sleep(1)
-            self.on_pushBtn_deviceSelfCheck_clicked() # 进行一次测试仪自检
-        else:
-            self.userTextBrowserAppend("测试仪已上电，线路供电断开")
-
-    def serialRecvData(self, data):
-        self.protocolWin.data = data
-        if data.decode("utf-8") == "接收数据失败":
-            self.userTextBrowserAppend("接收数据失败")
-        else:
-            tmp = data.decode("utf-8")
-            if tmp[0] == "U":
-                if self.protocolWin.rxFrameCheck() == State.s_RxFrameCheckOK:
-                    if tmp[2] == Func.f_DevSettingThreshold:
-                        self.parseSettingThreshold()
-                    elif tmp[2] == Func.f_DevGetSelfPara:
-                        self.parseSelfCheckGetParameters()
-                    elif tmp[2] == Func.f_DevEncoding:
-                        self.parseEncodingResults()
-                    elif tmp[2] == Func.f_DevDetection:
-                        self.parseDetectionResults()
-                    elif tmp[2] == Func.f_DevEncodingDetection:
-                        self.parseDetectionResults()
-                    elif tmp[2] == Func.f_DevQueryCurrentCode:
-                        self.parseQueryCodeResults()
-                else:
-                    self.userTextBrowserAppend("接收帧错误")
-            elif tmp[0] == "R":
-                if tmp[1] == "M":
-                    self.reportSystemPower(tmp)
-                else:
-                    self.updateWorkMode(tmp)
-
-    @QtCore.pyqtSlot()
-    def on_pushBtn_deviceSelfCheck_clicked(self):
-        if self.protocolWin.prvSerial.isOpen() == True:
-            self.userTextBrowserAppend("测试仪自检")
-            self.selfCheckGetParameters()
-            self.lineEdit_uidInput.setFocus()
-        else:
-            QMessageBox.information(self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
     
+    def autoSendParameters(self):
+        if len(self.protocolWin.comDescriptionList) != 0:
+            if self.protocolWin.prvSerial.isOpen():
+                self.thresholdWin.getUserPara()
+                cnt = 0
+                self.thresholdWin.para = ""
+                for k, v in self.thresholdWin.paraDict.items():
+                    if cnt < 10:
+                        self.thresholdWin.para = self.thresholdWin.para + ("P" + str(cnt) + v)
+                    elif cnt == 10:
+                        self.thresholdWin.para = self.thresholdWin.para + ("PA" + v)
+                    elif cnt == 11:
+                        self.thresholdWin.para = self.thresholdWin.para + ("PB" + v)
+                    elif cnt == 12:
+                        self.thresholdWin.para = self.thresholdWin.para + ("PC" + v)
+                    elif cnt == 13:
+                        self.thresholdWin.para = self.thresholdWin.para + ("PD" + v)
+                    elif cnt == 14:
+                        self.thresholdWin.para = self.thresholdWin.para + ("PE" + v)
+                    elif cnt == 15:
+                        self.thresholdWin.para = self.thresholdWin.para + ("PF" + v)
+                    cnt += 1
+                self.thresholdWin.openConfigRecord()
+                if self.thresholdWin.isConfigSavedFirst == True:
+                    self.thresholdWin.saveThreshold(self.thresholdWin.para)
+                elif self.thresholdWin.isConfigSaved:
+                    self.thresholdWin.settingThreshold()
+            self.autoTimer.stop()
+        else:
+            pass
+        
+    def parseSelfCheckGetParameters(self):
+        self.setWorkMode(self.protocolWin.data)
+        tmp = self.protocolWin.data.decode("utf-8")
+        l = len(tmp)
+        if tmp[3:10] != "NOPOWER":
+            PwrVol  = tmp[tmp.find("V1", 0, l) + 2 : tmp.find("A1", 0, l)]
+            PwrCur  = tmp[tmp.find("A1", 0, l) + 2 : tmp.find("V2", 0, l)]
+            ComVol  = tmp[tmp.find("V2", 0, l) + 2 : tmp.find("A2", 0, l)]
+            ComCur  = tmp[tmp.find("A2", 0, l) + 2 : tmp.find("V3", 0, l)]
+            FireVol = tmp[tmp.find("V3", 0, l) + 2 : tmp.find("A3", 0, l)]
+            FireCur = tmp[tmp.find("A3", 0, l) + 2 : tmp.find("M" , 0, l)]
+            self.label_selfLineVoltage.setText(PwrVol)
+            self.label_selfLineCurrent.setText(PwrCur)
+            self.label_selfComVoltage.setText(ComVol)
+            self.label_selfComCurrent.setText(ComCur)
+            self.label_selfFireVoltage.setText(FireVol)
+            self.label_selfFireCurrent.setText(FireCur)
+            self.userTextBrowserAppend("已获取测试仪自检参数")
+            self.parseWorkMode()
+            self.deviceIsResponsed = True
+        else:
+            self.userTextBrowserAppend("请接通测试仪电源")      
+    
+    def parseSettingThreshold(self):
+        tmp = self.protocolWin.data.decode("utf-8")
+        res = tmp[3:(len(tmp)-4)]
+        if res == "PARAOK":
+            # self.sleepUpdate(2) 导致主窗口卡顿的地方
+            if self.thresholdWin.isActiveWindow():
+                self.thresholdWin.close()
+            self.userTextBrowserAppend("测试仪接收参数成功")
+        elif res == "PARAERR":
+            self.userTextBrowserAppend("测试仪接收参数失败")
+        elif res == "PARALESS":
+            self.userTextBrowserAppend("测试仪接收参数缺失")
+        self.lineEdit_uidInput.setFocus()
+
     def parseQueryCodeResults(self):
         tmp = self.protocolWin.data.decode("utf-8")
         tmp = tmp[tmp.find("UID", 0, len(tmp)) + 3 : len(tmp) - 4]
@@ -458,21 +640,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("当前模块编号：" + tmp)
         self.deviceIsResponsed = True
         self.lineEdit_uidInput.setFocus()
-
-    @QtCore.pyqtSlot()
-    def on_pushBtn_queryCode_clicked(self):
-        print("/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/")
-        print("Querying......")
-        self.userTextBrowserAppend("执行查询")
-        if self.protocolWin.prvSerial.isOpen(): 
-            self.protocolWin.data = b''
-            self.protocolWin.rxCheck = 0
-            self.protocolWin.prvSerial.flushOutput()
-            self.protocolWin.serialSendData(Func.f_DevQueryCurrentCode, '', '')
-            self.deviceIsResponsed = False
-            self.devResponseTimer.start(2000)
-        else:
-            self.userTextBrowserAppend("串口未打开")
     
     def parseEncodingResults(self):
         res = ""
@@ -491,29 +658,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/close)}")
             self.userTextBrowserAppend("无法进行编码，请检查编码按键")
         self.lineEdit_uidInput.setFocus()
-
-    @QtCore.pyqtSlot()
-    def on_pushBtn_deviceEncoding_clicked(self):
-        if self.workMode["encoding"] == "1":
-            print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
-            print("Encoding......")
-            self.userTextBrowserAppend("执行编码")
-            if self.protocolWin.prvSerial.isOpen():
-                uid = self.lineEdit_uidInput.text()
-                if uid != "":
-                    self.userTextBrowserAppend("输入UID：" + self.lineEdit_uidInput.text())
-                    self.protocolWin.data = b''
-                    self.protocolWin.rxCheck = 0
-                    self.protocolWin.prvSerial.flushOutput()
-                    if not uid in self.codeList:
-                        self.codeList.append(uid)
-                    self.protocolWin.serialSendData(Func.f_DevEncoding, uid, '')
-                else:
-                    self.userTextBrowserAppend("输入编号为空！")
-            else:
-                self.userTextBrowserAppend("串口未打开")
-        else:
-            self.userTextBrowserAppend("编码【未开启】")
 
     def parseDetectionResults(self):
         res = ""
@@ -578,56 +722,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # elif tmp[3:8] == "NDETE":
         #     self.workMode["detection"] = "0"
         #     self.userTextBrowserAppend("无法进行检测，请检查检测按键")
-
-    @QtCore.pyqtSlot()
-    def on_pushBtn_deviceDetection_clicked(self):
-        if self.workMode["detection"] == "1":
-            print("/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/")
-            print("Detecting......")
-            self.detectionTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-            self.userTextBrowserAppend("执行检测")
-            if self.protocolWin.prvSerial.isOpen():
-                uid = self.lineEdit_uidInput.text()
-                if uid != "":
-                    self.userTextBrowserAppend("输入UID：" + self.lineEdit_uidInput.text())
-                    self.protocolWin.data = b""
-                    self.protocolWin.rxCheck = 0
-                    self.protocolWin.prvSerial.flushOutput()
-                    self.protocolWin.serialSendData(Func.f_DevDetection, uid, '')
-                else:
-                    self.userTextBrowserAppend("输入编号为空！")
-            else:
-                self.userTextBrowserAppend("串口未打开")
-        else:
-            self.userTextBrowserAppend("检测【未开启】")
-
-    def openExcelRecord(self):
-        try:
-            with open("excel_save_record.txt", "rb") as esrf:
-                oer = pk.load(esrf) # 将二进制文件对象转换成Python对象
-            self.isExcelSavedFirst = oer[0][0]
-            self.isExcelSaved = oer[0][1]
-            self.excelFilePath = oer[1]
-            self.excelFile = os.path.split(self.excelFilePath)[1]
-        except:
-            pass
     
-    def saveExcelRecord(self):
-        self.saved_info = ([self.isExcelSavedFirst, self.isExcelSaved],  self.excelFilePath)
-        with open("excel_save_record.txt", "wb") as esrf:
-            pk.dump(self.saved_info, esrf) # 用dump函数将Python对象转成二进制对象文件
-        # print("saveExcelRecord:" + str(self.saved_info))
-
-    def compareResult(self):
-        diffDef = set(self.resultList).difference(set(self.resultDefaultList))
-        diffDet = set(self.resultList).difference(set(self.resultLastList))
-        if diffDef == set() and diffDet == set():
-            return -1
-        elif diffDef != set() and diffDet == set():
-            return 0
-        elif diffDef != set() and diffDet != set():
-            return 1    
-            
     def firstsaveResults(self):
         if self.excelFilePath == "":
             self.excelFilePath, isAccept =  QFileDialog.getSaveFileName(self, "保存文件", "./recording", "recorded data(*.xlsx)")
@@ -675,88 +770,33 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.resultLastList = self.resultList.copy()
         self.lineEdit_uidInput.setFocus()
 
-    @QtCore.pyqtSlot()
-    def on_pushBtn_clearResults_clicked(self):
-        self.tableRow = 0
-        self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
-        self.lineEdit_uidInput.setFocus()
+    def openExcelRecord(self):
+        try:
+            with open("excel_save_record.txt", "rb") as esrf:
+                oer = pk.load(esrf) # 将二进制文件对象转换成Python对象
+            self.isExcelSavedFirst = oer[0][0]
+            self.isExcelSaved = oer[0][1]
+            self.excelFilePath = oer[1]
+            self.excelFile = os.path.split(self.excelFilePath)[1]
+        except:
+            pass
     
-    def isExcelResultsFileOpened(self):
-        if os.path.exists('~$' + self.excelFile):
-            # print('excel已被打开')
-            return True
-        else:
-            # print('excel未被打开')
-            return False
+    def saveExcelRecord(self):
+        self.saved_info = ([self.isExcelSavedFirst, self.isExcelSaved],  self.excelFilePath)
+        with open("excel_save_record.txt", "wb") as esrf:
+            pk.dump(self.saved_info, esrf) # 用dump函数将Python对象转成二进制对象文件
+        # print("saveExcelRecord:" + str(self.saved_info))
 
-    @QtCore.pyqtSlot()
-    def on_pushBtn_saveResults_clicked(self):
-        self.openExcelRecord()
-        self.excelOpenState = self.isExcelResultsFileOpened()
-        if self.excelOpenState:
-            self.userTextBrowserAppend(self.excelFilePath + '已被打开, 请关闭文件后再写入')
-        else:
-            if self.isExcelSavedFirst:
-                self.firstsaveResults()
-            elif self.isExcelSaved:
-                self.saveResults()
-        self.lineEdit_uidInput.setFocus()
-
-    @QtCore.pyqtSlot()
-    def on_pushBtn_showResults_clicked(self):
-        isOpenState = self.isExcelResultsFileOpened()
-        if isOpenState:
-            self.userTextBrowserAppend(self.excelFilePath + '已打开')
-        else:
-            self.openExcelRecord()
-            recordsfile, _ = QFileDialog.getOpenFileName(self, "打开记录文件", './', 'records (*.xlsx)')
-            if recordsfile:
-                os.startfile(recordsfile)
-                self.isConfigSaved = True
-            self.saveExcelRecord()   
-        self.lineEdit_uidInput.setFocus()  
-
-    @QtCore.pyqtSlot()
-    def on_pushBtn_deviceEncodingDetection_clicked(self):
-        self.userTextBrowserAppend("执行编码和检测")
-        if self.workMode["encoding"] == "1" and self.workMode["detection"] == "1":
-            if self.protocolWin.prvSerial.isOpen():
-                self.detectionTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-                uid = self.lineEdit_uidInput.text()
-                if uid != "":
-                    self.userTextBrowserAppend("输入UID：" + self.lineEdit_uidInput.text())
-                    self.protocolWin.data = b""
-                    self.protocolWin.rxCheck = 0
-                    self.protocolWin.prvSerial.flushOutput()
-                    print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
-                    print("Encoding......")
-                    self.userTextBrowserAppend("模块编码")
-                    self.protocolWin.prvSerial.flushOutput()
-                    self.protocolWin.serialSendData(Func.f_DevEncoding, uid, '')
-                    while True:
-                        QApplication.processEvents()
-                        time.sleep(0.01)
-                        if self.protocolWin.data != b"":
-                            if self.protocolWin.data[2] != 50:
-                                continue
-                            else:
-                                break
-                    print("/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/")
-                    print("Detecting......")
-                    self.userTextBrowserAppend("模块检测")
-                    self.protocolWin.prvSerial.flushOutput()
-                    self.protocolWin.serialSendData(Func.f_DevDetection, uid, '')
-                else:
-                    self.userTextBrowserAppend("输入编号为空！")
-            else:
-                self.userTextBrowserAppend("串口未打开")
-        else:
-            self.userTextBrowserAppend("编码和检测未开启")
-        
-    @QtCore.pyqtSlot()
-    def on_pushBtn_clearUidInput_clicked(self):
-        self.lineEdit_uidInput.clear()
-
+    def compareResult(self):
+        diffDef = set(self.resultList).difference(set(self.resultDefaultList))
+        diffDet = set(self.resultList).difference(set(self.resultLastList))
+        if diffDef == set() and diffDet == set():
+            return -1
+        elif diffDef != set() and diffDet == set():
+            return 0
+        elif diffDef != set() and diffDet != set():
+            return 1    
+            
     def sleepUpdate(self, sec):
         cnt = 0
         while True:
@@ -766,42 +806,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             if cnt == sec:
                 break
 
-    def autoSendParameters(self):
-        if len(self.protocolWin.comDescriptionList) != 0:
-            if self.protocolWin.prvSerial.isOpen():
-                QApplication.processEvents()
-                # self.sleepUpdate(3)
-                # self.thresholdWin.on_pushBtn_saveSettingsRecord_clicked()
-                self.thresholdWin.getUserPara()
-                cnt = 0
-                self.thresholdWin.para = ""
-                for k, v in self.thresholdWin.paraDict.items():
-                    if cnt < 10:
-                        self.thresholdWin.para = self.thresholdWin.para + ("P" + str(cnt) + v)
-                    elif cnt == 10:
-                        self.thresholdWin.para = self.thresholdWin.para + ("PA" + v)
-                    elif cnt == 11:
-                        self.thresholdWin.para = self.thresholdWin.para + ("PB" + v)
-                    elif cnt == 12:
-                        self.thresholdWin.para = self.thresholdWin.para + ("PC" + v)
-                    elif cnt == 13:
-                        self.thresholdWin.para = self.thresholdWin.para + ("PD" + v)
-                    elif cnt == 14:
-                        self.thresholdWin.para = self.thresholdWin.para + ("PE" + v)
-                    elif cnt == 15:
-                        self.thresholdWin.para = self.thresholdWin.para + ("PF" + v)
-                    cnt += 1
-                self.thresholdWin.openConfigRecord()
-                if self.thresholdWin.isConfigSavedFirst == True:
-                    self.thresholdWin.saveThreshold(self.thresholdWin.para)
-                elif self.thresholdWin.isConfigSaved:
-                    self.thresholdWin.settingThreshold()
-            self.autoTimer.stop()
-        else:
-            pass
-    
     def closeEvent(self, QCloseEvent):
-        choice = QMessageBox.question(self, "关闭窗口", "是否关闭窗口？", QMessageBox.Yes | QMessageBox.Cancel)
+        choice = QMessageBox.question(self, "关闭程序", "是否退出程序？", QMessageBox.Yes | QMessageBox.Cancel)
         if choice == QMessageBox.Yes:
             QCloseEvent.accept()
             app = QApplication.instance()
