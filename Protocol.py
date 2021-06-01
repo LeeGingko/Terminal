@@ -119,7 +119,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                     self.comboBox_selectComNum.setCurrentText(self.comController)
                                     self.comboBox_selectComNum.setEnabled(False)
                                     self.pushBtn_serialSwitch.setText("关闭串口")
-                                    print('/*+++++++++++++++++++++++++++++++++++++++++++++*/\r\nChecking device parameters ......:')
+                                    print('/*+++++++++++++++++++++++++++++++++++++++++++++*/\nChecking device parameters ......:')
                                     self.deviceSelfCheck() # 每次运行程序执行一次自检即可
                                     break
                             endTiming = dt.datetime.now()

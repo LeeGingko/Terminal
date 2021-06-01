@@ -19,8 +19,12 @@ class PrivateOpenPyxl():
         self.worksheet.sheet_properties.tabColor = "1072BA"
         self.workbook.save(self.filename)
 
-    def closeFile(self):
+    def closeSheet(self):
         self.workbook.close()
+
+    def loadSheet(self, filename):
+        self.workbook = load_workbook(filename)
+        self.worksheet = self.workbook.active # 默认工作表
 
     def writeData(self, filename, row, col, val):
         self.workbook = load_workbook(filename)
@@ -29,12 +33,8 @@ class PrivateOpenPyxl():
         self.workbook.save(filename)
         self.workbook.close()
 
-    def wrtieRow(self, filename, rowList):
-        self.workbook = load_workbook(filename)
-        self.worksheet = self.workbook.active # 默认工作表
+    def wrtieRow(self, rowList):
         self.worksheet.append(rowList)
-        self.workbook.save(filename)
-        self.workbook.close()
-
-    def saveFile(self):
+        
+    def saveSheet(self):
         self.workbook.save(self.filename)
