@@ -907,6 +907,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             return True
         else:
             self.userTextBrowserAppend("无检测结果，请进行检测！")
+            self.pushBtn_saveResults.setEnabled(False)
+            self.pushBtn_saveResultsAs.setEnabled(False)
             return False
 
     def firstsaveResults(self):
