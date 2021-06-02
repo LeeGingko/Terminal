@@ -99,7 +99,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 1 表格模型初始化
         self.tableRow = 0 # 填入表格的行数
         self.tableHeadline = [
-            "测试员",   "时间",      "漏电流(uA)", "工作电流(uA)",  "ID核对",
+            "测试员",   "检测时间",   "漏电流(uA)", "工作电流(uA)",  "ID核对",
             "在线检测", "被测选发",   "电流(mA)",   "电压(V)",      "电流判断",
             "内置选发", "电流(mA)",  "电压(V)",    "电流判断",      "结论" ]   
         self.tableViewModel = QStandardItemModel(0, 15, self)
@@ -166,7 +166,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 接通电源参数下发定时器
         self.paraTimer = QTimer() 
         self.paraTimer.timeout.connect(self.autoSendParameters)
-        # self.changeResultsFile('66666')
+        # 确认检测完毕
+        self.confirmDetection = False
+        self.pushBtn_saveResults.setEnabled(False)
+        self.pushBtn_saveResultsAs.setEnabled(False)
 
     def showDaetTime(self, timeStr):
         self.myStatusBar.showMessage(timeStr)        
@@ -202,17 +205,20 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             pk.dump(self.devicesState, sdsf)
         
     def loadDevicesStateFile(self):
-        with open(self.devicesStateFile, mode='rb') as sdsf:
-            r = pk.load(sdsf)
-            # print(r)
-        return r
+        try:
+            with open(self.devicesStateFile, mode='rb') as sdsf:
+                r = pk.load(sdsf)
+                # print(r)
+            return r
+        except:
+            pass
 
     def createResultsFile(self):
         if os.path.isfile(self.resultsFile): # 文件已存在
             pass
         else: # 创建文件
             try:
-                with open(self.resultsFilePath, encoding="utf-8", mode="w") as srfp:
+                with open(self.resultsFilePath, encoding="gbk", mode="w") as srfp:
                     # sdsf.write(self.devicesState) 仅仅是创建文件
                     pass
             except:
@@ -238,8 +244,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         res = self.loadResultsFile() # 加载检测结果
         detSta, index = self.isResultDetected(res, uid)
         if detSta != None and index != None:
-            self.resultList[14] = self.resultList[14] + '\n'
-            s = ','.join(self.resultList)
+            tmplist = self.resultList
+            tmplist[14] = tmplist[14] + '\n'
+            s = ','.join(tmplist)
             res[index] = s # 覆盖检测结果  
         with open(self.resultsFile, mode='a+') as srf: # 修改内容后重新写入到检测结果文件
             srf.seek(0)
@@ -269,10 +276,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def tvDropSelected(self):
         l = len(self.tvRowList)
         if l != 0:
-            for n in self.tvRowList:
-                self.tableViewModel.removeRow(n)
-            self.tableRow = self.tableRow - l
-            self.userTextBrowserAppend('删除选中数据')
+            choice = QMessageBox.question(self, "关闭程序", "是否退出程序？", QMessageBox.Yes | QMessageBox.Cancel)
+            if choice == QMessageBox.Yes:
+                for n in self.tvRowList:
+                    self.tableViewModel.removeRow(n)
+                self.tableRow = self.tableRow - l
+                self.userTextBrowserAppend('删除选中数据')
+            else:
+                self.userTextBrowserAppend('取消删除数据')
         else:
             self.userTextBrowserAppend('无显示数据，请选中数据显示区域或进行检测')
         
@@ -393,30 +404,40 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.uid = self.lineEdit_uidInput.text()
                 if self.uid != "":
                     self.userTextBrowserAppend("输入编号：" + self.uid)
-                    # if not self.uid in self.devicesState:
-                    #     self.userTextBrowserAppend("该模块还未进行编码，请先执行编码！")
-                    # else:
-                    self.devicesState = self.loadDevicesStateFile()
-                    detsta = self.devicesState[self.uid].get('det')
                     res = self.loadResultsFile() # 加载检测结果
                     resSta, index = self.isResultDetected(res, self.uid)
-                    if detsta == None and resSta == None: # 该模块在此次工作中未进行过检测
-                        self.detection(self.uid)
-                        self.detectionState = 1
-                    elif (detsta == True or detsta == False) and (resSta == None and index == None): # 该模块在此次工作中已进行过检测，结果还未保存
-                        choice = QMessageBox.question(self, "执行检测", "检测结果未保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
-                        if choice == QMessageBox.Yes:
-                            self.detection(self.uid)
-                            self.detectionState = 2
-                        else:
-                            self.userTextBrowserAppend("取消重新检测")
-                    elif (detsta == True or detsta == False) and (resSta != None and index != None): # 该模块在此次工作中已进行过检测，结果已经保存
-                        choice = QMessageBox.question(self, "执行检测", "检测结果已保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
-                        if choice == QMessageBox.Yes:
-                            self.detection(self.uid)
-                            self.detectionState = 3
-                        else:
-                            self.userTextBrowserAppend("取消重新检测")
+                    self.devicesState = self.loadDevicesStateFile()
+                    if self.devicesState != None:
+                        if not self.uid in self.devicesState: # 还未进行过任何编码操作
+                            if resSta == None and index == None: # 确实未编码并且检测过，必需先执行编码
+                                self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[]}
+                                self.userTextBrowserAppend("该模块未编码，请执行编码！")
+                            else: # 若执行过编码检测，且检测结果已经保存，那么说明该模块不需要再检测
+                                choice = QMessageBox.question(self, "执行检测", "检测结果已保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
+                                if choice == QMessageBox.Yes:
+                                    self.detection(self.uid)
+                                    self.detectionState = 3
+                                else:
+                                    self.userTextBrowserAppend("取消重新检测")
+                        else: # 进行过编码
+                            detsta = self.devicesState[self.uid].get('det')
+                            if detsta == None and resSta == None: # 该模块在此次工作中未进行过检测
+                                self.detection(self.uid)
+                                self.detectionState = 1
+                            elif (detsta == True or detsta == False) and (resSta == None and index == None): # 该模块在此次工作中已进行过检测，结果还未保存
+                                choice = QMessageBox.question(self, "执行检测", "检测结果未保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
+                                if choice == QMessageBox.Yes:
+                                    self.detection(self.uid)
+                                    self.detectionState = 2
+                                else:
+                                    self.userTextBrowserAppend("取消重新检测")
+                            elif (detsta == True or detsta == False) and (resSta != None and index != None): # 该模块在此次工作中已进行过检测，结果已经保存
+                                choice = QMessageBox.question(self, "执行检测", "检测结果已保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
+                                if choice == QMessageBox.Yes:
+                                    self.detection(self.uid)
+                                    self.detectionState = 3
+                                else:
+                                    self.userTextBrowserAppend("取消重新检测")
                 else:
                     self.userTextBrowserAppend("请输入编号！")
             else:
@@ -445,6 +466,17 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.detection(uid)
         else:
             self.userTextBrowserAppend("编码未通过，无法执行检测！")
+    
+    @QtCore.pyqtSlot()
+    def on_pushBtn_confirmDetection_clicked(self):
+        self.confirmDetection  = self.confirmDetection ^ True
+        choice = QMessageBox.question(self, "检测结果确认", "确认检测完毕？", QMessageBox.Yes | QMessageBox.Cancel)
+        if choice == QMessageBox.Yes:
+            self.pushBtn_saveResults.setEnabled(True)
+            self.pushBtn_saveResultsAs.setEnabled(True)
+            self.userTextBrowserAppend("确认检测完成")
+        else:
+            self.userTextBrowserAppend("检测还未完成")
 
     @QtCore.pyqtSlot()
     def on_pushBtn_deviceEncodingDetection_clicked(self):
@@ -486,15 +518,15 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     @QtCore.pyqtSlot()
     def on_pushBtn_saveResultsAs_clicked(self):
-        self.openExcelRecord()
-        self.excelOpenState = self.isExcelResultsFileOpened()
-        if self.excelOpenState:
-            self.userTextBrowserAppend(self.excelFilePath + '已被打开, 请关闭文件后再写入')
-        else:
-            if self.isExcelSavedFirst:
-                self.firstsaveResults()
-            elif self.isExcelSaved:
-                self.saveResults()
+        # self.openExcelRecord()
+        # self.excelOpenState = self.isExcelResultsFileOpened()
+        # if self.excelOpenState:
+        #     self.userTextBrowserAppend(self.excelFilePath + '已被打开, 请关闭文件后再写入')
+        # else:
+        #     if self.isExcelSavedFirst:
+        #         self.firstsaveResults()
+        #     elif self.isExcelSaved:
+        #         self.saveResults()
         self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
@@ -822,47 +854,48 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.resultList[12] = iv[0 : len(iv) - 1] + '.' + iv[len(iv) - 1]
                     self.resultList[13] = "正常"
                     self.devicesState[self.uid]['res'] = self.resultList.copy()
-                    if self.detectionState == 1: # 未进行过检测，直接保存
-                        # 直接更新model
-                        for col in range(15):
-                            item = QStandardItem(self.resultList[col])
-                            self.tableViewModel.setItem(self.tableRow, col, item)
+                    if self.detectionState == 1 or self.detectionState == 2:
                         self.updateResultsFile(self.resultList)
-                        self.detectionState = 2
-                    elif self.detectionState == 2: # 未保存
-                        # 更新model
-                        for col in range(15):
-                            item = QStandardItem(self.resultList[col])
-                            self.tableViewModel.setItem(self.tableRow - 1, col, item)
-                        self.updateResultsFile(self.resultList)
-                        self.detectionState = 2
                     elif self.detectionState == 3: # 已保存
-                        # 更新model
-                        for col in range(15):
-                            item = QStandardItem(self.resultList[col])
-                            self.tableViewModel.setItem(self.tableRow - 1, col, item)
                         self.changeResultsFile(self.uid)
-                    # self.detectionState = None
+                    # self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
+                    # self.tableRow = 0
+                    # restmp = self.loadResultsFile()
+                    # for r in restmp:
+                    #     # 更新model
+                    #     res = r[0:len(r)-1].split(',')
+                    #     for col in range(15):
+                    #         item = QStandardItem(res[col])
+                    #         self.tableViewModel.setItem(self.tableRow, col, item)
+                    for col in range(15):
+                        item = QStandardItem(self.resultList[col])
+                        self.tableViewModel.setItem(self.tableRow, col, item)
                     self.tableRow = self.tableRow + 1
                     self.lineEdit_uidInput.clear()
             self.updateDevicesStateFile()
         self.lineEdit_uidInput.setFocus()
 
     def saveDataOfView(self):
-        self.openExcelRecord()
-        s = self.loadResultsFile()
-        self.excel.loadSheet(self.excelFilePath)
-        for i in range(len(s)):
-            l = str(s[i])[1:len(s[i])-1].split(',')
-            if not self.uid in l:
+        if self.tableViewModel.rowCount() != 0:
+            self.openExcelRecord()
+            s = self.loadResultsFile()
+            self.excel.loadSheet(self.excelFilePath)
+            for i in range(len(s)):
+                l = str(s[i])[1:len(s[i])-1].split(',')
                 self.excel.wrtieRow(l)
-        self.excel.closeSheet()
-        self.excel.saveSheet()
-        self.saveExcelRecord()
+            self.excel.closeSheet()
+            self.excel.saveSheet()
+            self.saveExcelRecord()
+            self.userTextBrowserAppend("保存数据记录表成功")
+            return True
+        else:
+            self.userTextBrowserAppend("无检测结果，请进行检测！")
+            return False
 
     def firstsaveResults(self):
         if self.excelFilePath == "":
-            file = './' + time.strftime("%Y年%m月%d日%H时%M分%S秒", time.localtime()) + '_recording'
+            # file = './' + time.strftime("%Y年%m月%d日%H时%M分%S秒", time.localtime()) + '_recording'
+            file = './recording'
             self.excelFilePath, isAccept =  QFileDialog.getSaveFileName(self, "保存检测结果", file, "recorded data(*.xlsx)")
             if isAccept:
                 if self.excelFilePath:
@@ -874,21 +907,17 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.excel.saveSheet()
                     self.excel.closeSheet()
                     self.userTextBrowserAppend("创建数据记录表成功")
+                    self.userTextBrowserAppend("@保存至\"" + str(self.excelFilePath) + "\"")
                     self.isExcelSavedFirst = False
                     self.isExcelSaved = True
-                    # res = self.compareResult()
-                    # if res == 1:
-                    self.isExcelSaved = True
                     self.currentResultSaved = True
-                    self.saveDataOfView()
-                    self.saveExcelRecord()
-                    self.userTextBrowserAppend("@保存至\"" + str(self.excelFilePath) + "\"")
-                    # elif res == 0:
-                    #     self.userTextBrowserAppend("当前检测结果已记录，请重新进行编码和检测")  
-                    # elif res == -1:
-                    #     self.userTextBrowserAppend("未有检测结果，请进行编码和检测")
-                    self.resultLastList = self.resultList.copy()
-                    self.lineEdit_uidInput.setFocus()
+                    if self.saveDataOfView() == True:
+                        self.saveDataOfView()
+                        self.resultLastList = self.resultList.copy()
+                        self.on_pushBtn_clearResults_clicked() # 清除表格视图
+                        self.pushBtn_saveResults.setEnabled(False)
+                        self.pushBtn_saveResultsAs.setEnabled(False)
+                        self.userTextBrowserAppend("数据记录已保存，请进行下一次检测")
                 else:
                     pass
         else:
@@ -898,11 +927,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.openExcelRecord()
         self.isExcelSaved = True
         self.currentResultSaved = True
-        self.saveDataOfView()
-        self.saveExcelRecord()
-        self.userTextBrowserAppend("保存数据记录表成功")
-        self.resultLastList = self.resultList.copy()
-        self.lineEdit_uidInput.setFocus()
+        if self.saveDataOfView() == True:
+            self.saveExcelRecord()
+            self.resultLastList = self.resultList.copy()
+            self.on_pushBtn_clearResults_clicked() # 清除表格视图
+            self.pushBtn_saveResults.setEnabled(False)
+            self.pushBtn_saveResultsAs.setEnabled(False)
+            self.userTextBrowserAppend("数据记录已保存，请进行下一次检测")
 
     def openExcelRecord(self):
         try:

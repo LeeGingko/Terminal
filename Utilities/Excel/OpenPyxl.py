@@ -23,6 +23,7 @@ class PrivateOpenPyxl():
         self.workbook.close()
 
     def loadSheet(self, filename):
+        self.filename = filename
         self.workbook = load_workbook(filename)
         self.worksheet = self.workbook.active # 默认工作表
 
