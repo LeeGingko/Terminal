@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from os import error
 from UserImport import *
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -276,7 +275,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def tvDropSelected(self):
         l = len(self.tvRowList)
         if l != 0:
-            choice = QMessageBox.question(self, "关闭程序", "是否退出程序？", QMessageBox.Yes | QMessageBox.Cancel)
+            choice = QMessageBox.warning(self, "删除视图数据", "是否删除视图数据，此操作会造成数据丢失", QMessageBox.Yes | QMessageBox.Cancel)
             if choice == QMessageBox.Yes:
                 for n in self.tvRowList:
                     self.tableViewModel.removeRow(n)
@@ -436,6 +435,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                 if choice == QMessageBox.Yes:
                                     self.detection(self.uid)
                                     self.detectionState = 3
+                                else:
+                                    self.userTextBrowserAppend("取消重新检测")
+                            elif (detsta == None) and (resSta != None and index != None): # 该模块在此次工作中未进行过检测，结果已经保存
+                                choice = QMessageBox.question(self, "执行检测", "检测结果已保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
+                                if choice == QMessageBox.Yes:
+                                    self.detection(self.uid)
+                                    self.detectionState = 4
                                 else:
                                     self.userTextBrowserAppend("取消重新检测")
                 else:
@@ -796,7 +802,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         res = tmp[3:11]
         if tmp.find("OPENMULTIMETER", 0, l) != -1:
             self.userTextBrowserAppend("请打开电表RS232通信功能【REL △】,重新进行检测！")
-            self.devicesState.pop(self.uid)
+            if self.uid in self.devicesState:
+                self.devicesState.pop(self.uid)
         else:
             if res == "LVERLCER":
                 self.userTextBrowserAppend("线路电流超限，线路电压超限")
@@ -810,7 +817,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.resultList[1] = self.detectionTime
                 if tmp.find("U1ERROR", 11, l) != -1:
                     self.userTextBrowserAppend("编码核对失败，请检查输入编码！")
-                    self.devicesState.pop(self.uid)
+                    if self.uid in self.devicesState:
+                        self.devicesState.pop(self.uid)
                     self.lineEdit_uidInput.clear()
                 else:
                     DA = tmp[tmp.find("DA", 11, l) + 2 : tmp.find("WA", 11, l)]
@@ -856,7 +864,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.devicesState[self.uid]['res'] = self.resultList.copy()
                     if self.detectionState == 1 or self.detectionState == 2:
                         self.updateResultsFile(self.resultList)
-                    elif self.detectionState == 3: # 已保存
+                    elif self.detectionState == 3 or self.detectionState == 4: # 已保存
                         self.changeResultsFile(self.uid)
                     # self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
                     # self.tableRow = 0
@@ -868,7 +876,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     #         item = QStandardItem(res[col])
                     #         self.tableViewModel.setItem(self.tableRow, col, item)
                     for col in range(15):
-                        item = QStandardItem(self.resultList[col])
+                        if col == 14:
+                            item = QStandardItem(self.resultList[col][0:2])
+                        else:
+                            item = QStandardItem(self.resultList[col])
                         self.tableViewModel.setItem(self.tableRow, col, item)
                     self.tableRow = self.tableRow + 1
                     self.lineEdit_uidInput.clear()
@@ -876,12 +887,18 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_uidInput.setFocus()
 
     def saveDataOfView(self):
-        if self.tableViewModel.rowCount() != 0:
+        rows = self.tableViewModel.rowCount()
+        cols = self.tableViewModel.columnCount()
+        if rows != 0 and cols != 0:
+            l = []
             self.openExcelRecord()
-            s = self.loadResultsFile()
             self.excel.loadSheet(self.excelFilePath)
-            for i in range(len(s)):
-                l = str(s[i])[1:len(s[i])-1].split(',')
+            for row in range(rows):
+                l.clear()
+                for col in range(cols):
+                    index = self.tableViewModel.index(row, col)
+                    cellVal = self.tableViewModel.data(index)
+                    l.append(cellVal)
                 self.excel.wrtieRow(l)
             self.excel.closeSheet()
             self.excel.saveSheet()

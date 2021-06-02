@@ -10,10 +10,9 @@ import threading
 # 导入time相关模块
 import time
 
-import Tools
 
-t = Tools()
-a = b""
-b = b""
-a,b = t.convertCheck(0xFB)
-print(a, b)
+# t = Tools()
+# a = b""
+# b = b""
+# a,b = t.convertCheck(0xFB)
+# print(a, b)
