@@ -166,6 +166,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 接通电源参数下发定时器
         self.paraTimer = QTimer() 
         self.paraTimer.timeout.connect(self.autoSendParameters)
+        # self.changeResultsFile('66666')
 
     def showDaetTime(self, timeStr):
         self.myStatusBar.showMessage(timeStr)        
@@ -227,8 +228,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             r = srf.readlines()
             return r
 
-    def isResultDetected(self, uid): # 当前模块检测结果是否保存
-        s = self.loadResultsFile() # 返回list
+    def isResultDetected(self, s, uid): # 当前模块检测结果是否保存
         for res in s:
             if uid in res:
                 return True, s.index(res)
@@ -236,12 +236,17 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def changeResultsFile(self, uid): # 覆盖当前模块已保存的检测结果
         res = self.loadResultsFile() # 加载检测结果
-        detSta, index = self.isResultDetected(uid)
+        detSta, index = self.isResultDetected(res, uid)
         if detSta != None and index != None:
-            res[index] = self.resultList.copy() # 覆盖检测结果
-        with open(self.resultsFile, mode='w') as srf: # 修改内容后重新写入到检测结果文件
-           srf.write(str(res))
-           srf.flush() # 立即更新到硬盘
+            self.resultList[14] = self.resultList[14] + '\n'
+            s = ','.join(self.resultList)
+            res[index] = s # 覆盖检测结果  
+        with open(self.resultsFile, mode='a+') as srf: # 修改内容后重新写入到检测结果文件
+            srf.seek(0)
+            srf.truncate()
+            for t in range(len(res)):
+                srf.write(res[t])
+            srf.flush() # 立即更新到硬盘
     
     def deviceNoResponse(self):
         if not self.isDeviceResponsed:
@@ -393,7 +398,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     # else:
                     self.devicesState = self.loadDevicesStateFile()
                     detsta = self.devicesState[self.uid].get('det')
-                    resSta, index = self.isResultDetected(self.uid)
+                    res = self.loadResultsFile() # 加载检测结果
+                    resSta, index = self.isResultDetected(res, self.uid)
                     if detsta == None and resSta == None: # 该模块在此次工作中未进行过检测
                         self.detection(self.uid)
                         self.detectionState = 1
@@ -838,7 +844,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.changeResultsFile(self.uid)
                     # self.detectionState = None
                     self.tableRow = self.tableRow + 1
-                    
                     self.lineEdit_uidInput.clear()
             self.updateDevicesStateFile()
         self.lineEdit_uidInput.setFocus()
