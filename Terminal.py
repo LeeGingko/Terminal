@@ -366,19 +366,24 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.uid = self.lineEdit_uidInput.text()
                 if self.uid != "":
                     self.userTextBrowserAppend("输入编号：" + self.lineEdit_uidInput.text())
-                    if not self.uid in self.devicesState:
-                        self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[] }
-                        self.devicesState[self.uid]['enc'] = None
-                        self.encoding(self.uid)
-                    else:
-                        if self.devicesState[self.uid].get('enc') == None: # 说明该编号在此次工作中未进行过编码
+                    res = self.loadResultsFile() # 加载检测结果
+                    resSta, index = self.isResultDetected(res, self.uid)
+                    self.devicesState = self.loadDevicesStateFile()
+                    if self.devicesState != None:# 检测记录不为空
+                        if resSta == None and index == None: # 还未进行过编码检测
+                            self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[] }
+                            self.devicesState[self.uid]['enc'] = None
                             self.encoding(self.uid)
-                        else: # 说明该编号在此次工作中已进行过编码
-                            choice = QMessageBox.question(self, "执行编码", "覆盖模块编码？", QMessageBox.Yes | QMessageBox.Cancel)
+                        elif resSta != None and index != None: # 说明该编号在此次工作中已进行过编码检测
+                            choice = QMessageBox.warning(self, "执行编码", "覆盖模块编码？", QMessageBox.Yes | QMessageBox.Cancel)
                             if choice == QMessageBox.Yes:
                                 self.encoding(self.uid)
                             else:
-                                self.userTextBrowserAppend("取消覆盖模块编码")
+                                self.userTextBrowserAppend("取消覆盖模块编码")    
+                    else:
+                        self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[] }
+                        self.devicesState[self.uid]['enc'] = None
+                        self.encoding(self.uid)
                 else:
                     self.userTextBrowserAppend("请输入编号！")
             else:
@@ -407,13 +412,15 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     resSta, index = self.isResultDetected(res, self.uid)
                     self.devicesState = self.loadDevicesStateFile()
                     if self.devicesState != None:
-                        if not self.uid in self.devicesState: # 还未进行过任何编码操作
-                            if resSta == None and index == None: # 确实未编码并且检测过，必需先执行编码
+                        if not self.uid in self.devicesState: # 还未进行过编码操作
+                            if resSta == None and index == None: # 确实未编码检测，必需先执行编码
                                 self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[]}
+                                self.devicesState[self.uid]['det'] = None
                                 self.userTextBrowserAppend("该模块未编码，请执行编码！")
-                            else: # 若执行过编码检测，且检测结果已经保存，那么说明该模块不需要再检测
-                                choice = QMessageBox.question(self, "执行检测", "检测结果已保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
+                            else: # 若执行过编码检测，且检测结果已经保存
+                                choice = QMessageBox.warning(self, "执行检测", "检测结果已保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
                                 if choice == QMessageBox.Yes:
+                                    self.devicesState[self.uid]['det'] = None
                                     self.detection(self.uid)
                                     self.detectionState = 3
                                 else:
@@ -421,29 +428,27 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         else: # 进行过编码
                             detsta = self.devicesState[self.uid].get('det')
                             if detsta == None and resSta == None: # 该模块在此次工作中未进行过检测
+                                self.devicesState[self.uid]['det'] = None
                                 self.detection(self.uid)
                                 self.detectionState = 1
-                            elif (detsta == True or detsta == False) and (resSta == None and index == None): # 该模块在此次工作中已进行过检测，结果还未保存
-                                choice = QMessageBox.question(self, "执行检测", "检测结果未保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
+                            # elif (detsta == True or detsta == False) and (resSta == None and index == None): # 该模块在此次工作中已进行过检测，结果还未保存
+                            #     choice = QMessageBox.question(self, "执行检测", "检测结果未保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
+                            #     if choice == QMessageBox.Yes:
+                            #         self.detection(self.uid)
+                            #         self.detectionState = 2
+                            #     else:
+                            #         self.userTextBrowserAppend("取消重新检测")
+                            elif (detsta == None or detsta == True or detsta == False) and (resSta != None and index != None): # 该模块在此次工作中已进行过检测，结果已经保存
+                                choice = QMessageBox.warning(self, "执行检测", "检测结果已保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
                                 if choice == QMessageBox.Yes:
-                                    self.detection(self.uid)
-                                    self.detectionState = 2
-                                else:
-                                    self.userTextBrowserAppend("取消重新检测")
-                            elif (detsta == True or detsta == False) and (resSta != None and index != None): # 该模块在此次工作中已进行过检测，结果已经保存
-                                choice = QMessageBox.question(self, "执行检测", "检测结果已保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
-                                if choice == QMessageBox.Yes:
+                                    self.devicesState[self.uid]['det'] = None
                                     self.detection(self.uid)
                                     self.detectionState = 3
                                 else:
                                     self.userTextBrowserAppend("取消重新检测")
-                            elif (detsta == None) and (resSta != None and index != None): # 该模块在此次工作中未进行过检测，结果已经保存
-                                choice = QMessageBox.question(self, "执行检测", "检测结果已保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
-                                if choice == QMessageBox.Yes:
-                                    self.detection(self.uid)
-                                    self.detectionState = 4
-                                else:
-                                    self.userTextBrowserAppend("取消重新检测")
+                    else:
+                        self.devicesState[self.uid]['det'] = None
+                        self.detection(self.uid)
                 else:
                     self.userTextBrowserAppend("请输入编号！")
             else:

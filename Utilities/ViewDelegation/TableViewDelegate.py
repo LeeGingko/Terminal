@@ -10,11 +10,6 @@ class PrivateTableViewDelegate(QStyledItemDelegate):
     
     def paint(self, painter, option, index):
         option.displayAlignment = Qt.AlignCenter
-        # if index.row() == 0 and index.column() == 0:
-        #     check_style = QStyleOptionButton()
-        #     check_style.rect = option.rect
-        #     check_style.state = QStyle.State_Enabled | QStyle.State_Off
-        #     QApplication.style().drawControl(QStyle.CE_CheckBox, check_style, painter)
         
         return super(PrivateTableViewDelegate, self).paint(painter, option, index)
  
