@@ -39,3 +39,16 @@ class PrivateOpenPyxl():
         
     def saveSheet(self):
         self.workbook.save(self.filename)
+
+    def updateCodeRowData(self, code, dataList): # 根据编码去找出其对应的位置，同时替换编码所在行的数据
+        maxrows = self.worksheet.max_row
+        maxcols = self.worksheet.max_column
+        gen = self.worksheet.iter_rows(2, maxrows, 1, maxcols)
+        for r in gen:
+            for c in r:
+                if code == c.value:
+                    for i in range(15):
+                        self.worksheet.cell(c.row, i+1, dataList[i])
+                        # print(dataList[i])
+                    return True
+        return False
