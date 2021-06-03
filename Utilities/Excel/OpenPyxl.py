@@ -45,10 +45,9 @@ class PrivateOpenPyxl():
         maxcols = self.worksheet.max_column
         gen = self.worksheet.iter_rows(2, maxrows, 1, maxcols)
         for r in gen:
-            for c in r:
-                if code == c.value:
-                    for i in range(15):
-                        self.worksheet.cell(c.row, i+1, dataList[i])
-                        # print(dataList[i])
-                    return True
+            uid = r[6].value
+            if code == uid:
+                for i in range(15):
+                    self.worksheet.cell(r[6].row, i+1, dataList[i])
+                return True
         return False

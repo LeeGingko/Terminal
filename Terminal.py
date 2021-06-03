@@ -915,7 +915,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     Val = self.tableViewModel.data(index)
                     l.append(Val)
                 if self.excel.updateCodeRowData(l[6], l) == True:
-                    pass
+                    continue
                 else:
                     self.excel.wrtieRow(l)
             self.excel.closeSheet()
