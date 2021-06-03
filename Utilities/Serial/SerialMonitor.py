@@ -7,7 +7,7 @@ import serial.tools.list_ports
 from PyQt5.QtCore import QThread, pyqtSignal
 
 class PrivateSerialMonitor(QThread):
-    portChangeSignal = pyqtSignal(list)
+    portChangeSignal = pyqtSignal(list, str)
 
     def __init__(self):
         super(PrivateSerialMonitor, self).__init__()
@@ -28,19 +28,25 @@ class PrivateSerialMonitor(QThread):
             self.tmpList.clear()
             self.tmpList = serial.tools.list_ports.comports()
             self.tmpList.sort()
-            # print("tlist：" + str(len(self.tmpList)))
-            # print("plist：" + str(len(self.portList)))
+            
             if len(self.tmpList) == 0 and len(self.portList) == 1:
                 self.portList.clear()
                 self.portChangeSignal.emit(['NOCOM'])
             elif len(self.tmpList) >= 1:
                 if len(self.tmpList) != len(self.portList):
+                    action = ''
+                    # print("tlist：" + str(len(self.tmpList)))
+                    # print("plist：" + str(len(self.portList)))
+                    if len(self.tmpList) > len(self.portList):
+                        action = 'UPON'
+                    else:
+                        action = 'DOWN'
                     self.portList.clear()
                     self.descriptionList.clear()
                     self.portList = self.tmpList.copy()
                     for p in self.tmpList:
                         self.descriptionList.append(p.description)
-                    self.portChangeSignal.emit(self.descriptionList)
+                    self.portChangeSignal.emit(self.descriptionList, action)
                 else:
                     pass
             else:

@@ -40,12 +40,12 @@ class PrivateOpenPyxl():
     def saveSheet(self):
         self.workbook.save(self.filename)
 
-    def updateCodeRowData(self, code, dataList): # 根据编码去找出其对应的位置，同时替换编码所在行的数据
+    def updateCodeRowData(self, code, dataList): # 根据编码去替换其对应所在行的数据
         maxrows = self.worksheet.max_row
         maxcols = self.worksheet.max_column
-        gen = self.worksheet.iter_rows(2, maxrows, 1, maxcols)
-        for r in gen:
-            uid = r[6].value
+        gen = self.worksheet.iter_rows(2, maxrows, 1, maxcols) # 返回值为生成器
+        for r in gen: # 迭代访问
+            uid = r[6].value # 编号
             if code == uid:
                 for i in range(15):
                     self.worksheet.cell(r[6].row, i+1, dataList[i])
