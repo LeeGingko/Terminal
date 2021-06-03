@@ -129,7 +129,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                 if self.isSTM32Online == True:
                     break
 
-    def portsMonitoring(self, list, action):
+    def portsMonitoring(self, list, action, diffset):
         if list[0] == 'NOCOM':
             self.comController = ''
             self.comPortList.clear()
@@ -143,10 +143,18 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
             self.pushBtn_serialSwitch.setText('打开串口')
         else:
             print(str(list))
-            if action == 'UPON':
-                self.protocolAppendSignal.emit("串口插入")
-            else:
-                self.protocolAppendSignal.emit("串口拔出")
+            print(diffset)
+            try:
+                while len(diffset) > 0:
+                    s = diffset.pop()
+                    if action == 'UPON':
+                        self.protocolAppendSignal.emit("[" + s.description + "]已插入")
+                        
+                    else:
+                        self.protocolAppendSignal.emit("[" + s.description + "]已拔出")
+            except:
+                pass
+                       
             self.comboBox_selectComNum.setEnabled(True)
             self.comboBox_selectComNum.clear() # 清空端口选择按钮
             self.comPortList = self.serialMonitor.portList.copy()
