@@ -74,7 +74,7 @@
          <x>8</x>
          <y>0</y>
          <width>237</width>
-         <height>77</height>
+         <height>79</height>
         </rect>
        </property>
        <property name="palette">
@@ -614,7 +614,7 @@ border:2px solid rgb(0, 0, 0);</string>
          <x>248</x>
          <y>0</y>
          <width>389</width>
-         <height>77</height>
+         <height>79</height>
         </rect>
        </property>
        <property name="palette">
@@ -1076,7 +1076,7 @@ border:2px solid rgb(0, 0, 0);</string>
        <widget class="QLabel" name="label_operator_3">
         <property name="geometry">
          <rect>
-          <x>230</x>
+          <x>204</x>
           <y>32</y>
           <width>64</width>
           <height>33</height>
@@ -1112,7 +1112,7 @@ border:2px solid rgb(0, 0, 0);</string>
        <widget class="QLabel" name="label_operator_2">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>16</x>
           <y>32</y>
           <width>64</width>
           <height>33</height>
@@ -1148,10 +1148,10 @@ border:2px solid rgb(0, 0, 0);</string>
        <widget class="QLabel" name="label_detection">
         <property name="geometry">
          <rect>
-          <x>302</x>
-          <y>8</y>
-          <width>80</width>
-          <height>80</height>
+          <x>272</x>
+          <y>0</y>
+          <width>100</width>
+          <height>100</height>
          </rect>
         </property>
         <property name="text">
@@ -1161,10 +1161,10 @@ border:2px solid rgb(0, 0, 0);</string>
        <widget class="QLabel" name="label_encoding">
         <property name="geometry">
          <rect>
-          <x>82</x>
-          <y>8</y>
-          <width>80</width>
-          <height>80</height>
+          <x>84</x>
+          <y>0</y>
+          <width>100</width>
+          <height>100</height>
          </rect>
         </property>
         <property name="text">

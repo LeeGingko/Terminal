@@ -178,6 +178,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.queryCode = 'FFFFF'
         self.isPureQueryCode = None
         self.savedOrSavedAsClicked = None
+        self.openExcelRecord()
 
     def showDaetTime(self, timeStr):
         self.myStatusBar.showMessage(timeStr)
@@ -501,28 +502,16 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             if self.protocolWin.prvSerial.isOpen():
                 self.detectionTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
                 self.uid = self.lineEdit_uidInput.text()
-                # if self.uid != "":
-                    # self.userTextBrowserAppend("输入编号：" + self.lineEdit_uidInput.text())
-                    # self.devicesState = {}
-                    # self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[]}
-                    # res = self.loadResultsFile() # 加载检测结果
-                    # resSta, index = self.isResultDetected(res, self.uid)
                 self.isPureQueryCode = True
-                    # if resSta == None and index == None :
-                    #     self.devicesState[self.uid] = { 'enc':None, 'det':None,'res':[]}
                 self.encodingDetection(self.uid)
-                    # else:
-                    #     choice = QMessageBox.question(self, "执行编码及检测", "重新执行一键编码检测？", QMessageBox.Yes | QMessageBox.Cancel)
-                    #     if choice == QMessageBox.Yes:
-                    #         self.encodingDetection(self.uid)
-                    #     else:
-                    #         self.userTextBrowserAppend("取消执行一键编码检测")
-                # else:
-                #     self.userTextBrowserAppend("请输入编号！")
             else:
                 self.userTextBrowserAppend("串口未打开")
-        else:
-            self.userTextBrowserAppend("编码和检测未开启") 
+        elif self.workMode["encoding"] == "1" and self.workMode["detection"] == "0":
+            self.userTextBrowserAppend("编码【已开启】，检测【未开启】") 
+        elif self.workMode["encoding"] == "0" and self.workMode["detection"] == "1":
+            self.userTextBrowserAppend("编码【未开启】，检测【已开启】") 
+        elif self.workMode["encoding"] == "0" and self.workMode["detection"] == "0":
+            self.userTextBrowserAppend("编码【未开启】，检测【未开启】") 
 
     @QtCore.pyqtSlot()
     def on_pushBtn_saveResults_clicked(self):
