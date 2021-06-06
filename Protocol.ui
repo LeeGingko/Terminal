@@ -59,9 +59,31 @@
       <bold>false</bold>
      </font>
     </property>
-    <property name="currentText">
-     <string/>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:hover{
+	background-color: rgb(214, 234, 239);
+}
+QPushButton:hover:pressed{
+	background-color: rgb(130, 195, 195);
+}</string>
+    </property>
+    <property name="editable">
+     <bool>false</bool>
+    </property>
+    <property name="currentText">
+     <string>JLink CDC UART Port (COM6)</string>
+    </property>
+    <property name="insertPolicy">
+     <enum>QComboBox::InsertAtTop</enum>
+    </property>
+    <item>
+     <property name="text">
+      <string>JLink CDC UART Port (COM6)</string>
+     </property>
+    </item>
    </widget>
    <widget class="QPushButton" name="pushBtn_serialSwitch">
     <property name="geometry">
@@ -85,11 +107,14 @@
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="autoFillBackground">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{
-	
+     <string notr="true">QPushButton:hover{
+	background-color: rgb(214, 234, 239);
+}
+QPushButton:hover:pressed{
+	background-color: rgb(130, 195, 195);
 }</string>
     </property>
     <property name="text">

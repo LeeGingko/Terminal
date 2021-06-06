@@ -22,6 +22,8 @@ from PyQt5.QtWidgets import *
 
 # getset全局变量
 import GetSetObj
+# 导入黑色主题
+import qdarkstyle
 # 全局变量
 import GlobalVariable
 from GlobalVariable import GlobalVar

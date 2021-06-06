@@ -120,7 +120,7 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
         with open(self.configPath, encoding="utf-8", mode="w") as sf:
             sf.write(text)
         # self.isConfigSaved = True
-        self.thresholdAppendSignal.emit("保存配置参数成功")
+        # self.thresholdAppendSignal.emit("保存配置参数成功")
         # print(self.usualTools.getTimeStamp() + "下发参数")
         self.settingThreshold()
         # self.saveConfigRecord()

@@ -216,7 +216,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                             if num == 0:
                                 if (endTiming - startTiming).seconds >= 2:
                                     self.prvSerial.close()
-                                    self.protocolAppendSignal.emit("测试仪无响应，请执行操作")
+                                    self.protocolAppendSignal.emit("测试仪无响应，请重新选择串口！")
                                     self.comboBox_selectComNum.setEnabled(True)
                                     self.pushBtn_serialSwitch.setEnabled(True)
                                     self.pushBtn_serialSwitch.setText("打开串口")

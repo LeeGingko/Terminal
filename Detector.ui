@@ -12,7 +12,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1377</width>
+    <width>1366</width>
     <height>748</height>
    </rect>
   </property>
@@ -42,6 +42,12 @@
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QFormLayout" name="formLayout">
@@ -1191,9 +1197,9 @@ border:2px solid rgb(0, 0, 0);</string>
        <widget class="QLabel" name="label_selfFireCurrent">
         <property name="geometry">
          <rect>
-          <x>530</x>
+          <x>524</x>
           <y>110</y>
-          <width>60</width>
+          <width>65</width>
           <height>35</height>
          </rect>
         </property>
@@ -1213,9 +1219,10 @@ border:2px solid rgb(0, 0, 0);</string>
          <bool>false</bool>
         </property>
         <property name="styleSheet">
-         <string notr="true">border-radius: 4px;
-border:2px solid rgb(85, 170, 0);
-color: rgb(85, 170, 0);</string>
+         <string notr="true">border-radius:0px;
+border:1.5px solid rgb(85, 170, 0);
+color: rgb(0, 170, 0);
+border-color: rgb(0, 170, 0);</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::WinPanel</enum>
@@ -1235,6 +1242,9 @@ color: rgb(85, 170, 0);</string>
         <property name="textFormat">
          <enum>Qt::AutoText</enum>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
         <property name="wordWrap">
          <bool>false</bool>
         </property>
@@ -1245,7 +1255,7 @@ color: rgb(85, 170, 0);</string>
        <widget class="QLabel" name="label_operator_5">
         <property name="geometry">
          <rect>
-          <x>224</x>
+          <x>220</x>
           <y>10</y>
           <width>102</width>
           <height>35</height>
@@ -1265,8 +1275,8 @@ color: rgb(85, 170, 0);</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border-radius: 4px;
-    border:1.5px groove rgb(0, 0, 0);
+	border:1px groove rgb(0, 0, 0);
+	border-radius:0px;
 }</string>
         </property>
         <property name="text">
@@ -1282,9 +1292,9 @@ color: rgb(85, 170, 0);</string>
        <widget class="QLabel" name="label_operator_22">
         <property name="geometry">
          <rect>
-          <x>592</x>
-          <y>12</y>
-          <width>35</width>
+          <x>588</x>
+          <y>10</y>
+          <width>38</width>
           <height>35</height>
          </rect>
         </property>
@@ -1300,6 +1310,12 @@ color: rgb(85, 170, 0);</string>
           <pointsize>16</pointsize>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	border:1px groove rgb(0, 0, 0);
+	border-radius:0px;
+}</string>
+        </property>
         <property name="text">
          <string>mA</string>
         </property>
@@ -1313,10 +1329,10 @@ color: rgb(85, 170, 0);</string>
        <widget class="QPushButton" name="pushBtn_protocolSetting">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>16</y>
+          <x>6</x>
+          <y>10</y>
           <width>125</width>
-          <height>53</height>
+          <height>65</height>
          </rect>
         </property>
         <property name="font">
@@ -1332,18 +1348,11 @@ color: rgb(85, 170, 0);</string>
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 127);
-	background-color: rgb(225, 225, 225);
-}	
-
-QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+         <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
         </property>
         <property name="text">
@@ -1356,7 +1365,7 @@ QPushButton:hover:pressed{
        <widget class="QLabel" name="label_operator_7">
         <property name="geometry">
          <rect>
-          <x>224</x>
+          <x>220</x>
           <y>60</y>
           <width>102</width>
           <height>35</height>
@@ -1376,8 +1385,8 @@ QPushButton:hover:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border-radius: 4px;
-    border:1.5px groove rgb(0, 0, 0);
+	border:1px groove rgb(0, 0, 0);
+	border-radius:0px;
 }</string>
         </property>
         <property name="text">
@@ -1393,10 +1402,10 @@ QPushButton:hover:pressed{
        <widget class="QPushButton" name="pushBtn_thresholdSetting">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>88</y>
+          <x>6</x>
+          <y>78</y>
           <width>125</width>
-          <height>53</height>
+          <height>65</height>
          </rect>
         </property>
         <property name="font">
@@ -1412,18 +1421,11 @@ QPushButton:hover:pressed{
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 127);
-	background-color: rgb(225, 225, 225);
-}	
-
-QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+         <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
         </property>
         <property name="text">
@@ -1436,10 +1438,10 @@ QPushButton:hover:pressed{
        <widget class="QPushButton" name="pushBtn_deviceSelfCheck">
         <property name="geometry">
          <rect>
-          <x>146</x>
-          <y>18</y>
+          <x>140</x>
+          <y>10</y>
           <width>73</width>
-          <height>123</height>
+          <height>135</height>
          </rect>
         </property>
         <property name="font">
@@ -1455,18 +1457,11 @@ QPushButton:hover:pressed{
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 127);
-	background-color: rgb(225, 225, 225);
-}	
-
-QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+         <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
         </property>
         <property name="text">
@@ -1480,8 +1475,8 @@ QPushButton:hover:pressed{
        <widget class="QLabel" name="label_operator_6">
         <property name="geometry">
          <rect>
-          <x>426</x>
-          <y>12</y>
+          <x>422</x>
+          <y>10</y>
           <width>102</width>
           <height>35</height>
          </rect>
@@ -1500,9 +1495,8 @@ QPushButton:hover:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 0);
+	border:1px groove rgb(0, 0, 0);
+	border-radius:0px;
 }</string>
         </property>
         <property name="text">
@@ -1518,7 +1512,7 @@ QPushButton:hover:pressed{
        <widget class="QLabel" name="label_operator_18">
         <property name="geometry">
          <rect>
-          <x>224</x>
+          <x>220</x>
           <y>110</y>
           <width>102</width>
           <height>35</height>
@@ -1538,8 +1532,8 @@ QPushButton:hover:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border-radius: 4px;
-    border:1.5px groove rgb(0, 0, 0);
+	border:1px groove rgb(0, 0, 0);
+	border-radius:0px;
 }</string>
         </property>
         <property name="text">
@@ -1555,9 +1549,9 @@ QPushButton:hover:pressed{
        <widget class="QLabel" name="label_operator_24">
         <property name="geometry">
          <rect>
-          <x>592</x>
-          <y>62</y>
-          <width>35</width>
+          <x>588</x>
+          <y>60</y>
+          <width>38</width>
           <height>35</height>
          </rect>
         </property>
@@ -1572,6 +1566,12 @@ QPushButton:hover:pressed{
           <family>Times New Roman</family>
           <pointsize>16</pointsize>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	border:1px groove rgb(0, 0, 0);
+	border-radius:0px;
+}</string>
         </property>
         <property name="text">
          <string>mA</string>
@@ -1586,9 +1586,9 @@ QPushButton:hover:pressed{
        <widget class="QLabel" name="label_operator_23">
         <property name="geometry">
          <rect>
-          <x>390</x>
+          <x>382</x>
           <y>60</y>
-          <width>30</width>
+          <width>35</width>
           <height>35</height>
          </rect>
         </property>
@@ -1601,8 +1601,14 @@ QPushButton:hover:pressed{
         <property name="font">
          <font>
           <family>Times New Roman</family>
-          <pointsize>16</pointsize>
+          <pointsize>18</pointsize>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	border:1px groove rgb(0, 0, 0);
+	border-radius:0px;
+}</string>
         </property>
         <property name="text">
          <string>V</string>
@@ -1617,9 +1623,9 @@ QPushButton:hover:pressed{
        <widget class="QLabel" name="label_selfLineCurrent">
         <property name="geometry">
          <rect>
-          <x>530</x>
-          <y>12</y>
-          <width>60</width>
+          <x>524</x>
+          <y>10</y>
+          <width>65</width>
           <height>35</height>
          </rect>
         </property>
@@ -1639,9 +1645,10 @@ QPushButton:hover:pressed{
          <bool>false</bool>
         </property>
         <property name="styleSheet">
-         <string notr="true">border-radius: 4px;
-border:2px solid rgb(85, 170, 0);
-color: rgb(85, 170, 0);</string>
+         <string notr="true">border-radius:0px;
+border:1.5px solid rgb(85, 170, 0);
+color: rgb(0, 170, 0);
+border-color: rgb(0, 170, 0);</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::WinPanel</enum>
@@ -1661,6 +1668,9 @@ color: rgb(85, 170, 0);</string>
         <property name="textFormat">
          <enum>Qt::AutoText</enum>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
         <property name="wordWrap">
          <bool>false</bool>
         </property>
@@ -1671,8 +1681,8 @@ color: rgb(85, 170, 0);</string>
        <widget class="QLabel" name="label_operator_13">
         <property name="geometry">
          <rect>
-          <x>426</x>
-          <y>62</y>
+          <x>422</x>
+          <y>60</y>
           <width>102</width>
           <height>35</height>
          </rect>
@@ -1691,9 +1701,8 @@ color: rgb(85, 170, 0);</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 0);
+	border:1px groove rgb(0, 0, 0);
+	border-radius:0px;
 }</string>
         </property>
         <property name="text">
@@ -1709,9 +1718,9 @@ color: rgb(85, 170, 0);</string>
        <widget class="QLabel" name="label_operator_21">
         <property name="geometry">
          <rect>
-          <x>390</x>
+          <x>382</x>
           <y>10</y>
-          <width>30</width>
+          <width>35</width>
           <height>35</height>
          </rect>
         </property>
@@ -1724,8 +1733,14 @@ color: rgb(85, 170, 0);</string>
         <property name="font">
          <font>
           <family>Times New Roman</family>
-          <pointsize>16</pointsize>
+          <pointsize>18</pointsize>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	border:1px groove rgb(0, 0, 0);
+	border-radius:0px;
+}</string>
         </property>
         <property name="text">
          <string>V</string>
@@ -1740,7 +1755,7 @@ color: rgb(85, 170, 0);</string>
        <widget class="QLabel" name="label_selfFireVoltage">
         <property name="geometry">
          <rect>
-          <x>328</x>
+          <x>322</x>
           <y>110</y>
           <width>60</width>
           <height>35</height>
@@ -1762,9 +1777,11 @@ color: rgb(85, 170, 0);</string>
          <bool>false</bool>
         </property>
         <property name="styleSheet">
-         <string notr="true">border-radius: 4px;
-border:2px solid rgb(255, 66, 138);
-color: rgb(255, 66, 138);</string>
+         <string notr="true">QLabel{
+	border-radius:0px;
+	border:1.5px solid rgb(255, 66, 138);
+	color: rgb(255, 0, 0);
+}</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::WinPanel</enum>
@@ -1784,6 +1801,9 @@ color: rgb(255, 66, 138);</string>
         <property name="textFormat">
          <enum>Qt::AutoText</enum>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
         <property name="wordWrap">
          <bool>false</bool>
         </property>
@@ -1794,7 +1814,7 @@ color: rgb(255, 66, 138);</string>
        <widget class="QLabel" name="label_selfLineVoltage">
         <property name="geometry">
          <rect>
-          <x>328</x>
+          <x>322</x>
           <y>10</y>
           <width>60</width>
           <height>35</height>
@@ -1816,9 +1836,11 @@ color: rgb(255, 66, 138);</string>
          <bool>false</bool>
         </property>
         <property name="styleSheet">
-         <string notr="true">border-radius: 4px;
-border:2px solid rgb(255, 66, 138);
-color: rgb(255, 66, 138);</string>
+         <string notr="true">QLabel{
+	border-radius:0px;
+	border:1.5px solid rgb(255, 66, 138);
+	color: rgb(255, 0, 0);
+}</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::WinPanel</enum>
@@ -1838,6 +1860,9 @@ color: rgb(255, 66, 138);</string>
         <property name="textFormat">
          <enum>Qt::AutoText</enum>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
         <property name="wordWrap">
          <bool>false</bool>
         </property>
@@ -1848,7 +1873,7 @@ color: rgb(255, 66, 138);</string>
        <widget class="QLabel" name="label_operator_8">
         <property name="geometry">
          <rect>
-          <x>426</x>
+          <x>422</x>
           <y>110</y>
           <width>102</width>
           <height>35</height>
@@ -1868,9 +1893,8 @@ color: rgb(255, 66, 138);</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 0);
+	border:1px groove rgb(0, 0, 0);
+	border-radius:0px;
 }</string>
         </property>
         <property name="text">
@@ -1886,9 +1910,9 @@ color: rgb(255, 66, 138);</string>
        <widget class="QLabel" name="label_selfComCurrent">
         <property name="geometry">
          <rect>
-          <x>530</x>
-          <y>62</y>
-          <width>60</width>
+          <x>524</x>
+          <y>60</y>
+          <width>65</width>
           <height>35</height>
          </rect>
         </property>
@@ -1908,9 +1932,10 @@ color: rgb(255, 66, 138);</string>
          <bool>false</bool>
         </property>
         <property name="styleSheet">
-         <string notr="true">border-radius: 4px;
-border:2px solid rgb(85, 170, 0);
-color: rgb(85, 170, 0);</string>
+         <string notr="true">border-radius:0px;
+border:1.5px solid rgb(85, 170, 0);
+color: rgb(0, 170, 0);
+border-color: rgb(0, 170, 0);</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::WinPanel</enum>
@@ -1930,6 +1955,9 @@ color: rgb(85, 170, 0);</string>
         <property name="textFormat">
          <enum>Qt::AutoText</enum>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
         <property name="wordWrap">
          <bool>false</bool>
         </property>
@@ -1940,7 +1968,7 @@ color: rgb(85, 170, 0);</string>
        <widget class="QLabel" name="label_selfComVoltage">
         <property name="geometry">
          <rect>
-          <x>328</x>
+          <x>322</x>
           <y>60</y>
           <width>60</width>
           <height>35</height>
@@ -1962,9 +1990,11 @@ color: rgb(85, 170, 0);</string>
          <bool>false</bool>
         </property>
         <property name="styleSheet">
-         <string notr="true">border-radius: 4px;
-border:2px solid rgb(255, 66, 138);
-color: rgb(255, 66, 138);</string>
+         <string notr="true">QLabel{
+	border-radius:0px;
+	border:1.5px solid rgb(255, 66, 138);
+	color: rgb(255, 0, 0);
+}</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::WinPanel</enum>
@@ -1984,6 +2014,9 @@ color: rgb(255, 66, 138);</string>
         <property name="textFormat">
          <enum>Qt::AutoText</enum>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
         <property name="wordWrap">
          <bool>false</bool>
         </property>
@@ -1994,9 +2027,9 @@ color: rgb(255, 66, 138);</string>
        <widget class="QLabel" name="label_operator_27">
         <property name="geometry">
          <rect>
-          <x>592</x>
+          <x>588</x>
           <y>110</y>
-          <width>35</width>
+          <width>38</width>
           <height>35</height>
          </rect>
         </property>
@@ -2011,6 +2044,12 @@ color: rgb(255, 66, 138);</string>
           <family>Times New Roman</family>
           <pointsize>16</pointsize>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	border:1px groove rgb(0, 0, 0);
+	border-radius:0px;
+}</string>
         </property>
         <property name="text">
          <string>mA</string>
@@ -2025,9 +2064,9 @@ color: rgb(255, 66, 138);</string>
        <widget class="QLabel" name="label_operator_40">
         <property name="geometry">
          <rect>
-          <x>390</x>
+          <x>382</x>
           <y>110</y>
-          <width>30</width>
+          <width>35</width>
           <height>35</height>
          </rect>
         </property>
@@ -2040,8 +2079,14 @@ color: rgb(255, 66, 138);</string>
         <property name="font">
          <font>
           <family>Times New Roman</family>
-          <pointsize>16</pointsize>
+          <pointsize>18</pointsize>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	border:1px groove rgb(0, 0, 0);
+	border-radius:0px;
+}</string>
         </property>
         <property name="text">
          <string>V</string>
@@ -2056,7 +2101,7 @@ color: rgb(255, 66, 138);</string>
        <widget class="Line" name="line">
         <property name="geometry">
          <rect>
-          <x>140</x>
+          <x>134</x>
           <y>0</y>
           <width>2</width>
           <height>153</height>
@@ -2107,7 +2152,7 @@ color: rgb(255, 66, 138);</string>
         <property name="geometry">
          <rect>
           <x>8</x>
-          <y>70</y>
+          <y>72</y>
           <width>180</width>
           <height>45</height>
          </rect>
@@ -2131,18 +2176,11 @@ color: rgb(255, 66, 138);</string>
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 0);
-	background-color: rgb(225, 225, 225);
-}	
-
-QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+         <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
         </property>
         <property name="text">
@@ -2180,18 +2218,11 @@ QPushButton:hover:pressed{
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 0);
-	background-color: rgb(225, 225, 225);
-}	
-
-QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+         <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
         </property>
         <property name="text">
@@ -2205,7 +2236,7 @@ QPushButton:hover:pressed{
         <property name="geometry">
          <rect>
           <x>8</x>
-          <y>18</y>
+          <y>22</y>
           <width>180</width>
           <height>43</height>
          </rect>
@@ -2266,18 +2297,11 @@ border:2px solid rgb(0, 0, 0);</string>
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 0);
-	background-color: rgb(225, 225, 225);
-}	
-
-QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+         <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
         </property>
         <property name="text">
@@ -2309,18 +2333,11 @@ QPushButton:hover:pressed{
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 0);
-	background-color: rgb(225, 225, 225);
-}	
-
-QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+         <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
         </property>
         <property name="text">
@@ -2352,18 +2369,11 @@ QPushButton:hover:pressed{
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 0);
-	background-color: rgb(225, 225, 225);
-}	
-
-QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+         <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
         </property>
         <property name="text">
@@ -3305,18 +3315,11 @@ QPushButton:hover:pressed{
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 0);
-	background-color: rgb(225, 225, 225);
-}	
-
-QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+         <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
         </property>
         <property name="text">
@@ -3348,18 +3351,11 @@ QPushButton:hover:pressed{
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 0);
-	background-color: rgb(225, 225, 225);
-}	
-
-QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+         <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
         </property>
         <property name="text">
@@ -3833,7 +3829,7 @@ QPushButton:hover:pressed{
        <widget class="QPushButton" name="pushBtn_confirmDetection">
         <property name="geometry">
          <rect>
-          <x>4</x>
+          <x>6</x>
           <y>136</y>
           <width>175</width>
           <height>40</height>
@@ -3852,18 +3848,11 @@ QPushButton:hover:pressed{
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 0);
-	background-color: rgb(225, 225, 225);
-}	
-
-QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+         <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
         </property>
         <property name="text">
@@ -3882,7 +3871,7 @@ QPushButton:hover:pressed{
        <widget class="QPushButton" name="pushBtn_clearResults">
         <property name="geometry">
          <rect>
-          <x>258</x>
+          <x>260</x>
           <y>136</y>
           <width>71</width>
           <height>40</height>
@@ -3901,18 +3890,11 @@ QPushButton:hover:pressed{
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 0);
-	background-color: rgb(225, 225, 225);
-}	
-
-QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+         <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
         </property>
         <property name="text">
@@ -3925,7 +3907,7 @@ QPushButton:hover:pressed{
        <widget class="QPushButton" name="pushBtn_saveResultsAs">
         <property name="geometry">
          <rect>
-          <x>408</x>
+          <x>410</x>
           <y>136</y>
           <width>91</width>
           <height>40</height>
@@ -3944,18 +3926,11 @@ QPushButton:hover:pressed{
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 0);
-	background-color: rgb(225, 225, 225);
-}	
-
-QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+         <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
         </property>
         <property name="text">
@@ -3974,7 +3949,7 @@ QPushButton:hover:pressed{
        <widget class="QPushButton" name="pushBtn_showResults">
         <property name="geometry">
          <rect>
-          <x>182</x>
+          <x>184</x>
           <y>136</y>
           <width>73</width>
           <height>40</height>
@@ -3993,18 +3968,11 @@ QPushButton:hover:pressed{
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{
-	border-radius: 4px;
-    border:1.5px groove gray;
-	border-color: rgb(0, 85, 0);
-	background-color: rgb(225, 225, 225);
-}	
-
-QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+         <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
         </property>
         <property name="text">
@@ -4040,10 +4008,10 @@ QPushButton:hover:pressed{
        </property>
        <property name="styleSheet">
         <string notr="true">QLabel{
+	background-color: rgb(225, 225, 225);
 	border-radius: 4px;
     border:1.5px groove gray;
 	border-color: rgb(0, 85, 0);
-	background-color: rgb(225, 225, 225);
 }</string>
        </property>
        <property name="text">
@@ -4073,7 +4041,7 @@ QPushButton:hover:pressed{
       </property>
       <property name="minimumSize">
        <size>
-        <width>703</width>
+        <width>695</width>
         <height>455</height>
        </size>
       </property>
@@ -4314,9 +4282,8 @@ QPushButton:hover:pressed{
       </property>
       <property name="styleSheet">
        <string notr="true">QTextBrowser {
-	
-	color: rgb(85, 85, 255);
-	background-color: rgb(238, 238, 238);
+	border-radius: 5px;
+	border:2px solid rgb(85, 85, 255);
 	font: 16pt &quot;Cascadia Mono PL SemiLight&quot;;
 }</string>
       </property>
@@ -4345,7 +4312,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QTableView" name="tableView_result">
       <property name="minimumSize">
        <size>
-        <width>1359</width>
+        <width>1350</width>
         <height>200</height>
        </size>
       </property>
@@ -4802,8 +4769,18 @@ p, li { white-space: pre-wrap; }
       <property name="mouseTracking">
        <bool>true</bool>
       </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">QTableView{
+	border-radius: 5px;
+    border:3px groove rgb(0, 85, 0);
+	border-color: rgb(85, 170, 255);
+}</string>
+      </property>
+      <property name="gridStyle">
+       <enum>Qt::SolidLine</enum>
       </property>
       <attribute name="horizontalHeaderMinimumSectionSize">
        <number>54</number>
@@ -4820,7 +4797,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1377</width>
+     <width>1366</width>
      <height>25</height>
     </rect>
    </property>

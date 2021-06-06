@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from openpyxl import *
+from openpyxl.styles import Alignment
 
 class PrivateOpenPyxl():
     def __init__(self, filename = "", sheetname = ""):
@@ -9,6 +10,8 @@ class PrivateOpenPyxl():
         self.sheetname = sheetname
         self.workbook  = None
         self.worksheet = None
+        self.alignment = Alignment(horizontal='fill', vertical='center', textRotation=0, wrapText=False, shrinkToFit=True)
+        self.colindex = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
     def initWorkBook(self, filename, sheetname):
         self.filename = filename
@@ -51,3 +54,12 @@ class PrivateOpenPyxl():
                     self.worksheet.cell(r[6].row, i+1, dataList[i])
                 return True
         return False
+
+    def setCellsStyle(self):
+        maxrows = self.worksheet.max_row
+        maxcols = self.worksheet.max_column
+        for r in range(maxrows):
+            for c in range(maxcols):
+                col = self.colindex[c]
+                pos = '{0}{1}'.format(col, r + 1)
+                self.worksheet[pos].alignment = self.alignment

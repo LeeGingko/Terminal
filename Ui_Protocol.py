@@ -38,8 +38,17 @@ class Ui_ProtocolDialog(object):
         font.setBold(False)
         font.setWeight(50)
         self.comboBox_selectComNum.setFont(font)
-        self.comboBox_selectComNum.setCurrentText("")
+        self.comboBox_selectComNum.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
+        self.comboBox_selectComNum.setStyleSheet("QPushButton:hover{\n"
+"    background-color: rgb(214, 234, 239);\n"
+"}\n"
+"QPushButton:hover:pressed{\n"
+"    background-color: rgb(130, 195, 195);\n"
+"}")
+        self.comboBox_selectComNum.setEditable(False)
+        self.comboBox_selectComNum.setInsertPolicy(QtWidgets.QComboBox.InsertAtTop)
         self.comboBox_selectComNum.setObjectName("comboBox_selectComNum")
+        self.comboBox_selectComNum.addItem("")
         self.pushBtn_serialSwitch = QtWidgets.QPushButton(self.groupBox)
         self.pushBtn_serialSwitch.setGeometry(QtCore.QRect(8, 78, 271, 40))
         font = QtGui.QFont()
@@ -50,9 +59,12 @@ class Ui_ProtocolDialog(object):
         font.setWeight(50)
         self.pushBtn_serialSwitch.setFont(font)
         self.pushBtn_serialSwitch.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushBtn_serialSwitch.setAutoFillBackground(True)
-        self.pushBtn_serialSwitch.setStyleSheet("QPushButton{\n"
-"    \n"
+        self.pushBtn_serialSwitch.setAutoFillBackground(False)
+        self.pushBtn_serialSwitch.setStyleSheet("QPushButton:hover{\n"
+"    background-color: rgb(214, 234, 239);\n"
+"}\n"
+"QPushButton:hover:pressed{\n"
+"    background-color: rgb(130, 195, 195);\n"
 "}")
         self.pushBtn_serialSwitch.setObjectName("pushBtn_serialSwitch")
 
@@ -63,5 +75,7 @@ class Ui_ProtocolDialog(object):
         _translate = QtCore.QCoreApplication.translate
         ProtocolDialog.setWindowTitle(_translate("ProtocolDialog", "Dialog"))
         self.groupBox.setTitle(_translate("ProtocolDialog", "端口设置"))
+        self.comboBox_selectComNum.setCurrentText(_translate("ProtocolDialog", "JLink CDC UART Port (COM6)"))
+        self.comboBox_selectComNum.setItemText(0, _translate("ProtocolDialog", "JLink CDC UART Port (COM6)"))
         self.pushBtn_serialSwitch.setText(_translate("ProtocolDialog", "打开串口"))
         self.pushBtn_serialSwitch.setShortcut(_translate("ProtocolDialog", "Ctrl+1"))
