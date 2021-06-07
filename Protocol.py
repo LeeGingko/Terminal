@@ -98,7 +98,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                             time.sleep(0.01)
                             num = self.prvSerial.inWaiting()
                             # print("openClosePort num:" + str(num) + ' time:' + str((endTiming1 - startTiming).seconds)) # 输出收到的字节数
-                            print("Port num:" + str(num)) # 输出收到的字节数
+                            # print("Port num:" + str(num)) # 输出收到的字节数
                             endTiming = dt.datetime.now()
                             if (endTiming - startTiming).seconds <= 2:
                                 if num == 0:

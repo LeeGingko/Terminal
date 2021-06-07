@@ -808,9 +808,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.label_selfComCurrent.setText(ComCur)
             self.label_selfFireVoltage.setText(FireVol)
             self.label_selfFireCurrent.setText(FireCur)
+            self.userTextBrowserAppend("已获取测试仪自检参数")
             self.parseWorkMode()
             self.isDeviceResponsed = True
-            self.userTextBrowserAppend("已获取测试仪自检参数")
         else:
             self.userTextBrowserAppend("请接通测试仪电源")      
     
