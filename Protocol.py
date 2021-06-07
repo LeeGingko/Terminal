@@ -93,41 +93,44 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                         self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
                         startTiming = dt.datetime.now()
                         endTiming = startTiming
-                        # self.protocolAppendSignal.emit("等待测试仪回应")
                         while True: # 等待测试仪回应
                             QApplication.processEvents()
+                            time.sleep(0.01)
                             num = self.prvSerial.inWaiting()
-                            # print("openClosePort num:" + str(num)) # 输出收到的字节数
-                            if num == 0:
-                                if (endTiming - startTiming).seconds >= 2:
-                                    self.isSTM32Online = False
-                                    self.prvSerial.close()
-                                    self.protocolAppendSignal.emit("测试仪无响应，已关闭[" + i.device + "]")
-                                    self.pushBtn_serialSwitch.setText("打开串口")
-                                    self.comboBox_selectComNum.setEnabled(True)
-                                    break
-                            elif (num > 0 and num <= 4):
-                                self.prvSerial.flushInput()
-                            elif num >= 5:
-                                QApplication.processEvents()
-                                time.sleep(0.1)
-                                data = self.prvSerial.read(num)
-                                if data.decode("utf-8") == "STM32":
-                                    self.isSTM32Online = True
-                                    self.comController = self.comDescription
-                                    self.protocolAppendSignal.emit("测试仪在线!")
-                                    self.comboBox_selectComNum.setCurrentText(self.comController)
-                                    self.comboBox_selectComNum.setEnabled(False)
-                                    self.pushBtn_serialSwitch.setText("关闭串口")
-                                    print('/*+++++++++++++++++++++++++++++++++++++++++++++*/\nChecking device parameters ......:')
-                                    self.deviceSelfCheck() # 每次运行程序执行一次自检即可
-                                    break
+                            # print("openClosePort num:" + str(num) + ' time:' + str((endTiming1 - startTiming).seconds)) # 输出收到的字节数
+                            print("Port num:" + str(num)) # 输出收到的字节数
                             endTiming = dt.datetime.now()
+                            if (endTiming - startTiming).seconds <= 2:
+                                if num == 0:
+                                    continue
+                                elif (num > 0 and num <= 4):
+                                    self.prvSerial.flushInput()
+                                elif num >= 5:
+                                    data = self.prvSerial.read(num)
+                                    if data.decode("utf-8") == "STM32":
+                                        self.isSTM32Online = True
+                                        self.comController = self.comDescription
+                                        self.protocolAppendSignal.emit("测试仪在线!")
+                                        self.comboBox_selectComNum.setCurrentText(self.comController)
+                                        self.comboBox_selectComNum.setEnabled(False)
+                                        self.pushBtn_serialSwitch.setText("关闭串口")
+                                        print('/*+++++++++++++++++++++++++++++++++++++++++++++*/\nChecking device parameters ......:')
+                                        self.deviceSelfCheck() # 每次运行程序执行一次自检即可
+                                        break
+                                    else:
+                                        continue
+                            else:
+                                self.isSTM32Online = False
+                                self.prvSerial.close()
+                                self.protocolAppendSignal.emit("测试仪无响应，已关闭[" + i.device + "]")
+                                self.pushBtn_serialSwitch.setText("打开串口")
+                                self.comboBox_selectComNum.setEnabled(True)
+                                break
                     except:
                         QMessageBox.warning(self, "打开串口", "打开串口失败")
-                        self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "] 打开失败")
-                if self.isSTM32Online == True:
-                    break
+                        # self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "] 打开失败")
+                    if self.isSTM32Online == True:
+                        break
 
     def portsMonitoring(self, list, action, diffset):
         if list[0] == 'NOCOM':
@@ -227,10 +230,13 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                             elif num >= 5:
                                 time.sleep(0.01)
                                 data = self.prvSerial.read(num)
-                                if data.decode("utf-8") == "STM32":
-                                    self.isSTM32Online = True
-                                    self.comController = self.comDescription
-                                    break
+                                try:
+                                    if data.decode("utf-8") == "STM32":
+                                        self.isSTM32Online = True
+                                        self.comController = self.comDescription
+                                        break
+                                except:
+                                    pass
                             endTiming = dt.datetime.now()        
                         if self.isSTM32Online == True:
                             if self.firstAutoDetetion == 1: # 第一次打开软件会执行测试仪自检
@@ -329,7 +335,6 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.prvSerial.flush()
         self.data = b''
         self.rxCheck = 0
-        self.prvSerial.flush()
         time.sleep(1)
         self.protocolAppendSignal.emit("测试仪自检")
         self.serialSendData(Func.f_DevGetSelfPara, '', '')

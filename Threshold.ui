@@ -588,7 +588,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>70.0</string>
+        <string>69.0</string>
        </property>
       </widget>
      </item>
@@ -1058,10 +1058,10 @@
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
     </property>
     <property name="text">
@@ -1094,10 +1094,10 @@ QPushButton:hover:pressed{
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+	background-color: rgb(138, 214, 255);
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+	background-color: rgb(0, 170, 255);
 }</string>
     </property>
     <property name="text">

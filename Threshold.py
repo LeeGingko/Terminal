@@ -3,6 +3,8 @@ import os
 # 导入pickle模块
 import pickle as pk
 
+import win32file
+import win32con
 # 默认导入
 from PyQt5 import QtCore
 from PyQt5.QtCore import *
@@ -154,10 +156,27 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
         # elif self.isConfigSaved:
         self.saveThreshold(self.para)
         
+    def isFileOpened(self, file_path):
+        try:
+            v_handle = win32file.CreateFile(file_path, win32file.GENERIC_READ, 0, None, win32con.OPEN_EXISTING, win32file.FILE_ATTRIBUTE_NORMAL, None)
+            result = int(v_handle) == win32file.INVALID_HANDLE_VALUE
+            win32file.CloseHandle(v_handle)
+        except Exception:
+            return True
+        return result
+    
     @QtCore.pyqtSlot()
     def on_pushBtn_readSettingsRecord_clicked(self):
-        settingfile, _ = QFileDialog.getOpenFileName(self, "打开配置文件", './', 'settingfile (*.txt)')
+        # f = os.path.join(os.path.os.getcwd(), 'config.txt')
+        # s = self.isFileOpened('config.txt')
+        # if s == True:
+        #     self.thresholdAppendSignal.emit("【config.txt】配置文件已打开")
+        # else:
+        settingfile, _ = QFileDialog.getOpenFileName(self, "打开配置文件", './config.txt', 'settingfile (config.txt)')
         if settingfile:
             os.startfile(settingfile)
-            self.isConfigSaved = True
-            # self.saveConfigRecord()
+            self.close()
+
+        
+        
+            

@@ -544,10 +544,10 @@ class Ui_ThresholdDialog(object):
         self.pushBtn_readSettingsRecord.setFont(font)
         self.pushBtn_readSettingsRecord.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushBtn_readSettingsRecord.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(214, 234, 239);\n"
+"    background-color: rgb(138, 214, 255);\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(130, 195, 195);\n"
+"    background-color: rgb(0, 170, 255);\n"
 "}")
         self.pushBtn_readSettingsRecord.setObjectName("pushBtn_readSettingsRecord")
         self.pushBtn_saveSettingsRecord = QtWidgets.QPushButton(self.groupBox)
@@ -561,10 +561,10 @@ class Ui_ThresholdDialog(object):
         self.pushBtn_saveSettingsRecord.setFont(font)
         self.pushBtn_saveSettingsRecord.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushBtn_saveSettingsRecord.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(214, 234, 239);\n"
+"    background-color: rgb(138, 214, 255);\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(130, 195, 195);\n"
+"    background-color: rgb(0, 170, 255);\n"
 "}")
         self.pushBtn_saveSettingsRecord.setObjectName("pushBtn_saveSettingsRecord")
         self.line_2 = QtWidgets.QFrame(self.groupBox)
@@ -760,7 +760,7 @@ class Ui_ThresholdDialog(object):
         self.label_operator_39.setText(_translate("ThresholdDialog", "下限"))
         self.lineEdit_setDrainCurrentBottom.setText(_translate("ThresholdDialog", "50.0"))
         self.lineEdit_setWorkCurrentBottom.setText(_translate("ThresholdDialog", "500.0"))
-        self.lineEdit_setFireVoltageBottom.setText(_translate("ThresholdDialog", "70.0"))
+        self.lineEdit_setFireVoltageBottom.setText(_translate("ThresholdDialog", "69.0"))
         self.lineEdit_setFireCurrentBottom.setText(_translate("ThresholdDialog", "0.0"))
         self.lineEdit_setLineVoltageBottom.setText(_translate("ThresholdDialog", "21.0"))
         self.lineEdit_setLineCurrentBottom.setText(_translate("ThresholdDialog", "0.0"))

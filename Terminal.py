@@ -12,12 +12,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.initUi()
 
     def __del__(self):
+        self.timsRefresh.wait()
         self.protocolWin.serialManager.wait()
         self.protocolWin.serialMonitor.wait()
-        self.timsRefresh.wait()
         print("{} 退出主线程".format(__file__))
 
     def initUi(self):
+        # 初始化主窗口
         self.setupUi(self)
         # 设置窗口居中显示
         self.desktop = QApplication.desktop()
@@ -37,7 +38,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.myStatusBar = QStatusBar()
         self.myStatusBar.setFont(QFont("Times New Roman", 16, QFont.Light))
         self.pathLabel = QLabel(self)
-        self.myStatusBar.addPermanentWidget(self.pathLabel)
+        self.myStatusBar.addPermanentWidget(self.pathLabel) # 添加操作文件显示控件
         self.setStatusBar(self.myStatusBar)
         # 消息提示窗口初始化
         self.textBrowser.setFontFamily("微软雅黑")
@@ -61,23 +62,24 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 通信配置界面类实例
         self.protocolWin = ProtocolWin()
         self.protocolWin.protocolAppendSignal.connect(self.userTextBrowserAppend)
-        # 通信实例传入到全局对象，供阈值设置实例访问
+        # 串口通信实例传入到全局对象，供阈值设置实例访问
         GetSetObj.set(self.protocolWin)
+        # 串口接收线程处理函数
         self.protocolWin.serialManager.recvSignal.connect(self.serialRecvData)
         # 阈值设置界面类实例
         self.thresholdWin = ThresholdWin()
         self.thresholdWin.thresholdAppendSignal.connect(self.userTextBrowserAppend)
         # 工作模式初始化
-        self.workMode = {"encoding": "X",  "detection": "X"} # 未知状态
+        self.workMode = { "encoding": "X",  "detection": "X" } # 未知状态
         # 操作人员姓名录入
         self.is_name_input = False
         self.name = "操作员01" # 默认操作员姓名
         self.lineEdit_op_name.setText(self.name)
-        # 自定义本地时间更新线程
+        # 本地时间更新线程
         self.timsRefresh = LocalTimeThread()
         self.timsRefresh.secondSignal.connect(self.showDaetTime)
         self.timsRefresh.start()
-        # 测试数据Excel文件保存变量的初始化
+        # 检测数据Excel文件初始化
         self.excel = PrivateOpenPyxl() # Excel实例化全局对象
         self.isExcelSavedFirst = True # 是否是第一次保存Excel
         self.isExcelSaved = False # 是否是已经保存 Excel
@@ -85,30 +87,30 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.excelFile = "" # Excel文件
         self.excelOpenState = False
         # 另存为文件
-        self.isExcelAsSavedFirst = True # 是否是第一次保存Excel
-        self.isExcelAsSaved = False # 是否是已经保存 Excel
-        self.excelAsFilePath = "" # Excel文件路径
-        self.excelAsFile = "" # Excel文件
+        self.isExcelAsSavedFirst = True # 是否是第一次另存为Excel
+        self.isExcelAsSaved = False # 是否是已经另存为Excel
+        self.excelAsFilePath = "" # Excel另存为文件路径
+        self.excelAsFile = "" # Excel另存为文件
         self.excelAsOpenState = False
         # 默认检测结果
-        initTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        initTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) # 检测时间
         self.resultDefaultList = [
             "name",  initTime,    "F",    "F",   "失败",
             "离线",   "FFFFF",     "F",    "F",   "异常",
-            "SSSSS",    "F",      "F",    "异常", "拒绝" ]
+            "SSSSS",    "F",      "F",    "异常", "未通过" ]
         # 测试检测结果，初始为默认检测结果
         self.resultList = self.resultDefaultList.copy()
-        # 测试检测结果备份，进行重复检测结果判断
+        # 单次测试检测结果备份，进行重复检测结果判断
         self.resultLastList = self.resultList.copy()
         # 表格之模型、委托、视图初始化
         # 1 表格模型初始化
-        self.tableRow = 0 # 填入表格的行数
+        self.tableRow = 0 # 写入表格的行索引
         self.tableHeadline = [
             "测试员",   "检测时间",   "漏电流(uA)", "工作电流(uA)",  "ID核对",
             "在线检测", "被测选发",   "电流(mA)",   "电压(V)",      "电流判断",
             "内置选发", "电流(mA)",  "电压(V)",    "电流判断",      "结论" ]   
         self.tableViewModel = QStandardItemModel(0, 15, self)
-        self.tableViewModel.setHorizontalHeaderLabels(self.tableHeadline) # 表头
+        self.tableViewModel.setHorizontalHeaderLabels(self.tableHeadline) # 设置表头
         # 2 表格委托初始化
         self.tableViewDelegate = PrivateTableViewDelegate()
         # 3 表格视图初始化
@@ -121,7 +123,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableView_result.verticalHeader().hide()
         self.tableView_result.setContextMenuPolicy(Qt.CustomContextMenu)
         # 3.1 表格视图上下文菜单
-        self.tableView_result.customContextMenuRequested.connect(self.tvCustomContextMenuRequested)
         self.tvMenu = QMenu(self.tableView_result)
         self.saveSelected = QAction()
         self.saveAll = QAction()
@@ -139,10 +140,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.tvMenu.addAction(self.saveAll)
         self.tvMenu.addAction(self.dropSelected)
         # self.tvMenu.addAction(self.dropAll)
+        self.tableView_result.customContextMenuRequested.connect(self.tvCustomContextMenuRequested)
         # 检测以及编码默认状态设置
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
         self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
-        # UID输入验证器设置
+        # 编码输入验证器设置
         regValidator = QRegExpValidator(self)
         reg = QRegExp("[A-F0-9]+$") # 字母范围a~f, A~F, 数字0~9
         regValidator.setRegExp(reg)
@@ -164,7 +166,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 2 下发参数阈值
         self.autoTimer = QTimer() # 使用定时器，防止主界面卡在步骤1中
         self.autoTimer.timeout.connect(self.autoSendParameters)
-        self.autoTimer.start(3000) # 两秒后执行参数下发
+        self.autoTimer.start(3000) # 三秒后执行参数下发
         # 测试仪响应定时器
         self.devResponseTimer = QTimer()
         self.devResponseTimer.timeout.connect(self.deviceNoResponse)
@@ -173,11 +175,16 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.paraTimer.timeout.connect(self.autoSendParameters)
         # 确认检测完毕
         self.confirmDetection = False
+        # 使能保存和另存为
         self.pushBtn_saveResults.setEnabled(False)
         self.pushBtn_saveResultsAs.setEnabled(False)
+        # 查询返回编码
         self.queryCode = 'FFFFF'
+        # 是否只是查询编码
         self.isPureQueryCode = None
+        # 点击了保存还是另存为
         self.savedOrSavedAsClicked = None
+        # 先加载保存记录
         self.openExcelRecord()
 
     def showDaetTime(self, timeStr):
@@ -269,6 +276,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("测试仪无响应，请重新选择串口！")
         self.devResponseTimer.stop()    
     
+    def showOperationFile(self, path):
+        self.pathLabel.setText("操作文件：" + path)
+
 #----------------------------------------数据显示上下文菜单----------------------------------------#      
     def tvSaveSelected(self):
         if len(self.tvRowList) != 0:
@@ -285,14 +295,17 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def tvDropSelected(self):
         l = len(self.tvRowList)
         if l != 0:
-            choice = QMessageBox.warning(self, "删除视图数据", "是否删除视图数据，此操作会造成数据丢失", QMessageBox.Yes | QMessageBox.Cancel)
-            if choice == QMessageBox.Yes:
-                for n in self.tvRowList:
-                    self.tableViewModel.removeRow(n)
-                self.tableRow = self.tableRow - l
-                self.userTextBrowserAppend('删除选中数据')
+            if self.confirmDetection:
+                choice = QMessageBox.warning(self, "删除视图数据", "是否删除视图数据，此操作会造成数据丢失", QMessageBox.Yes | QMessageBox.Cancel)
+                if choice == QMessageBox.Yes:
+                    for n in self.tvRowList:
+                        self.tableViewModel.removeRow(n)
+                    self.tableRow = self.tableRow - l
+                    self.userTextBrowserAppend('删除选中数据')
+                else:
+                    self.userTextBrowserAppend('取消删除数据')
             else:
-                self.userTextBrowserAppend('取消删除数据')
+                self.userTextBrowserAppend('请确认检测完毕后决定是否删除数据')
         else:
             self.userTextBrowserAppend('无显示数据，请选中数据显示区域或进行检测')
         
@@ -313,7 +326,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tvMenu.exec_(self.tableView_result.mapToGlobal(p))
 #----------------------------------------数据显示上下文菜单----------------------------------------#      
     
-    def isExcelResultsFileOpened(self):
+    def isResultsExcelFileOpened(self):
         if os.path.exists('~$' + self.excelFile):
             # print('excel已被打开')
             return True
@@ -487,7 +500,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def on_pushBtn_confirmDetection_clicked(self):
         self.confirmDetection  = self.confirmDetection ^ True
-        choice = QMessageBox.question(self, "检测结果确认", "确认检测完毕？", QMessageBox.Yes | QMessageBox.Cancel)
+        choice = QMessageBox.warning(self, "检测结果确认", "确认检测完毕？", QMessageBox.Yes | QMessageBox.Cancel)
         if choice == QMessageBox.Yes:
             self.pushBtn_saveResults.setEnabled(True)
             self.pushBtn_saveResultsAs.setEnabled(True)
@@ -516,7 +529,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def on_pushBtn_saveResults_clicked(self):
         self.savedOrSavedAsClicked = True
-        self.excelOpenState = self.isExcelResultsFileOpened()
+        self.excelOpenState = self.isResultsExcelFileOpened()
         if self.excelOpenState:
             self.userTextBrowserAppend(self.excelFile + '已被打开, 请关闭文件后再写入')
         else:
@@ -524,18 +537,18 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.firstsaveResults()
             elif self.isExcelSavedFirst == False and self.isExcelSaved:
                 self.saveResults()
-        self.pathLabel.setText(self.excelFilePath) 
+        self.showOperationFile(self.excelFilePath) 
         self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
     def on_pushBtn_saveResultsAs_clicked(self):
+        self.openExcelRecord()
         self.savedOrSavedAsClicked = False
-        self.excelAsOpenState = self.isExcelResultsFileOpened()
+        self.excelAsOpenState = self.isResultsExcelFileOpened()
         if self.excelAsOpenState:
             self.userTextBrowserAppend(self.excelAsFilePath + '已被打开, 请关闭文件后再写入')
         else:
             if self.isExcelAsSavedFirst == True:
-                self.isExcelAsSavedFirst = False
                 file = './recording'
                 self.excelAsFilePath, isAccept =  QFileDialog.getSaveFileName(self, "保存检测结果", file, "recorded data(*.xlsx)")
                 if isAccept:
@@ -549,6 +562,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.excel.closeSheet()
                         self.userTextBrowserAppend("创建数据记录表成功")
                         self.userTextBrowserAppend("@保存至\"" + str(self.excelAsFilePath) + "\"")
+                        self.isExcelAsSavedFirst = False
+                        self.isExcelAsSaved = True
                         self.saveExcelRecord()
                         self.openExcelRecord()
                         if self.saveDataOfView() == True:
@@ -559,35 +574,34 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             self.lineEdit_uidInput.setFocus() 
                             self.pushBtn_saveResults.setEnabled(False)
                             self.pushBtn_saveResultsAs.setEnabled(False)
-                        self.isExcelAsSaved = True
-                        self.saveExcelRecord()
-                        self.pathLabel.setText(self.excelAsFilePath) 
+                        self.showOperationFile(self.excelAsFilePath) 
                     else:
                         pass
+                self.saveExcelRecord()
             else:
-                self.openExcelRecord()
                 if os.path.isfile(self.excelAsFilePath):
-                    self.isExcelAsSaved = True
                     if self.saveDataOfView() == True:
                         self.userTextBrowserAppend("已保存" + str(self.tableViewModel.rowCount()) + "条数据记录，请进行下一次检测")
                         self.resultLastList = self.resultList.copy()
                         self.tableViewModel.removeRows(0, self.tableViewModel.rowCount()) # 清除表格视图
                         self.tableRow = 0
-                        self.lineEdit_uidInput.setFocus() 
                         self.pushBtn_saveResults.setEnabled(False)
                         self.pushBtn_saveResultsAs.setEnabled(False)
-                        self.pathLabel.setText(self.excelAsFilePath) 
+                        self.showOperationFile(self.excelAsFilePath) 
+                        self.lineEdit_uidInput.setFocus()
+                        self.isExcelAsSavedFirst = False
+                        self.isExcelAsSaved = True
                 else:
                     self.isExcelAsSavedFirst = True
                     self.isExcelAsSaved = False
-                    self.pathLabel.setText('') 
+                    self.showOperationFile('') 
                     self.userTextBrowserAppend("文件已被删除或移动，请重新创建文件！")
-                self.saveExcelRecord()
+        self.saveExcelRecord()
         self.lineEdit_uidInput.setFocus()
 
     @QtCore.pyqtSlot()
     def on_pushBtn_showResults_clicked(self):
-        isOpenState = self.isExcelResultsFileOpened()
+        isOpenState = self.isResultsExcelFileOpened()
         if isOpenState:
             self.userTextBrowserAppend(self.excelFile + '已打开')
         else:
@@ -596,9 +610,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             if recordsfile:
                 if recordsfile == self.excelFilePath:
                     self.isConfigSaved = True
-                    self.pathLabel.setText(self.excelFilePath)
+                    self.showOperationFile(self.excelFilePath)
                 elif recordsfile == self.excelAsFilePath:
-                    self.pathLabel.setText(self.excelAsFilePath)
+                    self.showOperationFile(self.excelAsFilePath)
                     self.isConfigAsSaved = True
                 os.startfile(recordsfile)
             self.saveExcelRecord()
@@ -608,7 +622,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def on_pushBtn_clearResults_clicked(self):
         if self.tableViewModel.rowCount() != 0:
-            choice = QMessageBox.warning(self, "清除结果", "清除检测结果？", QMessageBox.Yes | QMessageBox.Cancel)
+            choice = QMessageBox.critical(self, "清除结果", "清除检测结果？", QMessageBox.Yes | QMessageBox.Cancel)
             if choice == QMessageBox.Yes:
                 self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
                 self.tableRow = 0
@@ -743,7 +757,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.protocolWin.prvSerial.isOpen:
             self.protocolWin.data = b''
             self.protocolWin.rxCheck = 0
-            # self.protocolWin.prvSerial.flush()
+            self.protocolWin.prvSerial.flush()
             self.protocolWin.serialSendData(Func.f_DevGetSelfPara, '', '')
             self.isDeviceResponsed = False
             self.devResponseTimer.start(2500)
@@ -772,11 +786,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     elif cnt == 15:
                         self.thresholdWin.para = self.thresholdWin.para + ("PF" + v)
                     cnt += 1
-                # self.thresholdWin.openConfigRecord()
-                # if self.thresholdWin.isConfigSavedFirst == True:
                 self.thresholdWin.saveThreshold(self.thresholdWin.para)
-                # elif self.thresholdWin.isConfigSaved:
-                #     self.thresholdWin.settingThreshold()
             self.autoTimer.stop()
         else:
             pass
@@ -973,10 +983,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.openExcelRecord()
         if self.savedOrSavedAsClicked == True:
             self.excel.loadSheet(self.excelFilePath)
-            self.pathLabel.setText(self.excelFilePath)
+            self.showOperationFile(self.excelFilePath)
         elif self.savedOrSavedAsClicked == False:
             self.excel.loadSheet(self.excelAsFilePath)
-            self.pathLabel.setText(self.excelAsFilePath)
+            self.showOperationFile(self.excelAsFilePath)
         QApplication.processEvents()
         if rows != 0 and cols != 0:
             l = []
@@ -1006,7 +1016,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def firstsaveResults(self):
         if not os.path.isfile(self.excelFilePath):
             if self.isExcelSavedFirst:
-                self.isExcelSavedFirst = False
                 file = './recording'
                 self.excelFilePath, isAccept =  QFileDialog.getSaveFileName(self, "保存检测结果", file, "recorded data(*.xlsx)")
                 if isAccept:
@@ -1032,18 +1041,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             self.lineEdit_uidInput.setFocus() 
                             self.pushBtn_saveResults.setEnabled(False)
                             self.pushBtn_saveResultsAs.setEnabled(False)
-                        self.pathLabel.setText(self.excelFilePath)
+                        self.showOperationFile(self.excelFilePath)
                     else:
                         pass
-        #     self.isExcelSavedFirst = True
-        #     self.isExcelSaved = False
-        #     self.pathLabel.setText('') 
-        #     self.userTextBrowserAppend(self.excelFilePath + "文件已被删除或移动，请重新创建文件！")
+                self.saveExcelRecord()
 
     def saveResults(self):
         self.openExcelRecord()
         if os.path.isfile(self.excelFilePath):
-            self.isExcelSaved = True
             if self.saveDataOfView() == True:
                 self.userTextBrowserAppend("已保存" + str(self.tableViewModel.rowCount()) + "条数据记录，请进行下一次检测")
                 self.resultLastList = self.resultList.copy()
@@ -1052,11 +1057,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.lineEdit_uidInput.setFocus() 
                 self.pushBtn_saveResults.setEnabled(False)
                 self.pushBtn_saveResultsAs.setEnabled(False)
-                self.pathLabel.setText(self.excelAsFilePath) 
+                self.showOperationFile(self.excelAsFilePath)
+                self.isExcelSaved = True
         else:
             self.isExcelSavedFirst = True
             self.isExcelSaved = False
-            self.pathLabel.setText('') 
+            self.showOperationFile('') 
             self.userTextBrowserAppend(self.excelFilePath + "文件已被删除或移动，请重新创建文件！")
         self.saveExcelRecord()
 
@@ -1080,7 +1086,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.saved_info = ([self.isExcelSavedFirst, self.isExcelSaved],  self.excelFilePath, [self.isExcelAsSavedFirst, self.isExcelAsSaved], self.excelAsFilePath)
         with open("excel_save_record.txt", "wb") as esrf:
             pk.dump(self.saved_info, esrf) # 用dump函数将Python对象转成二进制对象文件
-        # print("saveExcelRecord:" + str(self.saved_info))
            
     def sleepUpdate(self, sec):
         cnt = 0
@@ -1095,6 +1100,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         choice = QMessageBox.question(self, "关闭程序", "是否退出程序？", QMessageBox.Yes | QMessageBox.Cancel)
         if choice == QMessageBox.Yes:
             QCloseEvent.accept()
+            if self.protocolWin.prvSerial.isOpen():
+                self.protocolWin.prvSerial.close()
             app = QApplication.instance()
             app.quit()
         elif choice == QMessageBox.Cancel:
