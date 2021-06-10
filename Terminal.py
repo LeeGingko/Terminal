@@ -145,9 +145,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
         self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
         # 编码输入验证器设置
-        regValidator = QRegExpValidator(self)
-        reg = QRegExp("[A-F0-9]+$") # 字母范围a~f, A~F, 数字0~9
-        regValidator.setRegExp(reg)
+        regValidator = QRegularExpressionValidator(self)
+        reg = QRegularExpression("[A-F0-9]+$") # 字母范围a~f, A~F, 数字0~9
+        regValidator.setRegularExpression(reg)
         # UID输入编辑栏初始化
         self.lineEdit_uidInput.setMaxLength(5)
         self.lineEdit_uidInput.setValidator(regValidator)
@@ -160,19 +160,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.isDeviceResponsed = False
         # 检测状态
         self.detectionState = None # 未知状态
-        ## 界面显示前初始化
-        # 1 连接控制仪串口
-        self.protocolWin.autoConnectDetector()
-        # 2 下发参数阈值
-        self.autoTimer = QTimer() # 使用定时器，防止主界面卡在步骤1中
-        self.autoTimer.timeout.connect(self.autoSendParameters)
-        self.autoTimer.start(3000) # 三秒后执行参数下发
-        # 测试仪响应定时器
-        self.devResponseTimer = QTimer()
-        self.devResponseTimer.timeout.connect(self.deviceNoResponse)
-        # 接通电源参数下发定时器
-        self.paraTimer = QTimer() 
-        self.paraTimer.timeout.connect(self.autoSendParameters)
         # 确认检测完毕
         self.confirmDetection = False
         # 使能保存和另存为
@@ -186,7 +173,21 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.savedOrSavedAsClicked = None
         # 先加载保存记录
         self.openExcelRecord()
-
+        # 测试仪响应定时器
+        self.devResponseTimer = QTimer()
+        self.devResponseTimer.timeout.connect(self.deviceNoResponse)
+        # 接通电源参数下发定时器
+        self.paraTimer = QTimer() 
+        self.paraTimer.timeout.connect(self.autoSendParameters)
+        ## 界面显示前初始化
+        # 1 连接控制仪串口
+        self.protocolWin.autoConnectDetector()
+        # 2 下发参数阈值
+        self.autoTimer = QTimer() # 使用定时器，防止主界面卡在步骤1中
+        self.autoTimer.timeout.connect(self.autoSendParameters)
+        self.autoTimer.start(3500) # 三秒后执行参数下发
+        
+        
     def showDaetTime(self, timeStr):
         self.myStatusBar.showMessage(timeStr)
     
@@ -760,7 +761,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.protocolWin.prvSerial.flush()
             self.protocolWin.serialSendData(Func.f_DevGetSelfPara, '', '')
             self.isDeviceResponsed = False
-            self.devResponseTimer.start(2500)
+            self.devResponseTimer.start(3500)
         else:
             self.userTextBrowserAppend("串口未打开")
     
@@ -860,9 +861,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.userTextBrowserAppend("写入[" + self.uid + "]失败，请重新写入或更换模块！")
                 self.devicesState.pop(self.uid)
         elif tmp.find("FACULTY", 3, l) != -1:
-            self.devicesState[self.uid]['enc'] = -1
+            # self.devicesState[self.uid]['enc'] = -1
             self.userTextBrowserAppend("模块已出故障，请检查连线或更换模块！")
-            self.devicesState.pop(self.uid)
+            if self.uid in self.devicesState:
+                self.devicesState.pop(self.uid)
         elif tmp.find("NCODE", 3, l) != -1:
             self.workMode["encoding"] = "0"
             self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/close)}")
@@ -903,38 +905,44 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     if tmp[tmp.find("U1",  11, 25) + 2 : tmp.find("PIOK", 11, l)] != '':
                         self.resultList[4] = "成功"
                         if tmp[tmp.find("PIOK", 0, l)] != -1 and tmp[tmp.find("U1REC", 0, l)] != -1:
-                            self.resultList[5] = "在线"
-                            self.resultList[6] = tmp[tmp.find("U1",  11, 25) + 2 : tmp.find("PIOK", 11, l)] # UID
-                            fc = tmp[tmp.find("U1A", l - 10, l) + 3 : l - 4] #引爆电流
-                            self.resultList[7] = fc
-                            fv = tmp[tmp.find("U1V", l - 20, l) + 3 : tmp.find("U1A", l - 10, l)] #引爆电压
-                            self.resultList[8] = fv[0 : len(fv) - 1] + '.' + fv[len(DA) - 1]
-                            if float(fc) > float(self.thresholdWin.paraDict['th_FireCurrent_Down']) and float(fc) < float(self.thresholdWin.paraDict['th_FireCurrent_Up']):
-                                self.resultList[9] = "正常"
-                                self.resultList[14] = "通过"
-                                self.devicesState[self.uid]['det'] = True
-                                self.devicesState[self.uid]['res'] = self.resultList.copy()
+                            if tmp[tmp.find("POOK", 0, l)] != -1:
+                                self.resultList[5] = "在线"
+                                self.resultList[6] = tmp[tmp.find("U1",  11, 25) + 2 : tmp.find("PIOK", 11, l)] # UID
+                                fc = tmp[tmp.find("U1A", l - 10, l) + 3 : l - 4] #引爆电流
+                                self.resultList[7] = fc
+                                fv = tmp[tmp.find("U1V", l - 20, l) + 3 : tmp.find("U1A", l - 10, l)] #引爆电压
+                                self.resultList[8] = fv[0 : len(fv) - 1] + '.' + fv[len(DA) - 1]
+                                if float(fc) > float(self.thresholdWin.paraDict['th_FireCurrent_Down']) and float(fc) < float(self.thresholdWin.paraDict['th_FireCurrent_Up']):
+                                    self.resultList[9] = "正常"
+                                    self.resultList[14] = "通过"
+                                    self.devicesState[self.uid]['det'] = True
+                                    self.devicesState[self.uid]['res'] = self.resultList.copy()
+                                    # 内置模块
+                                    self.resultList[10] = tmp[tmp.find("U2",   11, l) + 2 : tmp.find("U2RE", 11, l)]
+                                    self.resultList[11] = tmp[tmp.find("U2A",  11, l) + 3 : tmp.find("U1RE", 11, l)]
+                                    iv = tmp[tmp.find("U2V",  11, l) + 3 : tmp.find("U2A", 11, l)]
+                                    self.resultList[12] = iv[0 : len(iv) - 1] + '.' + iv[len(iv) - 1]
+                                    self.resultList[13] = "正常"
+                                else:
+                                    self.resultList[9] = "超限"
+                                    self.resultList[14] = "未通过"
+                                    self.devicesState[self.uid]['det'] = False
+                                    self.devicesState[self.uid]['res'] = self.resultList.copy()
                             else:
-                                self.resultList[9] = "超限"
-                                self.resultList[14] = "未通过"
-                                self.devicesState[self.uid]['det'] = False
-                                self.devicesState[self.uid]['res'] = self.resultList.copy()
+                                self.userTextBrowserAppend("断开火工，火工部存在, 模块火工部异常")
+                                return
                         else:
                             self.resultList[5] = "离线"
                             self.resultList[6] = tmp[tmp.find("U1",  11, 25) + 2 : tmp.find("PIOK", 11, l)] # UID
                             self.resultList[7] = "-"
                             self.resultList[8] = "-"
                             self.resultList[9] = "-"
+                            self.userTextBrowserAppend("接入火工，火工部不存在, 模块火工部异常")
+                            return
                     else:
                         self.resultList[4] = "失败"
                         self.resultList[5] = "离线"
                         self.devicesState[self.uid]['det'] = -1
-                    # 内置模块
-                    self.resultList[10] = tmp[tmp.find("U2",   11, l) + 2 : tmp.find("U2RE", 11, l)]
-                    self.resultList[11] = tmp[tmp.find("U2A",  11, l) + 3 : tmp.find("U1RE", 11, l)]
-                    iv = tmp[tmp.find("U2V",  11, l) + 3 : tmp.find("U2A", 11, l)]
-                    self.resultList[12] = iv[0 : len(iv) - 1] + '.' + iv[len(iv) - 1]
-                    self.resultList[13] = "正常"
                     self.devicesState[self.uid]['res'] = self.resultList.copy()
                     if self.detectionState == 1:
                         self.updateResultsFile(self.resultList)
