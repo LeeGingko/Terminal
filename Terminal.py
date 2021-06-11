@@ -394,7 +394,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.protocolWin.data = b''
                     self.protocolWin.rxCheck = 0
                     self.protocolWin.prvSerial.flushOutput()
-                    self.protocolWin.serialSendData(Func.f_DevQueryCurrentCode, '', '')
+                    self.protocolWin.serialSendData(Func.f_DevEncoding, self.uid, '')
                     self.isPureQueryCode = False
                     QApplication.processEvents()
                     self.sleepUpdate(3)
