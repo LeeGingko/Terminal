@@ -74,7 +74,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 操作人员姓名录入
         self.is_name_input = False
         self.name = "操作员01" # 默认操作员姓名
-        self.lineEdit_op_name.setText(self.name)
+        self.isNameInput = False
+        nameRegValidator = QRegularExpressionValidator(self)
+        nameReg = QRegularExpression("^(?![\\《\\》\\，\\、\\。\\；\\：\\‘\\’\\“\\”\\？\\【\\】\\（\\）\\-\\—])[a-zA-Z0-9\u4e00-\u9fa5]+$")
+        nameRegValidator.setRegularExpression(nameReg)
+        self.lineEdit_op_name.setValidator(nameRegValidator)
         # 本地时间更新线程
         self.timsRefresh = LocalTimeThread()
         self.timsRefresh.secondSignal.connect(self.showDaetTime)
@@ -146,7 +150,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
         # 编码输入验证器设置
         regValidator = QRegularExpressionValidator(self)
-        reg = QRegularExpression("[A-F0-9]+$") # 字母范围a~f, A~F, 数字0~9
+        reg = QRegularExpression("[A-F0-9]+$") # 字母范围A~F, 数字0~9
         regValidator.setRegularExpression(reg)
         # UID输入编辑栏初始化
         self.lineEdit_uidInput.setMaxLength(5)
@@ -186,8 +190,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.autoTimer = QTimer() # 使用定时器，防止主界面卡在步骤1中
         self.autoTimer.timeout.connect(self.autoSendParameters)
         self.autoTimer.start(3500) # 三秒后执行参数下发
-        
-        
+        self.isEncodeOK = False
+        iconPath = os.path.join(self.currentWorkDirectory, 'IDDD.ico')
+        self.setWindowIcon(QIcon(iconPath))
+        self.setIconSize(QSize(256, 256))
+
     def showDaetTime(self, timeStr):
         self.myStatusBar.showMessage(timeStr)
     
@@ -335,6 +342,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             # print('excel未被打开')
             return False
 
+#----------------------------------------UID输入完成槽函数----------------------------------------#
+    @QtCore.pyqtSlot()
+    def on_lineEdit_op_name_returnPressed(self):
+        self.isNameInput = True
+#----------------------------------------UID输入完成槽函数----------------------------------------#
+
 #----------------------------------------按钮槽函数----------------------------------------#  
     @QtCore.pyqtSlot()
     def on_pushBtn_protocolSetting_clicked(self):
@@ -389,36 +402,44 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("执行编码")
             if self.protocolWin.prvSerial.isOpen():
                 self.uid = self.lineEdit_uidInput.text()
+                name = self.lineEdit_op_name.text()
                 if self.uid != "":
-                    self.userTextBrowserAppend("输入编号：" + self.lineEdit_uidInput.text())
-                    self.protocolWin.data = b''
-                    self.protocolWin.rxCheck = 0
-                    self.protocolWin.prvSerial.flushOutput()
-                    self.protocolWin.serialSendData(Func.f_DevEncoding, self.uid, '')
-                    self.isPureQueryCode = False
-                    QApplication.processEvents()
-                    self.sleepUpdate(3)
-                    QApplication.processEvents()
-                    self.devicesState = self.loadDevicesStateFile()
-                    if self.devicesState != None:# 检测记录不为空
-                        if self.uid in self.devicesState:
-                            encSta = self.devicesState[self.uid].get('enc')
-                            if encSta != None:
-                                if self.queryCode == self.uid: # 当前模块进行过编码，输入的UID和当前模块UID相同
-                                    choice = QMessageBox.warning(self, "执行编码", "覆盖模块编码？", QMessageBox.Yes | QMessageBox.Cancel)
-                                    if choice == QMessageBox.Yes:
-                                        self.encoding(self.uid)
+                    if name != '' and self.isNameInput == True:
+                        self.isEncodeOK = False
+                        self.userTextBrowserAppend("输入编号：" + self.lineEdit_uidInput.text())
+                        self.protocolWin.data = b''
+                        self.protocolWin.rxCheck = 0
+                        self.protocolWin.prvSerial.flushOutput()
+                        self.protocolWin.serialSendData(Func.f_DevEncoding, self.uid, '')
+                        self.isPureQueryCode = False
+                        QApplication.processEvents()
+                        self.sleepUpdate(3)
+                        QApplication.processEvents()
+                        self.devicesState = self.loadDevicesStateFile()
+                        if self.devicesState != None:# 检测记录不为空
+                            if self.uid in self.devicesState:
+                                encSta = self.devicesState[self.uid].get('enc')
+                                if encSta != None:
+                                    if self.queryCode == self.uid: # 当前模块进行过编码，输入的UID和当前模块UID相同
+                                        choice = QMessageBox.warning(self, "执行编码", "覆盖模块编码？", QMessageBox.Yes | QMessageBox.Cancel)
+                                        if choice == QMessageBox.Yes:
+                                            self.encoding(self.uid)
+                                        else:
+                                            self.userTextBrowserAppend("取消覆盖模块编码")
                                     else:
-                                        self.userTextBrowserAppend("取消覆盖模块编码")
-                                else:
+                                        self.encoding(self.uid)
+                            else:
+                                if self.workMode["encoding"] == "1":
+                                    self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[] }
                                     self.encoding(self.uid)
                         else:
+                            self.devicesState = {}
                             self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[] }
                             self.encoding(self.uid)
-                    else:
-                        self.devicesState = {}
-                        self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[] }
-                        self.encoding(self.uid)
+                    elif name != '' and self.isNameInput == False:
+                        self.userTextBrowserAppend("请按Enter确认姓名！")
+                    elif name == '':
+                        self.userTextBrowserAppend("请输入姓名，按Enter确认！")
                 else:
                     self.userTextBrowserAppend("请输入编号！")
             else:
@@ -441,36 +462,42 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("执行检测")
             if self.protocolWin.prvSerial.isOpen():
                 self.uid = self.lineEdit_uidInput.text()
-                if self.uid != "":
-                    self.userTextBrowserAppend("输入编号：" + self.uid)
-                    res = self.loadResultsFile() # 加载检测结果
-                    resSta, index = self.isResultDetected(res, self.uid)
-                    self.devicesState = self.loadDevicesStateFile()
-                    if self.devicesState != None:
-                        if not self.uid in self.devicesState: # 还未进行过编码操作
-                            if resSta == None and index == None: # 确实未编码且未检测，必需先执行编码
-                                self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[]}
-                                self.userTextBrowserAppend("该模块未编码，请执行编码！")
-                        else: # 进行过编码，是否检测过未知
-                            detsta = self.devicesState[self.uid].get('det')
-                            if detsta == None and resSta == None: # 该模块在此次工作中未进行过检测
-                                self.devicesState[self.uid]['det'] = None
-                                self.detection(self.uid)
-                                self.detectionState = 1
-                            elif (detsta == None or detsta == True) and (resSta != None and index != None): # 该模块在此次工作中已进行过检测，结果已经保存
-                                choice = QMessageBox.warning(self, "执行检测", "检测结果已保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
-                                if choice == QMessageBox.Yes:
+                name = self.lineEdit_op_name.text()
+                if name != '' and self.isNameInput == True:
+                    if self.uid != "":
+                        self.userTextBrowserAppend("输入编号：" + self.uid)
+                        res = self.loadResultsFile() # 加载检测结果
+                        resSta, index = self.isResultDetected(res, self.uid)
+                        self.devicesState = self.loadDevicesStateFile()
+                        if self.devicesState != None:
+                            if not self.uid in self.devicesState: # 还未进行过编码操作
+                                if resSta == None and index == None: # 确实未编码且未检测，必需先执行编码
+                                    self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[]}
+                                    self.userTextBrowserAppend("该模块未编码，请执行编码！")
+                            else: # 进行过编码，是否检测过未知
+                                detsta = self.devicesState[self.uid].get('det')
+                                if detsta == None and resSta == None: # 该模块在此次工作中未进行过检测
                                     self.devicesState[self.uid]['det'] = None
                                     self.detection(self.uid)
-                                    self.detectionState = 2
-                                else:
-                                    self.userTextBrowserAppend("取消重新检测")
+                                    self.detectionState = 1
+                                elif (detsta == None or detsta == True) and (resSta != None and index != None): # 该模块在此次工作中已进行过检测，结果已经保存
+                                    choice = QMessageBox.warning(self, "执行检测", "检测结果已保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
+                                    if choice == QMessageBox.Yes:
+                                        self.devicesState[self.uid]['det'] = None
+                                        self.detection(self.uid)
+                                        self.detectionState = 2
+                                    else:
+                                        self.userTextBrowserAppend("取消重新检测")
+                        else:
+                            self.devicesState = {}
+                            self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[]}
+                            self.userTextBrowserAppend("未有任何模块编码，请执行编码！")
                     else:
-                        self.devicesState = {}
-                        self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[]}
-                        self.userTextBrowserAppend("未有任何模块编码，请执行编码！")
-                else:
-                    self.userTextBrowserAppend("请输入编号！")
+                        self.userTextBrowserAppend("请输入编号！")
+                elif name != '' and self.isNameInput == False:
+                    self.userTextBrowserAppend("请按Enter确认姓名！")
+                elif name == '':
+                    self.userTextBrowserAppend("请输入姓名，按Enter确认！")
             else:
                 self.userTextBrowserAppend("串口未打开")
         else:
@@ -854,18 +881,21 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             if res == "UIDOK":
                 if self.uid in self.devicesState:
                     self.devicesState[self.uid]['enc'] = True
-                    self.userTextBrowserAppend("写入[" + self.uid + "]成功！")
                     self.updateDevicesStateFile()
+                    self.isEncodeOK = True
+                    self.userTextBrowserAppend("写入[" + self.uid + "]成功！")
             elif res == "UIDERR":
                 self.devicesState[self.uid]['enc'] = False
-                self.userTextBrowserAppend("写入[" + self.uid + "]失败，请重新写入或更换模块！")
                 self.devicesState.pop(self.uid)
+                self.isEncodeOK = False
+                self.userTextBrowserAppend("写入[" + self.uid + "]失败，请重新写入或更换模块！")
         elif tmp.find("FACULTY", 3, l) != -1:
-            # self.devicesState[self.uid]['enc'] = -1
+            self.isEncodeOK = False
             self.userTextBrowserAppend("模块已出故障，请检查连线或更换模块！")
             if self.uid in self.devicesState:
                 self.devicesState.pop(self.uid)
         elif tmp.find("NCODE", 3, l) != -1:
+            self.isEncodeOK = False
             self.workMode["encoding"] = "0"
             self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/close)}")
             self.userTextBrowserAppend("无法进行编码，请检查编码按键！")
@@ -1117,7 +1147,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     MainApp = QApplication(sys.argv)
-    MainApp.setWindowIcon(QIcon("./resources/icons/robot.ico"))
     # MainApp.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     MainTerminal = MainWin()
     MainTerminal.show()

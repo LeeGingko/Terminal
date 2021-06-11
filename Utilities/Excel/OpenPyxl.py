@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openpyxl import *
+from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Alignment
 
 class PrivateOpenPyxl():

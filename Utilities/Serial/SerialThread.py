@@ -4,7 +4,6 @@ import serial
 import serial.tools.list_ports
 # 默认导入
 from PyQt5.QtCore import QThread, pyqtSignal
-from PyQt5.QtWidgets import QApplication
 
 class PrivateSerialThread(QThread):
     recvSignal = pyqtSignal(bytes)

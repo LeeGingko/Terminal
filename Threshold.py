@@ -2,12 +2,13 @@
 import os
 # 导入pickle模块
 import pickle as pk
+from PyQt5.QtGui import QIcon
 
 import win32file
 import win32con
 # 默认导入
 from PyQt5 import QtCore
-from PyQt5.QtCore import *
+from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog
 
 # getset全局变量
@@ -53,6 +54,8 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
         centerY = int((self.height - self.Wsize.height()) / 2)
         self.move(centerX, centerY)
         self.setWindowTitle("Threshold")
+        iconPath = os.path.join(os.getcwd(),'IDDD.ico')
+        self.setWindowIcon(QIcon(iconPath))
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 
     def getUserPara(self):

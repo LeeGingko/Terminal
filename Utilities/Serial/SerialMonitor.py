@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtWidgets import *
 # 导入serial相关模块
 import serial
 import serial.tools.list_ports

@@ -3,11 +3,14 @@
 import datetime as dt
 # 导入time相关模块
 import time
+# 导入os
+import os
 # 默认导入
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtCore import *
+from PyQt5.QtCore import  pyqtSignal, Qt
+from PyQt5.QtGui import QIcon
 from PyQt5.QtSerialPort import QSerialPortInfo
-from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMessageBox
 
 # 导入协议通信界面
 from Ui_Protocol import Ui_ProtocolDialog
@@ -64,6 +67,8 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         centerY = int((self.height - self.Wsize.height()) / 2 - 20)
         self.move(centerX, centerY)
         self.setWindowTitle("Protocol")
+        iconPath = os.path.join(os.getcwd(),'IDDD.ico')
+        self.setWindowIcon(QIcon(iconPath))
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 
     def autoConnectDetector(self):
