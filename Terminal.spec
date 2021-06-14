@@ -30,4 +30,4 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=False , icon='IDDD.ico')
+          console=False , icon='E:\\Learing\\2021\\719\\Python\\Terminal\\resources\\icons\\IDDD.ico')

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # 导入日期时间模块
 import datetime as dt
+from pickle import FALSE
 # 导入time相关模块
 import time
 # 导入os
@@ -43,8 +44,8 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.firstAutoDetetion = 1 # 第一次打开串口测试仪自动检测使能
         # 串口检测
         self.serialMonitor = PrivateSerialMonitor()  # 串口检测线程对象
-        # self.comPortList = list()
-        # self.comDescriptionList = list()
+        self.comPortList = list()
+        self.comDescriptionList = list()
         self.serialMonitor.portChangeSignal.connect(self.portsMonitoring)
         self.serialMonitor.start()
         # 串口初始化
@@ -54,6 +55,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.serialManager.start()
         self.comDescription = ''
         self.comController = ''
+        self.comIndex = 0
 
     def initUi(self):
         self.setupUi(self)
@@ -67,7 +69,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         centerY = int((self.height - self.Wsize.height()) / 2 - 20)
         self.move(centerX, centerY)
         self.setWindowTitle("Protocol")
-        iconPath = os.path.join(os.getcwd(),'IDDD.ico')
+        iconPath = os.path.join(os.getcwd(),'./resources/icons/IDDD.ico')
         self.setWindowIcon(QIcon(iconPath))
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 
@@ -81,6 +83,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.comDescriptionList = self.serialMonitor.descriptionList.copy()
         if len(self.comPortList) == 0:
             self.protocolAppendSignal.emit("未检测到串口，请连接设备！")
+            self.isAutoConnectDetectorOK = False
         else:
             self.comboBox_selectComNum.addItems(self.comDescriptionList) # 
             self.comboBox_selectComNum.setEnabled(False)
@@ -116,6 +119,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                         self.isSTM32Online = True
                                         self.comController = self.comDescription
                                         self.protocolAppendSignal.emit("测试仪在线!")
+                                        self.isAutoConnectDetectorOK = True
                                         self.comboBox_selectComNum.setCurrentText(self.comController)
                                         self.comboBox_selectComNum.setEnabled(False)
                                         self.pushBtn_serialSwitch.setText("关闭串口")
@@ -125,6 +129,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                     else:
                                         continue
                             else:
+                                QApplication.processEvents()
                                 self.isSTM32Online = False
                                 self.prvSerial.close()
                                 self.protocolAppendSignal.emit("测试仪无响应，已关闭[" + i.device + "]")
@@ -132,6 +137,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                 self.comboBox_selectComNum.setEnabled(True)
                                 break
                     except:
+                        QApplication.processEvents()
                         QMessageBox.warning(self, "打开串口", "打开串口失败")
                         # self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "] 打开失败")
                     if self.isSTM32Online == True:
@@ -150,19 +156,17 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                 self.prvSerial.close()
             self.pushBtn_serialSwitch.setText('打开串口')
         else:
-            print(str(list))
-            print(diffset)
-            try:
-                while len(diffset) > 0:
-                    s = diffset.pop()
-                    if action == 'UPON':
-                        self.protocolAppendSignal.emit("[" + s.description + "]已插入")
-                        
-                    else:
-                        self.protocolAppendSignal.emit("[" + s.description + "]已拔出")
-            except:
-                pass
-                       
+            while len(diffset) > 0:
+                s = diffset.pop()
+                if action == 'UPON':
+                    self.protocolAppendSignal.emit("[" + s.description + "]已插入")
+                    # self.comDescription = s.description
+                    # self.serialManager.initPort(s.device)
+                    # if not self.prvSerial.isOpen():
+                    #     self.prvSerial.open()
+                    # self.protocolAppendSignal.emit("已打开[" + s.device + "]")
+                else:
+                    self.protocolAppendSignal.emit("[" + s.description + "]已拔出")
             self.comboBox_selectComNum.setEnabled(True)
             self.comboBox_selectComNum.clear() # 清空端口选择按钮
             self.comPortList = self.serialMonitor.portList.copy()
@@ -188,6 +192,12 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                 self.pushBtn_serialSwitch.setText('关闭串口')
                 self.comboBox_selectComNum.setCurrentText(self.comController)
                 self.comboBox_selectComNum.setEnabled(False)
+            if self.prvSerial.isOpen():
+                # self.prvSerial.flush()
+                self.comboBox_selectComNum.setEnabled(False)
+                self.pushBtn_serialSwitch.setText('关闭串口')
+                if self.isActiveWindow():
+                    self.close()
 
     @QtCore.pyqtSlot()
     def on_pushBtn_serialSwitch_clicked(self):
@@ -239,7 +249,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                             break
                                     except:
                                         pass
-                                endTiming = dt.datetime.now()        
+                                endTiming = dt.datetime.now()  
                             if self.isSTM32Online == True:
                                 if self.firstAutoDetetion == 1: # 第一次打开软件会执行测试仪自检
                                     self.firstAutoDetetion = 0

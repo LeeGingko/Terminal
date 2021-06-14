@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from PyQt5.QtGui import QPixmap
 from UserImport import *
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -8,6 +9,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 获取程序当前工作路径
         self.currentWorkDirectory = ''
         self.currentWorkDirectory = os.getcwd()
+        self.configFolder = os.path.join(os.getcwd(), 'configurations')
+        self.createConfigurationsFolder()
         # 初始化UI
         self.initUi()
 
@@ -34,6 +37,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setWindowTitle("Detector")
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.WindowMaximizeButtonHint)
         self.setWindowState(Qt.WindowMaximized)
+        self.isEncodeOK = False
+        iconPath = os.path.join(self.currentWorkDirectory, './resources/icons/IDDD.ico')
+        self.setWindowIcon(QIcon(iconPath))
+        self.setIconSize(QSize(256, 256))
         # 状态栏初始化
         self.myStatusBar = QStatusBar()
         self.myStatusBar.setFont(QFont("Times New Roman", 16, QFont.Light))
@@ -47,11 +54,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.usualTools = Tools()
         # 配置文件路径
         self.configFile = 'config.txt'
-        self.configFilePath = os.path.join(self.currentWorkDirectory, self.configFile)
+        self.configFilePath = os.path.join(self.configFolder, self.configFile)
         # 模块状态记录
         self.devicesState = {}
         self.devicesStateFile = 'devicesState.txt'
-        self.devicesStateFilePath = os.path.join(self.currentWorkDirectory, self.devicesStateFile) # 每获取一个编号，则存入到硬盘
+        self.devicesStateFilePath = os.path.join(self.configFolder, self.devicesStateFile) # 每获取一个编号，则存入到硬盘
         # 检测结果记录存储文件，防止意外断电导致检测数据丢失
         self.resultsFile = 'results.txt'
         self.resultsFilePath = os.path.join(self.currentWorkDirectory, self.resultsFile)
@@ -71,6 +78,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.thresholdWin.thresholdAppendSignal.connect(self.userTextBrowserAppend)
         # 工作模式初始化
         self.workMode = { "encoding": "X",  "detection": "X" } # 未知状态
+        # 检测以及编码默认状态设置
+        self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/NONE)}")
+        self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/NONE)}")
         # 操作人员姓名录入
         self.is_name_input = False
         self.name = "操作员01" # 默认操作员姓名
@@ -96,6 +106,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.excelAsFilePath = "" # Excel另存为文件路径
         self.excelAsFile = "" # Excel另存为文件
         self.excelAsOpenState = False
+        self.excelRecordFile = os.path.join(self.configFolder, 'excel_save_record.txt')
+        self.createExcelRecordFile()
         # 默认检测结果
         initTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) # 检测时间
         self.resultDefaultList = [
@@ -145,9 +157,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tvMenu.addAction(self.dropSelected)
         # self.tvMenu.addAction(self.dropAll)
         self.tableView_result.customContextMenuRequested.connect(self.tvCustomContextMenuRequested)
-        # 检测以及编码默认状态设置
-        self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
-        self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
         # 编码输入验证器设置
         regValidator = QRegularExpressionValidator(self)
         reg = QRegularExpression("[A-F0-9]+$") # 字母范围A~F, 数字0~9
@@ -169,7 +178,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 使能保存和另存为
         self.pushBtn_saveResults.setEnabled(False)
         self.pushBtn_saveResultsAs.setEnabled(False)
-        # 查询返回编码
+        # 查询命令返回编码
         self.queryCode = 'FFFFF'
         # 是否只是查询编码
         self.isPureQueryCode = None
@@ -183,18 +192,17 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 接通电源参数下发定时器
         self.paraTimer = QTimer() 
         self.paraTimer.timeout.connect(self.autoSendParameters)
-        ## 界面显示前初始化
-        # 1 连接控制仪串口
-        self.protocolWin.autoConnectDetector()
-        # 2 下发参数阈值
+        # 下发参数阈值
         self.autoTimer = QTimer() # 使用定时器，防止主界面卡在步骤1中
         self.autoTimer.timeout.connect(self.autoSendParameters)
-        self.autoTimer.start(3500) # 三秒后执行参数下发
-        self.isEncodeOK = False
-        iconPath = os.path.join(self.currentWorkDirectory, 'IDDD.ico')
-        self.setWindowIcon(QIcon(iconPath))
-        self.setIconSize(QSize(256, 256))
-
+        # 1 连接控制仪串口
+        self.isAutoConnectDetectorOK = False
+        QApplication.processEvents()
+        self.protocolWin.autoConnectDetector()
+        QApplication.processEvents()
+        self.autoTimer.start(3000) # 三秒后执行参数下发
+        self.isSerialInUse = False
+        
     def showDaetTime(self, timeStr):
         self.myStatusBar.showMessage(timeStr)
     
@@ -203,6 +211,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.textBrowser.append(t + str)
         self.textBrowser.moveCursor(self.textBrowser.textCursor().End)         
     
+    def createConfigurationsFolder(self):
+        if not os.path.isdir(self.configFolder):
+            os.mkdir(self.configFolder)
+        else:
+            pass
+
     def createConfigFile(self):
         if os.path.isfile(self.configFilePath): # 文件已存在
             pass
@@ -237,6 +251,33 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         except:
             pass
 
+    def createExcelRecordFile(self):
+        if not os.path.isfile(self.excelRecordFile):
+            self.openExcelRecord()
+        else:
+            pass
+
+    def openExcelRecord(self):
+        try:
+            with open(self.excelRecordFile, "rb") as esrf:
+                oer = pk.load(esrf) # 将二进制文件对象转换成Python对象
+            self.isExcelSavedFirst = oer[0][0]
+            self.isExcelSaved = oer[0][1]
+            self.excelFilePath = oer[1]
+            self.excelFile = os.path.split(self.excelFilePath)[1]
+            # As
+            self.isExcelAsSavedFirst = oer[2][0]
+            self.isExcelAsSaved = oer[2][1]
+            self.excelAsFilePath = oer[3]
+            self.excelAsFile = os.path.split(self.excelAsFilePath)[1]
+        except:
+            pass
+    
+    def saveExcelRecord(self):
+        self.saved_info = ([self.isExcelSavedFirst, self.isExcelSaved],  self.excelFilePath, [self.isExcelAsSavedFirst, self.isExcelAsSaved], self.excelAsFilePath)
+        with open(self.excelRecordFile, "wb") as esrf:
+            pk.dump(self.saved_info, esrf) # 用dump函数将Python对象转成二进制对象文件
+    
     def createResultsFile(self):
         if os.path.isfile(self.resultsFile): # 文件已存在
             pass
@@ -281,7 +322,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     
     def deviceNoResponse(self):
         if not self.isDeviceResponsed:
-            self.userTextBrowserAppend("测试仪无响应，请重新选择串口！")
+            self.userTextBrowserAppend("测试仪无响应，请重新选择串口或检查连线！")
         self.devResponseTimer.stop()    
     
     def showOperationFile(self, path):
@@ -345,6 +386,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 #----------------------------------------UID输入完成槽函数----------------------------------------#
     @QtCore.pyqtSlot()
     def on_lineEdit_op_name_returnPressed(self):
+        self.userTextBrowserAppend('已确认输入姓名')
         self.isNameInput = True
 #----------------------------------------UID输入完成槽函数----------------------------------------#
 
@@ -362,11 +404,15 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def on_pushBtn_deviceSelfCheck_clicked(self):
         if self.protocolWin.prvSerial.isOpen() == True:
-            self.userTextBrowserAppend("测试仪自检")
-            self.getSelfCheckParameters()
-            self.lineEdit_uidInput.setFocus()
+            self.protocolWin.comIndex = self.protocolWin.comDescriptionList.index(self.protocolWin.comDescription)
+            self.portInfo = QSerialPortInfo(self.protocolWin.comPortList[self.protocolWin.comIndex].device)  # 该串口信息
+            self.portStatus = self.portInfo.isBusy()  # 该串口状态
+            if self.portStatus == True:  # 该串口空闲
+                self.userTextBrowserAppend("测试仪自检")
+                self.getSelfCheckParameters()
+                self.lineEdit_uidInput.setFocus()
         else:
-            QMessageBox.information(self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
+            QMessageBox.information(self, "串口信息", "串口未打开，请打开串口", QMessageBox.Yes)
 
     @QtCore.pyqtSlot()
     def on_pushBtn_clearUidInput_clicked(self):
@@ -410,7 +456,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.protocolWin.data = b''
                         self.protocolWin.rxCheck = 0
                         self.protocolWin.prvSerial.flushOutput()
-                        self.protocolWin.serialSendData(Func.f_DevEncoding, self.uid, '')
+                        self.protocolWin.serialSendData(Func.f_DevQueryCurrentCode, '', '')
                         self.isPureQueryCode = False
                         QApplication.processEvents()
                         self.sleepUpdate(3)
@@ -511,7 +557,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         while True:
             QApplication.processEvents()
             time.sleep(0.01)
-            if self.protocolWin.data != b"":
+            if self.protocolWin.data != b'':
                 if self.protocolWin.data[2] != 50:
                     continue
                 else:
@@ -717,34 +763,34 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.workMode["detection"] = "0" if dete == "0" else "1"
         if str[1] == "X":
             if endc == "0":
-                self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
+                self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/OFF)}")
                 self.userTextBrowserAppend("编码发生改变，编码【关闭】")
             elif endc == "1":
-                self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
+                self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/ON)}")
                 self.userTextBrowserAppend("编码发生改变，编码【开启】")
         elif str[1] == "Y":
             if dete == "0":
-                self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
+                self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/OFF)}")
                 self.userTextBrowserAppend("检测发生改变，检测【关闭】")
             elif dete == "1":
-                self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
+                self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/ON)}")
                 self.userTextBrowserAppend("检测发生改变，检测【开启】")
         elif str[1] == "Z":
             if endc == "1" and dete == "1":
-                self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
-                self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
+                self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/ON)}")
+                self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/ON)}")
                 self.userTextBrowserAppend("编码检测发生改变，编码【开启】 检测【开启】")
             elif endc == "1" and dete == "0":
-                self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
-                self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
+                self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/ON)}")
+                self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/OFF)}")
                 self.userTextBrowserAppend("编码检测发生改变，编码【开启】 检测【关闭】")
             elif endc == "0" and dete == "1":
-                self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
-                self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
+                self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/OFF)}")
+                self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/ON)}")
                 self.userTextBrowserAppend("编码检测发生改变，编码【关闭】 检测【开启】")
             elif endc == "0" and dete == "0":
-                self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
-                self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
+                self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/OFF)}")
+                self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/OFF)}")
                 self.userTextBrowserAppend("编码检测发生改变，编码【关闭】 检测【关闭】")
 
     def parseWorkMode(self):
@@ -753,28 +799,28 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         endc = wm["encoding"]
         dete = wm["detection"]
         if endc == "1" and dete == "1":
-            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/ON)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/ON)}")
             self.userTextBrowserAppend("编码【开启】 检测【开启】")
         elif endc == "1" and dete == "0":
-            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/ON)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/OFF)}")
             self.userTextBrowserAppend("编码【开启】 检测【关闭】")
         elif endc == "0" and dete == "1":
-            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/ON)}")
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/OFF)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/ON)}")
             self.userTextBrowserAppend("编码【关闭】 检测【开启】")
         elif endc == "0" and dete == "0":
-            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
-            self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/OFF)}")
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/OFF)}")
+            self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/OFF)}")
             self.userTextBrowserAppend("编码【关闭】 检测【关闭】")
             self.userTextBrowserAppend("无法进行【编码】和【检测】，请按下功能按键！")
     
     def getSelfCheckParameters(self):
         print("/*+++++++++++++++++++++++++++++++++++++++++++++*/")
         print("Checking device parameters ......")
-        self.label_detection.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
-        self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/NONE)}")
+        self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/NONE)}")
+        self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/NONE)}")
         self.label_selfLineVoltage.setText("-")
         self.label_selfLineCurrent.setText("-")
         self.label_selfComVoltage.setText("-")
@@ -785,7 +831,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.protocolWin.prvSerial.isOpen:
             self.protocolWin.data = b''
             self.protocolWin.rxCheck = 0
-            self.protocolWin.prvSerial.flush()
+            try:
+                self.protocolWin.prvSerial.flush()
+            except:
+                pass
             self.protocolWin.serialSendData(Func.f_DevGetSelfPara, '', '')
             self.isDeviceResponsed = False
             self.devResponseTimer.start(3500)
@@ -814,8 +863,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     elif cnt == 15:
                         self.thresholdWin.para = self.thresholdWin.para + ("PF" + v)
                     cnt += 1
-                self.thresholdWin.saveThreshold(self.thresholdWin.para)
-            self.autoTimer.stop()
+                if self.isAutoConnectDetectorOK == True: # 测试仪在线
+                    self.thresholdWin.saveThreshold(self.thresholdWin.para)
+            if self.autoTimer.isActive():
+                self.autoTimer.stop()
         else:
             pass
         
@@ -840,7 +891,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.parseWorkMode()
             self.isDeviceResponsed = True
         else:
-            self.userTextBrowserAppend("请接通测试仪电源")      
+            self.userTextBrowserAppend("请接通测试仪电源")
     
     def parseSettingThreshold(self):
         tmp = self.protocolWin.data.decode("utf-8")
@@ -897,7 +948,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif tmp.find("NCODE", 3, l) != -1:
             self.isEncodeOK = False
             self.workMode["encoding"] = "0"
-            self.label_encoding.setStyleSheet("QLabel{border-image: url(:/icons/close)}")
+            self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/close)}")
             self.userTextBrowserAppend("无法进行编码，请检查编码按键！")
         self.lineEdit_uidInput.setFocus()
 
@@ -1103,28 +1154,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.showOperationFile('') 
             self.userTextBrowserAppend(self.excelFilePath + "文件已被删除或移动，请重新创建文件！")
         self.saveExcelRecord()
-
-    def openExcelRecord(self):
-        try:
-            with open("excel_save_record.txt", "rb") as esrf:
-                oer = pk.load(esrf) # 将二进制文件对象转换成Python对象
-            self.isExcelSavedFirst = oer[0][0]
-            self.isExcelSaved = oer[0][1]
-            self.excelFilePath = oer[1]
-            self.excelFile = os.path.split(self.excelFilePath)[1]
-            # As
-            self.isExcelAsSavedFirst = oer[2][0]
-            self.isExcelAsSaved = oer[2][1]
-            self.excelAsFilePath = oer[3]
-            self.excelAsFile = os.path.split(self.excelAsFilePath)[1]
-        except:
-            pass
-    
-    def saveExcelRecord(self):
-        self.saved_info = ([self.isExcelSavedFirst, self.isExcelSaved],  self.excelFilePath, [self.isExcelAsSavedFirst, self.isExcelAsSaved], self.excelAsFilePath)
-        with open("excel_save_record.txt", "wb") as esrf:
-            pk.dump(self.saved_info, esrf) # 用dump函数将Python对象转成二进制对象文件
-           
+         
     def sleepUpdate(self, sec):
         cnt = 0
         while True:
@@ -1135,7 +1165,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 break
 
     def closeEvent(self, QCloseEvent):
-        choice = QMessageBox.question(self, "关闭程序", "是否退出程序？", QMessageBox.Yes | QMessageBox.Cancel)
+        choice = QMessageBox.warning(self, "关闭程序", "是否退出程序？", QMessageBox.Yes | QMessageBox.Cancel)
         if choice == QMessageBox.Yes:
             QCloseEvent.accept()
             if self.protocolWin.prvSerial.isOpen():

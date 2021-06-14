@@ -1163,7 +1163,7 @@ border:2px solid rgb(0, 0, 0);</string>
         <property name="geometry">
          <rect>
           <x>272</x>
-          <y>-2</y>
+          <y>0</y>
           <width>90</width>
           <height>90</height>
          </rect>
@@ -1176,7 +1176,7 @@ border:2px solid rgb(0, 0, 0);</string>
         <property name="geometry">
          <rect>
           <x>84</x>
-          <y>-2</y>
+          <y>0</y>
           <width>90</width>
           <height>90</height>
          </rect>

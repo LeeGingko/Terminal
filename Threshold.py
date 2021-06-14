@@ -54,9 +54,10 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
         centerY = int((self.height - self.Wsize.height()) / 2)
         self.move(centerX, centerY)
         self.setWindowTitle("Threshold")
-        iconPath = os.path.join(os.getcwd(),'IDDD.ico')
+        iconPath = os.path.join(os.getcwd(),'./resources/icons/IDDD.ico')
         self.setWindowIcon(QIcon(iconPath))
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
+        self.configFolder = os.path.join(os.getcwd(), 'configurations')
 
     def getUserPara(self):
         self.paraDict["th_DrainCurrent_Up"  ] = self.lineEdit_setDrainCurrentTop.text()
@@ -170,16 +171,8 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
     
     @QtCore.pyqtSlot()
     def on_pushBtn_readSettingsRecord_clicked(self):
-        # f = os.path.join(os.path.os.getcwd(), 'config.txt')
-        # s = self.isFileOpened('config.txt')
-        # if s == True:
-        #     self.thresholdAppendSignal.emit("【config.txt】配置文件已打开")
-        # else:
-        settingfile, _ = QFileDialog.getOpenFileName(self, "打开配置文件", './config.txt', 'settingfile (config.txt)')
+        file = os.path.join(self.configFolder, 'config.txt')
+        settingfile, _ = QFileDialog.getOpenFileName(self, "打开配置文件", file, 'settingfile (config.txt)')
         if settingfile:
             os.startfile(settingfile)
-            self.close()
-
-        
-        
-            
+            self.close()         

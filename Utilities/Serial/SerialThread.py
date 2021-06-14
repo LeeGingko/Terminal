@@ -30,7 +30,7 @@ class PrivateSerialThread(QThread):
 
     def run(self):
         while True:
-            self.msleep(5)
+            self.msleep(10)
             self.data = b''
             tmp = ''
             if self.inUseSerial.isOpen():
@@ -42,9 +42,9 @@ class PrivateSerialThread(QThread):
                         # self.inUseSerial.flushInput()
                         self.inUseSerial.read(self.num)
                     else:
-                        self.msleep(5)
+                        self.msleep(10)
                         self.num = self.inUseSerial.inWaiting()
-                        if self.num >= 9: # 正常接收，至少都是9字节
+                        if self.num >= 9: # 正常通信，至少都是9字节
                             # print("@PrivateSerialThread->run->" + str(self.num)) # 输出收到的字节数
                             self.data = self.inUseSerial.read(self.num)
                             tmp = self.data.decode("utf-8")
@@ -60,8 +60,9 @@ class PrivateSerialThread(QThread):
                         else:
                             if tmp[0] == "R": # bug->诸如RX1015\r\n之类的
                                 self.recvSignal.emit(self.data)
+                            else:
+                                self.inUseSerial.flushInput()
                 except:
-                    # self.recvSignal.emit(bytes("接收数据失败", encoding = "utf-8"))
                     pass
             else:
                 pass
