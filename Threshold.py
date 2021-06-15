@@ -21,6 +21,7 @@ from Utilities.Enum.FuncEnum import Func
 
 class ThresholdWin(QDialog, Ui_ThresholdDialog):
     thresholdAppendSignal = pyqtSignal(str)
+    openFileSignal = pyqtSignal(str)
 
     def __init__(self):
         super(ThresholdWin, self).__init__()  # 继承父类的所有属性
@@ -175,4 +176,5 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
         settingfile, _ = QFileDialog.getOpenFileName(self, "打开配置文件", file, 'settingfile (config.txt)')
         if settingfile:
             os.startfile(settingfile)
-            self.close()         
+            self.openFileSignal.emit(settingfile)
+            self.close()     

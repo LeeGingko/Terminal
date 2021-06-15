@@ -56,6 +56,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.comDescription = ''
         self.comController = ''
         self.comIndex = 0
+        self.isAutoConnectDetectorOK = False
 
     def initUi(self):
         self.setupUi(self)
@@ -109,11 +110,8 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                             # print("Port num:" + str(num)) # 输出收到的字节数
                             endTiming = dt.datetime.now()
                             if (endTiming - startTiming).seconds <= 2:
-                                if num == 0:
-                                    continue
-                                elif (num > 0 and num <= 4):
-                                    self.prvSerial.flushInput()
-                                elif num >= 5:
+                                QApplication.processEvents()
+                                if num >= 5:
                                     data = self.prvSerial.read(num)
                                     if data.decode("utf-8") == "STM32":
                                         self.isSTM32Online = True
@@ -128,10 +126,15 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                         break
                                     else:
                                         continue
+                                elif num == 0:
+                                    continue
+                                elif (num > 0 and num <= 4):
+                                    self.prvSerial.flushInput()
                             else:
                                 QApplication.processEvents()
                                 self.isSTM32Online = False
                                 self.prvSerial.close()
+                                self.isAutoConnectDetectorOK = False
                                 self.protocolAppendSignal.emit("测试仪无响应，已关闭[" + i.device + "]")
                                 self.pushBtn_serialSwitch.setText("打开串口")
                                 self.comboBox_selectComNum.setEnabled(True)
@@ -139,6 +142,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                     except:
                         QApplication.processEvents()
                         QMessageBox.warning(self, "打开串口", "打开串口失败")
+                        self.isAutoConnectDetectorOK = False
                         # self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "] 打开失败")
                     if self.isSTM32Online == True:
                         break

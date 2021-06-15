@@ -76,8 +76,8 @@
         <rect>
          <x>8</x>
          <y>18</y>
-         <width>237</width>
-         <height>75</height>
+         <width>240</width>
+         <height>81</height>
         </rect>
        </property>
        <property name="palette">
@@ -534,7 +534,7 @@
         <string notr="true">QGroupBox{
 	border-radius: 4px;
     border:1.5px groove gray;
-	border-color: rgb(85, 85, 127);
+	border-color: rgb(76, 76, 76);
 }</string>
        </property>
        <property name="title">
@@ -552,9 +552,9 @@
        <widget class="QLineEdit" name="lineEdit_op_name">
         <property name="geometry">
          <rect>
-          <x>70</x>
-          <y>24</y>
-          <width>159</width>
+          <x>8</x>
+          <y>28</y>
+          <width>225</width>
           <height>43</height>
          </rect>
         </property>
@@ -566,6 +566,9 @@
           <bold>false</bold>
           <stylestrategy>PreferDefault</stylestrategy>
          </font>
+        </property>
+        <property name="toolTip">
+         <string>中文最多7字符，英文最多15字符</string>
         </property>
         <property name="statusTip">
          <string/>
@@ -586,42 +589,24 @@ border:2px solid rgb(0, 0, 0);</string>
         <property name="frame">
          <bool>true</bool>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="placeholderText">
+         <string>请输入您的姓名!</string>
+        </property>
         <property name="clearButtonEnabled">
          <bool>false</bool>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_op_name">
-        <property name="geometry">
-         <rect>
-          <x>8</x>
-          <y>28</y>
-          <width>59</width>
-          <height>37</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>幼圆</family>
-          <pointsize>20</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>姓名</string>
-        </property>
-        <property name="textFormat">
-         <enum>Qt::AutoText</enum>
         </property>
        </widget>
       </widget>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="geometry">
         <rect>
-         <x>248</x>
+         <x>254</x>
          <y>18</y>
-         <width>389</width>
-         <height>75</height>
+         <width>385</width>
+         <height>81</height>
         </rect>
        </property>
        <property name="palette">
@@ -1078,7 +1063,7 @@ border:2px solid rgb(0, 0, 0);</string>
         <string notr="true">QGroupBox{
 	border-radius: 4px;
     border:1.5px groove gray;
-	border-color: rgb(85, 85, 127);
+	border-color: rgb(76, 76, 76);
 }</string>
        </property>
        <property name="title">
@@ -1091,7 +1076,7 @@ border:2px solid rgb(0, 0, 0);</string>
         <property name="geometry">
          <rect>
           <x>204</x>
-          <y>26</y>
+          <y>32</y>
           <width>64</width>
           <height>33</height>
          </rect>
@@ -1103,6 +1088,9 @@ border:2px solid rgb(0, 0, 0);</string>
           <weight>50</weight>
           <bold>false</bold>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
         </property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
@@ -1127,7 +1115,7 @@ border:2px solid rgb(0, 0, 0);</string>
         <property name="geometry">
          <rect>
           <x>16</x>
-          <y>26</y>
+          <y>32</y>
           <width>64</width>
           <height>33</height>
          </rect>
@@ -1139,6 +1127,9 @@ border:2px solid rgb(0, 0, 0);</string>
           <weight>50</weight>
           <bold>false</bold>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
         </property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
@@ -1163,7 +1154,7 @@ border:2px solid rgb(0, 0, 0);</string>
         <property name="geometry">
          <rect>
           <x>272</x>
-          <y>0</y>
+          <y>4</y>
           <width>90</width>
           <height>90</height>
          </rect>
@@ -1176,7 +1167,7 @@ border:2px solid rgb(0, 0, 0);</string>
         <property name="geometry">
          <rect>
           <x>84</x>
-          <y>0</y>
+          <y>4</y>
           <width>90</width>
           <height>90</height>
          </rect>
@@ -1185,14 +1176,100 @@ border:2px solid rgb(0, 0, 0);</string>
          <string/>
         </property>
        </widget>
+       <widget class="QLabel" name="label_operator_12">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>22</y>
+          <width>175</width>
+          <height>53</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>幼圆</family>
+          <pointsize>18</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	border-radius: 4px;
+    border:1.5px groove gray;
+	border-color: rgb(76, 76, 76);
+}</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_operator_14">
+        <property name="geometry">
+         <rect>
+          <x>198</x>
+          <y>22</y>
+          <width>175</width>
+          <height>53</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>幼圆</family>
+          <pointsize>18</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	border-radius: 4px;
+    border:1.5px groove gray;
+	border-color: rgb(76, 76, 76);
+}</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <zorder>label_operator_14</zorder>
+       <zorder>label_operator_12</zorder>
+       <zorder>label_operator_3</zorder>
+       <zorder>label_operator_2</zorder>
+       <zorder>label_detection</zorder>
+       <zorder>label_encoding</zorder>
       </widget>
       <widget class="QFrame" name="frame">
        <property name="geometry">
         <rect>
          <x>8</x>
-         <y>102</y>
+         <y>104</y>
          <width>631</width>
-         <height>151</height>
+         <height>153</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -1212,7 +1289,7 @@ border:2px solid rgb(0, 0, 0);</string>
         <property name="geometry">
          <rect>
           <x>524</x>
-          <y>110</y>
+          <y>108</y>
           <width>65</width>
           <height>35</height>
          </rect>
@@ -1270,7 +1347,7 @@ border-color: rgb(0, 170, 0);</string>
         <property name="geometry">
          <rect>
           <x>220</x>
-          <y>10</y>
+          <y>12</y>
           <width>102</width>
           <height>35</height>
          </rect>
@@ -1307,7 +1384,7 @@ border-color: rgb(0, 170, 0);</string>
         <property name="geometry">
          <rect>
           <x>588</x>
-          <y>10</y>
+          <y>12</y>
           <width>38</width>
           <height>35</height>
          </rect>
@@ -1374,6 +1451,12 @@ QPushButton:hover:pressed{
         </property>
         <property name="shortcut">
          <string>Ctrl+2</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
         </property>
        </widget>
        <widget class="QLabel" name="label_operator_7">
@@ -1448,6 +1531,12 @@ QPushButton:hover:pressed{
         <property name="shortcut">
          <string>Ctrl+2</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
        </widget>
        <widget class="QPushButton" name="pushBtn_deviceSelfCheck">
         <property name="geometry">
@@ -1485,12 +1574,18 @@ QPushButton:hover:pressed{
         <property name="shortcut">
          <string>Ctrl+2</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
        </widget>
        <widget class="QLabel" name="label_operator_6">
         <property name="geometry">
          <rect>
           <x>422</x>
-          <y>10</y>
+          <y>12</y>
           <width>102</width>
           <height>35</height>
          </rect>
@@ -1527,7 +1622,7 @@ QPushButton:hover:pressed{
         <property name="geometry">
          <rect>
           <x>220</x>
-          <y>110</y>
+          <y>108</y>
           <width>102</width>
           <height>35</height>
          </rect>
@@ -1638,7 +1733,7 @@ QPushButton:hover:pressed{
         <property name="geometry">
          <rect>
           <x>524</x>
-          <y>10</y>
+          <y>12</y>
           <width>65</width>
           <height>35</height>
          </rect>
@@ -1733,7 +1828,7 @@ border-color: rgb(0, 170, 0);</string>
         <property name="geometry">
          <rect>
           <x>382</x>
-          <y>10</y>
+          <y>12</y>
           <width>35</width>
           <height>35</height>
          </rect>
@@ -1770,7 +1865,7 @@ border-color: rgb(0, 170, 0);</string>
         <property name="geometry">
          <rect>
           <x>322</x>
-          <y>110</y>
+          <y>108</y>
           <width>60</width>
           <height>35</height>
          </rect>
@@ -1829,7 +1924,7 @@ border-color: rgb(0, 170, 0);</string>
         <property name="geometry">
          <rect>
           <x>322</x>
-          <y>10</y>
+          <y>12</y>
           <width>60</width>
           <height>35</height>
          </rect>
@@ -1888,7 +1983,7 @@ border-color: rgb(0, 170, 0);</string>
         <property name="geometry">
          <rect>
           <x>422</x>
-          <y>110</y>
+          <y>108</y>
           <width>102</width>
           <height>35</height>
          </rect>
@@ -2042,7 +2137,7 @@ border-color: rgb(0, 170, 0);</string>
         <property name="geometry">
          <rect>
           <x>588</x>
-          <y>110</y>
+          <y>108</y>
           <width>38</width>
           <height>35</height>
          </rect>
@@ -2079,7 +2174,7 @@ border-color: rgb(0, 170, 0);</string>
         <property name="geometry">
          <rect>
           <x>382</x>
-          <y>110</y>
+          <y>108</y>
           <width>35</width>
           <height>35</height>
          </rect>
@@ -2130,9 +2225,9 @@ border-color: rgb(0, 170, 0);</string>
        <property name="geometry">
         <rect>
          <x>8</x>
-         <y>276</y>
+         <y>280</y>
          <width>631</width>
-         <height>177</height>
+         <height>175</height>
         </rect>
        </property>
        <property name="font">
@@ -2203,12 +2298,18 @@ QPushButton:hover:pressed{
         <property name="shortcut">
          <string>Ctrl+4</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
        </widget>
        <widget class="QPushButton" name="pushBtn_deviceEncoding">
         <property name="geometry">
          <rect>
           <x>210</x>
-          <y>20</y>
+          <y>18</y>
           <width>200</width>
           <height>45</height>
          </rect>
@@ -2245,12 +2346,18 @@ QPushButton:hover:pressed{
         <property name="shortcut">
          <string>Ctrl+5</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
        </widget>
        <widget class="QLineEdit" name="lineEdit_uidInput">
         <property name="geometry">
          <rect>
           <x>8</x>
-          <y>20</y>
+          <y>18</y>
           <width>180</width>
           <height>43</height>
          </rect>
@@ -2258,7 +2365,7 @@ QPushButton:hover:pressed{
         <property name="font">
          <font>
           <family>Times New Roman</family>
-          <pointsize>22</pointsize>
+          <pointsize>20</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -2281,6 +2388,12 @@ border:2px solid rgb(0, 0, 0);</string>
         </property>
         <property name="echoMode">
          <enum>QLineEdit::Normal</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="placeholderText">
+         <string>完整五位编码</string>
         </property>
         <property name="cursorMoveStyle">
          <enum>Qt::LogicalMoveStyle</enum>
@@ -2324,6 +2437,15 @@ QPushButton:hover:pressed{
         <property name="shortcut">
          <string>Ctrl+6</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
        </widget>
        <widget class="QPushButton" name="pushBtn_deviceEncodingDetection">
         <property name="geometry">
@@ -2360,12 +2482,18 @@ QPushButton:hover:pressed{
         <property name="shortcut">
          <string>Ctrl+7</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
        </widget>
        <widget class="QPushButton" name="pushBtn_queryCode">
         <property name="geometry">
          <rect>
           <x>422</x>
-          <y>20</y>
+          <y>18</y>
           <width>200</width>
           <height>45</height>
          </rect>
@@ -2396,6 +2524,12 @@ QPushButton:hover:pressed{
         <property name="shortcut">
          <string>Ctrl+3</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
        </widget>
        <widget class="Line" name="line_6">
         <property name="geometry">
@@ -2403,7 +2537,7 @@ QPushButton:hover:pressed{
           <x>192</x>
           <y>0</y>
           <width>16</width>
-          <height>123</height>
+          <height>125</height>
          </rect>
         </property>
         <property name="palette">
@@ -2856,7 +2990,7 @@ QPushButton:hover:pressed{
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>114</y>
+          <y>116</y>
           <width>631</width>
           <height>16</height>
          </rect>
@@ -3311,7 +3445,7 @@ QPushButton:hover:pressed{
         <property name="geometry">
          <rect>
           <x>508</x>
-          <y>132</y>
+          <y>130</y>
           <width>117</width>
           <height>40</height>
          </rect>
@@ -3342,12 +3476,18 @@ QPushButton:hover:pressed{
         <property name="shortcut">
          <string>Ctrl+/</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
        </widget>
        <widget class="QPushButton" name="pushBtn_saveResults">
         <property name="geometry">
          <rect>
           <x>334</x>
-          <y>132</y>
+          <y>130</y>
           <width>73</width>
           <height>40</height>
          </rect>
@@ -3384,14 +3524,20 @@ QPushButton:hover:pressed{
         <property name="shortcut">
          <string>Ctrl+0</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
        </widget>
        <widget class="Line" name="line_8">
         <property name="geometry">
          <rect>
           <x>496</x>
-          <y>122</y>
+          <y>124</y>
           <width>16</width>
-          <height>61</height>
+          <height>57</height>
          </rect>
         </property>
         <property name="palette">
@@ -3844,7 +3990,7 @@ QPushButton:hover:pressed{
         <property name="geometry">
          <rect>
           <x>6</x>
-          <y>132</y>
+          <y>130</y>
           <width>175</width>
           <height>40</height>
          </rect>
@@ -3881,12 +4027,18 @@ QPushButton:hover:pressed{
         <property name="shortcut">
          <string>Ctrl+0</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
        </widget>
        <widget class="QPushButton" name="pushBtn_clearResults">
         <property name="geometry">
          <rect>
           <x>260</x>
-          <y>132</y>
+          <y>130</y>
           <width>71</width>
           <height>40</height>
          </rect>
@@ -3917,12 +4069,18 @@ QPushButton:hover:pressed{
         <property name="shortcut">
          <string>Ctrl+0</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
        </widget>
        <widget class="QPushButton" name="pushBtn_saveResultsAs">
         <property name="geometry">
          <rect>
           <x>410</x>
-          <y>132</y>
+          <y>130</y>
           <width>91</width>
           <height>40</height>
          </rect>
@@ -3959,12 +4117,18 @@ QPushButton:hover:pressed{
         <property name="shortcut">
          <string>Ctrl+0</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
        </widget>
        <widget class="QPushButton" name="pushBtn_showResults">
         <property name="geometry">
          <rect>
           <x>184</x>
-          <y>132</y>
+          <y>130</y>
           <width>73</width>
           <height>40</height>
          </rect>
@@ -3995,13 +4159,19 @@ QPushButton:hover:pressed{
         <property name="shortcut">
          <string>Ctrl+0</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
        </widget>
       </widget>
       <widget class="QLabel" name="label_operator_9">
        <property name="geometry">
         <rect>
          <x>264</x>
-         <y>260</y>
+         <y>264</y>
          <width>113</width>
          <height>33</height>
         </rect>
@@ -4041,10 +4211,10 @@ QPushButton:hover:pressed{
       <widget class="QLabel" name="label_operator_10">
        <property name="geometry">
         <rect>
-         <x>100</x>
+         <x>52</x>
          <y>2</y>
-         <width>113</width>
-         <height>33</height>
+         <width>150</width>
+         <height>35</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -4066,11 +4236,11 @@ QPushButton:hover:pressed{
 	background-color: rgb(225, 225, 225);
 	border-radius: 4px;
     border:1.5px groove gray;
-	border-color: rgb(85, 85, 127);
+	border-color: rgb(76, 76, 76);
 }</string>
        </property>
        <property name="text">
-        <string>操作员</string>
+        <string>操作员姓名</string>
        </property>
        <property name="textFormat">
         <enum>Qt::AutoText</enum>
@@ -4082,10 +4252,10 @@ QPushButton:hover:pressed{
       <widget class="QLabel" name="label_operator_11">
        <property name="geometry">
         <rect>
-         <x>386</x>
+         <x>370</x>
          <y>2</y>
-         <width>113</width>
-         <height>33</height>
+         <width>150</width>
+         <height>35</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -4107,7 +4277,7 @@ QPushButton:hover:pressed{
 	background-color: rgb(225, 225, 225);
 	border-radius: 4px;
     border:1.5px groove gray;
-	border-color: rgb(85, 85, 127);
+	border-color: rgb(76, 76, 76);
 }</string>
        </property>
        <property name="text">
@@ -4381,7 +4551,7 @@ QPushButton:hover:pressed{
       <property name="styleSheet">
        <string notr="true">QTextBrowser {
 	border-radius: 5px;
-	border:2px solid rgb(85, 85, 255);
+	border:2px solid rgb(123, 123, 184);
 	font: 16pt &quot;Cascadia Mono PL SemiLight&quot;;
 }</string>
       </property>
@@ -4882,6 +5052,9 @@ p, li { white-space: pre-wrap; }
       </property>
       <attribute name="horizontalHeaderMinimumSectionSize">
        <number>54</number>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
       </attribute>
       <attribute name="verticalHeaderMinimumSectionSize">
        <number>54</number>

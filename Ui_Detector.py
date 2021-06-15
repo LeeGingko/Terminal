@@ -43,7 +43,7 @@ class Ui_MainWindow(object):
         self.groupBox_6.setTitle("")
         self.groupBox_6.setObjectName("groupBox_6")
         self.groupBox = QtWidgets.QGroupBox(self.groupBox_6)
-        self.groupBox.setGeometry(QtCore.QRect(8, 18, 237, 75))
+        self.groupBox.setGeometry(QtCore.QRect(8, 18, 240, 81))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -199,7 +199,7 @@ class Ui_MainWindow(object):
         self.groupBox.setStyleSheet("QGroupBox{\n"
 "    border-radius: 4px;\n"
 "    border:1.5px groove gray;\n"
-"    border-color: rgb(85, 85, 127);\n"
+"    border-color: rgb(76, 76, 76);\n"
 "}")
         self.groupBox.setTitle("")
         self.groupBox.setAlignment(QtCore.Qt.AlignCenter)
@@ -207,7 +207,7 @@ class Ui_MainWindow(object):
         self.groupBox.setCheckable(False)
         self.groupBox.setObjectName("groupBox")
         self.lineEdit_op_name = QtWidgets.QLineEdit(self.groupBox)
-        self.lineEdit_op_name.setGeometry(QtCore.QRect(70, 24, 159, 43))
+        self.lineEdit_op_name.setGeometry(QtCore.QRect(8, 28, 225, 43))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(20)
@@ -222,20 +222,11 @@ class Ui_MainWindow(object):
         self.lineEdit_op_name.setInputMask("")
         self.lineEdit_op_name.setText("")
         self.lineEdit_op_name.setFrame(True)
+        self.lineEdit_op_name.setAlignment(QtCore.Qt.AlignCenter)
         self.lineEdit_op_name.setClearButtonEnabled(False)
         self.lineEdit_op_name.setObjectName("lineEdit_op_name")
-        self.label_op_name = QtWidgets.QLabel(self.groupBox)
-        self.label_op_name.setGeometry(QtCore.QRect(8, 28, 59, 37))
-        font = QtGui.QFont()
-        font.setFamily("幼圆")
-        font.setPointSize(20)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_op_name.setFont(font)
-        self.label_op_name.setTextFormat(QtCore.Qt.AutoText)
-        self.label_op_name.setObjectName("label_op_name")
         self.groupBox_2 = QtWidgets.QGroupBox(self.groupBox_6)
-        self.groupBox_2.setGeometry(QtCore.QRect(248, 18, 389, 75))
+        self.groupBox_2.setGeometry(QtCore.QRect(254, 18, 385, 81))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -391,19 +382,20 @@ class Ui_MainWindow(object):
         self.groupBox_2.setStyleSheet("QGroupBox{\n"
 "    border-radius: 4px;\n"
 "    border:1.5px groove gray;\n"
-"    border-color: rgb(85, 85, 127);\n"
+"    border-color: rgb(76, 76, 76);\n"
 "}")
         self.groupBox_2.setTitle("")
         self.groupBox_2.setAlignment(QtCore.Qt.AlignCenter)
         self.groupBox_2.setObjectName("groupBox_2")
         self.label_operator_3 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_operator_3.setGeometry(QtCore.QRect(204, 26, 64, 33))
+        self.label_operator_3.setGeometry(QtCore.QRect(204, 32, 64, 33))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(20)
         font.setBold(False)
         font.setWeight(50)
         self.label_operator_3.setFont(font)
+        self.label_operator_3.setStyleSheet("")
         self.label_operator_3.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.label_operator_3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.label_operator_3.setLineWidth(2)
@@ -411,13 +403,14 @@ class Ui_MainWindow(object):
         self.label_operator_3.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_3.setObjectName("label_operator_3")
         self.label_operator_2 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_operator_2.setGeometry(QtCore.QRect(16, 26, 64, 33))
+        self.label_operator_2.setGeometry(QtCore.QRect(16, 32, 64, 33))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(20)
         font.setBold(False)
         font.setWeight(50)
         self.label_operator_2.setFont(font)
+        self.label_operator_2.setStyleSheet("")
         self.label_operator_2.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.label_operator_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.label_operator_2.setLineWidth(2)
@@ -425,15 +418,65 @@ class Ui_MainWindow(object):
         self.label_operator_2.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_2.setObjectName("label_operator_2")
         self.label_detection = QtWidgets.QLabel(self.groupBox_2)
-        self.label_detection.setGeometry(QtCore.QRect(272, 0, 90, 90))
+        self.label_detection.setGeometry(QtCore.QRect(272, 4, 90, 90))
         self.label_detection.setText("")
         self.label_detection.setObjectName("label_detection")
         self.label_encoding = QtWidgets.QLabel(self.groupBox_2)
-        self.label_encoding.setGeometry(QtCore.QRect(84, 0, 90, 90))
+        self.label_encoding.setGeometry(QtCore.QRect(84, 4, 90, 90))
         self.label_encoding.setText("")
         self.label_encoding.setObjectName("label_encoding")
+        self.label_operator_12 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_operator_12.setGeometry(QtCore.QRect(10, 22, 175, 53))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_operator_12.sizePolicy().hasHeightForWidth())
+        self.label_operator_12.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("幼圆")
+        font.setPointSize(18)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_operator_12.setFont(font)
+        self.label_operator_12.setStyleSheet("QLabel{\n"
+"    border-radius: 4px;\n"
+"    border:1.5px groove gray;\n"
+"    border-color: rgb(76, 76, 76);\n"
+"}")
+        self.label_operator_12.setText("")
+        self.label_operator_12.setTextFormat(QtCore.Qt.AutoText)
+        self.label_operator_12.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_operator_12.setObjectName("label_operator_12")
+        self.label_operator_14 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_operator_14.setGeometry(QtCore.QRect(198, 22, 175, 53))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_operator_14.sizePolicy().hasHeightForWidth())
+        self.label_operator_14.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("幼圆")
+        font.setPointSize(18)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_operator_14.setFont(font)
+        self.label_operator_14.setStyleSheet("QLabel{\n"
+"    border-radius: 4px;\n"
+"    border:1.5px groove gray;\n"
+"    border-color: rgb(76, 76, 76);\n"
+"}")
+        self.label_operator_14.setText("")
+        self.label_operator_14.setTextFormat(QtCore.Qt.AutoText)
+        self.label_operator_14.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_operator_14.setObjectName("label_operator_14")
+        self.label_operator_14.raise_()
+        self.label_operator_12.raise_()
+        self.label_operator_3.raise_()
+        self.label_operator_2.raise_()
+        self.label_detection.raise_()
+        self.label_encoding.raise_()
         self.frame = QtWidgets.QFrame(self.groupBox_6)
-        self.frame.setGeometry(QtCore.QRect(8, 102, 631, 151))
+        self.frame.setGeometry(QtCore.QRect(8, 104, 631, 153))
         self.frame.setStyleSheet("QFrame{\n"
 "    border-radius: 8px;\n"
 "    border:2px groove gray;\n"
@@ -443,7 +486,7 @@ class Ui_MainWindow(object):
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
         self.label_selfFireCurrent = QtWidgets.QLabel(self.frame)
-        self.label_selfFireCurrent.setGeometry(QtCore.QRect(524, 110, 65, 35))
+        self.label_selfFireCurrent.setGeometry(QtCore.QRect(524, 108, 65, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -468,7 +511,7 @@ class Ui_MainWindow(object):
         self.label_selfFireCurrent.setOpenExternalLinks(False)
         self.label_selfFireCurrent.setObjectName("label_selfFireCurrent")
         self.label_operator_5 = QtWidgets.QLabel(self.frame)
-        self.label_operator_5.setGeometry(QtCore.QRect(220, 10, 102, 35))
+        self.label_operator_5.setGeometry(QtCore.QRect(220, 12, 102, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -486,7 +529,7 @@ class Ui_MainWindow(object):
         self.label_operator_5.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_5.setObjectName("label_operator_5")
         self.label_operator_22 = QtWidgets.QLabel(self.frame)
-        self.label_operator_22.setGeometry(QtCore.QRect(588, 10, 38, 35))
+        self.label_operator_22.setGeometry(QtCore.QRect(588, 12, 38, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -519,6 +562,8 @@ class Ui_MainWindow(object):
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(0, 170, 255);\n"
 "}")
+        self.pushBtn_protocolSetting.setAutoDefault(False)
+        self.pushBtn_protocolSetting.setDefault(False)
         self.pushBtn_protocolSetting.setObjectName("pushBtn_protocolSetting")
         self.label_operator_7 = QtWidgets.QLabel(self.frame)
         self.label_operator_7.setGeometry(QtCore.QRect(220, 60, 102, 35))
@@ -554,6 +599,8 @@ class Ui_MainWindow(object):
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(0, 170, 255);\n"
 "}")
+        self.pushBtn_thresholdSetting.setAutoDefault(False)
+        self.pushBtn_thresholdSetting.setDefault(False)
         self.pushBtn_thresholdSetting.setObjectName("pushBtn_thresholdSetting")
         self.pushBtn_deviceSelfCheck = QtWidgets.QPushButton(self.frame)
         self.pushBtn_deviceSelfCheck.setGeometry(QtCore.QRect(140, 10, 73, 135))
@@ -571,9 +618,11 @@ class Ui_MainWindow(object):
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(0, 170, 255);\n"
 "}")
+        self.pushBtn_deviceSelfCheck.setAutoDefault(False)
+        self.pushBtn_deviceSelfCheck.setDefault(False)
         self.pushBtn_deviceSelfCheck.setObjectName("pushBtn_deviceSelfCheck")
         self.label_operator_6 = QtWidgets.QLabel(self.frame)
-        self.label_operator_6.setGeometry(QtCore.QRect(422, 10, 102, 35))
+        self.label_operator_6.setGeometry(QtCore.QRect(422, 12, 102, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -591,7 +640,7 @@ class Ui_MainWindow(object):
         self.label_operator_6.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_6.setObjectName("label_operator_6")
         self.label_operator_18 = QtWidgets.QLabel(self.frame)
-        self.label_operator_18.setGeometry(QtCore.QRect(220, 110, 102, 35))
+        self.label_operator_18.setGeometry(QtCore.QRect(220, 108, 102, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -645,7 +694,7 @@ class Ui_MainWindow(object):
         self.label_operator_23.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_23.setObjectName("label_operator_23")
         self.label_selfLineCurrent = QtWidgets.QLabel(self.frame)
-        self.label_selfLineCurrent.setGeometry(QtCore.QRect(524, 10, 65, 35))
+        self.label_selfLineCurrent.setGeometry(QtCore.QRect(524, 12, 65, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -688,7 +737,7 @@ class Ui_MainWindow(object):
         self.label_operator_13.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_13.setObjectName("label_operator_13")
         self.label_operator_21 = QtWidgets.QLabel(self.frame)
-        self.label_operator_21.setGeometry(QtCore.QRect(382, 10, 35, 35))
+        self.label_operator_21.setGeometry(QtCore.QRect(382, 12, 35, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -706,7 +755,7 @@ class Ui_MainWindow(object):
         self.label_operator_21.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_21.setObjectName("label_operator_21")
         self.label_selfFireVoltage = QtWidgets.QLabel(self.frame)
-        self.label_selfFireVoltage.setGeometry(QtCore.QRect(322, 110, 60, 35))
+        self.label_selfFireVoltage.setGeometry(QtCore.QRect(322, 108, 60, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -732,7 +781,7 @@ class Ui_MainWindow(object):
         self.label_selfFireVoltage.setOpenExternalLinks(False)
         self.label_selfFireVoltage.setObjectName("label_selfFireVoltage")
         self.label_selfLineVoltage = QtWidgets.QLabel(self.frame)
-        self.label_selfLineVoltage.setGeometry(QtCore.QRect(322, 10, 60, 35))
+        self.label_selfLineVoltage.setGeometry(QtCore.QRect(322, 12, 60, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -758,7 +807,7 @@ class Ui_MainWindow(object):
         self.label_selfLineVoltage.setOpenExternalLinks(False)
         self.label_selfLineVoltage.setObjectName("label_selfLineVoltage")
         self.label_operator_8 = QtWidgets.QLabel(self.frame)
-        self.label_operator_8.setGeometry(QtCore.QRect(422, 110, 102, 35))
+        self.label_operator_8.setGeometry(QtCore.QRect(422, 108, 102, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -827,7 +876,7 @@ class Ui_MainWindow(object):
         self.label_selfComVoltage.setOpenExternalLinks(False)
         self.label_selfComVoltage.setObjectName("label_selfComVoltage")
         self.label_operator_27 = QtWidgets.QLabel(self.frame)
-        self.label_operator_27.setGeometry(QtCore.QRect(588, 110, 38, 35))
+        self.label_operator_27.setGeometry(QtCore.QRect(588, 108, 38, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -845,7 +894,7 @@ class Ui_MainWindow(object):
         self.label_operator_27.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_27.setObjectName("label_operator_27")
         self.label_operator_40 = QtWidgets.QLabel(self.frame)
-        self.label_operator_40.setGeometry(QtCore.QRect(382, 110, 35, 35))
+        self.label_operator_40.setGeometry(QtCore.QRect(382, 108, 35, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -868,7 +917,7 @@ class Ui_MainWindow(object):
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
         self.groupBox_3 = QtWidgets.QGroupBox(self.groupBox_6)
-        self.groupBox_3.setGeometry(QtCore.QRect(8, 276, 631, 177))
+        self.groupBox_3.setGeometry(QtCore.QRect(8, 280, 631, 175))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(16)
@@ -906,9 +955,11 @@ class Ui_MainWindow(object):
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(0, 170, 255);\n"
 "}")
+        self.pushBtn_clearUidInput.setAutoDefault(False)
+        self.pushBtn_clearUidInput.setDefault(False)
         self.pushBtn_clearUidInput.setObjectName("pushBtn_clearUidInput")
         self.pushBtn_deviceEncoding = QtWidgets.QPushButton(self.groupBox_3)
-        self.pushBtn_deviceEncoding.setGeometry(QtCore.QRect(210, 20, 200, 45))
+        self.pushBtn_deviceEncoding.setGeometry(QtCore.QRect(210, 18, 200, 45))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -928,12 +979,14 @@ class Ui_MainWindow(object):
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(0, 170, 255);\n"
 "}")
+        self.pushBtn_deviceEncoding.setAutoDefault(False)
+        self.pushBtn_deviceEncoding.setDefault(False)
         self.pushBtn_deviceEncoding.setObjectName("pushBtn_deviceEncoding")
         self.lineEdit_uidInput = QtWidgets.QLineEdit(self.groupBox_3)
-        self.lineEdit_uidInput.setGeometry(QtCore.QRect(8, 20, 180, 43))
+        self.lineEdit_uidInput.setGeometry(QtCore.QRect(8, 18, 180, 43))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(22)
+        font.setPointSize(20)
         font.setBold(False)
         font.setWeight(50)
         self.lineEdit_uidInput.setFont(font)
@@ -944,6 +997,7 @@ class Ui_MainWindow(object):
         self.lineEdit_uidInput.setMaxLength(5)
         self.lineEdit_uidInput.setFrame(True)
         self.lineEdit_uidInput.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.lineEdit_uidInput.setAlignment(QtCore.Qt.AlignCenter)
         self.lineEdit_uidInput.setCursorMoveStyle(QtCore.Qt.LogicalMoveStyle)
         self.lineEdit_uidInput.setClearButtonEnabled(True)
         self.lineEdit_uidInput.setObjectName("lineEdit_uidInput")
@@ -963,6 +1017,9 @@ class Ui_MainWindow(object):
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(0, 170, 255);\n"
 "}")
+        self.pushBtn_deviceDetection.setAutoDefault(False)
+        self.pushBtn_deviceDetection.setDefault(False)
+        self.pushBtn_deviceDetection.setFlat(False)
         self.pushBtn_deviceDetection.setObjectName("pushBtn_deviceDetection")
         self.pushBtn_deviceEncodingDetection = QtWidgets.QPushButton(self.groupBox_3)
         self.pushBtn_deviceEncodingDetection.setGeometry(QtCore.QRect(422, 70, 200, 45))
@@ -980,9 +1037,11 @@ class Ui_MainWindow(object):
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(0, 170, 255);\n"
 "}")
+        self.pushBtn_deviceEncodingDetection.setAutoDefault(False)
+        self.pushBtn_deviceEncodingDetection.setDefault(False)
         self.pushBtn_deviceEncodingDetection.setObjectName("pushBtn_deviceEncodingDetection")
         self.pushBtn_queryCode = QtWidgets.QPushButton(self.groupBox_3)
-        self.pushBtn_queryCode.setGeometry(QtCore.QRect(422, 20, 200, 45))
+        self.pushBtn_queryCode.setGeometry(QtCore.QRect(422, 18, 200, 45))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(20)
@@ -997,9 +1056,11 @@ class Ui_MainWindow(object):
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(0, 170, 255);\n"
 "}")
+        self.pushBtn_queryCode.setAutoDefault(False)
+        self.pushBtn_queryCode.setDefault(False)
         self.pushBtn_queryCode.setObjectName("pushBtn_queryCode")
         self.line_6 = QtWidgets.QFrame(self.groupBox_3)
-        self.line_6.setGeometry(QtCore.QRect(192, 0, 16, 123))
+        self.line_6.setGeometry(QtCore.QRect(192, 0, 16, 125))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -1150,7 +1211,7 @@ class Ui_MainWindow(object):
         self.line_6.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_6.setObjectName("line_6")
         self.line_7 = QtWidgets.QFrame(self.groupBox_3)
-        self.line_7.setGeometry(QtCore.QRect(0, 114, 631, 16))
+        self.line_7.setGeometry(QtCore.QRect(0, 116, 631, 16))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -1301,7 +1362,7 @@ class Ui_MainWindow(object):
         self.line_7.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_7.setObjectName("line_7")
         self.pushBtn_cleanMsgArea = QtWidgets.QPushButton(self.groupBox_3)
-        self.pushBtn_cleanMsgArea.setGeometry(QtCore.QRect(508, 132, 117, 40))
+        self.pushBtn_cleanMsgArea.setGeometry(QtCore.QRect(508, 130, 117, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(20)
@@ -1316,9 +1377,11 @@ class Ui_MainWindow(object):
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(0, 170, 255);\n"
 "}")
+        self.pushBtn_cleanMsgArea.setAutoDefault(False)
+        self.pushBtn_cleanMsgArea.setDefault(False)
         self.pushBtn_cleanMsgArea.setObjectName("pushBtn_cleanMsgArea")
         self.pushBtn_saveResults = QtWidgets.QPushButton(self.groupBox_3)
-        self.pushBtn_saveResults.setGeometry(QtCore.QRect(334, 132, 73, 40))
+        self.pushBtn_saveResults.setGeometry(QtCore.QRect(334, 130, 73, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(20)
@@ -1334,9 +1397,11 @@ class Ui_MainWindow(object):
 "    background-color: rgb(0, 170, 255);\n"
 "}")
         self.pushBtn_saveResults.setIconSize(QtCore.QSize(64, 64))
+        self.pushBtn_saveResults.setAutoDefault(False)
+        self.pushBtn_saveResults.setDefault(False)
         self.pushBtn_saveResults.setObjectName("pushBtn_saveResults")
         self.line_8 = QtWidgets.QFrame(self.groupBox_3)
-        self.line_8.setGeometry(QtCore.QRect(496, 122, 16, 61))
+        self.line_8.setGeometry(QtCore.QRect(496, 124, 16, 57))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -1487,7 +1552,7 @@ class Ui_MainWindow(object):
         self.line_8.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_8.setObjectName("line_8")
         self.pushBtn_confirmDetection = QtWidgets.QPushButton(self.groupBox_3)
-        self.pushBtn_confirmDetection.setGeometry(QtCore.QRect(6, 132, 175, 40))
+        self.pushBtn_confirmDetection.setGeometry(QtCore.QRect(6, 130, 175, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(20)
@@ -1503,9 +1568,11 @@ class Ui_MainWindow(object):
 "    background-color: rgb(0, 170, 255);\n"
 "}")
         self.pushBtn_confirmDetection.setIconSize(QtCore.QSize(64, 64))
+        self.pushBtn_confirmDetection.setAutoDefault(False)
+        self.pushBtn_confirmDetection.setDefault(False)
         self.pushBtn_confirmDetection.setObjectName("pushBtn_confirmDetection")
         self.pushBtn_clearResults = QtWidgets.QPushButton(self.groupBox_3)
-        self.pushBtn_clearResults.setGeometry(QtCore.QRect(260, 132, 71, 40))
+        self.pushBtn_clearResults.setGeometry(QtCore.QRect(260, 130, 71, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(20)
@@ -1520,9 +1587,11 @@ class Ui_MainWindow(object):
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(0, 170, 255);\n"
 "}")
+        self.pushBtn_clearResults.setAutoDefault(False)
+        self.pushBtn_clearResults.setDefault(False)
         self.pushBtn_clearResults.setObjectName("pushBtn_clearResults")
         self.pushBtn_saveResultsAs = QtWidgets.QPushButton(self.groupBox_3)
-        self.pushBtn_saveResultsAs.setGeometry(QtCore.QRect(410, 132, 91, 40))
+        self.pushBtn_saveResultsAs.setGeometry(QtCore.QRect(410, 130, 91, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(20)
@@ -1538,9 +1607,11 @@ class Ui_MainWindow(object):
 "    background-color: rgb(0, 170, 255);\n"
 "}")
         self.pushBtn_saveResultsAs.setIconSize(QtCore.QSize(64, 64))
+        self.pushBtn_saveResultsAs.setAutoDefault(False)
+        self.pushBtn_saveResultsAs.setDefault(False)
         self.pushBtn_saveResultsAs.setObjectName("pushBtn_saveResultsAs")
         self.pushBtn_showResults = QtWidgets.QPushButton(self.groupBox_3)
-        self.pushBtn_showResults.setGeometry(QtCore.QRect(184, 132, 73, 40))
+        self.pushBtn_showResults.setGeometry(QtCore.QRect(184, 130, 73, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(20)
@@ -1555,9 +1626,11 @@ class Ui_MainWindow(object):
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(0, 170, 255);\n"
 "}")
+        self.pushBtn_showResults.setAutoDefault(False)
+        self.pushBtn_showResults.setDefault(False)
         self.pushBtn_showResults.setObjectName("pushBtn_showResults")
         self.label_operator_9 = QtWidgets.QLabel(self.groupBox_6)
-        self.label_operator_9.setGeometry(QtCore.QRect(264, 260, 113, 33))
+        self.label_operator_9.setGeometry(QtCore.QRect(264, 264, 113, 33))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -1579,7 +1652,7 @@ class Ui_MainWindow(object):
         self.label_operator_9.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_9.setObjectName("label_operator_9")
         self.label_operator_10 = QtWidgets.QLabel(self.groupBox_6)
-        self.label_operator_10.setGeometry(QtCore.QRect(100, 2, 113, 33))
+        self.label_operator_10.setGeometry(QtCore.QRect(52, 2, 150, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -1595,13 +1668,13 @@ class Ui_MainWindow(object):
 "    background-color: rgb(225, 225, 225);\n"
 "    border-radius: 4px;\n"
 "    border:1.5px groove gray;\n"
-"    border-color: rgb(85, 85, 127);\n"
+"    border-color: rgb(76, 76, 76);\n"
 "}")
         self.label_operator_10.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_10.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_10.setObjectName("label_operator_10")
         self.label_operator_11 = QtWidgets.QLabel(self.groupBox_6)
-        self.label_operator_11.setGeometry(QtCore.QRect(386, 2, 113, 33))
+        self.label_operator_11.setGeometry(QtCore.QRect(370, 2, 150, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -1617,7 +1690,7 @@ class Ui_MainWindow(object):
 "    background-color: rgb(225, 225, 225);\n"
 "    border-radius: 4px;\n"
 "    border:1.5px groove gray;\n"
-"    border-color: rgb(85, 85, 127);\n"
+"    border-color: rgb(76, 76, 76);\n"
 "}")
         self.label_operator_11.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_11.setAlignment(QtCore.Qt.AlignCenter)
@@ -1720,7 +1793,7 @@ class Ui_MainWindow(object):
         self.textBrowser.setFont(font)
         self.textBrowser.setStyleSheet("QTextBrowser {\n"
 "    border-radius: 5px;\n"
-"    border:2px solid rgb(85, 85, 255);\n"
+"    border:2px solid rgb(123, 123, 184);\n"
 "    font: 16pt \"Cascadia Mono PL SemiLight\";\n"
 "}")
         self.textBrowser.setFrameShape(QtWidgets.QFrame.Box)
@@ -1893,6 +1966,7 @@ class Ui_MainWindow(object):
         self.tableView_result.setGridStyle(QtCore.Qt.SolidLine)
         self.tableView_result.setObjectName("tableView_result")
         self.tableView_result.horizontalHeader().setMinimumSectionSize(54)
+        self.tableView_result.verticalHeader().setVisible(False)
         self.tableView_result.verticalHeader().setMinimumSectionSize(54)
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.SpanningRole, self.tableView_result)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -1925,7 +1999,8 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label_op_name.setText(_translate("MainWindow", "姓名"))
+        self.lineEdit_op_name.setToolTip(_translate("MainWindow", "中文最多7字符，英文最多15字符"))
+        self.lineEdit_op_name.setPlaceholderText(_translate("MainWindow", "请输入您的姓名!"))
         self.label_operator_3.setText(_translate("MainWindow", "检测"))
         self.label_operator_2.setText(_translate("MainWindow", "编码"))
         self.label_selfFireCurrent.setText(_translate("MainWindow", "-"))
@@ -1957,6 +2032,7 @@ class Ui_MainWindow(object):
         self.pushBtn_clearUidInput.setShortcut(_translate("MainWindow", "Ctrl+4"))
         self.pushBtn_deviceEncoding.setText(_translate("MainWindow", "模块编码"))
         self.pushBtn_deviceEncoding.setShortcut(_translate("MainWindow", "Ctrl+5"))
+        self.lineEdit_uidInput.setPlaceholderText(_translate("MainWindow", "完整五位编码"))
         self.pushBtn_deviceDetection.setText(_translate("MainWindow", "模块检测"))
         self.pushBtn_deviceDetection.setShortcut(_translate("MainWindow", "Ctrl+6"))
         self.pushBtn_deviceEncodingDetection.setText(_translate("MainWindow", "一键编码检测"))
@@ -1976,7 +2052,7 @@ class Ui_MainWindow(object):
         self.pushBtn_showResults.setText(_translate("MainWindow", "查看"))
         self.pushBtn_showResults.setShortcut(_translate("MainWindow", "Ctrl+0"))
         self.label_operator_9.setText(_translate("MainWindow", "选发检测"))
-        self.label_operator_10.setText(_translate("MainWindow", "操作员"))
+        self.label_operator_10.setText(_translate("MainWindow", "操作员姓名"))
         self.label_operator_11.setText(_translate("MainWindow", "工作模式"))
         self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"

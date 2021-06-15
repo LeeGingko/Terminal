@@ -15,10 +15,10 @@ import serial
 import serial.tools.list_ports
 # 默认导入
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QTimer, QRegularExpression, QSize, Qt
+from PyQt5.QtCore import QTimer, QRegularExpression, QSize, Qt, QThread
 from PyQt5.QtGui import QFont, QRegularExpressionValidator, QStandardItem, QStandardItemModel, QIcon
 from PyQt5.QtSerialPort import QSerialPortInfo
-from PyQt5.QtWidgets import QApplication, QStatusBar, QLabel, QHeaderView, QAbstractItemView, QAction, QMenu, QMessageBox, QFileDialog
+from PyQt5.QtWidgets import QApplication, QStatusBar, QLabel, QHeaderView, QAbstractItemView, QAction, QMenu, QMessageBox, QFileDialog, QPushButton
 
 # getset全局变量
 import GetSetObj
