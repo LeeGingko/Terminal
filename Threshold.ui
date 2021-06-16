@@ -1067,8 +1067,8 @@ QPushButton:hover:pressed{
     <property name="text">
      <string>读取参数</string>
     </property>
-    <property name="shortcut">
-     <string>Ctrl+9</string>
+    <property name="autoDefault">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="pushBtn_saveSettingsRecord">
@@ -1103,8 +1103,8 @@ QPushButton:hover:pressed{
     <property name="text">
      <string>保存参数</string>
     </property>
-    <property name="shortcut">
-     <string>Ctrl+8</string>
+    <property name="autoDefault">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="Line" name="line_2">

@@ -9,11 +9,6 @@ class LocalTimeThread(QThread):
     def __init__(self):
         super(LocalTimeThread, self).__init__()
         self.timeStamp = ""
-
-    # def  __del__(self):
-    #     # self.secondSignal.__del__()
-    #     self.wait()
-    #     self.quit()
         
     def run(self):
         dayOfWeek = time.localtime().tm_wday
@@ -39,4 +34,4 @@ class LocalTimeThread(QThread):
             elif AMPM[0:2] == "PM": # PM
                 self.timeStamp = time.strftime("%Y年%m月%d日 下午 %H:%M:%S  ", time.localtime())
             self.secondSignal.emit(self.timeStamp + weekday)
-            self.sleep(1)
+            self.msleep(1000)

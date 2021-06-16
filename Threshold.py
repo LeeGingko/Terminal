@@ -2,13 +2,13 @@
 import os
 # 导入pickle模块
 import pickle as pk
-from PyQt5.QtGui import QIcon
 
-import win32file
 import win32con
+import win32file
 # 默认导入
 from PyQt5 import QtCore
-from PyQt5.QtCore import pyqtSignal, Qt
+from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog
 
 # getset全局变量
@@ -41,7 +41,6 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
             "th_ComVoltage_Up":   "0", "th_ComVoltage_Down":   "0",
             "th_ComCurrent_Up":   "0", "th_ComCurrent_Down":   "0" }
         self.getUserPara()
-        # self.settingThreshold()
 
     def initUi(self):
         self.setupUi(self)
@@ -177,4 +176,4 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
         if settingfile:
             os.startfile(settingfile)
             self.openFileSignal.emit(settingfile)
-            self.close()     
+            self.close()

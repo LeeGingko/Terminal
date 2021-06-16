@@ -202,8 +202,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 1 连接控制仪串口
         self.protocolWin.autoConnectDetector()
         # 2 三秒后执行参数下发
-        if self.protocolWin.isAutoConnectDetectorOK:
-            self.startParaTimer.start(3000)
+        self.startParaTimer.start(3000)
+        self.lineEdit_op_name.setFocus()
 
     def showDaetTime(self, timeStr):
         self.myStatusBar.showMessage(timeStr)
@@ -710,6 +710,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.lineEdit_uidInput.setFocus()
                 else:
                     self.userTextBrowserAppend("取消清除检测结果")
+            else:
+                self.userTextBrowserAppend('无显示数据，请进行检测')
         else:
             self.userTextBrowserAppend('请确认检测完毕后决定是否删除数据')
         
@@ -1027,11 +1029,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                 self.resultList[6] = tmp[tmp.find("U1",  0,  l) + 2 : tmp.find("PIOK", 0, l)] # UID
                                 # 内置模块
                                 if tmp.find("U2REC", 0, l) != -1:
-                                    self.resultList[10] = tmp[tmp.find("POOKU2",   11, l) + 6 : tmp.find("U2RE", 11, l)]
-                                    if tmp.find("U1RE", 11, l) != -1:
-                                        fci = tmp[tmp.find("U2A",  11, l) + 3 : tmp.find("U1RE", 11, l)] #引爆电流
-                                    else:
-                                        fci = tmp[tmp.find("U2A",  11, l) + 3 : tmp.find("U1NON", 11, l)] #引爆电流
+                                    self.resultList[10] = tmp[tmp.find("POOKU2",   0, l) + 6 : tmp.find("U2RE", 0, l)]
+                                    if tmp.find("U1RE", 0, l) != -1:
+                                        fci = tmp[tmp.find("U2A",  0, l) + 3 : tmp.find("U1RE", 0, l)] #引爆电流
+                                    elif tmp.find("U1NON", 0, l) != -1:
+                                        fci = tmp[tmp.find("U2A",  0, l) + 3 : tmp.find("U1NON", 0, l)] #引爆电流
                                     self.resultList[11] = fci
                                     if float(fci) > float(self.thresholdWin.paraDict['th_FireCurrent_Down']) and float(fci) < float(self.thresholdWin.paraDict['th_FireCurrent_Up']):
                                         self.resultList[13] = "正常"

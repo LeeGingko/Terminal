@@ -549,6 +549,7 @@ class Ui_ThresholdDialog(object):
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(0, 170, 255);\n"
 "}")
+        self.pushBtn_readSettingsRecord.setAutoDefault(False)
         self.pushBtn_readSettingsRecord.setObjectName("pushBtn_readSettingsRecord")
         self.pushBtn_saveSettingsRecord = QtWidgets.QPushButton(self.groupBox)
         self.pushBtn_saveSettingsRecord.setGeometry(QtCore.QRect(6, 330, 140, 40))
@@ -566,6 +567,7 @@ class Ui_ThresholdDialog(object):
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(0, 170, 255);\n"
 "}")
+        self.pushBtn_saveSettingsRecord.setAutoDefault(False)
         self.pushBtn_saveSettingsRecord.setObjectName("pushBtn_saveSettingsRecord")
         self.line_2 = QtWidgets.QFrame(self.groupBox)
         self.line_2.setGeometry(QtCore.QRect(0, 316, 309, 16))
@@ -775,6 +777,4 @@ class Ui_ThresholdDialog(object):
         self.label_operator_35.setText(_translate("ThresholdDialog", "uA"))
         self.label_operator_41.setText(_translate("ThresholdDialog", "uA"))
         self.pushBtn_readSettingsRecord.setText(_translate("ThresholdDialog", "读取参数"))
-        self.pushBtn_readSettingsRecord.setShortcut(_translate("ThresholdDialog", "Ctrl+9"))
         self.pushBtn_saveSettingsRecord.setText(_translate("ThresholdDialog", "保存参数"))
-        self.pushBtn_saveSettingsRecord.setShortcut(_translate("ThresholdDialog", "Ctrl+8"))
