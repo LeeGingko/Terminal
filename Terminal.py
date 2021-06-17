@@ -113,18 +113,18 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 默认检测结果
         initTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) # 检测时间
         self.resultDefaultList = [
-            "name",  initTime,    "F",    "F",   "失败",
-            "离线",   "FFFFF",     "F",    "F",   "异常",
-            "SSSSS",    "F",      "F",    "异常", "未通过" ]
+            "name",  initTime,    "E",    "E",   "失败",
+            "离线",   "EEEEE",     "E",    "E",   "异常",
+            "EEEEE",    "E",      "E",    "异常", "未通过" ]
         # 测试检测结果，初始为默认检测结果
         self.resultList = self.resultDefaultList.copy()
         # 单次测试检测结果备份，进行重复检测结果判断
         self.resultLastList = self.resultList.copy()
-        # 表格之模型、委托、视图初始化
+        #*------------------------------- 表格之模型、委托、视图初始化 --------------------------------*#
         # 1 表格模型初始化
-        self.tableRow = 0 # 写入表格的行索引
+        self.tableRow = 0 # 写入excel表格的行索引
         self.tableHeadline = [
-            "测试员",   "检测时间",   "漏电流(uA)", "工作电流(uA)",  "ID核对",
+            "检测员",   "检测时间",   "漏电流(μA)", "工作电流(μA)",  "ID核对",
             "在线检测", "被测选发",   "电流(mA)",   "电压(V)",      "电流判断",
             "内置选发", "电流(mA)",  "电压(V)",    "电流判断",      "结论" ]   
         self.tableViewModel = QStandardItemModel(0, 15, self)
@@ -161,12 +161,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableView_result.customContextMenuRequested.connect(self.tvCustomContextMenuRequested)
         # 编码输入验证器设置
         regValidator = QRegularExpressionValidator(self)
-        reg = QRegularExpression("[A-F0-9]+$") # 字母范围A~F, 数字0~9
+        reg = QRegularExpression("[A-E0-9]+$") # 字母范围A~F, 数字0~9
         regValidator.setRegularExpression(reg)
         # UID输入编辑栏初始化
         self.lineEdit_uidInput.setMaxLength(5)
         self.lineEdit_uidInput.setValidator(regValidator)
-        self.lineEdit_uidInput.setToolTip("字母范围A~F, 数字0~9")
+        self.lineEdit_uidInput.setToolTip("字母范围A~E, 数字0~9")
         self.lineEdit_uidInput.setFocus()
         self.setMouseTracking(True)
         # 配置文件路径
@@ -177,11 +177,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.detectionState = None # 未知状态
         # 确认检测完毕
         self.confirmDetection = False
-        # 使能保存和另存为
+        # 失能保存和另存为
         self.pushBtn_saveResults.setEnabled(False)
         self.pushBtn_saveResultsAs.setEnabled(False)
         # 查询命令返回编码
-        self.queryCode = 'FFFFF'
+        self.queryCode = 'EEEEE'
         # 是否只是查询编码
         self.isPureQueryCode = None
         # 点击了保存还是另存为
@@ -197,13 +197,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 下发参数阈值
         self.startParaTimer = QTimer() # 使用定时器，防止主界面卡在步骤1中
         self.startParaTimer.timeout.connect(self.autoSendParameters)   
-        # self.startThread = PrivateStartThread()
-        # self.startThread.start()
         # 1 连接控制仪串口
         self.protocolWin.autoConnectDetector()
-        # 2 三秒后执行参数下发
-        self.startParaTimer.start(3000)
+        # 2 四秒后执行参数下发
+        self.startParaTimer.start(4000)
         self.lineEdit_op_name.setFocus()
+        self.isLVLCOK = False
 
     def showDaetTime(self, timeStr):
         self.myStatusBar.showMessage(timeStr)
@@ -354,8 +353,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.tableRow = self.tableRow - l
                     self.userTextBrowserAppend('删除选中数据')
                 else:
-                    self.pushBtn_saveResults.setEnabled(False)
-                    self.pushBtn_saveResultsAs.setEnabled(False)
                     self.confirmDetection = False
                     self.userTextBrowserAppend('取消删除数据')
             else:
@@ -390,9 +387,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
 #----------------------------------------UID输入完成槽函数----------------------------------------#
     @QtCore.pyqtSlot()
-    def on_lineEdit_op_name_returnPressed(self):
-        self.userTextBrowserAppend('已确认输入姓名')
-        self.isNameInput = True
+    def on_lineEdit_op_name_editingFinished(self):
+        self.userTextBrowserAppend('输入姓名：' + self.lineEdit_op_name.text())
 #----------------------------------------UID输入完成槽函数----------------------------------------#
 
 #----------------------------------------按钮槽函数----------------------------------------#  
@@ -442,7 +438,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def encoding(self, uid):
         self.protocolWin.data = b''
         self.protocolWin.rxCheck = 0
-        self.protocolWin.prvSerial.flushOutput()
+        if self.protocolWin.prvSerial.isOpen():
+            self.protocolWin.prvSerial.flushOutput()
         self.protocolWin.serialSendData(Func.f_DevEncoding, uid, '')
 
     @QtCore.pyqtSlot()
@@ -452,10 +449,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             print("Encoding......")
             self.userTextBrowserAppend("执行编码")
             if self.protocolWin.prvSerial.isOpen():
-                self.uid = self.lineEdit_uidInput.text()
                 name = self.lineEdit_op_name.text()
-                if self.uid != "":
-                    if name != '' and self.isNameInput == True:
+                if name != '':
+                    self.uid = self.lineEdit_uidInput.text()
+                    if self.uid != '':
                         self.isEncodeOK = False
                         self.userTextBrowserAppend("输入编号：" + self.lineEdit_uidInput.text())
                         self.protocolWin.data = b''
@@ -487,12 +484,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             self.devicesState = {}
                             self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[] }
                             self.encoding(self.uid)
-                    elif name != '' and self.isNameInput == False:
-                        self.userTextBrowserAppend("请按Enter确认姓名！")
-                    elif name == '':
-                        self.userTextBrowserAppend("请输入姓名，按Enter确认！")
+                    else:
+                        self.userTextBrowserAppend("请输入编号！")
                 else:
-                    self.userTextBrowserAppend("请输入编号！")
+                    self.userTextBrowserAppend("请输入姓名！")
             else:
                 self.userTextBrowserAppend("串口未打开")
         elif self.workMode["encoding"] == "X":
@@ -510,13 +505,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def on_pushBtn_deviceDetection_clicked(self):
         if self.workMode["detection"] == "1":
+            self.isLVLCOK = False
             print("/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/")
             print("Detecting......")
             self.userTextBrowserAppend("执行检测")
             if self.protocolWin.prvSerial.isOpen():
                 self.uid = self.lineEdit_uidInput.text()
                 name = self.lineEdit_op_name.text()
-                if name != '' and self.isNameInput == True:
+                if name != '':
                     if self.uid != "":
                         self.userTextBrowserAppend("输入编号：" + self.uid)
                         res = self.loadResultsFile() # 加载检测结果
@@ -534,7 +530,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                     self.detection(self.uid)
                                     self.detectionState = 1
                                 elif (detsta == None or detsta == True) and (resSta != None and index != None): # 该模块在此次工作中已进行过检测，结果已经保存
-                                    choice = QMessageBox.warning(self, "执行检测", "检测结果已保存，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
+                                    choice = QMessageBox.information(self, "执行检测", "已有检测结果，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
                                     if choice == QMessageBox.Yes:
                                         self.devicesState[self.uid]['det'] = None
                                         self.detection(self.uid)
@@ -547,10 +543,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             self.userTextBrowserAppend("未有任何模块编码，请执行编码！")
                     else:
                         self.userTextBrowserAppend("请输入编号！")
-                elif name != '' and self.isNameInput == False:
-                    self.userTextBrowserAppend("请按Enter确认姓名！")
                 elif name == '':
-                    self.userTextBrowserAppend("请输入姓名，按Enter确认！")
+                    self.userTextBrowserAppend("请输入姓名！")
             else:
                 self.userTextBrowserAppend("串口未打开")
         elif self.workMode["detection"] == "X":
@@ -630,7 +624,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             if self.isExcelAsSavedFirst == True:
                 file = './recording'
-                self.excelAsFilePath, isAccept =  QFileDialog.getSaveFileName(self, "保存检测结果", file, "recorded data(*.xlsx)")
+                self.excelAsFilePath, isAccept =  QFileDialog.getSaveFileName(self, "保存检测结果另存为", '', "recorded data(*.xlsx)")
                 if isAccept:
                     if self.excelAsFilePath:
                         self.excelAsFile = os.path.split(self.excelAsFilePath)[1]
@@ -701,19 +695,21 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     @QtCore.pyqtSlot()
     def on_pushBtn_clearResults_clicked(self):
-        if self.confirmDetection:
-            if self.tableViewModel.rowCount() != 0:
+        if self.tableViewModel.rowCount() != 0:
+            if self.confirmDetection:
                 choice = QMessageBox.critical(self, "清除结果", "清除检测结果？", QMessageBox.Yes | QMessageBox.Cancel)
                 if choice == QMessageBox.Yes:
                     self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
                     self.tableRow = 0
+                    self.pushBtn_saveResults.setEnabled(False)
+                    self.pushBtn_saveResultsAs.setEnabled(False)
                     self.lineEdit_uidInput.setFocus()
                 else:
                     self.userTextBrowserAppend("取消清除检测结果")
             else:
-                self.userTextBrowserAppend('无显示数据，请进行检测')
+                self.userTextBrowserAppend('请确认检测完毕后决定是否删除数据')
         else:
-            self.userTextBrowserAppend('请确认检测完毕后决定是否删除数据')
+            self.userTextBrowserAppend('无显示数据，请进行检测')
         
     @QtCore.pyqtSlot()
     def on_pushBtn_cleanMsgArea_clicked(self):
@@ -754,7 +750,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if str == "RMPO\r\n":
             self.userTextBrowserAppend("测试仪已上电，线路供电接通")
             self.on_pushBtn_deviceSelfCheck_clicked() # 进行一次测试仪自检
-            self.powerOnParaTimer.start(3000)
+            self.powerOnParaTimer.start(3500)
         else:
             self.userTextBrowserAppend("测试仪已上电，线路供电断开")
    
@@ -862,7 +858,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.thresholdWin.para = self.thresholdWin.para + ("P" + str(cnt) + v)
                     elif cnt == 10:
                         self.thresholdWin.para = self.thresholdWin.para + ("PA" + v)
-                    elif cnt == 11:
+                    elif cnt == 0:
                         self.thresholdWin.para = self.thresholdWin.para + ("PB" + v)
                     elif cnt == 12:
                         self.thresholdWin.para = self.thresholdWin.para + ("PC" + v)
@@ -917,7 +913,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("测试仪接收参数失败")
         elif res == "PARALESS":
             self.userTextBrowserAppend("测试仪接收参数缺失")
-        self.lineEdit_uidInput.setFocus()
 
     def parseQueryCodeResults(self):
         tmp = self.protocolWin.data.decode("utf-8")
@@ -968,91 +963,112 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.workMode["encoding"] = "0"
             self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/close)}")
             self.userTextBrowserAppend("无法进行编码，请检查编码按键！")
-
         self.lineEdit_uidInput.setFocus()
+
+    def checkLVLC(self, rxData, UNOK):
+        l = len(rxData)
+        if UNOK == True:
+            if rxData.find("LVER", 0, l) != -1 and rxData.find("LCER", 0, l) != -1:
+                lv = rxData[rxData.find("LVER", 0, l) + 4 : rxData.find("LCER", 0, l)]
+                lc = rxData[rxData.find("LCER", 0, l) + 4 : rxData.find("DA", 0, l)]
+                self.userTextBrowserAppend("线路电压：" + lv + "V 超限，线路电流：" + lc + "mA 超限")
+            elif rxData.find("LVOK", 0, l) != -1 and rxData.find("LCER", 0, l) != -1:
+                lv = rxData[rxData.find("LVOK", 0, l) + 4 : rxData.find("LCER", 0, l)]
+                lc = rxData[rxData.find("LCER", 0, l) + 4 : rxData.find("DA", 0, l)]
+                self.userTextBrowserAppend("线路电压：" + lv + "V 正常，线路电流：" + lc + "mA 超限")
+            elif rxData.find("LVER", 0, l) != -1 and rxData.find("LCOK", 0, l) != -1:
+                lv = rxData[rxData.find("LVER", 0, l) + 4 : rxData.find("LCOK", 0, l)]
+                lc = rxData[rxData.find("LCOK", 0, l) + 4 : rxData.find("DA", 0, l)]
+                self.userTextBrowserAppend("线路电压：" + lv + "V 超限，线路电流：" + lc + "mA 正常")
+            elif rxData.find("LVOK", 0, l) != -1 and rxData.find("LCOK", 0, l) != -1:
+                lv = rxData[rxData.find("LVOK", 0, l) + 4 : rxData.find("LCOK", 0, l)]
+                lc = rxData[rxData.find("LCOK", 0, l) + 4 : rxData.find("DA", 0, l)]
+                self.userTextBrowserAppend("线路电压：" + lv + "V 正常，线路电流：" + lc + "mA 正常")
+                self.resultList[0] = self.lineEdit_op_name.text()
+                self.resultList[1] = self.detectionTime
+                self.isLVLCOK = True
+        else:
+            if rxData.find("LVER", 0, l) != -1 and rxData.find("LCER", 0, l) != -1:
+                lv = rxData[rxData.find("LVER", 0, l) + 4 : rxData.find("LCER", 0, l)]
+                lc = rxData[rxData.find("LCER", 0, l) + 4 : rxData.find("UNERROR", 0, l)]
+                self.userTextBrowserAppend("线路电压：" + lv + "V 超限，线路电流：" + lc + "mA 超限")
+            elif rxData.find("LVOK", 0, l) != -1 and rxData.find("LCER", 0, l) != -1:
+                lv = rxData[rxData.find("LVOK", 0, l) + 4 : rxData.find("LCER", 0, l)]
+                lc = rxData[rxData.find("LCER", 0, l) + 4 : rxData.find("UNERROR", 0, l)]
+                self.userTextBrowserAppend("线路电压：" + lv + "V 正常，线路电流：" + lc + "mA 超限")
+            elif rxData.find("LVER", 0, l) != -1 and rxData.find("LCOK", 0, l) != -1:
+                lv = rxData[rxData.find("LVER", 0, l) + 4 : rxData.find("LCOK", 0, l)]
+                lc = rxData[rxData.find("LCOK", 0, l) + 4 : rxData.find("UNERROR", 0, l)]
+                self.userTextBrowserAppend("线路电压：" + lv + "V 超限，线路电流：" + lc + "mA 正常")
+            elif rxData.find("LVOK", 0, l) != -1 and rxData.find("LCOK", 0, l) != -1:
+                lv = rxData[rxData.find("LVOK", 0, l) + 4 : rxData.find("LCOK", 0, l)]
+                lc = rxData[rxData.find("LCOK", 0, l) + 4 : rxData.find("UNERROR", 0, l)]
+                self.userTextBrowserAppend("线路电压：" + lv + "V 正常，线路电流：" + lc + "mA 正常")
+                self.resultList[0] = self.lineEdit_op_name.text()
+                self.resultList[1] = self.detectionTime
 
     def parseDetectionResults(self):
         tmp = self.protocolWin.data.decode("utf-8")
         l = len(tmp)
-        if tmp.find("OPENMULTIMETER", 0, l) != -1:
-            self.userTextBrowserAppend("请打开电表RS232通信功能【REL △】,重新进行检测！")
-            if self.uid in self.devicesState:
-                self.devicesState.pop(self.uid)
-        elif tmp.find("UIDNODE", 0, l) != -1:
+        if tmp.find("UIDNODE", 0, l) != -1:
             self.userTextBrowserAppend("无模块连接，请检查接线")
         else:
-            if tmp.find("LVER", 0, l) != -1 and tmp.find("LCER", 0, l) != -1:
-                lv = tmp[tmp.find("LVER", 0, l) + 4 : tmp.find("LCER", 0, l)]
-                lc = tmp[tmp.find("LCER", 0, l) + 4 : tmp.find("DA", 0, l)]
-                self.userTextBrowserAppend("线路电压：" + lv + "V 超限，线路电流：" + lc + "mA 超限")
-            elif tmp.find("LVOK", 0, l) != -1 and tmp.find("LCER", 0, l) != -1:
-                lv = tmp[tmp.find("LVOK", 0, l) + 4 : tmp.find("LCER", 0, l)]
-                lc = tmp[tmp.find("LCER", 0, l) + 4 : tmp.find("DA", 0, l)]
-                self.userTextBrowserAppend("线路电压：" + lv + "V 正常，线路电流：" + lc + "mA 超限")
-            elif tmp.find("LVER", 0, l) != -1 and tmp.find("LCOK", 0, l) != -1:
-                lv = tmp[tmp.find("LVER", 0, l) + 4 : tmp.find("LCOK", 0, l)]
-                lc = tmp[tmp.find("LCOK", 0, l) + 4 : tmp.find("DA", 0, l)]
-                self.userTextBrowserAppend("线路电压：" + lv + "V 超限，线路电流：" + lc + "mA 正常")
-            elif tmp.find("LVOK", 0, l) != -1 and tmp.find("LCOK", 0, l) != -1:
-                lv = tmp[tmp.find("LVOK", 0, l) + 4 : tmp.find("LCOK", 0, l)]
-                lc = tmp[tmp.find("LCOK", 0, l) + 4 : tmp.find("DA", 0, l)]
-                self.userTextBrowserAppend("线路电压：" + lv + "V 正常，线路电流：" + lc + "mA 正常")
-                self.resultList[0] = self.lineEdit_op_name.text()
-                self.resultList[1] = self.detectionTime
-                if tmp.find("U1ERROR", 11, l) != -1:
-                    self.userTextBrowserAppend("编码核对失败，请检查输入编码！")
-                    self.resultList[4] = "失败"
-                    self.resultList[5] = "离线"
-                    self.resultList[6] = "-"
-                    self.resultList[7] = "-"
-                    self.resultList[8] = "-"
-                    self.resultList[9] = "-"
-                    if self.uid in self.devicesState:
-                        self.devicesState.pop(self.uid)
-                    self.lineEdit_uidInput.clear()
-                else:
-                    DA = tmp[tmp.find("DA", 11, l) + 2 : tmp.find("WA", 11, l)]
+            if tmp.find("UNERROR", 0, l) != -1:
+                self.resultList[4] = "失败"
+                self.resultList[5] = "离线"
+                self.resultList[6] = "-"
+                self.resultList[7] = "-"
+                self.resultList[8] = "-"
+                self.resultList[9] = "-"
+                self.checkLVLC(tmp, False)
+                if self.uid in self.devicesState:
+                    self.devicesState.pop(self.uid)
+                self.userTextBrowserAppend("编码核对失败，请检查输入编码！")
+            else:
+                self.checkLVLC(tmp, True)
+                if self.isLVLCOK == True:
+                    DA = tmp[tmp.find("DA", 0, l) + 2 : tmp.find("WA", 0, l)]
                     if DA != '0':
                         self.resultList[2] = DA[0 : len(DA) - 1] + "." + DA[len(DA)-1]
                     else:
                         self.resultList[2] = '0.0'
-                    WA = tmp[tmp.find("WA", 11, l) + 2 : tmp.find("U1", 11, l)]
-                    if WA != '0':                     
+                    WA = tmp[tmp.find("WA", 0, l) + 2 : tmp.find("UN" + self.uid, 0, l)]
+                    if WA != '0':             
                         self.resultList[3] = WA[0 : len(WA) - 1] + "." + WA[len(WA)-1]
                     else:
                         self.resultList[3] = '0.0'
-                    if tmp.find("PIOK", 11, l) != -1:
-                        if tmp[tmp.find("U1",  0, l) + 2 : tmp.find("PIOK", 0, l)] != '':
+                    if tmp.find("PIOK", 0, l) != -1:
+                        if tmp[tmp.find("UN",  0, l) + 2 : tmp.find("PIOK", 0, l)] != '':
                             self.resultList[4] = "成功"
                             if tmp.find("POOK", 0, l) != -1:
                                 self.resultList[5] = "在线"
-                                self.resultList[6] = tmp[tmp.find("U1",  0,  l) + 2 : tmp.find("PIOK", 0, l)] # UID
+                                self.resultList[6] = tmp[tmp.find("UN",  0,  l) + 2 : tmp.find("PIOK", 0, l)] # UID
                                 # 内置模块
-                                if tmp.find("U2REC", 0, l) != -1:
-                                    self.resultList[10] = tmp[tmp.find("POOKU2",   0, l) + 6 : tmp.find("U2RE", 0, l)]
-                                    if tmp.find("U1RE", 0, l) != -1:
-                                        fci = tmp[tmp.find("U2A",  0, l) + 3 : tmp.find("U1RE", 0, l)] #引爆电流
-                                    elif tmp.find("U1NON", 0, l) != -1:
-                                        fci = tmp[tmp.find("U2A",  0, l) + 3 : tmp.find("U1NON", 0, l)] #引爆电流
+                                if tmp.find("UFRE", 0, l) != -1:
+                                    self.resultList[10] = tmp[tmp.find("POOKUF",   0, l) + 6 : tmp.find("UFRE", 0, l)]
+                                    if tmp.find("UNREC", 0, l) != -1:
+                                        fci = tmp[tmp.find("UFA",  0, l) + 3 : tmp.find("UNREC", 0, l)] #引爆电流
+                                    elif tmp.find("UNNON", 0, l) != -1:
+                                        fci = tmp[tmp.find("UFA",  0, l) + 3 : tmp.find("UNNON", 0, l)] #引爆电流
                                     self.resultList[11] = fci
                                     if float(fci) > float(self.thresholdWin.paraDict['th_FireCurrent_Down']) and float(fci) < float(self.thresholdWin.paraDict['th_FireCurrent_Up']):
                                         self.resultList[13] = "正常"
                                     else:
                                         self.resultList[13] = "超限"
-                                    fvi = tmp[tmp.find("U2V",  11, l) + 3 : tmp.find("U2A", 11, l)]
+                                    fvi = tmp[tmp.find("UFV",  0, l) + 3 : tmp.find("UFA", 0, l)]
                                     self.resultList[12] = fvi[0 : len(fvi) - 1] + '.' + fvi[len(fvi) - 1]
-                                elif tmp.find("U2REJ", 0, l) != -1:
-                                    self.resultList[10] = tmp[tmp.find("U2",   11, l) + 2 : tmp.find("U2RE", 11, l)]
+                                elif tmp.find("UFREJ", 0, l) != -1:
+                                    self.resultList[10] = tmp[tmp.find("UF",   0, l) + 2 : tmp.find("UFRE", 0, l)]
                                     self.resultList[11] = "-"
                                     self.resultList[12] = "-"
                                     self.resultList[13] = "-"
                                     self.userTextBrowserAppend("内置模块确认引爆代码匹配失败")
                                 # 被测模块
-                                if tmp.find("U1REC", 0, l) != -1:
-                                    if tmp.find("U1NON", 0, l) == -1:
-                                        fc = tmp[tmp.find("U1A", l - 10, l) + 3 : l - 4] #引爆电流
+                                if tmp.find("UNREC", 0, l) != -1:
+                                    if tmp.find("UNNON", 0, l) == -1:
+                                        fc = tmp[tmp.find("UNA", l - 10, l) + 3 : l - 4] #引爆电流
                                         self.resultList[7] = fc
-                                        fv = tmp[tmp.find("U1V", l - 20, l) + 3 : tmp.find("U1A", l - 10, l)] #引爆电压
+                                        fv = tmp[tmp.find("UNV", l - 20, l) + 3 : tmp.find("UNA", l - 10, l)] #引爆电压
                                         self.resultList[8] = fv[0 : len(fv) - 1] + '.' + fv[len(DA) - 1]
                                         if float(fc) > float(self.thresholdWin.paraDict['th_FireCurrent_Down']) and float(fc) < float(self.thresholdWin.paraDict['th_FireCurrent_Up']):
                                             self.resultList[9] = "正常"
@@ -1065,15 +1081,19 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                             self.devicesState[self.uid]['det'] = False
                                             self.devicesState[self.uid]['res'] = self.resultList.copy()
                                     else:
+                                        self.resultList[7] = "-"
+                                        self.resultList[8] = "-"
+                                        self.resultList[9] = "-"
                                         self.userTextBrowserAppend("引爆被测模块前无法检测到模块")
                                         self.resultList[14] = "未通过"
                                         self.devicesState[self.uid]['det'] = False
                                         self.devicesState[self.uid]['res'] = self.resultList.copy()
-                                elif tmp.find("U1REJ", 0, l) != -1:
+                                elif tmp.find("UNREJ", 0, l) != -1:
                                     self.resultList[7] = "-"
                                     self.resultList[8] = "-"
                                     self.resultList[9] = "-"
                                     self.userTextBrowserAppend("被测模块确认引爆代码匹配失败")
+                                    self.resultList[14] = "未通过"
                             else:
                                 self.resultList[5] = "离线"
                                 self.resultList[6] = "-"# UID
@@ -1083,23 +1103,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                 self.userTextBrowserAppend("断开火工，火工部存在, 被测模块火工部异常")
                                 # 内置模块
                                 self.resultList[10] = "-"
-                                self.resultList[11] = "-"
+                                self.resultList[0] = "-"
                                 self.resultList[12] = "-"
                                 self.resultList[13] = "-"
-                        else:
-                            self.resultList[4] = "失败"
-                            self.resultList[5] = "离线"
-                            self.resultList[6] = "-"
-                            self.resultList[7] = "-"
-                            self.resultList[8] = "-"
-                            self.resultList[9] = "-"
-                            self.devicesState[self.uid]['det'] = -1
-                            # 内置模块
-                            self.resultList[10] = "-"
-                            self.resultList[11] = "-"
-                            self.resultList[12] = "-"
-                            self.resultList[13] = "-"
-                    elif tmp.find("PIER", 11, l) != -1:
+                                self.resultList[14] = "未通过"
+                    elif tmp.find("PIER", 0, l) != -1:
                         self.resultList[4] = "失败"
                         self.resultList[5] = "离线"
                         self.resultList[6] = "-"
@@ -1110,9 +1118,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.userTextBrowserAppend("接入火工，火工部不存在, 被测模块火工部异常")
                         # 内置模块
                         self.resultList[10] = "-"
-                        self.resultList[11] = "-"
+                        self.resultList[0] = "-"
                         self.resultList[12] = "-"
                         self.resultList[13] = "-"
+                        # 结论
+                        self.resultList[14] = "未通过"
                     self.devicesState[self.uid]['res'] = self.resultList.copy()
                     if self.detectionState == 1:
                         self.updateResultsFile(self.resultList)
@@ -1148,7 +1158,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             self.tableRow = rowcnt
                     self.resultLastList = self.resultList.copy()
                     self.lineEdit_uidInput.clear()
-                self.updateDevicesStateFile()
+                    self.updateDevicesStateFile()
+                else:
+                    pass
         self.lineEdit_uidInput.setFocus()
 
     def updateDuplicateRow(self):
@@ -1194,8 +1206,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def firstsaveResults(self):
         if not os.path.isfile(self.excelFilePath):
             if self.isExcelSavedFirst:
-                file = './recording'
-                self.excelFilePath, isAccept =  QFileDialog.getSaveFileName(self, "保存检测结果", file, "recorded data(*.xlsx)")
+                # file = './recording'
+                self.excelFilePath, isAccept =  QFileDialog.getSaveFileName(self, "保存检测结果", '', "recorded data(*.xlsx)")
                 if isAccept:
                     if self.excelFilePath:
                         self.excelFile = os.path.split(self.excelFilePath)[1]

@@ -2344,7 +2344,7 @@ QPushButton:hover:pressed{
          <string>模块编码</string>
         </property>
         <property name="shortcut">
-         <string>Ctrl+5</string>
+         <string>Ctrl+,</string>
         </property>
         <property name="autoDefault">
          <bool>false</bool>
@@ -2435,7 +2435,7 @@ QPushButton:hover:pressed{
          <string>模块检测</string>
         </property>
         <property name="shortcut">
-         <string>Ctrl+6</string>
+         <string>Ctrl+.</string>
         </property>
         <property name="autoDefault">
          <bool>false</bool>
@@ -2480,7 +2480,7 @@ QPushButton:hover:pressed{
          <string>一键编码检测</string>
         </property>
         <property name="shortcut">
-         <string>Ctrl+7</string>
+         <string>Ctrl+Left</string>
         </property>
         <property name="autoDefault">
          <bool>false</bool>
@@ -2522,7 +2522,7 @@ QPushButton:hover:pressed{
          <string>查询编码</string>
         </property>
         <property name="shortcut">
-         <string>Ctrl+3</string>
+         <string>Ctrl+'</string>
         </property>
         <property name="autoDefault">
          <bool>false</bool>

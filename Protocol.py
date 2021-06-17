@@ -56,7 +56,6 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.comDescription = ''
         self.comController = ''
         self.comIndex = 0
-        self.isAutoConnectDetectorOK = False
 
     def initUi(self):
         self.setupUi(self)
@@ -255,14 +254,9 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                         pass
                                 endTiming = dt.datetime.now()  
                             if self.isSTM32Online == True:
-                                if self.firstAutoDetetion == 1: # 第一次打开软件会执行测试仪自检
-                                    self.firstAutoDetetion = 0
-                                    self.protocolAppendSignal.emit("测试仪在线!")
-                                    self.close()
-                                    self.deviceSelfCheck() # 每次重新运行程序执行一次自检
-                                else:
-                                    self.protocolAppendSignal.emit("测试仪在线，请执行操作")
-                                    self.close()
+                                self.protocolAppendSignal.emit("测试仪在线!")
+                                self.close()
+                                self.deviceSelfCheck() # 每次重新运行程序执行一次自检
                             self.pushBtn_serialSwitch.setEnabled(True)
                     except:
                         QMessageBox.warning(self, "打开串口", "打开串口失败")
@@ -346,11 +340,12 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
             else:
                 QMessageBox.warning(self, "串口信息", "串口使用中")
         else:
-            QMessageBox.information(self, "串口信息", "串口未打开\n请打开串口", QMessageBox.Yes)
+            QMessageBox.information(self, "串口信息", "串口未打开，请打开串口", QMessageBox.Yes)
             self.protocolAppendSignal.emit("串口未打开")
 
     def deviceSelfCheck(self):
-        self.prvSerial.flush()
+        if self.prvSerial.isOpen():
+            self.prvSerial.reset_output_buffer()
         self.data = b''
         self.rxCheck = 0
         time.sleep(1)
