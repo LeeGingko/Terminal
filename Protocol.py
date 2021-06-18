@@ -348,6 +348,5 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
             self.prvSerial.reset_output_buffer()
         self.data = b''
         self.rxCheck = 0
-        time.sleep(1)
         self.protocolAppendSignal.emit("测试仪自检")
         self.serialSendData(Func.f_DevGetSelfPara, '', '')

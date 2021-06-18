@@ -22,11 +22,11 @@ class PrivateTableViewDelegate(QStyledItemDelegate):
     # def createEditor(self, parent, option, index):
     #     pass
     
-    def updateEditorGeometry(self, editor, option, index):
-        pass
+    # def updateEditorGeometry(self, editor, option, index):
+    #     pass
  
-    def setEditorData(self, editor, index):
-        pass
+    # def setEditorData(self, editor, index):
+    #     pass
  
-    def setModelData(self, editor, model, index):
-        pass
+    # def setModelData(self, editor, model, index):
+    #     pass
