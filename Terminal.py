@@ -15,9 +15,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.initUi()
 
     def __del__(self):
-        self.timsRefresh.wait()
         self.protocolWin.serialManager.wait()
         self.protocolWin.serialMonitor.wait()
+        self.timsRefresh.terminate()
         print("{} 退出主线程".format(__file__))
 
     def initUi(self):
@@ -590,6 +590,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     break
         tmp = self.protocolWin.data.decode('utf-8')
         if tmp.find('UIDOK', 0, len(tmp)) != -1:
+            time.sleep(1000)
             self.on_pushBtn_deviceDetection_clicked()
         else:
             self.enableFucnBtn()
@@ -1044,10 +1045,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 lv = rxData[rxData.find("LVOK", 0, l) + 4 : rxData.find("LCOK", 0, l)]
                 lc = rxData[rxData.find("LCOK", 0, l) + 4 : rxData.find("UNERROR", 0, l)]
                 self.userTextBrowserAppend("线路电压：" + lv + "V 正常，线路电流：" + lc + "mA 正常")
-                self.resultList[0] = self.lineEdit_op_name.text()
-                self.resultList[1] = self.detectionTime
+        self.resultList[0] = self.lineEdit_op_name.text()
+        self.resultList[1] = self.detectionTime
 
     def drainWorkCurrentCheck(self, dawa):
+        self.DA = ''
+        self.WA = ''
         l = len(dawa)
         self.DA = dawa[dawa.find("DA", 0, l) + 2 : dawa.find("WA", 0, l)]
         if self.DA != '0':
@@ -1104,7 +1107,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.checkLVLC(tmp, False)
                 if self.uid in self.devicesState:
                     self.devicesState.pop(self.uid)
-                self.userTextBrowserAppend("编码核对失败，请检查输入编码！")
+                self.userTextBrowserAppend("核对编码失败，请检查输入编码！")
                 self.enableFucnBtn()
             else:
                 self.resultList[4] = "成功"
@@ -1173,9 +1176,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                     self.resultList[13] = "超限"
                                 fvi = tmp[tmp.find("UFV",  0, l) + 3 : tmp.find("UFA", 0, l)]
                                 self.resultList[12] = fvi[0 : len(fvi) - 1] + '.' + fvi[len(fvi) - 1]
-                            elif tmp.find("UFREJ", 0, l) != -1:
+                            elif tmp.find("UF", 0, l) != -1:
                                 self.detResCode[5] = 0
-                                self.resultList[10] = tmp[tmp.find("UF",   0, l) + 2 : tmp.find("UFRE", 0, l)]
+                                self.resultList[10] = tmp[tmp.find("UF", 0, l) + 2 : tmp.find("UFREJ", 0, l)]
                                 self.resultList[11] = "-"
                                 self.resultList[12] = "-"
                                 self.resultList[13] = "-"
@@ -1364,7 +1367,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     MainApp = QApplication(sys.argv)
-    # MainApp.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     MainTerminal = MainWin()
     MainTerminal.show()
     sys.exit(MainApp.exec_()) 
