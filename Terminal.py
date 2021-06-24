@@ -1261,7 +1261,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             else:
                                 item = QStandardItem(self.resultList[col])
                             self.tableViewModel.setItem(self.tableRow, col, item)
-                    else: # 表格式图已有显示数据
+                    else: # 表格视图已有显示数据
                         dupResRow = -1
                         for r in range(rowcnt):
                             if self.tableViewModel.item(r, 6).text() == self.resultList[6]: # 编码查重，发现当前记录和前一次记录重复，覆盖前一次记录即可
@@ -1394,8 +1394,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def closeEvent(self, QCloseEvent):
         if self.tableViewModel.rowCount() != 0:
                 choice = QMessageBox.critical(self, "关闭程序", "检测结果尚未保存，无法退出程序！", QMessageBox.Yes)
-                if choice == QMessageBox.Yes:
-                    pass
+                QCloseEvent.ignore()
         else:
             choice = QMessageBox.warning(self, "关闭程序", "是否退出程序？", QMessageBox.Yes | QMessageBox.Cancel)
             if choice == QMessageBox.Yes:
