@@ -130,7 +130,6 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
     @QtCore.pyqtSlot()
     def on_pushBtn_saveSettingsRecord_clicked(self):
         print("/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/")
-        print("Setting parameters's threshold ......")
         self.getUserPara()
         cnt = 0
         self.para = ""

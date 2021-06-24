@@ -1036,7 +1036,8 @@ class Ui_MainWindow(object):
 "}\n"
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(0, 170, 255);\n"
-"}")
+"}\n"
+"")
         self.pushBtn_deviceEncodingDetection.setAutoDefault(False)
         self.pushBtn_deviceEncodingDetection.setDefault(False)
         self.pushBtn_deviceEncodingDetection.setObjectName("pushBtn_deviceEncodingDetection")

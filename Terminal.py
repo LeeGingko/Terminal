@@ -140,6 +140,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableView_result.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.tableView_result.verticalHeader().hide()
         self.tableView_result.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.tableView_result.setEditTriggers (QAbstractItemView.NoEditTriggers)
         # 3.1 表格视图上下文菜单
         self.tvMenu = QMenu(self.tableView_result)
         self.saveSelected = QAction()
@@ -197,14 +198,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 下发参数阈值
         self.startParaTimer = QTimer() # 使用定时器，防止主界面卡在步骤1中
         self.startParaTimer.timeout.connect(self.autoSendParameters)   
-        # 1 连接控制仪串口
+        # 1 搜索并连接控制仪串口
         self.protocolWin.autoConnectDetector()
         # 2 四秒后执行参数下发
         self.startParaTimer.start(4000)
         self.lineEdit_op_name.setFocus()
         self.isLVLCOK = False
-        self.encDetEncdetQue = 0
-        self.detResCode = [ -1, -1, -1, -1, -1, -1, -1]
+        self.encDetEncdetQuery = 0 # 编码 检测 编码检测 查询 -> 0 1 2 3
+        self.detResCode = [ -1, -1, -1, -1, -1, -1, -1] # 检测响应代码，均为1代表检测成功
 
     def showDaetTime(self, timeStr):
         self.myStatusBar.showMessage(timeStr)
@@ -399,11 +400,17 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             # print('excel未被打开')
             return False
 
-#----------------------------------------UID输入完成槽函数----------------------------------------#
+#----------------------------------------输入完成槽函数----------------------------------------#
     @QtCore.pyqtSlot()
     def on_lineEdit_op_name_editingFinished(self):
         self.userTextBrowserAppend('输入姓名：' + self.lineEdit_op_name.text())
-#----------------------------------------UID输入完成槽函数----------------------------------------#
+
+    @QtCore.pyqtSlot()
+    def on_lineEdit_uidInput_returnPressed(self):
+        self.setFocus(True)
+        self.aloneDeviceEncodingDetection()
+        
+#----------------------------------------输入完成槽函数----------------------------------------#
 
 #----------------------------------------按钮槽函数----------------------------------------#  
     @QtCore.pyqtSlot()
@@ -435,7 +442,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     
     @QtCore.pyqtSlot()
     def on_pushBtn_queryCode_clicked(self):
-        self.encDetEncdetQue = 3
+        self.encDetEncdetQuery = 3
         print("/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/")
         print("Querying......")
         self.userTextBrowserAppend("执行查询")
@@ -460,7 +467,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     @QtCore.pyqtSlot()
     def on_pushBtn_deviceEncoding_clicked(self):
-        self.encDetEncdetQue = 0
+        self.encDetEncdetQuery = 0
         if self.workMode["encoding"] == "1":
             print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
             print("Encoding......")
@@ -484,17 +491,17 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.devicesState = self.loadDevicesStateFile()
                         if self.devicesState != None:# 检测记录不为空
                             if self.uid in self.devicesState:
-                                encSta = self.devicesState[self.uid].get('enc')
-                                if encSta != None:
-                                    if self.queryCode == self.uid: # 当前模块进行过编码，输入的UID和当前模块UID相同
-                                        choice = QMessageBox.information(self, "执行编码", "覆盖模块编码？", QMessageBox.Yes | QMessageBox.Cancel)
-                                        if choice == QMessageBox.Yes:
-                                            self.encoding(self.uid)
-                                        else:
-                                            self.userTextBrowserAppend("取消覆盖模块编码")
-                                            self.enableFucnBtn()
-                                    else:
+                                # encSta = self.devicesState[self.uid].get('enc')
+                                # if encSta != None:
+                                if self.queryCode == self.uid: # 当前模块进行过编码，输入的UID和当前模块UID相同
+                                    choice = QMessageBox.information(self, "执行编码", "覆盖模块编码？", QMessageBox.Yes | QMessageBox.Cancel)
+                                    if choice == QMessageBox.Yes:
                                         self.encoding(self.uid)
+                                    else:
+                                        self.userTextBrowserAppend("取消覆盖模块编码")
+                                        self.enableFucnBtn()
+                                else:
+                                    self.encoding(self.uid)
                             else:
                                 if self.workMode["encoding"] == "1":
                                     self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[] }
@@ -502,7 +509,15 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         else:
                             self.devicesState = {}
                             self.devicesState[self.uid] = { 'enc':None, 'det':None, 'res':[] }
-                            self.encoding(self.uid)
+                            if self.queryCode == self.uid: # 当前模块进行过编码，输入的UID和当前模块UID相同
+                                    choice = QMessageBox.information(self, "执行编码", "覆盖模块编码？", QMessageBox.Yes | QMessageBox.Cancel)
+                                    if choice == QMessageBox.Yes:
+                                        self.encoding(self.uid)
+                                    else:
+                                        self.userTextBrowserAppend("取消覆盖模块编码")
+                                        self.enableFucnBtn()
+                            else:
+                                self.encoding(self.uid)
                     else:
                         self.userTextBrowserAppend("请输入编码！")
                 else:
@@ -518,14 +533,15 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.detectionTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         self.protocolWin.data = b""
         self.protocolWin.rxCheck = 0
-        self.protocolWin.prvSerial.flushOutput()
+        if self.protocolWin.prvSerial.isOpen():
+            self.protocolWin.prvSerial.flushOutput()
         self.protocolWin.serialSendData(Func.f_DevDetection, uid, '')
 
     @QtCore.pyqtSlot()
     def on_pushBtn_deviceDetection_clicked(self):
         for t in range(len(self.detResCode)):
             self.detResCode[t] = -1
-        self.encDetEncdetQue = 1
+        self.encDetEncdetQuery = 1
         if self.workMode["detection"] == "1":
             self.isLVLCOK = False
             print("/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/")
@@ -553,7 +569,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                     self.devicesState[self.uid]['det'] = None
                                     self.detection(self.uid)
                                     self.detectionState = 1
-                                elif (detsta == None or detsta == True or detsta == False) and (resSta != None and index != None): # 该模块在此次工作中已进行过检测，结果已经保存
+                                elif (detsta == True or detsta == False) and (resSta != None and index != None): # 该模块在此次工作中已进行过检测，结果已经保存
                                     choice = QMessageBox.information(self, "执行检测", "已有检测结果，重新检测模块？", QMessageBox.Yes | QMessageBox.Cancel)
                                     if choice == QMessageBox.Yes:
                                         self.devicesState[self.uid]['det'] = None
@@ -590,7 +606,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     break
         tmp = self.protocolWin.data.decode('utf-8')
         if tmp.find('UIDOK', 0, len(tmp)) != -1:
-            time.sleep(1000)
             self.on_pushBtn_deviceDetection_clicked()
         else:
             self.enableFucnBtn()
@@ -600,7 +615,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_pushBtn_deviceEncodingDetection_clicked(self):
         for t in range(len(self.detResCode)):
             self.detResCode[t] = -1
-        self.encDetEncdetQue = 2
+        self.encDetEncdetQuery = 2
         self.userTextBrowserAppend("执行编码和检测")
         if self.workMode["encoding"] == "1" and self.workMode["detection"] == "1":
             if self.protocolWin.prvSerial.isOpen():
@@ -619,6 +634,28 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif self.workMode["encoding"] == "X" and self.workMode["detection"] == "X":
             self.userTextBrowserAppend("编码【未知】，检测【未知】") 
     
+    def aloneDeviceEncodingDetection(self):
+        for t in range(len(self.detResCode)):
+            self.detResCode[t] = -1
+        self.encDetEncdetQuery = 2
+        self.userTextBrowserAppend("执行编码和检测")
+        if self.workMode["encoding"] == "1" and self.workMode["detection"] == "1":
+            if self.protocolWin.prvSerial.isOpen():
+                self.detectionTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                self.uid = self.lineEdit_uidInput.text()
+                self.isPureQueryCode = True
+                self.encodingDetection(self.uid)
+            else:
+                self.userTextBrowserAppend("串口未打开")
+        elif self.workMode["encoding"] == "1" and self.workMode["detection"] == "0":
+            self.userTextBrowserAppend("编码【已开启】，检测【未开启】") 
+        elif self.workMode["encoding"] == "0" and self.workMode["detection"] == "1":
+            self.userTextBrowserAppend("编码【未开启】，检测【已开启】") 
+        elif self.workMode["encoding"] == "0" and self.workMode["detection"] == "0":
+            self.userTextBrowserAppend("编码【未开启】，检测【未开启】") 
+        elif self.workMode["encoding"] == "X" and self.workMode["detection"] == "X":
+            self.userTextBrowserAppend("编码【未知】，检测【未知】") 
+
     @QtCore.pyqtSlot()
     def on_pushBtn_confirmDetection_clicked(self):
         choice = QMessageBox.warning(self, "检测结果确认", "确认检测完毕？", QMessageBox.Yes | QMessageBox.Cancel)
@@ -960,7 +997,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.userTextBrowserAppend("当前模块编号：" + self.queryCode)
             else:
                 pass
-        if self.encDetEncdetQue == 3 and self.isPureQueryCode == True:
+        if self.encDetEncdetQuery == 3 and self.isPureQueryCode == True:
             self.pushBtn_deviceEncoding.setEnabled(True)
             self.pushBtn_deviceDetection.setEnabled(True)
             self.pushBtn_deviceEncodingDetection.setEnabled(True)
@@ -1001,7 +1038,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.workMode["encoding"] = "0"
             self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/close)}")
             self.userTextBrowserAppend("无法进行编码，请检查编码按键！")
-        if self.encDetEncdetQue == 0:
+        if self.encDetEncdetQuery == 0:
             self.pushBtn_deviceEncoding.setEnabled(True)
             self.pushBtn_deviceDetection.setEnabled(True)
             self.pushBtn_deviceEncodingDetection.setEnabled(True)
@@ -1013,15 +1050,15 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if UNOK == True:
             if rxData.find("LVER", 0, l) != -1 and rxData.find("LCER", 0, l) != -1:
                 lv = rxData[rxData.find("LVER", 0, l) + 4 : rxData.find("LCER", 0, l)]
-                lc = rxData[rxData.find("LCER", 0, l) + 4 : rxData.find("DA", 0, l)]
+                lc = rxData[rxData.find("LCER", 0, l) + 4 : l - 4]
                 self.userTextBrowserAppend("线路电压：" + lv + "V 超限，线路电流：" + lc + "mA 超限")
             elif rxData.find("LVOK", 0, l) != -1 and rxData.find("LCER", 0, l) != -1:
                 lv = rxData[rxData.find("LVOK", 0, l) + 4 : rxData.find("LCER", 0, l)]
-                lc = rxData[rxData.find("LCER", 0, l) + 4 : rxData.find("DA", 0, l)]
+                lc = rxData[rxData.find("LCER", 0, l) + 4 : l - 4]
                 self.userTextBrowserAppend("线路电压：" + lv + "V 正常，线路电流：" + lc + "mA 超限")
             elif rxData.find("LVER", 0, l) != -1 and rxData.find("LCOK", 0, l) != -1:
                 lv = rxData[rxData.find("LVER", 0, l) + 4 : rxData.find("LCOK", 0, l)]
-                lc = rxData[rxData.find("LCOK", 0, l) + 4 : rxData.find("DA", 0, l)]
+                lc = rxData[rxData.find("LCOK", 0, l) + 4 : l - 4]
                 self.userTextBrowserAppend("线路电压：" + lv + "V 超限，线路电流：" + lc + "mA 正常")
             elif rxData.find("LVOK", 0, l) != -1 and rxData.find("LCOK", 0, l) != -1:
                 lv = rxData[rxData.find("LVOK", 0, l) + 4 : rxData.find("LCOK", 0, l)]
@@ -1095,10 +1132,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("无模块连接，请检查接线")
             self.enableFucnBtn()
         else:
+            self.resultList[6] = self.uid
             if tmp.find("UNERROR", 0, l) != -1:
                 self.resultList[4] = "失败"
                 self.resultList[5] = "离线"
-                self.resultList[6] = "-"
+                self.resultList[6] = self.uid
                 self.resultList[7] = "-"
                 self.resultList[8] = "-"
                 self.resultList[9] = "-"
@@ -1126,9 +1164,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                     self.resultList[5] = "在线"
                                     fc = tmp[tmp.find("UNA", l - 10, l) + 3 : l - 4] # 引爆电流
                                     self.resultList[7] = fc
-                                    fv = tmp[tmp.find("UNV", l - 20, l) + 3 : tmp.find("UNA", l - 10, l)] # 引爆电压
-                                    self.detResCode[5] = 1
-                                    self.resultList[8] = fv[0 : len(fv) - 1] + '.' + fv[len(self.DA) - 1]
+                                    fv = tmp[tmp.find("UNV", l - 40, l) + 3 : tmp.find("UNA", l - 10, l)] # 引爆电压
+                                    self.resultList[8] = fv[0 : len(fv) - 1] + '.' + fv[len(fv) - 1]
                                     if float(fc) > float(self.thresholdWin.paraDict['th_FireCurrent_Down']) and float(fc) < float(self.thresholdWin.paraDict['th_FireCurrent_Up']):
                                         self.detResCode[4] = 1
                                         self.resultList[9] = "正常"
@@ -1187,7 +1224,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         else:
                             self.detResCode[3] = 0
                             self.resultList[5] = "离线"
-                            self.resultList[6] = "-"# UID
+                            self.resultList[6] = self.uid
                             self.resultList[7] = "-"
                             self.resultList[8] = "-"
                             self.resultList[9] = "-"
@@ -1198,11 +1235,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.detResCode[3] = 0
                         self.resultList[4] = "失败"
                         self.resultList[5] = "离线"
-                        self.resultList[6] = "-"
+                        self.resultList[6] = self.uid
                         self.resultList[7] = "-"
                         self.resultList[8] = "-"
                         self.resultList[9] = "-"
-                        self.devicesState[self.uid]['det'] = -1
+                        self.devicesState[self.uid]['det'] = False
                         # 结论
                         self.resultList[14] = '失败'
                         self.userTextBrowserAppend("接入火工，火工部不存在, 被测模块火工部异常")
@@ -1355,15 +1392,20 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 break
 
     def closeEvent(self, QCloseEvent):
-        choice = QMessageBox.warning(self, "关闭程序", "是否退出程序？", QMessageBox.Yes | QMessageBox.Cancel)
-        if choice == QMessageBox.Yes:
-            QCloseEvent.accept()
-            if self.protocolWin.prvSerial.isOpen():
-                self.protocolWin.prvSerial.close()
-            app = QApplication.instance()
-            app.quit()
-        elif choice == QMessageBox.Cancel:
-            QCloseEvent.ignore()
+        if self.tableViewModel.rowCount() != 0:
+                choice = QMessageBox.critical(self, "关闭程序", "检测结果尚未保存，无法退出程序！", QMessageBox.Yes)
+                if choice == QMessageBox.Yes:
+                    pass
+        else:
+            choice = QMessageBox.warning(self, "关闭程序", "是否退出程序？", QMessageBox.Yes | QMessageBox.Cancel)
+            if choice == QMessageBox.Yes:
+                QCloseEvent.accept()
+                if self.protocolWin.prvSerial.isOpen():
+                    self.protocolWin.prvSerial.close()
+                app = QApplication.instance()
+                app.quit()
+            elif choice == QMessageBox.Cancel:
+                QCloseEvent.ignore()
 
 if __name__ == "__main__":
     MainApp = QApplication(sys.argv)

@@ -2474,7 +2474,8 @@ QPushButton:hover:pressed{
 }
 QPushButton:hover:pressed{
 	background-color: rgb(0, 170, 255);
-}</string>
+}
+</string>
         </property>
         <property name="text">
          <string>一键编码检测</string>

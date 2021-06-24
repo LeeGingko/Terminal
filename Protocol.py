@@ -163,11 +163,6 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                 s = diffset.pop()
                 if action == 'UPON':
                     self.protocolAppendSignal.emit("[" + s.description + "]已插入")
-                    # self.comDescription = s.description
-                    # self.serialManager.initPort(s.device)
-                    # if not self.prvSerial.isOpen():
-                    #     self.prvSerial.open()
-                    # self.protocolAppendSignal.emit("已打开[" + s.device + "]")
                 else:
                     self.protocolAppendSignal.emit("[" + s.description + "]已拔出")
             self.comboBox_selectComNum.setEnabled(True)
@@ -176,6 +171,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
             self.comDescriptionList = self.serialMonitor.descriptionList.copy()
             if len(self.comDescriptionList) != 0:
                 for p in self.comDescriptionList:
+                    # for x in self.comboBox_selectComNum.
                     self.comboBox_selectComNum.addItem(p)
             self.pushBtn_serialSwitch.setText('打开串口')
             if (self.comController != '') and (not self.comController in self.comDescriptionList):

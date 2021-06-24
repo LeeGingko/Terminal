@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>304</width>
+    <width>327</width>
     <height>163</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <rect>
      <x>8</x>
      <y>14</y>
-     <width>281</width>
+     <width>309</width>
      <height>125</height>
     </rect>
    </property>
@@ -39,9 +39,9 @@
    <widget class="QComboBox" name="comboBox_selectComNum">
     <property name="geometry">
      <rect>
-      <x>8</x>
-      <y>30</y>
-      <width>269</width>
+      <x>9</x>
+      <y>32</y>
+      <width>289</width>
       <height>40</height>
      </rect>
     </property>
@@ -62,6 +62,9 @@
     <property name="contextMenuPolicy">
      <enum>Qt::NoContextMenu</enum>
     </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
     <property name="styleSheet">
      <string notr="true">QPushButton:hover{
 	background-color: rgb(214, 234, 239);
@@ -74,14 +77,20 @@ QPushButton:hover:pressed{
      <bool>false</bool>
     </property>
     <property name="currentText">
-     <string>JLink CDC UART Port (COM6)</string>
+     <string>JLink CDC UART Port (COM255)</string>
     </property>
     <property name="insertPolicy">
-     <enum>QComboBox::InsertAtTop</enum>
+     <enum>QComboBox::NoInsert</enum>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+    </property>
+    <property name="frame">
+     <bool>true</bool>
     </property>
     <item>
      <property name="text">
-      <string>JLink CDC UART Port (COM6)</string>
+      <string>JLink CDC UART Port (COM255)</string>
      </property>
     </item>
    </widget>
@@ -89,8 +98,8 @@ QPushButton:hover:pressed{
     <property name="geometry">
      <rect>
       <x>8</x>
-      <y>78</y>
-      <width>271</width>
+      <y>76</y>
+      <width>291</width>
       <height>40</height>
      </rect>
     </property>

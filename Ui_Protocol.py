@@ -14,9 +14,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_ProtocolDialog(object):
     def setupUi(self, ProtocolDialog):
         ProtocolDialog.setObjectName("ProtocolDialog")
-        ProtocolDialog.resize(304, 163)
+        ProtocolDialog.resize(327, 163)
         self.groupBox = QtWidgets.QGroupBox(ProtocolDialog)
-        self.groupBox.setGeometry(QtCore.QRect(8, 14, 281, 125))
+        self.groupBox.setGeometry(QtCore.QRect(8, 14, 309, 125))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(16)
@@ -26,7 +26,7 @@ class Ui_ProtocolDialog(object):
         self.groupBox.setAlignment(QtCore.Qt.AlignCenter)
         self.groupBox.setObjectName("groupBox")
         self.comboBox_selectComNum = QtWidgets.QComboBox(self.groupBox)
-        self.comboBox_selectComNum.setGeometry(QtCore.QRect(8, 30, 269, 40))
+        self.comboBox_selectComNum.setGeometry(QtCore.QRect(9, 32, 289, 40))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -39,6 +39,7 @@ class Ui_ProtocolDialog(object):
         font.setWeight(50)
         self.comboBox_selectComNum.setFont(font)
         self.comboBox_selectComNum.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
+        self.comboBox_selectComNum.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.comboBox_selectComNum.setStyleSheet("QPushButton:hover{\n"
 "    background-color: rgb(214, 234, 239);\n"
 "}\n"
@@ -46,11 +47,13 @@ class Ui_ProtocolDialog(object):
 "    background-color: rgb(130, 195, 195);\n"
 "}")
         self.comboBox_selectComNum.setEditable(False)
-        self.comboBox_selectComNum.setInsertPolicy(QtWidgets.QComboBox.InsertAtTop)
+        self.comboBox_selectComNum.setInsertPolicy(QtWidgets.QComboBox.NoInsert)
+        self.comboBox_selectComNum.setSizeAdjustPolicy(QtWidgets.QComboBox.AdjustToContentsOnFirstShow)
+        self.comboBox_selectComNum.setFrame(True)
         self.comboBox_selectComNum.setObjectName("comboBox_selectComNum")
         self.comboBox_selectComNum.addItem("")
         self.pushBtn_serialSwitch = QtWidgets.QPushButton(self.groupBox)
-        self.pushBtn_serialSwitch.setGeometry(QtCore.QRect(8, 78, 271, 40))
+        self.pushBtn_serialSwitch.setGeometry(QtCore.QRect(8, 76, 291, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(16)
@@ -75,7 +78,7 @@ class Ui_ProtocolDialog(object):
         _translate = QtCore.QCoreApplication.translate
         ProtocolDialog.setWindowTitle(_translate("ProtocolDialog", "Dialog"))
         self.groupBox.setTitle(_translate("ProtocolDialog", "端口设置"))
-        self.comboBox_selectComNum.setCurrentText(_translate("ProtocolDialog", "JLink CDC UART Port (COM6)"))
-        self.comboBox_selectComNum.setItemText(0, _translate("ProtocolDialog", "JLink CDC UART Port (COM6)"))
+        self.comboBox_selectComNum.setCurrentText(_translate("ProtocolDialog", "JLink CDC UART Port (COM255)"))
+        self.comboBox_selectComNum.setItemText(0, _translate("ProtocolDialog", "JLink CDC UART Port (COM255)"))
         self.pushBtn_serialSwitch.setText(_translate("ProtocolDialog", "打开串口"))
         self.pushBtn_serialSwitch.setShortcut(_translate("ProtocolDialog", "Ctrl+1"))
