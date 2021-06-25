@@ -3,7 +3,6 @@ import os
 # 导入pickle模块
 import pickle as pk
 
-import win32con
 import win32file
 # 默认导入
 from PyQt5 import QtCore
@@ -151,15 +150,6 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
             cnt += 1
         self.saveThreshold(self.para)
         
-    def isFileOpened(self, file_path):
-        try:
-            v_handle = win32file.CreateFile(file_path, win32file.GENERIC_READ, 0, None, win32con.OPEN_EXISTING, win32file.FILE_ATTRIBUTE_NORMAL, None)
-            result = int(v_handle) == win32file.INVALID_HANDLE_VALUE
-            win32file.CloseHandle(v_handle)
-        except Exception:
-            return True
-        return result
-    
     @QtCore.pyqtSlot()
     def on_pushBtn_readSettingsRecord_clicked(self):
         file = os.path.join(self.configFolder, 'config.txt')

@@ -73,6 +73,23 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.setWindowIcon(QIcon(iconPath))
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 
+    def mySortFunc(e):
+        return
+
+    def duplicatePortCheck(self):
+        tmpList = []
+        for i in range(self.comboBox_selectComNum.count()):
+            tmpList.append(self.comboBox_selectComNum.itemText(i))
+        tmpSet = set(tmpList)
+        tmpList.clear()
+        self.comboBox_selectComNum.clear()  # 清空端口选择按钮
+        for i in range(len(tmpSet)):
+            tmpList.append(tmpSet.pop())
+        tmpList.sort(reverse=False)
+        tmpList[::-1]
+        for i in range(len(tmpList)):
+            self.comboBox_selectComNum.addItem(tmpList[i])
+
     def autoConnectDetector(self):
         self.comboBox_selectComNum.setEnabled(True)
         self.comboBox_selectComNum.clear()  # 清空端口选择按钮
@@ -85,7 +102,8 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
             self.protocolAppendSignal.emit("未检测到串口，请连接设备！")
             self.isAutoConnectDetectorOK = False
         else:
-            self.comboBox_selectComNum.addItems(self.comDescriptionList) # 
+            self.comboBox_selectComNum.addItems(self.comDescriptionList)
+            # self.duplicatePortCheck()
             self.comboBox_selectComNum.setEnabled(False)
             for i in self.comPortList:
                 QApplication.processEvents()
@@ -146,13 +164,13 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                     if self.isSTM32Online == True:
                         break
 
-    def portsMonitoring(self, list, action, diffset):
-        if list[0] == 'NOCOM':
+    def portsMonitoring(self, comlist, action, diffset):
+        if comlist[0] == 'NOCOM':
             self.comController = ''
             self.comPortList.clear()
             self.comDescriptionList.clear()
             self.protocolAppendSignal.emit("当前已无串口")
-            print(str(list[0]))
+            print(str(comlist[0]))
             self.comboBox_selectComNum.setEnabled(True)
             self.comboBox_selectComNum.clear() # 清空端口选择按钮 
             if self.prvSerial.isOpen():
@@ -171,8 +189,8 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
             self.comDescriptionList = self.serialMonitor.descriptionList.copy()
             if len(self.comDescriptionList) != 0:
                 for p in self.comDescriptionList:
-                    # for x in self.comboBox_selectComNum.
                     self.comboBox_selectComNum.addItem(p)
+            # self.duplicatePortCheck()
             self.pushBtn_serialSwitch.setText('打开串口')
             if (self.comController != '') and (not self.comController in self.comDescriptionList):
                 self.prvSerial.close()

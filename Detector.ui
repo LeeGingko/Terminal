@@ -5048,6 +5048,18 @@ p, li { white-space: pre-wrap; }
 	border-color: rgb(85, 170, 255);
 }</string>
       </property>
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="autoScroll">
+       <bool>true</bool>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="alternatingRowColors">
+       <bool>false</bool>
+      </property>
       <property name="gridStyle">
        <enum>Qt::SolidLine</enum>
       </property>

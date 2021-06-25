@@ -43,7 +43,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setIconSize(QSize(256, 256))
         # 状态栏初始化
         self.myStatusBar = QStatusBar()
-        self.myStatusBar.setFont(QFont("Times New Roman", 16, QFont.Light))
+        self.myStatusBar.setFont(QFont("Times New Roman", 16, QFont.Weight.Light))
         self.pathLabel = QLabel(self)
         self.myStatusBar.addPermanentWidget(self.pathLabel) # 添加操作文件显示控件
         self.setStatusBar(self.myStatusBar)
@@ -84,7 +84,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/NONE)}")
         # 操作人员姓名录入
         self.is_name_input = False
-        self.name = "操作员01" # 默认操作员姓名
+        self.name = "操作员007" # 默认操作员姓名
         self.isNameInput = False
         nameRegValidator = QRegularExpressionValidator(self)
         nameReg = QRegularExpression("^(?![\\《\\》\\，\\、\\。\\；\\：\\‘\\’\\“\\”\\？\\【\\】\\（\\）\\-\\—])[a-zA-Z0-9\u4e00-\u9fa5]+$")
@@ -96,9 +96,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.timsRefresh.secondSignal.connect(self.showDaetTime)
         self.timsRefresh.start()
         # 检测数据Excel文件初始化
-        self.excel = PrivateOpenPyxl() # Excel实例化全局对象
+        self.excel = PrivateOpenPyxl() # 实例化Excel全局对象
         self.isExcelSavedFirst = True # 是否是第一次保存Excel
-        self.isExcelSaved = False # 是否是已经保存 Excel
+        self.isExcelSaved = False # 是否是已经保存Excel
         self.excelFilePath = "" # Excel文件路径
         self.excelFile = "" # Excel文件
         self.excelOpenState = False
@@ -114,8 +114,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         initTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) # 检测时间
         self.resultDefaultList = [
             "name",  initTime,    "E",    "E",   "失败",
-            "离线",   "EEEEE",     "E",    "E",   "异常",
-            "EEEEE",    "E",      "E",    "异常", '失败' ]
+            "离线",   "EEEEE",     "E",    "E",   "E",
+            "EEEEE",    "E",      "E",    "E", '失败' ]
         # 测试检测结果，初始为默认检测结果
         self.resultList = self.resultDefaultList.copy()
         # 单次测试检测结果备份，进行重复检测结果判断
@@ -198,6 +198,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 下发参数阈值
         self.startParaTimer = QTimer() # 使用定时器，防止主界面卡在步骤1中
         self.startParaTimer.timeout.connect(self.autoSendParameters)   
+        # 是否是主窗口发起的自动参数下发
+        self.isMainSendPara = True # 开启软件默认就是主窗口发送，无需关闭参数下发窗口
         # 1 搜索并连接控制仪串口
         self.protocolWin.autoConnectDetector()
         # 2 四秒后执行参数下发
@@ -533,6 +535,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def detection(self, uid):
         self.detectionTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        self.resultList = [
+            "name",  self.detectionTime,    "-",    "-",   "-",
+            "-",   "EEEEE",     "-",    "-",   "-",
+            "EEEEE",    "-",      "-",    "-", '-' ]
         self.protocolWin.data = b""
         self.protocolWin.rxCheck = 0
         if self.protocolWin.prvSerial.isOpen():
@@ -974,9 +980,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         tmp = self.protocolWin.data.decode("utf-8")
         res = tmp[3:(len(tmp)-4)]
         if res == "PARAOK":
-            # self.sleepUpdate(2) 导致主窗口卡顿的地方
-            if self.thresholdWin.isActiveWindow():
-                self.thresholdWin.close()
+            if self.isMainSendPara == False:
+                if self.thresholdWin.isActiveWindow():
+                    self.thresholdWin.close()
+            else:
+                self.isMainSendPara = False
             if self.powerOnParaTimer.isActive():
                 self.powerOnParaTimer.stop()
             if self.startParaTimer.isActive():
@@ -1199,15 +1207,18 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                 self.resultList[10] = tmp[tmp.find("POOKUF",   0, l) + 6 : tmp.find("UFRE", 0, l)]
                                 if tmp.find("UNREC", 0, l) != -1:
                                     fci = tmp[tmp.find("UFA",  0, l) + 3 : tmp.find("UNREC", 0, l)] #引爆电流
+                                elif tmp.find("UNREJ", 0, l) != -1:
+                                    fci = tmp[tmp.find("UFA",  0, l) + 3 : tmp.find("UNREJ", 0, l)] #引爆电流
                                 elif tmp.find("UNNON", 0, l) != -1:
                                     fci = tmp[tmp.find("UFA",  0, l) + 3 : tmp.find("UNNON", 0, l)] #引爆电流
-                                self.resultList[11] = fci
+
                                 if float(fci) > float(self.thresholdWin.paraDict['th_FireCurrent_Down']) and float(fci) < float(self.thresholdWin.paraDict['th_FireCurrent_Up']):
                                     self.detResCode[6] = 1
                                     self.resultList[13] = "正常"
                                 else:
                                     self.detResCode[6] = 0
                                     self.resultList[13] = "超限"
+                                self.resultList[11] = fci
                                 fvi = tmp[tmp.find("UFV",  0, l) + 3 : tmp.find("UFA", 0, l)]
                                 self.resultList[12] = fvi[0 : len(fvi) - 1] + '.' + fvi[len(fvi) - 1]
                             elif tmp.find("UF", 0, l) != -1:
@@ -1230,7 +1241,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             self.userTextBrowserAppend("断开火工，火工部存在, 被测模块火工部异常")
                     elif tmp.find("PIER", 0, l) != -1:
                         self.detResCode[3] = 0
-                        self.resultList[4] = "失败"
                         self.resultList[5] = "离线"
                         self.resultList[6] = self.uid
                         self.resultList[7] = "-"
@@ -1251,29 +1261,29 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     elif self.detectionState == 2: # 已保存
                         self.changeResultsFile(self.uid)
                     rowcnt = self.tableViewModel.rowCount()
-                    if rowcnt == 0: # 表格式图无显示数据
+                    if rowcnt == 0: # 表格视图无显示数据
                         for col in range(15):
                             if col != 14:
                                 item = QStandardItem(self.resultList[col])
                                 if self.resultList[col] == '成功':
-                                    item.setForeground(QBrush(QColor(85, 170, 85)))
+                                    item.setForeground(QBrush(QColor(0, 0, 255)))
                                 elif self.resultList[col] == '失败':
                                     item.setForeground(QBrush(QColor(255, 0, 0)))
                                 if self.resultList[col] == '在线':
-                                    item.setForeground(QBrush(QColor(85, 170, 85)))
+                                    item.setForeground(QBrush(QColor(0, 0, 255)))
                                 elif self.resultList[col] == '离线':
                                     item.setForeground(QBrush(QColor(255, 0, 0)))
                                 if self.resultList[col] == '正常':
-                                    item.setForeground(QBrush(QColor(85, 170, 85)))
+                                    item.setForeground(QBrush(QColor(0, 0, 255)))
                                 elif self.resultList[col] == '超限':
                                     item.setForeground(QBrush(QColor(255, 0, 0)))
                             else:
                                 item = QStandardItem(self.resultList[col][0:2])
                                 if self.resultList[col][0:2] == '通过':
-                                    item.setBackground(QBrush(QColor(0, 255, 0)))
+                                    item.setBackground(QBrush(QColor(0, 168, 243)))
                                 elif self.resultList[col][0:2] == '失败':
                                     item.setBackground(QBrush(QColor(255, 0, 0)))
-                            item.setFont(QFont('Times New Roman', 18, QFont.Light))
+                            item.setFont(QFont('Times New Roman', 18, QFont.Weight.Light))
                             self.tableViewModel.setItem(self.tableRow, col, item)
                     else: # 表格视图已有显示数据
                         dupResRow = -1
@@ -1283,51 +1293,49 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                     if i != 14:
                                         item = QStandardItem(self.resultList[i])
                                         if self.resultList[i] == '成功':
-                                            item.setForeground(QBrush(QColor(85, 170, 85)))
+                                            item.setForeground(QBrush(QColor(0, 0, 255)))
                                         elif self.resultList[i] == '失败':
                                             item.setForeground(QBrush(QColor(255, 0, 0)))
                                         if self.resultList[i] == '在线':
-                                            item.setForeground(QBrush(QColor(85, 170, 85)))
+                                            item.setForeground(QBrush(QColor(0, 0, 255)))
                                         elif self.resultList[i] == '离线':
                                             item.setForeground(QBrush(QColor(255, 0, 0)))
                                         if self.resultList[i] == '正常':
-                                            item.setForeground(QBrush(QColor(85, 170, 85)))
+                                            item.setForeground(QBrush(QColor(0, 0, 255)))
                                         elif self.resultList[i] == '超限':
                                             item.setForeground(QBrush(QColor(255, 0, 0)))
-                                        item.setFont(QFont('Times New Roman', 18, QFont.Light))
-                                        self.tableViewModel.setItem(r, i, item)
                                     else:
                                         item = QStandardItem(self.resultList[i][0:2])
                                         if self.resultList[i][0:2] == '通过':
-                                            item.setBackground(QBrush(QColor(0, 255, 0)))
+                                            item.setBackground(QBrush(QColor(0, 168, 243)))
                                         elif self.resultList[i][0:2] == '失败':
                                             item.setBackground(QBrush(QColor(255, 0, 0)))
-                                        item.setFont(QFont('Times New Roman', 18, QFont.Light))
-                                        self.tableViewModel.setItem(r, i, item)
+                                    item.setFont(QFont('Times New Roman', 18, QFont.Weight.Light))
+                                    self.tableViewModel.setItem(r, i, item)
                                 dupResRow = r
                         if dupResRow == -1: # 无重复检测记录
                             for col in range(15):
                                 if col != 14:
                                     item = QStandardItem(self.resultList[col])
                                     if self.resultList[col] == '成功':
-                                        item.setForeground(QBrush(QColor(85, 170, 85)))
+                                        item.setForeground(QBrush(QColor(0, 0, 255)))
                                     elif self.resultList[col] == '失败':
                                         item.setForeground(QBrush(QColor(255, 0, 0)))
                                     if self.resultList[col] == '在线':
-                                        item.setForeground(QBrush(QColor(85, 170, 85)))
+                                        item.setForeground(QBrush(QColor(0, 0, 255)))
                                     elif self.resultList[col] == '离线':
                                         item.setForeground(QBrush(QColor(255, 0, 0)))
                                     if self.resultList[col] == '正常':
-                                        item.setForeground(QBrush(QColor(85, 170, 85)))
+                                        item.setForeground(QBrush(QColor(0, 0, 255)))
                                     elif self.resultList[col] == '超限':
                                         item.setForeground(QBrush(QColor(255, 0, 0)))   
                                 else:
                                     item = QStandardItem(self.resultList[col][0:2])
                                     if self.resultList[col][0:2] == '通过':
-                                        item.setBackground(QBrush(QColor(0, 255, 0)))
+                                        item.setBackground(QBrush(QColor(0, 168, 243)))
                                     elif self.resultList[col][0:2] == '失败':
                                         item.setBackground(QBrush(QColor(255, 0, 0)))
-                                item.setFont(QFont('Times New Roman', 18, QFont.Light))
+                                item.setFont(QFont('Times New Roman', 18, QFont.Weight.Light))
                                 self.tableViewModel.setItem(rowcnt, col, item)
                             self.tableRow = rowcnt + 1
                         else:
