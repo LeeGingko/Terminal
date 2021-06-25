@@ -15,21 +15,20 @@ import serial
 import serial.tools.list_ports
 # 默认导入
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QTimer, QRegularExpression, QSize, Qt, QThread
-from PyQt5.QtGui import QFont, QRegularExpressionValidator, QStandardItem, QStandardItemModel, QIcon
+from PyQt5.QtCore import QRegularExpression, QSize, Qt, QThread, QTimer
+from PyQt5.QtGui import QBrush, QColor, QFont, QIcon, QPixmap, QRegularExpressionValidator, QStandardItem, QStandardItemModel
 from PyQt5.QtSerialPort import QSerialPortInfo
-from PyQt5.QtWidgets import QApplication, QStatusBar, QLabel, QHeaderView, QAbstractItemView, QAction, QMenu, QMessageBox, QFileDialog, QPushButton
+from PyQt5.QtWidgets import QAbstractItemView, QAction, QApplication, QFileDialog, QHeaderView, QLabel, QMenu, QMessageBox, QPushButton, QStatusBar
 
 # getset全局变量
 import GetSetObj
-# 导入黑色主题
-import qdarkstyle
+# # 导入黑色主题
+# import qdarkstyle
 # 全局变量
 import GlobalVariable
 from GlobalVariable import GlobalVar
 # 导入协议窗口类
 from Protocol import ProtocolWin
-
 # 导入阈值设定窗口类
 from Threshold import ThresholdWin
 # 导入主窗口类
