@@ -167,7 +167,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         reg = QRegularExpression("[A-E0-9]+$") # 字母范围A~F, 数字0~9
         regValidator.setRegularExpression(reg)
         # UID输入编辑栏初始化
-        self.lineEdit_uidInput.setMaxLength(5)
+        self.lineEdit_uidInput.setMaxLength(10)
         self.lineEdit_uidInput.setValidator(regValidator)
         self.lineEdit_uidInput.setToolTip("字母范围A~E, 数字0~9")
         self.lineEdit_uidInput.setFocus()
@@ -210,6 +210,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.isLVLCOK = False
         self.encDetEncdetQuery = 0 # 编码 检测 编码检测 查询 -> 0 1 2 3
         self.detResCode = [ -1, -1, -1, -1, -1, -1, -1] # 检测响应代码，均为1代表检测成功
+        self.uidLengthCheckTimer = QTimer()
+        self.uidLengthCheckTimer.timeout.connect(self.uidInputMonitoring)
+        self.uidLengthCheckTimer.start(50)
 
     def showDaetTime(self, timeStr):
         self.myStatusBar.showMessage(timeStr)
@@ -413,9 +416,22 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_lineEdit_op_name_editingFinished(self):
         self.userTextBrowserAppend('输入姓名：' + self.lineEdit_op_name.text())
 
+    def uidInputMonitoring(self):
+        l = len(self.lineEdit_uidInput.text())
+        if l == 10:
+            self.lineEdit_uidInput.setText(self.lineEdit_uidInput.text()[l-5:l])
+
     @QtCore.pyqtSlot()
-    def on_lineEdit_uidInput_returnPressed(self):
-        self.aloneDeviceEncodingDetection()
+    def on_lineEdit_uidInput_editingFinished(self):
+        l = len(self.lineEdit_uidInput.text())
+        if l == 10:
+            self.lineEdit_uidInput.setText(self.lineEdit_uidInput.text()[l-5:l])
+        # self.userTextBrowserAppend('editingFinished 输入UID：' + self.lineEdit_uidInput.text())
+
+    # @QtCore.pyqtSlot()
+    # def on_lineEdit_uidInput_returnPressed(self):
+    #     self.aloneDeviceEncodingDetection()
+
 #----------------------------------------输入完成槽函数----------------------------------------#
 
 #----------------------------------------按钮槽函数----------------------------------------#  
@@ -474,6 +490,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     @QtCore.pyqtSlot()
     def on_pushBtn_deviceEncoding_clicked(self):
+        if self.protocolWin.prvSerial.isOpen():
+            self.protocolWin.prvSerial.reset_output_buffer()
         self.encDetEncdetQuery = 0
         if self.workMode["encoding"] == "1":
             print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
@@ -553,6 +571,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         for t in range(len(self.detResCode)):
             self.detResCode[t] = -1
         self.encDetEncdetQuery = 1
+        if self.protocolWin.prvSerial.isOpen():
+            self.protocolWin.prvSerial.reset_output_buffer()
         if self.workMode["detection"] == "1":
             self.isLVLCOK = False
             print("/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/")
