@@ -66,17 +66,19 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.createConfigFile()
         self.createDevicesStateFile()
         self.createResultsFile()
-        # 通信配置界面类实例
-        self.protocolWin = ProtocolWin()
-        self.protocolWin.protocolAppendSignal.connect(self.userTextBrowserAppend)
-        # 串口通信实例传入到全局对象，供阈值设置实例访问
-        GetSetObj.set(self.protocolWin)
-        # 串口接收线程处理函数
-        self.protocolWin.serialManager.recvSignal.connect(self.serialRecvData)
         # 阈值设置界面类实例
         self.thresholdWin = ThresholdWin()
         self.thresholdWin.thresholdAppendSignal.connect(self.userTextBrowserAppend)
         self.thresholdWin.openFileSignal.connect(self.showOperationFile)
+        # 阈值设置实例传入到全局对象，供通信设置实例访问
+        GetSetObj.set(2, self.thresholdWin)        
+        # 通信配置界面类实例
+        self.protocolWin = ProtocolWin()
+        self.protocolWin.protocolAppendSignal.connect(self.userTextBrowserAppend)
+        # 串口通信实例传入到全局对象，供阈值设置实例访问
+        GetSetObj.set(1, self.protocolWin)
+        # 串口接收线程处理函数
+        self.protocolWin.serialManager.recvSignal.connect(self.serialRecvData)
         # 工作模式初始化
         self.workMode = { "encoding": "X",  "detection": "X" } # 未知状态
         # 检测以及编码默认状态设置
@@ -195,7 +197,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 接通电源参数下发定时器
         self.powerOnParaTimer = QTimer() 
         self.powerOnParaTimer.timeout.connect(self.autoSendParameters)
-        # 下发参数阈值
+        # 参数下发阈值
         self.startParaTimer = QTimer() # 使用定时器，防止主界面卡在步骤1中
         self.startParaTimer.timeout.connect(self.autoSendParameters)   
         # 是否是主窗口发起的自动参数下发
@@ -436,6 +438,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             if self.portStatus == True:  # 该串口空闲
                 self.userTextBrowserAppend("测试仪自检")
                 self.getSelfCheckParameters()
+                self.startParaTimer.start(3000)
                 self.lineEdit_uidInput.setFocus()
         else:
             QMessageBox.information(self, "串口信息", "串口未打开，请打开串口", QMessageBox.Yes)
@@ -989,6 +992,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.powerOnParaTimer.stop()
             if self.startParaTimer.isActive():
                 self.startParaTimer.stop()
+            if self.protocolWin.paraTimer.isActive():
+                self.protocolWin.paraTimer.stop()
             self.userTextBrowserAppend("测试仪接收参数成功")
         elif res == "PARAERR":
             self.userTextBrowserAppend("测试仪接收参数失败")

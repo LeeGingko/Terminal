@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
 
-class GlobalVar:
-    gObj = None
-
-    def setgObj(val):
-        GlobalVar.gObj = val
+class GlobalVar():
+    gObjSerial = None
+    gObjThreshold = None
+    
+    def setgObj(self, index, val):
+        if index == 1:
+            GlobalVar.gObjSerial = val
+        elif index == 2:
+            GlobalVar.gObjThreshold = val     
  
-    def getgObj():
-        return GlobalVar.gObj
+    def getgObj(self, index):
+        if index == 1:
+            return GlobalVar.gObjSerial
+        elif index == 2:
+            return GlobalVar.gObjThreshold

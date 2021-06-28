@@ -24,8 +24,6 @@ from PyQt5.QtWidgets import QAbstractItemView, QAction, QApplication, QFileDialo
 import GetSetObj
 # # 导入黑色主题
 # import qdarkstyle
-# 全局变量
-import GlobalVariable
 from GlobalVariable import GlobalVar
 # 导入协议窗口类
 from Protocol import ProtocolWin

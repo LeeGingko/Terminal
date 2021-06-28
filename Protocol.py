@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
 # 导入日期时间模块
 import datetime as dt
-from pickle import FALSE
-# 导入time相关模块
-import time
 # 导入os
 import os
+# 导入time相关模块
+import time
+from pickle import FALSE
+
 # 默认导入
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtCore import  pyqtSignal, Qt
+from PyQt5.QtCore import Qt, QTimer, pyqtSignal
 from PyQt5.QtGui import QIcon
 from PyQt5.QtSerialPort import QSerialPortInfo
 from PyQt5.QtWidgets import QApplication, QMessageBox
 
+# getset全局变量
+import GetSetObj
 # 导入协议通信界面
 from Ui_Protocol import Ui_ProtocolDialog
 # 导入功能枚举
@@ -24,6 +27,7 @@ from Utilities.Serial.SerialMonitor import PrivateSerialMonitor
 from Utilities.Serial.SerialThread import PrivateSerialThread
 # 导入自定义工具
 from Utilities.Tool.usual import Tools
+
 
 class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
     protocolAppendSignal = pyqtSignal(str)
@@ -72,6 +76,8 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         iconPath = os.path.join(os.getcwd(),'./resources/icons/IDDD.ico')
         self.setWindowIcon(QIcon(iconPath))
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
+        self.sendParaInstance = None
+        self.paraTimer = QTimer()
 
     def mySortFunc(e):
         return
@@ -364,3 +370,8 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.rxCheck = 0
         self.protocolAppendSignal.emit("测试仪自检")
         self.serialSendData(Func.f_DevGetSelfPara, '', '')
+        self.sendParaInstance = GetSetObj.get(2)
+        # 参数下发阈值定时器
+        self.paraTimer = QTimer()
+        self.paraTimer.timeout.connect(self.sendParaInstance.aloneSaveSettingsRecord)
+        self.paraTimer.start(3000)

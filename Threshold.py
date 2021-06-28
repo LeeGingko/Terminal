@@ -96,7 +96,7 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
     def settingThreshold(self):
         print("Setting threshold.................: ")
         self.thresholdAppendSignal.emit("下发参数到测试仪")
-        self.pSerial = GetSetObj.get()
+        self.pSerial = GetSetObj.get(1)
         if self.pSerial.prvSerial.isOpen():
             self.pSerial.data = b''
             self.pSerial.rxCheck = 0
@@ -126,9 +126,7 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
             sf.write(text)
         self.settingThreshold()
 
-    @QtCore.pyqtSlot()
-    def on_pushBtn_saveSettingsRecord_clicked(self):
-        print("/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/")
+    def getThreshold(self):
         self.getUserPara()
         cnt = 0
         self.para = ""
@@ -148,6 +146,16 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
             elif cnt == 15:
                 self.para = self.para + ("PF" + v)
             cnt += 1
+
+    def aloneSaveSettingsRecord(self):
+        print("/*>>>>>>>>>>>>>>>>>>>>>aloneSaveSettingsRecord>>>>>>>>>>>>>>>>>>>>>>>>*/")
+        self.getThreshold()
+        self.saveThreshold(self.para)
+
+    @QtCore.pyqtSlot()
+    def on_pushBtn_saveSettingsRecord_clicked(self):
+        print("/*>>>>>>>>>>>>>>>>>>>>on_pushBtn_saveSettingsRecord_clicked>>>>>>>>>>>>>>>>>>>>>>>>>*/")
+        self.getThreshold()
         self.saveThreshold(self.para)
         
     @QtCore.pyqtSlot()
