@@ -58,7 +58,7 @@ class PrivateOpenPyxl():
         self.ws = self.wb.create_sheet(self.wsname, 0)
         self.ws.title = self.wsname
         self.ws.sheet_properties.tabColor = "1072BA"
-        # 添加命名样式
+        # 添加命名样式 样式添加后一定要保存一次
         self.wb.add_named_style(self.resultPassStyle)
         self.wb.add_named_style(self.resultFailStyle)
         self.wb.add_named_style(self.defaultContentStyle)
@@ -170,9 +170,9 @@ class PrivateOpenPyxl():
     def updateCodeRowData(self, code, dataList): # 根据输入UID编码去替换其对应所在行的数据
         maxrows = self.ws.max_row # 每次执行行数据填入都获取最新的最大行（包括表头所在行）
         maxcols = self.ws.max_column
-        nonDupCnt = 0;
+        nonDupCnt = 0
         if maxrows >= 2: # 已填入了表头，且填入了数据
-            gen = self.ws.iter_rows(2, maxrows, 1, maxcols) # 返回值生成器
+            gen = self.ws.iter_rows(2, maxrows, 1, maxcols) # 返回数据生成器
             for rowdata in gen: # 迭代访问，判断并更新重复检测结果
                 uid = rowdata[6].value # 第六列：UID编码
                 if uid == code: # 重复检测结果
