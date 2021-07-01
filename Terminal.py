@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtCore import pyqtSignal
 from UserImport import *
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -216,6 +215,26 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.uidLengthCheckTimer = QTimer()
         self.uidLengthCheckTimer.timeout.connect(self.uidInputMonitoring)
         self.uidLengthCheckTimer.start(10)
+        self.switchInputMethod('English')
+        self.lineEdit_uidInput.setAttribute(Qt.WA_InputMethodEnabled, False) # UID输入框屏蔽中文输入法，解决扫描输入UID乱序问题
+
+    def switchInputMethod(self, lang='English'):
+        LANG = {
+            'Chinese': 0x0804,
+            'English': 0x0409
+        }
+        hwnd = win32gui.GetForegroundWindow()
+        # print('当前窗口：' + title)
+        language = LANG[lang]
+        result = win32api.SendMessage(
+            hwnd,
+            WM_INPUTLANGCHANGEREQUEST,
+            0,
+            language
+        )
+        if not result:
+            # print('设置' + lang + '键盘成功！')
+            return True
 
     def showDaetTime(self, timeStr):
         self.myStatusBar.showMessage(timeStr)
@@ -421,21 +440,26 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_lineEdit_op_name_editingFinished(self):
         self.userTextBrowserAppend('输入姓名：' + self.lineEdit_op_name.text())
 
-    def uidInputMonitoring(self):
+    def uidInputMonitoring(self): # 输入字符监控
         l = len(self.lineEdit_uidInput.text())
-        if l >= 5:
+        if l >= 6:
+            print(self.lineEdit_uidInput.text())
             self.lineEdit_uidInput.setText(self.lineEdit_uidInput.text()[l-5:l])
+            # if l >= 10:
+            #     self.lineEdit_uidInput.setText(self.lineEdit_uidInput.text()[l-5:l])
+        pass
 
     @QtCore.pyqtSlot()
     def on_lineEdit_uidInput_editingFinished(self):
         l = len(self.lineEdit_uidInput.text())
-        if l >= 5:
-            self.lineEdit_uidInput.setText(self.lineEdit_uidInput.text()[l-5:l])
-        # self.userTextBrowserAppend('输入UID：' + self.lineEdit_uidInput.text())
+        # if l >= 10:
+        #     self.lineEdit_uidInput.setText(self.lineEdit_uidInput.text()[l-5:l])
+        self.userTextBrowserAppend('输入UID：' + self.lineEdit_uidInput.text()[l-5:l])
+        # pass
 
-    @QtCore.pyqtSlot()
-    def on_lineEdit_uidInput_returnPressed(self):
-        self.setFocus()
+    # @QtCore.pyqtSlot()
+    # def on_lineEdit_uidInput_returnPressed(self):
+    #     self.setFocus()
 
 #----------------------------------------输入完成槽函数----------------------------------------#
     

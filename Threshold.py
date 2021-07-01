@@ -3,12 +3,11 @@ import os
 # 导入pickle模块
 import pickle as pk
 
-import win32file
 # 默认导入
 from PyQt5 import QtCore
-from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtCore import QTimer, Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog
+from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QMessageBox
 
 # getset全局变量
 import GetSetObj
@@ -16,6 +15,8 @@ import GetSetObj
 from Ui_Threshold import Ui_ThresholdDialog
 # 导入功能枚举
 from Utilities.Enum.FuncEnum import Func
+# 导入验证器
+from Utilities.Validator.ValidatorBox import VLDR_INTFOLAT
 
 
 class ThresholdWin(QDialog, Ui_ThresholdDialog):
@@ -40,6 +41,62 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
             "th_ComVoltage_Up":   "0", "th_ComVoltage_Down":   "0",
             "th_ComCurrent_Up":   "0", "th_ComCurrent_Down":   "0" }
         self.getUserPara()
+        # 漏电流
+        self.dcUpVdt = VLDR_INTFOLAT(150, 110)
+        self.lineEdit_setDrainCurrentTop.setValidator(self.dcUpVdt)
+        self.lineEdit_setDrainCurrentTop.setToolTip('[150, 110]')
+        self.dcDnVdt = VLDR_INTFOLAT(50, 0)
+        self.lineEdit_setDrainCurrentBottom.setValidator(self.dcDnVdt)
+        self.lineEdit_setDrainCurrentBottom.setToolTip('[50, 0]')
+        # 工作电流
+        self.wcUpVdt = VLDR_INTFOLAT(2500, 1500)
+        self.lineEdit_setWorkCurrentTop.setValidator(self.wcUpVdt)
+        self.lineEdit_setWorkCurrentTop.setToolTip('[2500, 1500]')
+        self.wcDnVdt = VLDR_INTFOLAT(500, 0)
+        self.lineEdit_setWorkCurrentBottom.setValidator(self.wcDnVdt)
+        self.lineEdit_setWorkCurrentBottom.setToolTip('[500, 0]')
+        # 起爆电压
+        self.fvUpVdt = VLDR_INTFOLAT(76, 74)
+        self.lineEdit_setFireVoltageTop.setValidator(self.fvUpVdt)
+        self.lineEdit_setFireVoltageTop.setToolTip('[76, 74]')
+        self.fvDnVdt = VLDR_INTFOLAT(70, 68)
+        self.lineEdit_setFireVoltageBottom.setValidator(self.fvDnVdt)
+        self.lineEdit_setFireVoltageBottom.setToolTip('[70, 68]')
+        # 起爆电流
+        self.fcUpVdt = VLDR_INTFOLAT(550, 500)
+        self.lineEdit_setFireCurrentTop.setValidator(self.fcUpVdt)
+        self.lineEdit_setFireCurrentTop.setToolTip('[550, 500]')
+        self.fcDnVdt = VLDR_INTFOLAT(350, 0)
+        self.lineEdit_setFireCurrentBottom.setValidator(self.fcDnVdt)
+        self.lineEdit_setFireCurrentBottom.setToolTip('[350, 0]')
+        # 线路电压
+        self.lvUpVdt = VLDR_INTFOLAT(26, 24)
+        self.lineEdit_setLineVoltageTop.setValidator(self.lvUpVdt)
+        self.lineEdit_setLineVoltageTop.setToolTip('[26, 24]')
+        self.lvDnVdt = VLDR_INTFOLAT(22, 20)
+        self.lineEdit_setLineVoltageBottom.setValidator(self.lvDnVdt)
+        self.lineEdit_setLineVoltageBottom.setToolTip('[22, 20]')
+        # 线路电流
+        self.lcUpVdt = VLDR_INTFOLAT(14, 12)
+        self.lineEdit_setLineCurrentTop.setValidator(self.lcUpVdt)
+        self.lineEdit_setLineCurrentTop.setToolTip('[14, 12]')
+        self.lcDnVdt = VLDR_INTFOLAT(6, 0)
+        self.lineEdit_setLineCurrentBottom.setValidator(self.lcDnVdt)
+        self.lineEdit_setLineCurrentBottom.setToolTip('[6, 0]')
+        # 通信电压
+        self.cvUpVdt = VLDR_INTFOLAT(38, 34)
+        self.lineEdit_setComVoltageTop.setValidator(self.cvUpVdt)
+        self.lineEdit_setComVoltageTop.setToolTip('[38, 34]')
+        self.cvDnVdt = VLDR_INTFOLAT(32, 30)
+        self.lineEdit_setComVoltageBottom.setValidator(self.cvDnVdt)
+        self.lineEdit_setComVoltageBottom.setToolTip('[32, 30]')
+        # 通信电流
+        self.ccUpVdt = VLDR_INTFOLAT(36, 32)
+        self.lineEdit_setComCurrentTop.setValidator(self.ccUpVdt)
+        self.lineEdit_setComCurrentTop.setToolTip('[36, 32]')
+        self.ccDnVdt = VLDR_INTFOLAT(20, 8)
+        self.lineEdit_setComCurrentBottom.setValidator(self.ccDnVdt)
+        self.lineEdit_setComCurrentBottom.setToolTip('[20, 8]')
 
     def initUi(self):
         self.setupUi(self)

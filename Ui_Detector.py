@@ -1965,9 +1965,12 @@ class Ui_MainWindow(object):
 "    border-color: rgb(85, 170, 255);\n"
 "}")
         self.tableView_result.setLineWidth(1)
+        self.tableView_result.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableView_result.setAutoScroll(True)
         self.tableView_result.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tableView_result.setAlternatingRowColors(False)
+        self.tableView_result.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
+        self.tableView_result.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectItems)
         self.tableView_result.setGridStyle(QtCore.Qt.SolidLine)
         self.tableView_result.setObjectName("tableView_result")
         self.tableView_result.horizontalHeader().setMinimumSectionSize(54)
@@ -2004,7 +2007,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.lineEdit_op_name.setToolTip(_translate("MainWindow", "中文最多7字符，英文最多15字符"))
+        self.lineEdit_op_name.setToolTip(_translate("MainWindow", "中文最多7字符，英文最多7字符"))
         self.lineEdit_op_name.setPlaceholderText(_translate("MainWindow", "请输入您的姓名!"))
         self.label_operator_3.setText(_translate("MainWindow", "检测"))
         self.label_operator_2.setText(_translate("MainWindow", "编码"))

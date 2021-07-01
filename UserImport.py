@@ -13,12 +13,19 @@ import time
 # 导入serial相关模块
 import serial
 import serial.tools.list_ports
+import win32api
+import win32gui
 # 默认导入
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QRegularExpression, QSize, Qt, QThread, QTimer
-from PyQt5.QtGui import QBrush, QColor, QFont, QIcon, QPixmap, QRegularExpressionValidator, QStandardItem, QStandardItemModel
+from PyQt5.QtGui import (QBrush, QColor, QFont, QIcon, QPixmap,
+                         QRegularExpressionValidator, QStandardItem,
+                         QStandardItemModel)
 from PyQt5.QtSerialPort import QSerialPortInfo
-from PyQt5.QtWidgets import QAbstractItemView, QAction, QApplication, QFileDialog, QHeaderView, QLabel, QMenu, QMessageBox, QPushButton, QStatusBar
+from PyQt5.QtWidgets import (QAbstractItemView, QAction, QApplication,
+                             QFileDialog, QHeaderView, QLabel, QMenu,
+                             QMessageBox, QPushButton, QStatusBar)
+from win32con import WM_INPUTLANGCHANGEREQUEST
 
 # getset全局变量
 import GetSetObj
@@ -44,5 +51,7 @@ from Utilities.Serial.SerialThread import PrivateSerialThread  # 串口数据传
 from Utilities.Tool.LocalTimeThread import LocalTimeThread
 # 导入自定义工具
 from Utilities.Tool.usual import Tools
+# 导入验证器
+from Utilities.Validator.ValidatorBox import VLDR_INTFOLAT
 # 导入表格视图委托
 from Utilities.ViewDelegation.TableViewDelegate import PrivateTableViewDelegate

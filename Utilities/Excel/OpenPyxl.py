@@ -3,8 +3,9 @@
 import GetSetObj
 # openpyxl相关模块
 from openpyxl import Workbook, load_workbook
-from openpyxl.styles import Alignment, Color, Font, NamedStyle
-from openpyxl.styles.fills import PatternFill # 填充
+from openpyxl.styles import Alignment, Color, Font, NamedStyle, Border, Side
+from openpyxl.styles.fills import PatternFill  # 填充
+
 
 class PrivateOpenPyxl():
     #*------------------------------------------------命名样式------------------------------------------------*#
@@ -14,11 +15,19 @@ class PrivateOpenPyxl():
     resultPassStyle.font = Font(name='Times New Roman', size=16, bold=False, color=Color(indexed=0))# 黑色字体
     resultPassStyle.alignment = Alignment(horizontal='center', vertical='center')
     resultPassStyle.fill = PatternFill('solid', '0000CCFF') # 蓝色填充背景
+    resultPassStyle.border = Border(left=Side('thin', color=Color(indexed=0)),
+                                    right=Side('thin', color=Color(indexed=0)),
+                                    top=Side('thin', color=Color(indexed=0)),
+                                    bottom=Side('thin', color=Color(indexed=0)))
     # 检测结果失败
     resultFailStyle = NamedStyle('resultFailStyle')
     resultFailStyle.font = Font(name='Times New Roman', size=16, bold=False, color=Color(indexed=0))# 黑色字体
     resultFailStyle.alignment = Alignment(horizontal='center', vertical='center')
     resultFailStyle.fill = PatternFill('solid', '00FF0000') # 红色填充背景
+    resultFailStyle.border = Border(left=Side('thin', color=Color(indexed=0)),
+                                    right=Side('thin', color=Color(indexed=0)),
+                                    top=Side('thin', color=Color(indexed=0)),
+                                    bottom=Side('thin', color=Color(indexed=0)))
     # 默认字体
     defaultContentStyle = NamedStyle('defaultContentStyle')
     defaultContentStyle.font = Font(name='Times New Roman', size=16, bold=False, color=Color(indexed=0))# 黑色字体
@@ -31,19 +40,24 @@ class PrivateOpenPyxl():
     abnormalContentStyle = NamedStyle('abnormalContentStyle')
     abnormalContentStyle.font = Font(name='Times New Roman', size=16, bold=False, color=Color(indexed=2)) # 红色字体
     abnormalContentStyle.alignment = Alignment(horizontal='center', vertical='center')
-    
+
     def __init__(self, wbname = "", wsname = ""):
         super(PrivateOpenPyxl, self).__init__()
         # 添加属性
         self.wbname  = wbname   # 工作簿名
         self.wsname = wsname    # 工作表名
         self.wb  = None         # 工作簿对象
-        self.ws = None          # 工作簿对象
+        self.ws = None          # 工作表对象
         #*------------------------------------------------一般样式------------------------------------------------*#
         #*----------------------------------------------Cell Styles----------------------------------------------*#
         # 表头单元格格式
         self.hfont = Font(name='Times New Roman', size=16, bold=False, color=Color(indexed=17))
         self.halignment = Alignment(horizontal='center', vertical='center', textRotation=0, wrapText=False)
+        self.hfill = PatternFill('solid', '00FFFF00') # 黄色填充背景
+        self.hborder = Border(left=Side('thin', color=Color(indexed=0)),
+                             right=Side('thin', color=Color(indexed=0)),
+                             top=Side('thin', color=Color(indexed=0)),
+                             bottom=Side('thin', color=Color(indexed=0)))
         # 默认列宽 对应字体如上
         self.columnWidth = [12, 30, 14.38, 17.25, 9, 11.88, 11.88, 12.13, 10, 11.88, 11.88, 12.13, 10, 11.88, 6.38]
         # 26列列索引
@@ -94,6 +108,8 @@ class PrivateOpenPyxl():
             self.ws[pos] = tableHeadline[c]
             self.ws[pos].alignment = self.halignment
             self.ws[pos].font = self.hfont
+            self.ws[pos].border = self.hborder
+            self.ws[pos].fill = self.hfill
             self.ws.column_dimensions[column].width = self.columnWidth[c]
         self.saveSheet()
         self.closeSheet()
