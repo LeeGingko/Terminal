@@ -40,6 +40,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         iconPath = os.path.join(self.currentWorkDirectory, './resources/icons/IDDD.ico')
         self.setWindowIcon(QIcon(iconPath))
         self.setIconSize(QSize(256, 256))
+        #*---------------------------------------------------------------------------------------------------------------*#
+        self.switchInputMethod('English')
         # 状态栏初始化
         self.myStatusBar = QStatusBar()
         self.myStatusBar.setFont(QFont("Times New Roman", 16, QFont.Weight.Light))
@@ -57,7 +59,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 模块状态记录
         self.devicesState = {}
         self.devicesStateFile = 'devicesState.txt'
-        self.devicesStateFilePath = os.path.join(self.configFolder, self.devicesStateFile) # 每获取一个编号，则存入到硬盘
+        self.devicesStateFilePath = os.path.join(self.configFolder, self.devicesStateFile) # 每获取一个编号，则将其编码以及编码检测操作结果信息存入到硬盘
         # 检测结果记录存储文件，防止意外断电导致检测数据丢失
         self.resultsFile = 'results.txt'
         self.resultsFilePath = os.path.join(self.currentWorkDirectory, self.resultsFile)
@@ -84,9 +86,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/NONE)}")
         self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/NONE)}")
         # 操作人员姓名录入
-        self.is_name_input = False
         self.name = "操作员007" # 默认操作员姓名
-        self.isNameInput = False
         nameRegValidator = QRegularExpressionValidator(self)
         nameReg = QRegularExpression("^(?![\\《\\》\\，\\、\\。\\；\\：\\‘\\’\\“\\”\\？\\【\\】\\（\\）\\-\\—])[a-zA-Z0-9\u4e00-\u9fa5]+$")
         nameRegValidator.setRegularExpression(nameReg)
@@ -97,7 +97,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.timsRefresh.secondSignal.connect(self.showDaetTime)
         self.timsRefresh.start()
         # 检测数据Excel文件初始化
-        self.excel = PrivateOpenPyxl() # 实例化Excel全局对象
+        self.excel = PrivateOpenPyxl() # 实例化Excel对象
         self.isExcelSavedFirst = True # 是否是第一次保存Excel
         self.isExcelSaved = False # 是否是已经保存Excel
         self.excelFilePath = "" # Excel文件路径
@@ -120,13 +120,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             "EEEEE",   "-",     "-",    "-",
             "EEEEE",   "-",     "-",    "-", 
             '失败' ]
-        # 测试检测结果，初始为默认检测结果
+        # 检测结果，初始为默认检测结果
         self.resultList = self.resultDefaultList.copy()
-        # 单次测试检测结果备份，进行重复检测结果判断
+        # 单次测试检测结果备份
         self.resultLastList = self.resultList.copy()
-        #*------------------------------- 表格之模型、委托、视图初始化 --------------------------------*#
+        #*------------------------------- 表格显示控件之模型、委托、视图初始化 MVC--------------------------------*#
         # 1 表格模型初始化
-        self.tableRow = 0 # 写入excel表格的行索引
+        self.tableviewRow = 0 # 表格视图写入数据行索引
         self.tableHeadline = [
             "检测员",   "检测时间",   "漏电流(μA)", "工作电流(μA)",  "ID核对",
             "在线检测", "被测选发",   "电流(mA)",   "电压(V)",      "电流判断",
@@ -166,14 +166,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableView_result.customContextMenuRequested.connect(self.tvCustomContextMenuRequested)
         # 编码输入验证器设置
         regValidator = QRegularExpressionValidator(self)
-        reg = QRegularExpression("[A-E0-9]+$") # 字母范围A~F, 数字0~9
+        reg = QRegularExpression("[A-E0-9]+$") # 字母范围A~E, 数字0~9
         regValidator.setRegularExpression(reg)
         # UID输入编辑栏初始化
         self.lineEdit_uidInput.setMaxLength(10)
         self.lineEdit_uidInput.setValidator(regValidator)
         self.lineEdit_uidInput.setToolTip("字母范围A~E, 数字0~9")
+        self.lineEdit_uidInput.setAttribute(Qt.WA_InputMethodEnabled, False) # UID输入框屏蔽中文输入法，解决扫描输入UID乱序问题
         self.lineEdit_uidInput.setFocus()
-        self.setMouseTracking(True)
         # 配置文件路径
         self.thresholdWin.configPath = self.configFilePath
         # 发送命令响应
@@ -194,14 +194,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 先加载保存记录
         self.openExcelRecord()
         # 测试仪响应定时器
-        self.devResponseTimer = QTimer()
+        self.devResponseTimer = QTimer()# 使用定时器，防止主界面卡死
         self.devResponseTimer.timeout.connect(self.deviceNoResponse)
         # 接通电源参数下发定时器
-        self.powerOnParaTimer = QTimer() 
+        self.powerOnParaTimer = QTimer() # 使用定时器，防止主界面卡死
         self.powerOnParaTimer.timeout.connect(self.autoSendParameters)
         # 参数下发阈值
-        self.startParaTimer = QTimer() # 使用定时器，防止主界面卡在步骤1中
-        self.startParaTimer.timeout.connect(self.autoSendParameters)   
+        self.startParaTimer = QTimer() # 使用定时器，防止主界面卡死
+        self.startParaTimer.timeout.connect(self.autoSendParameters)
         # 是否是主窗口发起的自动参数下发
         self.isMainSendPara = True # 开启软件默认就是主窗口发送，无需关闭参数下发窗口
         # 1 搜索并连接控制仪串口
@@ -215,9 +215,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.uidLengthCheckTimer = QTimer()
         self.uidLengthCheckTimer.timeout.connect(self.uidInputMonitoring)
         self.uidLengthCheckTimer.start(10)
-        self.switchInputMethod('English')
-        self.lineEdit_uidInput.setAttribute(Qt.WA_InputMethodEnabled, False) # UID输入框屏蔽中文输入法，解决扫描输入UID乱序问题
-
+        self.setMouseTracking(True)
+    
     def switchInputMethod(self, lang='English'):
         LANG = {
             'Chinese': 0x0804,
@@ -379,7 +378,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_op_name.setEnabled(False)
         self.pushBtn_clearUidInput.setEnabled(False)
 
-#----------------------------------------数据显示上下文菜单----------------------------------------#      
+#------------------START----------------------数据显示上下文菜单------------------START----------------------#      
     def tvSaveSelected(self):
         if len(self.tvRowList) != 0:
             self.userTextBrowserAppend('保存选中数据')
@@ -400,7 +399,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 if choice == QMessageBox.Yes:
                     for n in self.tvRowList:
                         self.tableViewModel.removeRow(n)
-                    self.tableRow = self.tableRow - l
+                    self.tableviewRow = self.tableviewRow - l
                     self.userTextBrowserAppend('删除选中数据')
                 else:
                     self.confirmDetection = False
@@ -425,17 +424,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tvRowList.sort(key=int, reverse=True)
         print(self.tvRowList)
         self.tvMenu.exec_(self.tableView_result.mapToGlobal(p))
-#----------------------------------------数据显示上下文菜单----------------------------------------#      
-    
-    def isResultsExcelFileOpened(self, file):
-        if os.path.exists('~$' + file):
-            # print('excel已被打开')
-            return True
-        else:
-            # print('excel未被打开')
-            return False
+#------------------END----------------------数据显示上下文菜单------------------END----------------------#    
 
-#----------------------------------------输入完成槽函数----------------------------------------#
+#------------------START----------------------输入完成槽函数------------------START----------------------#       
     @QtCore.pyqtSlot()
     def on_lineEdit_op_name_editingFinished(self):
         self.userTextBrowserAppend('输入姓名：' + self.lineEdit_op_name.text())
@@ -445,30 +436,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if l >= 6:
             print(self.lineEdit_uidInput.text())
             self.lineEdit_uidInput.setText(self.lineEdit_uidInput.text()[l-5:l])
-            # if l >= 10:
-            #     self.lineEdit_uidInput.setText(self.lineEdit_uidInput.text()[l-5:l])
-        pass
 
     @QtCore.pyqtSlot()
     def on_lineEdit_uidInput_editingFinished(self):
         l = len(self.lineEdit_uidInput.text())
-        # if l >= 10:
-        #     self.lineEdit_uidInput.setText(self.lineEdit_uidInput.text()[l-5:l])
         self.userTextBrowserAppend('输入UID：' + self.lineEdit_uidInput.text()[l-5:l])
-        # pass
+#------------------END----------------------输入完成槽函数------------------END----------------------#    
 
-    # @QtCore.pyqtSlot()
-    # def on_lineEdit_uidInput_returnPressed(self):
-    #     self.setFocus()
-
-#----------------------------------------输入完成槽函数----------------------------------------#
-    
-    def flushSerialBuffer(self):
-        if self.protocolWin.prvSerial.isOpen():
-            self.protocolWin.prvSerial.reset_output_buffer()
-            self.protocolWin.prvSerial.reset_input_buffer()
-
-#----------------------------------------按钮槽函数----------------------------------------#  
+#------------------START----------------------按钮槽函数------------------START----------------------#
     @QtCore.pyqtSlot()
     def on_pushBtn_protocolSetting_clicked(self):
         self.protocolWin.show()
@@ -478,6 +453,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_pushBtn_thresholdSetting_clicked(self):
         self.thresholdWin.show()
         self.lineEdit_uidInput.setFocus()
+    
+    def flushSerialBuffer(self):
+        if self.protocolWin.prvSerial.isOpen():
+            self.protocolWin.prvSerial.reset_output_buffer()
+            self.protocolWin.prvSerial.reset_input_buffer()    
     
     @QtCore.pyqtSlot()
     def on_pushBtn_deviceSelfCheck_clicked(self):
@@ -746,6 +726,14 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.confirmDetection = False
         else:
             self.userTextBrowserAppend('无显示数据，请进行检测')
+    
+    def isResultsExcelFileOpened(self, file):
+        if os.path.exists('~$' + file):
+            # print('excel已被打开')
+            return True
+        else:
+            # print('excel未被打开')
+            return False
 
     def saveDataOfView(self):
         rows = self.tableViewModel.rowCount()
@@ -803,7 +791,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             self.userTextBrowserAppend("已保存" + str(self.tableViewModel.rowCount()) + "条数据记录至[" + self.excelFile + "]，请进行下一次检测")
                             self.resultLastList = self.resultList.copy()
                             self.tableViewModel.removeRows(0, self.tableViewModel.rowCount()) # 清除表格视图
-                            self.tableRow = 0
+                            self.tableviewRow = 0
                             self.lineEdit_uidInput.setFocus() 
                             self.pushBtn_saveResults.setEnabled(False)
                             self.pushBtn_saveResultsAs.setEnabled(False)
@@ -819,7 +807,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.userTextBrowserAppend("已保存" + str(self.tableViewModel.rowCount()) + "条数据记录至[" + self.excelFile + "]，请进行下一次检测")
                 self.resultLastList = self.resultList.copy()
                 self.tableViewModel.removeRows(0, self.tableViewModel.rowCount()) # 清除表格视图
-                self.tableRow = 0
+                self.tableviewRow = 0
                 self.lineEdit_uidInput.setFocus() 
                 self.pushBtn_saveResults.setEnabled(False)
                 self.pushBtn_saveResultsAs.setEnabled(False)
@@ -829,7 +817,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.isExcelSavedFirst = True
             self.isExcelSaved = False
             self.showOperationFile('') 
-            self.userTextBrowserAppend(self.excelFilePath + "文件已被删除或移动，请重新创建文件！")
+            self.userTextBrowserAppend(self.excelFilePath + "文件已被【删除】或【移动】或【重命名】，请点击【保存】按钮重新创建文件！")
         self.saveExcelRecord()
 
     @QtCore.pyqtSlot()
@@ -866,7 +854,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.userTextBrowserAppend("已保存" + str(self.tableViewModel.rowCount()) + "条数据记录至[" + self.excelAsFile + "]，请进行下一次检测")
                         self.resultLastList = self.resultList.copy()
                         self.tableViewModel.removeRows(0, self.tableViewModel.rowCount()) # 清除表格视图
-                        self.tableRow = 0
+                        self.tableviewRow = 0
                         self.pushBtn_saveResults.setEnabled(False)
                         self.pushBtn_saveResultsAs.setEnabled(False)
                 else:
@@ -895,7 +883,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 choice = QMessageBox.critical(self, "清除结果", "清除检测结果？", QMessageBox.Yes | QMessageBox.Cancel)
                 if choice == QMessageBox.Yes:
                     self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
-                    self.tableRow = 0
+                    self.tableviewRow = 0
                     self.pushBtn_saveResults.setEnabled(False)
                     self.pushBtn_saveResultsAs.setEnabled(False)
                     self.lineEdit_uidInput.setFocus()
@@ -910,8 +898,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_pushBtn_cleanMsgArea_clicked(self):
         if self.textBrowser.toPlainText() != "":
             self.textBrowser.clear()
-#----------------------------------------按钮槽函数----------------------------------------#    
-    
+#------------------END----------------------按钮槽函数------------------END----------------------#
+ 
     def serialRecvData(self, data):
         self.protocolWin.data = data
         if data.decode("utf-8") == "接收数据失败":
@@ -1431,7 +1419,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     if rowcnt == 0: # 表格视图无显示数据
                         for col in range(15):
                             item = self.markAndShowTheResults(col)
-                            self.tableViewModel.setItem(self.tableRow, col, item)
+                            self.tableViewModel.setItem(self.tableviewRow, col, item)
                     else: # 表格视图已有显示数据
                         dupResRow = -1
                         for r in range(rowcnt):
@@ -1444,9 +1432,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             for col in range(15):
                                 item = self.markAndShowTheResults(col)
                                 self.tableViewModel.setItem(rowcnt, col, item)
-                            self.tableRow = rowcnt + 1
+                            self.tableviewRow = rowcnt + 1
                         else:
-                            self.tableRow = rowcnt
+                            self.tableviewRow = rowcnt
                     self.resultLastList = self.resultList.copy()
                     self.lineEdit_uidInput.clear()
                     self.updateDevicesStateFile()

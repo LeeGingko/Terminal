@@ -79,23 +79,6 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.sendParaInstance = None
         self.paraTimer = QTimer()
 
-    def mySortFunc(e):
-        return
-
-    def duplicatePortCheck(self):
-        tmpList = []
-        for i in range(self.comboBox_selectComNum.count()):
-            tmpList.append(self.comboBox_selectComNum.itemText(i))
-        tmpSet = set(tmpList)
-        tmpList.clear()
-        self.comboBox_selectComNum.clear()  # 清空端口选择按钮
-        for i in range(len(tmpSet)):
-            tmpList.append(tmpSet.pop())
-        tmpList.sort(reverse=False)
-        tmpList[::-1]
-        for i in range(len(tmpList)):
-            self.comboBox_selectComNum.addItem(tmpList[i])
-
     def autoConnectDetector(self):
         self.comboBox_selectComNum.setEnabled(True)
         self.comboBox_selectComNum.clear()  # 清空端口选择按钮
@@ -109,7 +92,6 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
             self.isAutoConnectDetectorOK = False
         else:
             self.comboBox_selectComNum.addItems(self.comDescriptionList)
-            # self.duplicatePortCheck()
             self.comboBox_selectComNum.setEnabled(False)
             for i in self.comPortList:
                 QApplication.processEvents()
@@ -164,9 +146,9 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                 break
                     except:
                         QApplication.processEvents()
-                        QMessageBox.warning(self, "打开串口", "打开串口失败")
+                        # QMessageBox.warning(self, "打开串口", "打开串口失败")
                         self.isAutoConnectDetectorOK = False
-                        # self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "] 打开失败")
+                        self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "] 打开失败")
                     if self.isSTM32Online == True:
                         break
 
@@ -196,15 +178,12 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
             if len(self.comDescriptionList) != 0:
                 for p in self.comDescriptionList:
                     self.comboBox_selectComNum.addItem(p)
-            # self.duplicatePortCheck()
             self.pushBtn_serialSwitch.setText('打开串口')
             if (self.comController != '') and (not self.comController in self.comDescriptionList):
                 self.prvSerial.close()
-                # self.protocolAppendSignal.emit('控制仪串口已拔出')
                 self.comboBox_selectComNum.setCurrentText(self.comDescription)
                 self.comboBox_selectComNum.setEnabled(True)
             elif (self.comController != '') and (self.comController in self.comDescriptionList):
-                # self.protocolAppendSignal.emit('控制仪串口已接入')
                 self.comIndex = self.comDescriptionList.index(self.comController)
                 self.portInfo = QSerialPortInfo(self.comPortList[self.comIndex].device)  # 该串口信息
                 self.portStatus = self.portInfo.isBusy()  # 该串口状态
@@ -215,12 +194,11 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                 self.pushBtn_serialSwitch.setText('关闭串口')
                 self.comboBox_selectComNum.setCurrentText(self.comController)
                 self.comboBox_selectComNum.setEnabled(False)
-            if self.prvSerial.isOpen():
-                # self.prvSerial.flush()
-                self.comboBox_selectComNum.setEnabled(False)
-                self.pushBtn_serialSwitch.setText('关闭串口')
-                if self.isActiveWindow():
-                    self.close()
+                if self.prvSerial.isOpen():
+                    self.comboBox_selectComNum.setEnabled(False)
+                    self.pushBtn_serialSwitch.setText('关闭串口')
+                    if self.isActiveWindow():
+                        self.close()
 
     @QtCore.pyqtSlot()
     def on_pushBtn_serialSwitch_clicked(self):
