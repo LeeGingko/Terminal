@@ -78,6 +78,9 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
         self.sendParaInstance = None
         self.paraTimer = QTimer()
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        # 阻塞父类窗口不能点击
+        self.setWindowModality(Qt.ApplicationModal)
 
     def autoConnectDetector(self):
         self.comboBox_selectComNum.setEnabled(True)

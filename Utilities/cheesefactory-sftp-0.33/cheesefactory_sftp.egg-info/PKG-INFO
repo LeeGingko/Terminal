@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: cheesefactory-sftp
+Version: 0.33
+Summary: A (soon to be) beautiful SFTP wrapper for Paramiko.
+Home-page: https://bitbucket.org/hellsgrannies/cheesefactory-sftp
+Author: Todd Salazar
+Author-email: unixsal@yahoo.com
+License: UNKNOWN
+Description: UNKNOWN
+Keywords: cheesefactory sftp development
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Description-Content-Type: text/markdown

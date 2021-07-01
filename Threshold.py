@@ -5,7 +5,7 @@ import pickle as pk
 
 # 默认导入
 from PyQt5 import QtCore
-from PyQt5.QtCore import QTimer, Qt, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QMessageBox
 
@@ -114,7 +114,10 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
         self.setWindowIcon(QIcon(iconPath))
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
         self.configFolder = os.path.join(os.getcwd(), 'configurations')
-
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        # 阻塞父类窗口不能点击
+        self.setWindowModality(Qt.ApplicationModal)
+        
     def getUserPara(self):
         self.paraDict["th_DrainCurrent_Up"  ] = self.lineEdit_setDrainCurrentTop.text()
         self.paraDict["th_DrainCurrent_Down"] = self.lineEdit_setDrainCurrentBottom.text()
