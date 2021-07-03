@@ -185,7 +185,7 @@ class PrivateOpenPyxl():
 
     def updateCodeRowData(self, code, dataList): # 根据输入UID编码去替换其对应所在行的数据
         maxrows = self.ws.max_row # 每次执行行数据填入都获取最新的最大行（包括表头所在行）
-        maxcols = self.ws.max_column
+        maxcols = self.ws.max_column # 每次执行行数据填入都获取最新的最大列
         nonDupCnt = 0
         if maxrows >= 2: # 已填入了表头，且填入了数据
             gen = self.ws.iter_rows(2, maxrows, 1, maxcols) # 返回数据生成器
@@ -199,5 +199,5 @@ class PrivateOpenPyxl():
                     continue
             if nonDupCnt == maxrows - 1: # 没有重复结果则新添加一行即可
                 self.cellResultFillingStyleSetting(maxrows + 1, dataList)
-        else: # 只填入了表头，还未填入有数据
+        else: # 只填入了表头，还未填入有数据，直接写入数据到表头下面一行
             self.cellResultFillingStyleSetting(2, dataList)

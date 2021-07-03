@@ -54,7 +54,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.serialMonitor.start()
         # 串口初始化
         self.serialManager = PrivateSerialThread()  # 串口接收线程对象
-        self.prvSerial = self.serialManager.inUseSerial  # 获取全局实例化串口对象
+        self.prvSerial = self.serialManager.usingSerial  # 获取全局实例化串口对象
         self.isSTM32Online = False # 测试仪是否在线
         self.serialManager.start()
         self.comDescription = ''
@@ -117,7 +117,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                             # print("openClosePort num:" + str(num) + ' time:' + str((endTiming1 - startTiming).seconds)) # 输出收到的字节数
                             # print("Port num:" + str(num)) # 输出收到的字节数
                             endTiming = dt.datetime.now()
-                            if (endTiming - startTiming).seconds <= 2:
+                            if (endTiming - startTiming).seconds < 1: # 2021年7月2日 18:08:01 <= 2 改为 < 1
                                 QApplication.processEvents()
                                 if num >= 5:
                                     data = self.prvSerial.read(num)
@@ -353,6 +353,4 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.serialSendData(Func.f_DevGetSelfPara, '', '')
         self.sendParaInstance = GetSetObj.get(2)
         # 参数下发阈值定时器
-        self.paraTimer = QTimer()
-        self.paraTimer.timeout.connect(self.sendParaInstance.aloneSaveSettingsRecord)
-        self.paraTimer.start(3000)
+        QTimer.singleShot(3000, self.sendParaInstance.aloneSaveSettingsRecord)

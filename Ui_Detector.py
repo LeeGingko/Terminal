@@ -203,7 +203,7 @@ class Ui_MainWindow(object):
         self.groupBox.setStyleSheet("QGroupBox{\n"
 "    border-radius: 4px;\n"
 "    border:1.5px groove gray;\n"
-"    border-color: rgb(76, 76, 76);\n"
+"    border-color: rgb(41, 133, 135);\n"
 "}")
         self.groupBox.setTitle("")
         self.groupBox.setAlignment(QtCore.Qt.AlignCenter)
@@ -220,8 +220,8 @@ class Ui_MainWindow(object):
         font.setStyleStrategy(QtGui.QFont.PreferDefault)
         self.lineEdit_op_name.setFont(font)
         self.lineEdit_op_name.setStatusTip("")
-        self.lineEdit_op_name.setStyleSheet("border-radius: 4px;\n"
-"border:2px solid rgb(0, 0, 0);")
+        self.lineEdit_op_name.setStyleSheet("border-radius: 4px;    \n"
+"border:2px solid rgb(41, 133, 135);")
         self.lineEdit_op_name.setInputMethodHints(QtCore.Qt.ImhNone)
         self.lineEdit_op_name.setInputMask("")
         self.lineEdit_op_name.setText("")
@@ -386,7 +386,7 @@ class Ui_MainWindow(object):
         self.groupBox_2.setStyleSheet("QGroupBox{\n"
 "    border-radius: 4px;\n"
 "    border:1.5px groove gray;\n"
-"    border-color: rgb(76, 76, 76);\n"
+"    border-color: rgb(41, 133, 135);\n"
 "}")
         self.groupBox_2.setTitle("")
         self.groupBox_2.setAlignment(QtCore.Qt.AlignCenter)
@@ -445,7 +445,7 @@ class Ui_MainWindow(object):
         self.label_operator_12.setStyleSheet("QLabel{\n"
 "    border-radius: 4px;\n"
 "    border:1.5px groove gray;\n"
-"    border-color: rgb(76, 76, 76);\n"
+"    border-color: rgb(41, 133, 135);\n"
 "}")
         self.label_operator_12.setText("")
         self.label_operator_12.setTextFormat(QtCore.Qt.AutoText)
@@ -467,7 +467,7 @@ class Ui_MainWindow(object):
         self.label_operator_14.setStyleSheet("QLabel{\n"
 "    border-radius: 4px;\n"
 "    border:1.5px groove gray;\n"
-"    border-color: rgb(76, 76, 76);\n"
+"    border-color: rgb(41, 133, 135);\n"
 "}")
         self.label_operator_14.setText("")
         self.label_operator_14.setTextFormat(QtCore.Qt.AutoText)
@@ -996,7 +996,7 @@ class Ui_MainWindow(object):
         self.lineEdit_uidInput.setFont(font)
         self.lineEdit_uidInput.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.lineEdit_uidInput.setStyleSheet("border-radius: 4px;\n"
-"border:2px solid rgb(0, 0, 0);")
+"border:2px solid rgb(0, 85, 0);")
         self.lineEdit_uidInput.setText("")
         self.lineEdit_uidInput.setMaxLength(5)
         self.lineEdit_uidInput.setFrame(True)
@@ -1672,7 +1672,7 @@ class Ui_MainWindow(object):
 "    background-color: rgb(225, 225, 225);\n"
 "    border-radius: 4px;\n"
 "    border:1.5px groove gray;\n"
-"    border-color: rgb(76, 76, 76);\n"
+"    border-color: rgb(41, 133, 135);\n"
 "}")
         self.label_operator_10.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_10.setAlignment(QtCore.Qt.AlignCenter)
@@ -1694,7 +1694,7 @@ class Ui_MainWindow(object):
 "    background-color: rgb(225, 225, 225);\n"
 "    border-radius: 4px;\n"
 "    border:1.5px groove gray;\n"
-"    border-color: rgb(76, 76, 76);\n"
+"    border-color: rgb(41, 133, 135);\n"
 "}")
         self.label_operator_11.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_11.setAlignment(QtCore.Qt.AlignCenter)
@@ -1708,13 +1708,13 @@ class Ui_MainWindow(object):
         self.label_operator_11.raise_()
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.groupBox_6)
         self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
-        self.textBrowser.setEnabled(False)
+        self.textBrowser.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.textBrowser.sizePolicy().hasHeightForWidth())
         self.textBrowser.setSizePolicy(sizePolicy)
-        self.textBrowser.setMinimumSize(QtCore.QSize(697, 440))
+        self.textBrowser.setMinimumSize(QtCore.QSize(702, 440))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -1796,6 +1796,8 @@ class Ui_MainWindow(object):
         font.setItalic(False)
         font.setWeight(50)
         self.textBrowser.setFont(font)
+        self.textBrowser.setMouseTracking(True)
+        self.textBrowser.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.textBrowser.setStyleSheet("QTextBrowser {\n"
 "    border-radius: 5px;\n"
 "    border:2px solid rgb(123, 123, 184);\n"
@@ -1804,11 +1806,10 @@ class Ui_MainWindow(object):
         self.textBrowser.setFrameShape(QtWidgets.QFrame.Box)
         self.textBrowser.setFrameShadow(QtWidgets.QFrame.Plain)
         self.textBrowser.setLineWidth(2)
-        self.textBrowser.setDocumentTitle("")
         self.textBrowser.setObjectName("textBrowser")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.textBrowser)
         self.tableView_result = QtWidgets.QTableView(self.centralwidget)
-        self.tableView_result.setMinimumSize(QtCore.QSize(1350, 215))
+        self.tableView_result.setMinimumSize(QtCore.QSize(1355, 215))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -1966,14 +1967,14 @@ class Ui_MainWindow(object):
         self.tableView_result.setStyleSheet("QTableView{\n"
 "    border-radius: 5px;\n"
 "    border:3px groove rgb(0, 85, 0);\n"
-"    border-color: rgb(85, 170, 255);\n"
+"    border-color: rgb(41, 133, 135);\n"
 "}")
         self.tableView_result.setLineWidth(1)
-        self.tableView_result.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.tableView_result.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
         self.tableView_result.setAutoScroll(True)
         self.tableView_result.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tableView_result.setAlternatingRowColors(False)
-        self.tableView_result.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.tableView_result.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
         self.tableView_result.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.tableView_result.setGridStyle(QtCore.Qt.SolidLine)
         self.tableView_result.setObjectName("tableView_result")
