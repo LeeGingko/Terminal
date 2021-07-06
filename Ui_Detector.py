@@ -42,7 +42,7 @@ class Ui_MainWindow(object):
         self.groupBox_6.setStyleSheet("QGroupBox{\n"
 "    border-color: rgb(166, 166, 166);\n"
 "    border-radius: 4px;\n"
-"    border:1.5px groove gray;\n"
+"    border:2.5px groove gray;\n"
 "}")
         self.groupBox_6.setTitle("")
         self.groupBox_6.setObjectName("groupBox_6")
@@ -202,7 +202,7 @@ class Ui_MainWindow(object):
         self.groupBox.setFont(font)
         self.groupBox.setStyleSheet("QGroupBox{\n"
 "    border-radius: 4px;\n"
-"    border:1.5px groove gray;\n"
+"    border:2.5px groove gray;\n"
 "    border-color: rgb(41, 133, 135);\n"
 "}")
         self.groupBox.setTitle("")
@@ -385,7 +385,7 @@ class Ui_MainWindow(object):
         self.groupBox_2.setFont(font)
         self.groupBox_2.setStyleSheet("QGroupBox{\n"
 "    border-radius: 4px;\n"
-"    border:1.5px groove gray;\n"
+"    border:2.5px groove gray;\n"
 "    border-color: rgb(41, 133, 135);\n"
 "}")
         self.groupBox_2.setTitle("")
@@ -444,7 +444,7 @@ class Ui_MainWindow(object):
         self.label_operator_12.setFont(font)
         self.label_operator_12.setStyleSheet("QLabel{\n"
 "    border-radius: 4px;\n"
-"    border:1.5px groove gray;\n"
+"    border:2.5px groove gray;\n"
 "    border-color: rgb(41, 133, 135);\n"
 "}")
         self.label_operator_12.setText("")
@@ -466,7 +466,7 @@ class Ui_MainWindow(object):
         self.label_operator_14.setFont(font)
         self.label_operator_14.setStyleSheet("QLabel{\n"
 "    border-radius: 4px;\n"
-"    border:1.5px groove gray;\n"
+"    border:2.5px groove gray;\n"
 "    border-color: rgb(41, 133, 135);\n"
 "}")
         self.label_operator_14.setText("")
@@ -480,10 +480,10 @@ class Ui_MainWindow(object):
         self.label_detection.raise_()
         self.label_encoding.raise_()
         self.frame = QtWidgets.QFrame(self.groupBox_6)
-        self.frame.setGeometry(QtCore.QRect(8, 108, 631, 145))
+        self.frame.setGeometry(QtCore.QRect(8, 106, 631, 145))
         self.frame.setStyleSheet("QFrame{\n"
 "    border-radius: 8px;\n"
-"    border:2px groove gray;\n"
+"    border:2.5px groove gray;\n"
 "    border-color: rgb(0, 85, 127);\n"
 "}")
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -930,7 +930,7 @@ class Ui_MainWindow(object):
         self.groupBox_3.setFont(font)
         self.groupBox_3.setStyleSheet("QGroupBox{\n"
 "    border-radius: 4px;\n"
-"    border:1.5px groove gray;\n"
+"    border:2.5px groove gray;\n"
 "    border-color: rgb(0, 85, 0);\n"
 "}")
         self.groupBox_3.setTitle("")
@@ -1211,6 +1211,7 @@ class Ui_MainWindow(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         self.line_6.setPalette(palette)
+        self.line_6.setLineWidth(1)
         self.line_6.setFrameShape(QtWidgets.QFrame.VLine)
         self.line_6.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_6.setObjectName("line_6")
@@ -1362,6 +1363,7 @@ class Ui_MainWindow(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         self.line_7.setPalette(palette)
+        self.line_7.setLineWidth(1)
         self.line_7.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_7.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_7.setObjectName("line_7")
@@ -1552,11 +1554,12 @@ class Ui_MainWindow(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         self.line_8.setPalette(palette)
+        self.line_8.setLineWidth(1)
         self.line_8.setFrameShape(QtWidgets.QFrame.VLine)
         self.line_8.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_8.setObjectName("line_8")
         self.pushBtn_confirmDetection = QtWidgets.QPushButton(self.groupBox_3)
-        self.pushBtn_confirmDetection.setGeometry(QtCore.QRect(6, 121, 175, 40))
+        self.pushBtn_confirmDetection.setGeometry(QtCore.QRect(6, 121, 130, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(20)
@@ -1615,7 +1618,7 @@ class Ui_MainWindow(object):
         self.pushBtn_saveResultsAs.setDefault(False)
         self.pushBtn_saveResultsAs.setObjectName("pushBtn_saveResultsAs")
         self.pushBtn_showResults = QtWidgets.QPushButton(self.groupBox_3)
-        self.pushBtn_showResults.setGeometry(QtCore.QRect(184, 121, 73, 40))
+        self.pushBtn_showResults.setGeometry(QtCore.QRect(138, 121, 120, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(20)
@@ -1634,7 +1637,7 @@ class Ui_MainWindow(object):
         self.pushBtn_showResults.setDefault(False)
         self.pushBtn_showResults.setObjectName("pushBtn_showResults")
         self.label_operator_9 = QtWidgets.QLabel(self.groupBox_6)
-        self.label_operator_9.setGeometry(QtCore.QRect(267, 254, 113, 30))
+        self.label_operator_9.setGeometry(QtCore.QRect(267, 252, 113, 32))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -1649,7 +1652,7 @@ class Ui_MainWindow(object):
         self.label_operator_9.setStyleSheet("QLabel{\n"
 "    background-color: rgb(225, 225, 225);\n"
 "    border-radius: 4px;\n"
-"    border:1.5px groove gray;\n"
+"    border:2.5px groove gray;\n"
 "    border-color: rgb(0, 85, 0);\n"
 "}")
         self.label_operator_9.setTextFormat(QtCore.Qt.AutoText)
@@ -1671,7 +1674,7 @@ class Ui_MainWindow(object):
         self.label_operator_10.setStyleSheet("QLabel{\n"
 "    background-color: rgb(225, 225, 225);\n"
 "    border-radius: 4px;\n"
-"    border:1.5px groove gray;\n"
+"    border:3px groove gray;\n"
 "    border-color: rgb(41, 133, 135);\n"
 "}")
         self.label_operator_10.setTextFormat(QtCore.Qt.AutoText)
@@ -1693,7 +1696,7 @@ class Ui_MainWindow(object):
         self.label_operator_11.setStyleSheet("QLabel{\n"
 "    background-color: rgb(225, 225, 225);\n"
 "    border-radius: 4px;\n"
-"    border:1.5px groove gray;\n"
+"    border:3px groove gray;\n"
 "    border-color: rgb(41, 133, 135);\n"
 "}")
         self.label_operator_11.setTextFormat(QtCore.Qt.AutoText)
@@ -1800,7 +1803,7 @@ class Ui_MainWindow(object):
         self.textBrowser.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.textBrowser.setStyleSheet("QTextBrowser {\n"
 "    border-radius: 5px;\n"
-"    border:2px solid rgb(123, 123, 184);\n"
+"    border:2.5px solid rgb(123, 123, 184);\n"
 "    font: 16pt \"Cascadia Mono PL SemiLight\";\n"
 "}")
         self.textBrowser.setFrameShape(QtWidgets.QFrame.Box)
@@ -1983,13 +1986,15 @@ class Ui_MainWindow(object):
         self.tableView_result.verticalHeader().setMinimumSectionSize(54)
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.SpanningRole, self.tableView_result)
         MainWindow.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1366, 25))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        self.action_operationhelp = QtWidgets.QAction(MainWindow)
+        self.action_operationhelp.setObjectName("action_operationhelp")
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -2056,13 +2061,13 @@ class Ui_MainWindow(object):
         self.pushBtn_cleanMsgArea.setShortcut(_translate("MainWindow", "Ctrl+/"))
         self.pushBtn_saveResults.setText(_translate("MainWindow", "保存"))
         self.pushBtn_saveResults.setShortcut(_translate("MainWindow", "Ctrl+0"))
-        self.pushBtn_confirmDetection.setText(_translate("MainWindow", "确认检测完毕"))
+        self.pushBtn_confirmDetection.setText(_translate("MainWindow", "检测完毕"))
         self.pushBtn_confirmDetection.setShortcut(_translate("MainWindow", "Ctrl+0"))
         self.pushBtn_clearResults.setText(_translate("MainWindow", "清除"))
         self.pushBtn_clearResults.setShortcut(_translate("MainWindow", "Ctrl+0"))
         self.pushBtn_saveResultsAs.setText(_translate("MainWindow", "另存为"))
         self.pushBtn_saveResultsAs.setShortcut(_translate("MainWindow", "Ctrl+0"))
-        self.pushBtn_showResults.setText(_translate("MainWindow", "查看"))
+        self.pushBtn_showResults.setText(_translate("MainWindow", "查看表格"))
         self.pushBtn_showResults.setShortcut(_translate("MainWindow", "Ctrl+0"))
         self.label_operator_9.setText(_translate("MainWindow", "选发检测"))
         self.label_operator_10.setText(_translate("MainWindow", "操作员姓名"))
@@ -2072,3 +2077,6 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Cascadia Mono PL SemiLight\'; font-size:16pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        self.action_operationhelp.setText(_translate("MainWindow", "操作帮助"))
+        self.action_operationhelp.setToolTip(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt; font-weight:600;\">关于本软件的操和使用作说明</span></p></body></html>"))
+        self.action_operationhelp.setShortcut(_translate("MainWindow", "F1"))

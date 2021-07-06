@@ -1,0 +1,10 @@
+<RCC>
+  <qresource>
+    <file>icons/robot.ico</file>
+    <file>icons/NONE.ico</file>
+    <file>icons/OFF.ico</file>
+    <file>icons/ON.ico</file>
+    <file>icons/IDDD.ico</file>
+    <file>icons/BTN.ico</file>
+  </qresource>
+</RCC>

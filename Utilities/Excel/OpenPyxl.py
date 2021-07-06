@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# getset全局变量
+# 全局变量getset
 import GetSetObj
 # openpyxl相关模块
 from openpyxl import Workbook, load_workbook
@@ -55,9 +55,9 @@ class PrivateOpenPyxl():
         self.halignment = Alignment(horizontal='center', vertical='center', textRotation=0, wrapText=False)
         self.hfill = PatternFill('solid', '00FFFF00') # 黄色填充背景
         self.hborder = Border(left=Side('thin', color=Color(indexed=0)),
-                             right=Side('thin', color=Color(indexed=0)),
-                             top=Side('thin', color=Color(indexed=0)),
-                             bottom=Side('thin', color=Color(indexed=0)))
+                              right=Side('thin', color=Color(indexed=0)),
+                              top=Side('thin', color=Color(indexed=0)),
+                              bottom=Side('thin', color=Color(indexed=0)))
         # 默认列宽 对应字体如上
         self.columnWidth = [12, 30, 14.38, 17.25, 9, 11.88, 11.88, 12.13, 10, 11.88, 11.88, 12.13, 10, 11.88, 6.38]
         # 26列列索引
@@ -88,19 +88,19 @@ class PrivateOpenPyxl():
         self.wb = load_workbook(wbname)
         self.ws = self.wb.active # 默认工作表
 
-    # def writeData(self, wbname, row, col, val):
-    #     self.wb = load_workbook(wbname)
-    #     self.ws = self.wb.active # 默认工作表
-    #     self.ws.cell(row, col, val)
-    #     self.wb.save(wbname)
+    def writeData(self, wbname, row, col, val):
+        self.wb = load_workbook(wbname)
+        self.ws = self.wb.active # 默认工作表
+        self.ws.cell(row, col, val)
+        self.wb.save(wbname)
 
-    # def wrtieRow(self, rowList):
-    #     self.ws.append(rowList)
+    def wrtieRow(self, rowList):
+        self.ws.append(rowList)
         
     def saveSheet(self):
         self.wb.save(self.wbname)
 
-    def setHeaderStyle(self, tableHeadline):
+    def setHeaderWithStyle(self, tableHeadline):
         self.loadSheet(self.wbname)
         for c in range(15):
             column = self.colindex[c]
@@ -183,15 +183,14 @@ class PrivateOpenPyxl():
             else:
                 self.ws[pos].style = 'defaultContentStyle'
 
-    def updateCodeRowData(self, code, dataList): # 根据输入UID编码去替换其对应所在行的数据
+    def updateRowDataByUID(self, dataList): # 根据输入UID编码去替换其对应所在行的数据
         maxrows = self.ws.max_row # 每次执行行数据填入都获取最新的最大行（包括表头所在行）
         maxcols = self.ws.max_column # 每次执行行数据填入都获取最新的最大列
         nonDupCnt = 0
-        if maxrows >= 2: # 已填入了表头，且填入了数据
+        if maxrows >= 2: # 已填入了表头和数据
             gen = self.ws.iter_rows(2, maxrows, 1, maxcols) # 返回数据生成器
             for rowdata in gen: # 迭代访问，判断并更新重复检测结果
-                uid = rowdata[6].value # 第六列：UID编码
-                if uid == code: # 重复检测结果
+                if str(rowdata[6].value) == dataList[6]: # # 第六列：UID编码
                     self.cellResultFillingStyleSetting(rowdata[6].row, dataList)
                     break
                 else:
