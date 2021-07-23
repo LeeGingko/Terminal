@@ -1,0 +1,66 @@
+[I 2021-07-09 15:08:34] concurrency model: async
+[I 2021-07-09 15:08:34] masquerade (NAT) address: None
+[I 2021-07-09 15:08:34] passive ports: 2000->2332
+[I 2021-07-09 15:08:34] >>> starting FTP server on 127.0.0.1:21, pid=2092 <<<
+[I 2021-07-09 15:10:03] 127.0.0.1:9149-[] FTP session opened (connect)
+[I 2021-07-09 15:10:10] 127.0.0.1:9149-[user] USER 'user' logged in.
+[I 2021-07-09 15:10:24] 127.0.0.1:9149-[user] FTP session closed (disconnect).
+[I 2021-07-09 15:10:51] concurrency model: async
+[I 2021-07-09 15:10:51] masquerade (NAT) address: None
+[I 2021-07-09 15:10:51] passive ports: 2000->2332
+[I 2021-07-09 15:10:51] >>> starting FTP server on 10.23.64.34:21, pid=2508 <<<
+[I 2021-07-09 15:11:07] 10.23.64.34:9199-[] FTP session opened (connect)
+[I 2021-07-09 15:11:14] 10.23.64.34:9199-[user] USER 'user' logged in.
+[I 2021-07-09 15:15:05] 10.23.64.34:9199-[user] STOR E:\COXY.mat completed=1 bytes=298 seconds=0.016
+[I 2021-07-09 15:16:20] 10.23.64.34:9199-[user] RETR E:\009.mat completed=1 bytes=298 seconds=0.016
+[I 2021-07-09 15:21:20] 10.23.64.34:9199-[user] Control connection timed out.
+[I 2021-07-09 15:21:20] 10.23.64.34:9199-[user] FTP session closed (disconnect).
+[I 2021-07-09 15:23:50] 10.23.64.34:11062-[] FTP session opened (connect)
+[I 2021-07-09 15:23:55] 10.23.64.34:11062-[user] USER 'user' logged in.
+[I 2021-07-09 15:24:21] 10.23.64.34:11062-[user] CWD E:\remote-dir 550 'No such file or directory.'
+[I 2021-07-09 15:26:46] 10.23.64.34:11209-[] FTP session opened (connect)
+[I 2021-07-09 15:26:48] 10.23.64.34:11209-[] FTP session closed (disconnect).
+[I 2021-07-09 15:27:13] 10.23.64.34:11237-[] FTP session opened (connect)
+[I 2021-07-09 15:27:15] 10.23.64.34:11237-[] FTP session closed (disconnect).
+[I 2021-07-09 15:30:28] 10.23.64.34:2750-[] FTP session opened (connect)
+[I 2021-07-09 15:30:30] 10.23.64.34:2750-[] FTP session closed (disconnect).
+[I 2021-07-09 15:30:34] 10.23.64.34:11062-[user] Control connection timed out.
+[I 2021-07-09 15:30:34] 10.23.64.34:11062-[user] FTP session closed (disconnect).
+[I 2021-07-09 15:30:41] concurrency model: async
+[I 2021-07-09 15:30:41] masquerade (NAT) address: None
+[I 2021-07-09 15:30:41] passive ports: 2000->2332
+[I 2021-07-09 15:30:41] >>> starting FTP server on 10.23.64.34:22, pid=3240 <<<
+[I 2021-07-09 15:31:00] 10.23.64.34:2786-[] FTP session opened (connect)
+[I 2021-07-09 15:31:10] 10.23.64.34:2786-[user] USER 'user' logged in.
+[I 2021-07-09 15:31:25] 10.23.64.34:2814-[] FTP session opened (connect)
+[I 2021-07-09 15:31:27] 10.23.64.34:2814-[] FTP session closed (disconnect).
+[I 2021-07-09 15:33:58] 10.23.64.34:1091-[] FTP session opened (connect)
+[I 2021-07-09 15:34:00] 10.23.64.34:1091-[] FTP session closed (disconnect).
+[I 2021-07-09 15:34:12] 10.23.64.34:2786-[user] FTP session closed (disconnect).
+[I 2021-07-09 15:34:18] 10.23.64.34:1109-[] FTP session opened (connect)
+[I 2021-07-09 15:34:20] 10.23.64.34:1109-[] FTP session closed (disconnect).
+[I 2021-07-09 15:48:46] 10.23.64.34:9061-[] FTP session opened (connect)
+[I 2021-07-09 15:48:48] 10.23.64.34:9061-[] FTP session closed (disconnect).
+[I 2021-07-09 15:54:42] 10.23.64.34:9613-[] FTP session opened (connect)
+[I 2021-07-09 15:54:44] 10.23.64.34:9613-[] FTP session closed (disconnect).
+[I 2021-07-09 15:55:18] 10.23.64.34:9651-[] FTP session opened (connect)
+[I 2021-07-09 15:55:23] 10.23.64.34:9651-[user] USER 'user' logged in.
+[I 2021-07-09 15:55:34] 10.23.64.34:9674-[] FTP session opened (connect)
+[I 2021-07-09 15:55:37] 10.23.64.34:9674-[] FTP session closed (disconnect).
+[I 2021-07-09 15:56:06] 10.23.64.34:9651-[user] FTP session closed (disconnect).
+[I 2021-07-09 15:56:57] 10.23.64.34:9734-[] FTP session opened (connect)
+[I 2021-07-09 15:56:59] 10.23.64.34:9734-[] FTP session closed (disconnect).
+[I 2021-07-19 09:49:21] concurrency model: async
+[I 2021-07-19 09:49:21] masquerade (NAT) address: None
+[I 2021-07-19 09:49:21] passive ports: 2000->2332
+[I 2021-07-19 09:49:21] >>> starting FTP server on 10.23.64.34:22, pid=256 <<<
+[I 2021-07-19 10:09:20] 10.23.64.34:2972-[] FTP session opened (connect)
+[I 2021-07-19 10:09:22] 10.23.64.34:2972-[] FTP session closed (disconnect).
+[I 2021-07-19 10:09:46] 10.23.64.34:3004-[] FTP session opened (connect)
+[I 2021-07-19 10:09:48] 10.23.64.34:3004-[] FTP session closed (disconnect).
+[I 2021-07-19 10:10:16] concurrency model: async
+[I 2021-07-19 10:10:16] masquerade (NAT) address: None
+[I 2021-07-19 10:10:16] passive ports: 2000->2332
+[I 2021-07-19 10:10:16] >>> starting FTP server on 10.23.64.34:22, pid=4632 <<<
+[I 2021-07-19 10:10:25] 10.23.64.34:3070-[] FTP session opened (connect)
+[I 2021-07-19 10:10:27] 10.23.64.34:3070-[] FTP session closed (disconnect).

@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>1366</width>
-    <height>728</height>
+    <height>729</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -80,7 +80,7 @@
         <rect>
          <x>8</x>
          <y>23</y>
-         <width>240</width>
+         <width>249</width>
          <height>81</height>
         </rect>
        </property>
@@ -537,7 +537,7 @@
        <property name="styleSheet">
         <string notr="true">QGroupBox{
 	border-radius: 4px;
-    border:2.5px groove gray;
+    border:2px groove gray;
 	border-color: rgb(41, 133, 135);
 }</string>
        </property>
@@ -553,7 +553,7 @@
        <property name="checkable">
         <bool>false</bool>
        </property>
-       <widget class="QLineEdit" name="lineEdit_op_name">
+       <widget class="QLineEdit" name="le_Name">
         <property name="geometry">
          <rect>
           <x>8</x>
@@ -1066,7 +1066,7 @@ border:2px solid rgb(41, 133, 135);</string>
        <property name="styleSheet">
         <string notr="true">QGroupBox{
 	border-radius: 4px;
-    border:2.5px groove gray;
+    border:2px groove gray;
 	border-color: rgb(41, 133, 135);
 }</string>
        </property>
@@ -1118,7 +1118,7 @@ border:2px solid rgb(41, 133, 135);</string>
        <widget class="QLabel" name="label_operator_2">
         <property name="geometry">
          <rect>
-          <x>16</x>
+          <x>22</x>
           <y>32</y>
           <width>64</width>
           <height>33</height>
@@ -1170,7 +1170,7 @@ border:2px solid rgb(41, 133, 135);</string>
        <widget class="QLabel" name="label_encoding">
         <property name="geometry">
          <rect>
-          <x>84</x>
+          <x>90</x>
           <y>4</y>
           <width>90</width>
           <height>90</height>
@@ -1183,9 +1183,9 @@ border:2px solid rgb(41, 133, 135);</string>
        <widget class="QLabel" name="label_operator_12">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>12</x>
           <y>22</y>
-          <width>175</width>
+          <width>183</width>
           <height>53</height>
          </rect>
         </property>
@@ -1206,7 +1206,7 @@ border:2px solid rgb(41, 133, 135);</string>
         <property name="styleSheet">
          <string notr="true">QLabel{
 	border-radius: 4px;
-    border:2.5px groove gray;
+    border:2px groove gray;
 	border-color: rgb(41, 133, 135);
 }</string>
         </property>
@@ -1223,9 +1223,9 @@ border:2px solid rgb(41, 133, 135);</string>
        <widget class="QLabel" name="label_operator_14">
         <property name="geometry">
          <rect>
-          <x>198</x>
+          <x>192</x>
           <y>22</y>
-          <width>175</width>
+          <width>183</width>
           <height>53</height>
          </rect>
         </property>
@@ -1246,7 +1246,7 @@ border:2px solid rgb(41, 133, 135);</string>
         <property name="styleSheet">
          <string notr="true">QLabel{
 	border-radius: 4px;
-    border:2.5px groove gray;
+    border:2px groove gray;
 	border-color: rgb(41, 133, 135);
 }</string>
         </property>
@@ -1279,7 +1279,7 @@ border:2px solid rgb(41, 133, 135);</string>
        <property name="styleSheet">
         <string notr="true">QFrame{
 	border-radius: 8px;
-    border:2.5px groove gray;
+    border:2px groove gray;
 	border-color: rgb(0, 85, 127);
 }</string>
        </property>
@@ -1421,7 +1421,7 @@ border-color: rgb(0, 170, 0);</string>
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushBtn_protocolSetting">
+       <widget class="QPushButton" name="btn_ProtocolSetting">
         <property name="geometry">
          <rect>
           <x>6</x>
@@ -1500,7 +1500,7 @@ QPushButton:hover:pressed{
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushBtn_thresholdSetting">
+       <widget class="QPushButton" name="btn_ThresholdSetting">
         <property name="geometry">
          <rect>
           <x>6</x>
@@ -1542,7 +1542,7 @@ QPushButton:hover:pressed{
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushBtn_deviceSelfCheck">
+       <widget class="QPushButton" name="btn_ControllerSelfCheck">
         <property name="geometry">
          <rect>
           <x>140</x>
@@ -2245,7 +2245,7 @@ border-color: rgb(0, 170, 0);</string>
        <property name="styleSheet">
         <string notr="true">QGroupBox{
 	border-radius: 4px;
-    border:2.5px groove gray;
+    border:2px groove gray;
 	border-color: rgb(0, 85, 0);
 }</string>
        </property>
@@ -2261,7 +2261,7 @@ border-color: rgb(0, 170, 0);</string>
        <property name="checkable">
         <bool>false</bool>
        </property>
-       <widget class="QPushButton" name="pushBtn_clearUidInput">
+       <widget class="QPushButton" name="btn_ClearInputUid">
         <property name="geometry">
          <rect>
           <x>8</x>
@@ -2309,7 +2309,7 @@ QPushButton:hover:pressed{
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushBtn_deviceEncoding">
+       <widget class="QPushButton" name="btn_DeviceEncoding">
         <property name="geometry">
          <rect>
           <x>210</x>
@@ -2357,7 +2357,7 @@ QPushButton:hover:pressed{
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_uidInput">
+       <widget class="QLineEdit" name="le_Encoding">
         <property name="geometry">
          <rect>
           <x>8</x>
@@ -2406,7 +2406,7 @@ border:2px solid rgb(0, 85, 0);</string>
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushBtn_deviceDetection">
+       <widget class="QPushButton" name="btn_DeviceDetection">
         <property name="geometry">
          <rect>
           <x>210</x>
@@ -2451,7 +2451,7 @@ QPushButton:hover:pressed{
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushBtn_deviceEncodingDetection">
+       <widget class="QPushButton" name="btn_DeviceEncodingDetection">
         <property name="geometry">
          <rect>
           <x>422</x>
@@ -2493,7 +2493,7 @@ QPushButton:hover:pressed{
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushBtn_queryCode">
+       <widget class="QPushButton" name="btn_QueryCode">
         <property name="geometry">
          <rect>
           <x>422</x>
@@ -3451,7 +3451,7 @@ QPushButton:hover:pressed{
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushBtn_cleanMsgArea">
+       <widget class="QPushButton" name="btn_ClearMsgArea">
         <property name="geometry">
          <rect>
           <x>508</x>
@@ -3493,7 +3493,7 @@ QPushButton:hover:pressed{
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushBtn_saveResults">
+       <widget class="QPushButton" name="btn_SaveResults">
         <property name="geometry">
          <rect>
           <x>334</x>
@@ -3999,7 +3999,7 @@ QPushButton:hover:pressed{
          <enum>Qt::Vertical</enum>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushBtn_confirmDetection">
+       <widget class="QPushButton" name="btn_ConfirmDetection">
         <property name="geometry">
          <rect>
           <x>6</x>
@@ -4047,7 +4047,7 @@ QPushButton:hover:pressed{
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushBtn_clearResults">
+       <widget class="QPushButton" name="btn_ClearResults">
         <property name="geometry">
          <rect>
           <x>260</x>
@@ -4089,7 +4089,7 @@ QPushButton:hover:pressed{
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushBtn_saveResultsAs">
+       <widget class="QPushButton" name="btn_SaveResultsAs">
         <property name="geometry">
          <rect>
           <x>410</x>
@@ -4137,7 +4137,7 @@ QPushButton:hover:pressed{
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushBtn_showResults">
+       <widget class="QPushButton" name="btn_ShowResults">
         <property name="geometry">
          <rect>
           <x>138</x>
@@ -4207,7 +4207,7 @@ QPushButton:hover:pressed{
         <string notr="true">QLabel{
 	background-color: rgb(225, 225, 225);
 	border-radius: 4px;
-    border:2.5px groove gray;
+    border:2px groove gray;
 	border-color: rgb(0, 85, 0);
 }</string>
        </property>
@@ -4224,7 +4224,7 @@ QPushButton:hover:pressed{
       <widget class="QLabel" name="label_operator_10">
        <property name="geometry">
         <rect>
-         <x>52</x>
+         <x>58</x>
          <y>7</y>
          <width>150</width>
          <height>35</height>
@@ -4248,7 +4248,7 @@ QPushButton:hover:pressed{
         <string notr="true">QLabel{
 	background-color: rgb(225, 225, 225);
 	border-radius: 4px;
-    border:3px groove gray;
+    border:2px groove gray;
 	border-color: rgb(41, 133, 135);
 }</string>
        </property>
@@ -4289,7 +4289,7 @@ QPushButton:hover:pressed{
         <string notr="true">QLabel{
 	background-color: rgb(225, 225, 225);
 	border-radius: 4px;
-    border:3px groove gray;
+    border:2px groove gray;
 	border-color: rgb(41, 133, 135);
 }</string>
        </property>
@@ -4572,8 +4572,9 @@ QPushButton:hover:pressed{
       </property>
       <property name="styleSheet">
        <string notr="true">QTextBrowser {
+	border-color: rgb(0, 168, 243);
 	border-radius: 5px;
-	border:2.5px solid rgb(123, 123, 184);
+	border:2.5px solid rgb(0, 170, 255);
 	font: 16pt &quot;Cascadia Mono PL SemiLight&quot;;
 }</string>
       </property>
@@ -4596,7 +4597,7 @@ p, li { white-space: pre-wrap; }
      </widget>
     </item>
     <item row="1" column="0" colspan="2">
-     <widget class="QTableView" name="tableView_result">
+     <widget class="QTableView" name="tv_Results">
       <property name="minimumSize">
        <size>
         <width>1355</width>
@@ -5062,8 +5063,7 @@ p, li { white-space: pre-wrap; }
       <property name="styleSheet">
        <string notr="true">QTableView{
 	border-radius: 5px;
-    border:3px groove rgb(0, 85, 0);
-	border-color: rgb(41, 133, 135);
+    border:3px groove rgb(0, 170, 255)
 }</string>
       </property>
       <property name="lineWidth">
@@ -5127,21 +5127,21 @@ p, li { white-space: pre-wrap; }
   </action>
  </widget>
  <tabstops>
-  <tabstop>lineEdit_op_name</tabstop>
-  <tabstop>pushBtn_protocolSetting</tabstop>
-  <tabstop>pushBtn_thresholdSetting</tabstop>
-  <tabstop>pushBtn_deviceSelfCheck</tabstop>
-  <tabstop>lineEdit_uidInput</tabstop>
-  <tabstop>pushBtn_clearUidInput</tabstop>
-  <tabstop>pushBtn_queryCode</tabstop>
-  <tabstop>pushBtn_deviceEncoding</tabstop>
-  <tabstop>pushBtn_deviceDetection</tabstop>
-  <tabstop>pushBtn_deviceEncodingDetection</tabstop>
-  <tabstop>pushBtn_saveResults</tabstop>
-  <tabstop>pushBtn_saveResultsAs</tabstop>
-  <tabstop>pushBtn_showResults</tabstop>
-  <tabstop>pushBtn_clearResults</tabstop>
-  <tabstop>pushBtn_cleanMsgArea</tabstop>
+  <tabstop>le_Name</tabstop>
+  <tabstop>btn_ProtocolSetting</tabstop>
+  <tabstop>btn_ThresholdSetting</tabstop>
+  <tabstop>btn_ControllerSelfCheck</tabstop>
+  <tabstop>le_Encoding</tabstop>
+  <tabstop>btn_ClearInputUid</tabstop>
+  <tabstop>btn_QueryCode</tabstop>
+  <tabstop>btn_DeviceEncoding</tabstop>
+  <tabstop>btn_DeviceDetection</tabstop>
+  <tabstop>btn_DeviceEncodingDetection</tabstop>
+  <tabstop>btn_SaveResults</tabstop>
+  <tabstop>btn_SaveResultsAs</tabstop>
+  <tabstop>btn_ShowResults</tabstop>
+  <tabstop>btn_ClearResults</tabstop>
+  <tabstop>btn_ClearMsgArea</tabstop>
   <tabstop>textBrowser</tabstop>
  </tabstops>
  <resources/>

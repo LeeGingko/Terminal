@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_ProtocolDialog(object):
     def setupUi(self, ProtocolDialog):
         ProtocolDialog.setObjectName("ProtocolDialog")
-        ProtocolDialog.resize(327, 163)
+        ProtocolDialog.resize(328, 156)
         self.groupBox = QtWidgets.QGroupBox(ProtocolDialog)
         self.groupBox.setGeometry(QtCore.QRect(8, 14, 309, 125))
         font = QtGui.QFont()
@@ -52,24 +52,25 @@ class Ui_ProtocolDialog(object):
         self.comboBox_selectComNum.setFrame(True)
         self.comboBox_selectComNum.setObjectName("comboBox_selectComNum")
         self.comboBox_selectComNum.addItem("")
-        self.pushBtn_serialSwitch = QtWidgets.QPushButton(self.groupBox)
-        self.pushBtn_serialSwitch.setGeometry(QtCore.QRect(8, 76, 291, 40))
+        self.btn_SwitchSerial = QtWidgets.QPushButton(self.groupBox)
+        self.btn_SwitchSerial.setGeometry(QtCore.QRect(8, 76, 291, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(16)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
-        self.pushBtn_serialSwitch.setFont(font)
-        self.pushBtn_serialSwitch.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushBtn_serialSwitch.setAutoFillBackground(False)
-        self.pushBtn_serialSwitch.setStyleSheet("QPushButton:hover{\n"
+        self.btn_SwitchSerial.setFont(font)
+        self.btn_SwitchSerial.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btn_SwitchSerial.setAutoFillBackground(False)
+        self.btn_SwitchSerial.setStyleSheet("QPushButton:hover{\n"
 "    background-color: rgb(214, 234, 239);\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
 "    background-color: rgb(130, 195, 195);\n"
 "}")
-        self.pushBtn_serialSwitch.setObjectName("pushBtn_serialSwitch")
+        self.btn_SwitchSerial.setAutoDefault(False)
+        self.btn_SwitchSerial.setObjectName("btn_SwitchSerial")
 
         self.retranslateUi(ProtocolDialog)
         QtCore.QMetaObject.connectSlotsByName(ProtocolDialog)
@@ -80,5 +81,5 @@ class Ui_ProtocolDialog(object):
         self.groupBox.setTitle(_translate("ProtocolDialog", "端口设置"))
         self.comboBox_selectComNum.setCurrentText(_translate("ProtocolDialog", "JLink CDC UART Port (COM255)"))
         self.comboBox_selectComNum.setItemText(0, _translate("ProtocolDialog", "JLink CDC UART Port (COM255)"))
-        self.pushBtn_serialSwitch.setText(_translate("ProtocolDialog", "打开串口"))
-        self.pushBtn_serialSwitch.setShortcut(_translate("ProtocolDialog", "Ctrl+1"))
+        self.btn_SwitchSerial.setText(_translate("ProtocolDialog", "打开串口"))
+        self.btn_SwitchSerial.setShortcut(_translate("ProtocolDialog", "Ctrl+1"))

@@ -15,19 +15,19 @@ class PrivateOpenPyxl():
     resultPassStyle.font = Font(name='Times New Roman', size=16, bold=False, color=Color(indexed=0))# 黑色字体
     resultPassStyle.alignment = Alignment(horizontal='center', vertical='center')
     resultPassStyle.fill = PatternFill('solid', '0000CCFF') # 蓝色填充背景
-    resultPassStyle.border = Border(left=Side('thin', color=Color(indexed=0)),
-                                    right=Side('thin', color=Color(indexed=0)),
-                                    top=Side('thin', color=Color(indexed=0)),
-                                    bottom=Side('thin', color=Color(indexed=0)))
+    resultPassStyle.border = Border(left    = Side('thin', color=Color(indexed=0)),
+                                    right   = Side('thin', color=Color(indexed=0)),
+                                    top     = Side('thin', color=Color(indexed=0)),
+                                    bottom  = Side('thin', color=Color(indexed=0)))
     # 检测结果失败
     resultFailStyle = NamedStyle('resultFailStyle')
     resultFailStyle.font = Font(name='Times New Roman', size=16, bold=False, color=Color(indexed=0))# 黑色字体
     resultFailStyle.alignment = Alignment(horizontal='center', vertical='center')
     resultFailStyle.fill = PatternFill('solid', '00FF0000') # 红色填充背景
-    resultFailStyle.border = Border(left=Side('thin', color=Color(indexed=0)),
-                                    right=Side('thin', color=Color(indexed=0)),
-                                    top=Side('thin', color=Color(indexed=0)),
-                                    bottom=Side('thin', color=Color(indexed=0)))
+    resultFailStyle.border = Border(left    = Side('thin', color=Color(indexed=0)),
+                                    right   = Side('thin', color=Color(indexed=0)),
+                                    top     = Side('thin', color=Color(indexed=0)),
+                                    bottom  = Side('thin', color=Color(indexed=0)))
     # 默认字体
     defaultContentStyle = NamedStyle('defaultContentStyle')
     defaultContentStyle.font = Font(name='Times New Roman', size=16, bold=False, color=Color(indexed=0))# 黑色字体
@@ -54,10 +54,10 @@ class PrivateOpenPyxl():
         self.hfont = Font(name='Times New Roman', size=16, bold=False, color=Color(indexed=17))
         self.halignment = Alignment(horizontal='center', vertical='center', textRotation=0, wrapText=False)
         self.hfill = PatternFill('solid', '00FFFF00') # 黄色填充背景
-        self.hborder = Border(left=Side('thin', color=Color(indexed=0)),
-                              right=Side('thin', color=Color(indexed=0)),
-                              top=Side('thin', color=Color(indexed=0)),
-                              bottom=Side('thin', color=Color(indexed=0)))
+        self.hborder = Border(left    = Side('thin', color=Color(indexed=0)),
+                              right   = Side('thin', color=Color(indexed=0)),
+                              top     = Side('thin', color=Color(indexed=0)),
+                              bottom  = Side('thin', color=Color(indexed=0)))
         # 默认列宽 对应字体如上
         self.columnWidth = [12, 30, 14.38, 17.25, 9, 11.88, 11.88, 12.13, 10, 11.88, 11.88, 12.13, 10, 11.88, 6.38]
         # 26列列索引
@@ -100,7 +100,7 @@ class PrivateOpenPyxl():
     def saveSheet(self):
         self.wb.save(self.wbname)
 
-    def setHeaderWithStyle(self, tableHeadline):
+    def setStyledHeader(self, tableHeadline):
         self.loadSheet(self.wbname)
         for c in range(15):
             column = self.colindex[c]

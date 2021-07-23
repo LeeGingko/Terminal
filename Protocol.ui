@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>327</width>
-    <height>163</height>
+    <width>328</width>
+    <height>156</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -94,7 +94,7 @@ QPushButton:hover:pressed{
      </property>
     </item>
    </widget>
-   <widget class="QPushButton" name="pushBtn_serialSwitch">
+   <widget class="QPushButton" name="btn_SwitchSerial">
     <property name="geometry">
      <rect>
       <x>8</x>
@@ -131,6 +131,9 @@ QPushButton:hover:pressed{
     </property>
     <property name="shortcut">
      <string>Ctrl+1</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
