@@ -2,7 +2,9 @@
 # 导入time相关模块
 import time
 
-class Tools:
+class Tools(object):
+    def __init__(self):
+        super(Tools, self).__init__()
     
     def getTimeStamp(self):
         return time.strftime("[At %H:%M:%S]>", time.localtime())

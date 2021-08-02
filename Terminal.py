@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from FTPStation import FTPStationlWin
 from UserImport import *
+
 
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
@@ -114,7 +114,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.excelAsFilePath = "" # Excel另存为文件路径
         self.excelAsFile = "" # Excel另存为文件
         self.excelAsOpenState = False
-        self.excelRecordFile = os.path.join(self.configFolder, 'excel_save_record.txt')
+        self.excelRecordFile = os.path.join(self.configFolder, 'excelSaveRecord.txt')
         self.createExcelRecordFile()
         # 默认检测结果
         initTime = time.strftime("%Y年%m月%d日 %H:%M:%S", time.localtime()) # 检测时间
@@ -185,7 +185,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.le_Encoding.setFocus()
         # 配置文件路径
         self.thresholdWin.configPath = self.configFilePath
-        # 检测状态
+        # 检测状态LAM
         self.detectionState = None # 未知状态
         # 确认检测完毕
         self.confirmDetection = False
@@ -205,7 +205,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         # 是否是主窗口发起的自动参数下发
         self.isMainSendPara = True # 开启软件默认就是主窗口发送，无需关闭参数下发窗口
         # 1 搜索并连接控制仪串口
-        self.protocolWin.autoConnectDetector()
+        self.disableBtnFunc()
+        self.actTimer = QTimer.singleShot(100, self.protocolWin.autoConnectDetector)
+        self.enableBtnFunc()
         self.le_Name.setFocus()
         self.isLVLCOK = False
         self.encDetEncdetQuery = 0 # 编码 检测 编码检测 查询 -> 0 1 2 3
@@ -215,7 +217,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.uidLengthCheckTimer.start(10)
         self.setMouseTracking(True)
         self.ftpStation = FTPStationlWin()
-
+        # GetSetObj.set(3, self.ftpStation)
+   
     def showUiLocation(self):
         self.geo = self.geometry()
         # print('Location:X', self.geo.left(), 'Location:Y', self.geo.top())
@@ -249,7 +252,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def userTextBrowserAppend(self, str):
         t = self.usualTools.getTimeStamp()
         self.textBrowser.append(t + str)
-        self.textBrowser.moveCursor(self.textBrowser.textCursor().End)         
+        self.textBrowser.moveCursor(self.textBrowser.textCursor().End)       
     
     def createConfigurationsFolder(self):
         if not os.path.isdir(self.configFolder):
@@ -376,6 +379,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btn_ProtocolSetting.setEnabled(True)
         self.btn_ThresholdSetting.setEnabled(True)
         self.btn_ControllerSelfCheck.setEnabled(True)
+        self.le_Encoding.setFocus(True)
 
     def disableBtnFunc(self):
         self.btn_DeviceEncoding.setEnabled(False)
@@ -384,12 +388,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btn_QueryCode.setEnabled(False)
         self.le_Encoding.setEnabled(False)
         self.le_Name.setEnabled(False)
+        self.btn_ClearInputUid.setEnabled(False)
         self.btn_ProtocolSetting.setEnabled(False)
         self.btn_ThresholdSetting.setEnabled(False)
-        self.btn_ClearInputUid.setEnabled(False)
         self.btn_ControllerSelfCheck.setEnabled(False)
 
-    def checkSTM32State(self):
+    def checkControllerState(self):
         self.protocolWin.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
         startTiming = dt.datetime.now()
         endTiming = startTiming
@@ -412,7 +416,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.flushTheSerialBuffer()
                 return False
 
-#------------------START--------------------数据显示上下文菜单------------------START--------------------#      
+#------------------------------------START--------------------数据显示上下文菜单------------------------------------START--------------------#      
     def tvSaveSelected(self):
         if len(self.tvRowList) != 0:
             self.userTextBrowserAppend('保存选中数据')
@@ -461,7 +465,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def tvOpenFTP(self):
         if not self.ftpStation.isVisible():
+            QMessageBox.about(self, "使用须知", "1、使用前请先选择服务类型\n2、当前版本下，服务类型选择后无法更改，请注意！\n3、请不要反复打开关闭服务")
             self.ftpStation.show()
+            self.ftpStation.tbMessageAppend("使用须知\n1、使用前请先选择服务类型\n2、当前版本下，服务类型选择后无法更改，请注意！\n3、请不要反复打开关闭服务")
         else:
             self.userTextBrowserAppend('已打开FTP')
 
@@ -473,9 +479,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tvRowList.sort(key=int, reverse=True)
         print(self.tvRowList)
         self.tvMenu.exec_(self.tv_Results.mapToGlobal(p))
-#------------------END----------------------数据显示上下文菜单------------------END----------------------#    
+#------------------------------------END----------------------数据显示上下文菜单------------------------------------END----------------------#    
 
-#------------------START---------------------输入完成槽函数-----------------START--------------------#       
+#------------------------------------START---------------------输入完成槽函数-----------------------------------START--------------------#       
     @QtCore.pyqtSlot()
     def on_le_Name_editingFinished(self):
         self.userTextBrowserAppend('输入姓名：' + self.le_Name.text())
@@ -490,9 +496,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_le_Encoding_editingFinished(self):
         l = len(self.le_Encoding.text())
         self.userTextBrowserAppend('输入UID：' + self.le_Encoding.text()[l-5:l])
-#------------------END----------------------输入完成槽函数------------------END----------------------#    
+#------------------------------------END----------------------输入完成槽函数------------------------------------END----------------------#    
 
-#------------------START--------------------按钮槽函数------------------START--------------------#
+#------------------------------------START--------------------按钮槽函数------------------------------------START--------------------#
     @QtCore.pyqtSlot()
     def on_btn_ProtocolSetting_clicked(self): # 打开通信设置界面
         self.protocolWin.show()
@@ -542,11 +548,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.portStatus = self.portInfo.isBusy()  # 该串口状态
             if self.portStatus == True:  # 该串口空闲
                 self.userTextBrowserAppend("测试仪自检")
-                if self.checkSTM32State() == True:
+                if self.checkControllerState() == True:
+                    self.disableBtnFunc()
                     self.getSelfCheckParameters()
                     QTimer.singleShot(3000, self.autoSendParameters)
                     self.le_Encoding.setFocus()
                 else:
+                    self.enableBtnFunc()
                     self.userTextBrowserAppend("测试仪无响应，请重新选择串口或检查连线！")
         else:
             QMessageBox.information(self, "串口信息", "串口未打开，请打开串口", QMessageBox.Yes)
@@ -579,7 +587,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.flushTheSerialBuffer()
                         self.userTextBrowserAppend("输入编码：" + self.le_Encoding.text())
                         if len(self.uid) == 5:
-                            if self.checkSTM32State() == True:
+                            if self.checkControllerState() == True:
                                 self.disableBtnFunc()
                                 self.justQueryCode = True
                                 self.protocolWin.serialSendData(Func.f_DevQueryCurrentCode, '', '')
@@ -642,7 +650,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             print("/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/")
             print("Querying......")
             self.userTextBrowserAppend("执行查询")
-            if self.checkSTM32State() == True:
+            if self.checkControllerState() == True:
                 self.disableBtnFunc()
                 self.encDetEncdetQuery = 3
                 self.justQueryCode = True
@@ -685,7 +693,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.flushTheSerialBuffer()
                         if len(self.uid) == 5:
                             self.userTextBrowserAppend("输入编码：" + self.uid)
-                            if self.checkSTM32State() == True:
+                            if self.checkControllerState() == True:
                                 self.disableBtnFunc()
                                 res = self.loadResultsFile() # 加载检测结果
                                 resSta, index = self.isResultDetected(res, self.uid)
@@ -978,9 +986,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_btn_ClearMsgArea_clicked(self): # 清除消息提示框
         if self.textBrowser.toPlainText() != "":
             self.textBrowser.clear()
-#------------------END----------------------按钮槽函数------------------END----------------------#
+#------------------------------------END----------------------按钮槽函数------------------------------------END----------------------#
  
-#------------------START--------------------数据解析------------------START--------------------#
+#------------------------------------START--------------------数据解析------------------------------------START--------------------#
     def serialRecvData(self, data): # 串口接收数据处理
         self.protocolWin.data = data
         if data.decode("utf-8") == "接收数据失败":
@@ -992,7 +1000,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     if tmp[2] == Func.f_DevSettingThreshold:
                         self.parseSettingThreshold()
                     elif tmp[2] == Func.f_DevGetSelfPara:
-                        self.parseGetSelfCheckParameters()
+                        self.parseControllerSelfCheck()
                     elif tmp[2] == Func.f_DevEncoding:
                         self.parseEncodingResults()
                     elif tmp[2] == Func.f_DevDetection:
@@ -1110,7 +1118,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.userTextBrowserAppend("串口未打开")
           
-    def parseGetSelfCheckParameters(self): # 解析设备自检结果
+    def parseControllerSelfCheck(self): # 解析设备自检结果
         self.setWorkMode(self.protocolWin.data)
         tmp = self.protocolWin.data.decode("utf-8")
         l = len(tmp)
@@ -1128,10 +1136,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.label_selfFireVoltage.setText(FireVol)
             self.label_selfFireCurrent.setText(FireCur)
             self.parseWorkMode()
-            self.enableBtnFunc()
             self.userTextBrowserAppend("已获取测试仪自检参数")
         else:
             self.userTextBrowserAppend("请接通测试仪电源")
+        self.enableBtnFunc()
         self.flushTheSerialBuffer()
     
     def parseSettingThreshold(self): # 解析阈值设置结果
@@ -1479,7 +1487,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.enableBtnFunc()
         self.flushTheSerialBuffer()
         self.le_Encoding.setFocus()
-#------------------END----------------------数据解析------------------END----------------------#
+#------------------------------------END----------------------数据解析------------------------------------END----------------------#
 
     def sleepUpdate(self, sec):
         cnt = 0
@@ -1492,7 +1500,16 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def closeEvent(self, QCloseEvent):
         if self.tableViewModel.rowCount() != 0:
-                choice = QMessageBox.critical(self, "关闭程序", "检测结果尚未保存，无法退出程序！", QMessageBox.Yes)
+            choice = QMessageBox.critical(self, "关闭程序", "检测结果尚未保存，是否保存？\n", QMessageBox.Yes|QMessageBox.No| QMessageBox.Cancel)
+            if choice == QMessageBox.Yes:
+                if self.protocolWin.prvSerial.isOpen():
+                    self.protocolWin.prvSerial.close()
+                self.on_btn_SaveResultsAs_clicked()
+                app = QApplication.instance()
+                app.quit()
+            elif choice == QMessageBox.No:
+                QCloseEvent.accept()
+            elif choice == QMessageBox.Cancel:
                 QCloseEvent.ignore()
         else:
             choice = QMessageBox.warning(self, "关闭程序", "是否退出程序？", QMessageBox.Yes | QMessageBox.Cancel)

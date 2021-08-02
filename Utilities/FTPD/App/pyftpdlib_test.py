@@ -22,7 +22,7 @@ def main():
     # Instantiate FTP handler class
     handler = FTPHandler
     handler.authorizer = authorizer
-    handler.log_prefix = '[%(username)s]@%(remote_ip)s'
+    handler.log_prefix = '[%(username)s] - @%(remote_ip)s'
     # Define a customized banner (string returned when client connects)
     handler.banner = 'pyftpdlib based ftpd ready.'
     # Define a customized encode

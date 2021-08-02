@@ -4,7 +4,7 @@
 block_cipher = None
 
 
-a = Analysis(['MainPanel.py'],
+a = Analysis(['Terminal.py'],
              pathex=['E:\\Learing\\2021\\719\\Python\\Terminal'],
              binaries=[],
              datas=[],
@@ -31,4 +31,4 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=True , icon='E:\\Learing\\2021\\719\\Python\\Terminal\\resources\\icons\\IDDD.ico')
+          console=False , icon='E:\\Learing\\2021\\719\\Python\\Terminal\\resources\\icons\\IDDD.ico')

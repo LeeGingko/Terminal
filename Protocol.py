@@ -74,10 +74,9 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.setWindowTitle("Protocol")
         iconPath = os.path.join(os.getcwd(),'./resources/icons/IDDD.ico')
         self.setWindowIcon(QIcon(iconPath))
-        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
         self.sendParaInstance = None
         self.paraTimer = QTimer()
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.WindowCloseButtonHint|Qt.WindowMinimizeButtonHint|Qt.WindowStaysOnTopHint)
         # 阻塞父类窗口不能点击
         self.setWindowModality(Qt.ApplicationModal)
     

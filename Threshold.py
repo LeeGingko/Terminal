@@ -112,9 +112,8 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
         self.setWindowTitle("Threshold")
         iconPath = os.path.join(os.getcwd(),'./resources/icons/IDDD.ico')
         self.setWindowIcon(QIcon(iconPath))
-        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
         self.configFolder = os.path.join(os.getcwd(), 'configurations')
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.WindowCloseButtonHint|Qt.WindowMinimizeButtonHint|Qt.WindowStaysOnTopHint)
         # 阻塞父类窗口不能点击
         self.setWindowModality(Qt.ApplicationModal)
         
