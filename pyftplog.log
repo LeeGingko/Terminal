@@ -1,58 +1,436 @@
-INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:concurrency model: multi-thread
 INFO:pyftpdlib:masquerade (NAT) address: None
 INFO:pyftpdlib:passive ports: None
-INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=2892 <<<
-INFO:pyftpdlib:10.23.64.34:8783-[] FTP session opened (connect)
-INFO:pyftpdlib:10.23.64.34:8783-[] FTP session closed (disconnect).
-INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:10.23.64.34:4765-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:4765-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:4765-[U1] RETR E:\Learing\2021\719\Python\Terminal\打包命令.txt completed=1 bytes=440 seconds=0.016
+INFO:pyftpdlib:concurrency model: multi-thread
 INFO:pyftpdlib:masquerade (NAT) address: None
 INFO:pyftpdlib:passive ports: None
-INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=4328 <<<
-INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:10.23.64.34:14656-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:14656-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:14656-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:8927-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:8927-[] USER 'U1' failed login.
+INFO:pyftpdlib:10.23.64.34:8927-[] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:8932-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:8932-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:8932-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:8994-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:8994-[] USER 'U1' failed login.
+INFO:pyftpdlib:10.23.64.34:8994-[] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:9003-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:9003-[] USER 'U1' failed login.
+INFO:pyftpdlib:10.23.64.34:9003-[] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:9036-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:9036-[] USER 'U1' failed login.
+INFO:pyftpdlib:10.23.64.34:9036-[] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:9042-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:9042-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:10423-[] FTP session opened (connect)
+WARNING:pyftpdlib:10.23.64.34:10423-[] Too many connections from the same IP address.
+INFO:pyftpdlib:10.23.64.34:10423-[] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:9042-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:4030-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:4030-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:4030-[U1] Passive data channel timed out.
+INFO:pyftpdlib:10.23.64.34:4030-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:9218-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:9218-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:9218-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:4386-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:4386-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:4386-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: multi-thread
 INFO:pyftpdlib:masquerade (NAT) address: None
 INFO:pyftpdlib:passive ports: None
-INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=6064 <<<
-INFO:pyftpdlib:10.23.64.34:12012-[] FTP session opened (connect)
-INFO:pyftpdlib:10.23.64.34:12012-[] Control connection timed out.
-INFO:pyftpdlib:10.23.64.34:12012-[] FTP session closed (disconnect).
-INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:10.23.64.34:1439-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:1439-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:concurrency model: multi-thread
 INFO:pyftpdlib:masquerade (NAT) address: None
 INFO:pyftpdlib:passive ports: None
-INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=652 <<<
-INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:10.23.64.34:3232-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:3232-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:3232-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:>>> shutting down FTP server (0 active workers) <<<
+INFO:pyftpdlib:concurrency model: multi-thread
 INFO:pyftpdlib:masquerade (NAT) address: None
 INFO:pyftpdlib:passive ports: None
-INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=1936 <<<
-INFO:pyftpdlib:10.23.64.34:8391-[] FTP session opened (connect)
-INFO:pyftpdlib:10.23.64.34:8398-[] FTP session opened (connect)
-WARNING:pyftpdlib:10.23.64.34:8398-[] Too many connections from the same IP address.
-INFO:pyftpdlib:10.23.64.34:8398-[] FTP session closed (disconnect).
-INFO:pyftpdlib:10.23.64.34:8391-[] FTP session closed (disconnect).
-INFO:pyftpdlib:10.23.64.34:11619-[] FTP session opened (connect)
-INFO:pyftpdlib:10.23.64.34:11619-[] FTP session closed (disconnect).
-INFO:pyftpdlib:10.23.64.34:11641-[] FTP session opened (connect)
-INFO:pyftpdlib:10.23.64.34:11641-[] FTP session closed (disconnect).
-INFO:pyftpdlib:10.23.64.34:11920-[] FTP session opened (connect)
-INFO:pyftpdlib:10.23.64.34:11920-[] FTP session closed (disconnect).
-INFO:pyftpdlib:concurrency model: async
-INFO:pyftpdlib:masquerade (NAT) address: None
-INFO:pyftpdlib:passive ports: None
-INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=6776 <<<
-INFO:pyftpdlib:concurrency model: async
-INFO:pyftpdlib:masquerade (NAT) address: None
-INFO:pyftpdlib:passive ports: None
-INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=8004 <<<
-INFO:pyftpdlib:10.23.64.34:12456-[] FTP session opened (connect)
-INFO:pyftpdlib:10.23.64.34:12456-[] FTP session closed (disconnect).
-INFO:pyftpdlib:10.23.64.34:11421-[] FTP session opened (connect)
-INFO:pyftpdlib:10.23.64.34:11421-[] FTP session closed (disconnect).
-INFO:pyftpdlib:10.23.64.34:11567-[] FTP session opened (connect)
-INFO:pyftpdlib:10.23.64.34:11567-[] FTP session closed (disconnect).
-INFO:pyftpdlib:10.23.64.34:12158-[] FTP session opened (connect)
-INFO:pyftpdlib:10.23.64.34:12158-[] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:3364-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:3364-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:3364-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:3616-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:3616-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:3616-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:3738-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:3738-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:3738-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:5945-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:5945-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:5945-[U1] FTP session closed (disconnect).
 INFO:pyftpdlib:concurrency model: multi-thread
 INFO:pyftpdlib:masquerade (NAT) address: None
 INFO:pyftpdlib:passive ports: None
 INFO:pyftpdlib:concurrency model: multi-thread
 INFO:pyftpdlib:masquerade (NAT) address: None
 INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:4699-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:4699-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:7623-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:7623-[] USER 'U1' failed login.
+INFO:pyftpdlib:10.23.64.34:7623-[] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:7795-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:7795-[] USER 'U1' failed login.
+INFO:pyftpdlib:10.23.64.34:7795-[] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:7800-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:7800-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:7800-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:7808-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:7808-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:7808-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> shutting down FTP server (0 active workers) <<<
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:7326-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:7326-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:7326-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:7667-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:7667-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:7729-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:7729-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:5723-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:5723-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:5723-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:6062-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:6062-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:6062-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:6068-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:6068-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:6068-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:6071-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:6071-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:6071-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:6558-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:6558-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:6558-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:6719-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:6719-[U3] USER 'U3' logged in.
+INFO:pyftpdlib:10.23.64.34:6719-[U3] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:5723-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:5723-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:5723-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:11057-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:11057-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:11057-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:3540-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:3540-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:3540-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+ERROR:pyftpdlib:Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 262, in handle_accepted
+    handler = self.handler(sock, self, ioloop=self.ioloop)
+TypeError: __init__() got an unexpected keyword argument 'ioloop'
+
+ERROR:pyftpdlib:Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 262, in handle_accepted
+    handler = self.handler(sock, self, ioloop=self.ioloop)
+TypeError: __init__() got an unexpected keyword argument 'ioloop'
+
+ERROR:pyftpdlib:Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 262, in handle_accepted
+    handler = self.handler(sock, self, ioloop=self.ioloop)
+TypeError: __init__() got an unexpected keyword argument 'ioloop'
+
+INFO:pyftpdlib:>>> shutting down FTP server (0 active workers) <<<
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+ERROR:pyftpdlib:Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 262, in handle_accepted
+    handler = self.handler(sock, self, ioloop=self.ioloop)
+TypeError: __init__() got an unexpected keyword argument 'ioloop'
+
+ERROR:pyftpdlib:Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 262, in handle_accepted
+    handler = self.handler(sock, self, ioloop=self.ioloop)
+TypeError: __init__() got an unexpected keyword argument 'ioloop'
+
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:13858-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:13858-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:13858-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:13877-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:13877-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:13877-[U1] Control connection timed out.
+INFO:pyftpdlib:10.23.64.34:13877-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:>>> shutting down FTP server (0 active workers) <<<
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:9157-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:9157-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:9157-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:9270-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:9270-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:5131-[] FTP session opened (connect)
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1518287878752, addr='10.23.64.34:5131')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 286, in handle_accepted
+    handler.handle()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 1354, in handle
+    self.on_connect()
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 15, in on_connect
+    ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已连接成功')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:10.23.64.34:5131-[] FTP session closed (disconnect).
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1518287878752, addr='10.23.64.34:5131')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\ioloop.py", line 224, in call
+    self._target(*self._args, **self._kwargs)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 18, in on_disconnect
+    ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已断开连接')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:10.23.64.34:5362-[] FTP session opened (connect)
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1518287878800, addr='10.23.64.34:5362')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 286, in handle_accepted
+    handler.handle()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 1354, in handle
+    self.on_connect()
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 15, in on_connect
+    def on_disconnect(self):
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:10.23.64.34:5362-[] FTP session closed (disconnect).
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1518287878800, addr='10.23.64.34:5362')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\ioloop.py", line 224, in call
+    self._target(*self._args, **self._kwargs)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 18, in on_disconnect
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:5512-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:5512-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:5512-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:>>> shutting down FTP server (0 active workers) <<<
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:14832-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:14832-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:14832-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:14863-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:14863-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:14863-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:6609-[] FTP session opened (connect)
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=2313038354896, addr='10.23.64.34:6609')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 286, in handle_accepted
+    handler.handle()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 1354, in handle
+    self.on_connect()
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 15, in on_connect
+    ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已连接成功')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:10.23.64.34:6609-[] FTP session closed (disconnect).
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=2313038354896, addr='10.23.64.34:6609')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\ioloop.py", line 224, in call
+    self._target(*self._args, **self._kwargs)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 18, in on_disconnect
+    ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已断开连接')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:>>> shutting down FTP server (0 active workers) <<<
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:14584-[] FTP session opened (connect)
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=2313038355808, addr='10.23.64.34:14584')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 286, in handle_accepted
+    handler.handle()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 1354, in handle
+    self.on_connect()
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 15, in on_connect
+    ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已连接成功')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:10.23.64.34:14584-[] FTP session closed (disconnect).
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=2313038355808, addr='10.23.64.34:14584')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\ioloop.py", line 224, in call
+    self._target(*self._args, **self._kwargs)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 18, in on_disconnect
+    ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已断开连接')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:8969-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:8969-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:8969-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:14722-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:14722-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:14722-[U1] Control connection timed out.
+INFO:pyftpdlib:10.23.64.34:14722-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:11787-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:11787-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:11787-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:>>> shutting down FTP server (0 active workers) <<<
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:11804-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:11804-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:4453-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:4453-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:4453-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:11766-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:11766-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:8225-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:8225-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:8225-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:8318-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:8318-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:8318-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:7551-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:7551-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:7551-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:5065-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:5065-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:5065-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:9217-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:9217-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:9217-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:3398-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:3398-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:3398-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:3543-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:3543-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:3543-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:9825-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:9825-[U2] USER 'U2' logged in.
+INFO:pyftpdlib:10.23.64.34:9825-[U2] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:7695-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:7695-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:7695-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时18分58秒_1条_李爱明.xlsx completed=1 bytes=0 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:7695-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:8869-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:8869-[U3] USER 'U3' logged in.
+INFO:pyftpdlib:10.23.64.34:8869-[U3] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> shutting down FTP server (0 active workers) <<<
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:2173-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:2173-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:2173-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:2178-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:2178-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:2178-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:>>> shutting down FTP server (0 active workers) <<<
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> shutting down FTP server (0 active workers) <<<
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> shutting down FTP server (0 active workers) <<<
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:9000-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:9000-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:9000-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:9173-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:9173-[U3] USER 'U3' logged in.
+INFO:pyftpdlib:10.23.64.34:9173-[U3] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:2420-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:2420-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:2420-[U1] RETR E:\Learing\2021\719\Python\Terminal\2021年08月05日_17时09分46秒_1条_李爱明.xlsx completed=1 bytes=5640 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:2420-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:10029-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:10029-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:10029-[U1] RETR E:\Learing\2021\719\Python\Terminal\2021年08月05日_17时09分46秒_1条_李爱明.xlsx completed=1 bytes=5640 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:10029-[U1] FTP session closed (disconnect).

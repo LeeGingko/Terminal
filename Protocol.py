@@ -76,9 +76,10 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.setWindowIcon(QIcon(iconPath))
         self.sendParaInstance = None
         self.paraTimer = QTimer()
-        self.setWindowFlags(Qt.WindowCloseButtonHint|Qt.WindowMinimizeButtonHint|Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.WindowCloseButtonHint|Qt.WindowMinimizeButtonHint)
+        # self.setWindowFlags(Qt.WindowStaysOnTopHint)
         # 阻塞父类窗口不能点击
-        self.setWindowModality(Qt.ApplicationModal)
+        # self.setWindowModality(Qt.ApplicationModal)
     
     def checkSTM32State(self):
         self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))

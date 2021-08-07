@@ -113,9 +113,10 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
         iconPath = os.path.join(os.getcwd(),'./resources/icons/IDDD.ico')
         self.setWindowIcon(QIcon(iconPath))
         self.configFolder = os.path.join(os.getcwd(), 'configurations')
-        self.setWindowFlags(Qt.WindowCloseButtonHint|Qt.WindowMinimizeButtonHint|Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.WindowCloseButtonHint|Qt.WindowMinimizeButtonHint)
+        # self.setWindowFlags(Qt.WindowStaysOnTopHint)
         # 阻塞父类窗口不能点击
-        self.setWindowModality(Qt.ApplicationModal)
+        # self.setWindowModality(Qt.ApplicationModal)
         
     def getUserPara(self):
         self.paraDict["th_DrainCurrent_Up"  ] = self.lineEdit_setDrainCurrentTop.text()

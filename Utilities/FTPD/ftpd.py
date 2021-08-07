@@ -3,12 +3,13 @@ import logging
 import os
 import socket
 
+from pyftpdlib import filesystems
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer, ThreadedFTPServer
-# from pyftpdlib import filesystems
 # 默认导入
 from PyQt5.QtCore import QThread
+from Utilities.FTPD.MyFTPHandler import PrivateFTPHandler
 
 
 class PrivateFTP(QThread):
@@ -17,7 +18,7 @@ class PrivateFTP(QThread):
         super(PrivateFTP, self).__init__()
         self.server = None
         # Instantiate FTP handler class
-        self.ftphandler = FTPHandler
+        self.ftphandler = PrivateFTPHandler
 
     def run(self):
        # Instantiate a dummy authorizer for managing 'virtual' users
@@ -41,7 +42,7 @@ class PrivateFTP(QThread):
 
         # log file
         logfile = os.path.join(os.getcwd(), 'pyftplog.log')
-        logging.basicConfig(filename=logfile, level=logging.INFO)
+        logging.basicConfig(filename=logfile, level=logging.INFO, encoding='utf-8')
 
         # Instantiate FTP server class and listen on 0.0.0.0:2121
         name = socket.gethostname()

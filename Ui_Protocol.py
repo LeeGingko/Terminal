@@ -14,6 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_ProtocolDialog(object):
     def setupUi(self, ProtocolDialog):
         ProtocolDialog.setObjectName("ProtocolDialog")
+        ProtocolDialog.setWindowModality(QtCore.Qt.ApplicationModal)
         ProtocolDialog.resize(328, 156)
         self.groupBox = QtWidgets.QGroupBox(ProtocolDialog)
         self.groupBox.setGeometry(QtCore.QRect(8, 14, 309, 125))

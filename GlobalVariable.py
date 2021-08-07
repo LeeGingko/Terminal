@@ -11,8 +11,7 @@ class GlobalVar():
         elif index == 2:
             GlobalVar.gObjThreshold = val 
         elif index == 3:
-            GlobalVar.gObjFTPStation = val 
-
+            GlobalVar.gObjFTPStation = val
  
     def getgObj(self, index): # 获取全局对象
         if index == 1:
