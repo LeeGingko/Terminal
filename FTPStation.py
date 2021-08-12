@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 # 导入日期时间模块
 import datetime as dt
+# 导入FTPLIB模块
 import ftplib
 # 导入glob
 import glob
-# -*- coding: utf-8 -*-.
-# 导入日志模块
-import logging
 # 导入os
 import os
 # 导入pickle模块
@@ -16,21 +14,23 @@ import socket
 # 导入time模块
 import time
 # 导入FTPLIB Client
-from ftplib import FTP, all_errors, error_perm, error_proto, error_temp
+from ftplib import FTP, error_perm, error_proto, error_temp
+from typing import Dict
 
 # 导入PING
 from multiping import MultiPing, MultiPingSocketError
 # 默认导入
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtCore import QObject, QRegularExpression, Qt, QTimer, pyqtSignal
+from PyQt5.QtCore import QRegularExpression, Qt
 from PyQt5.QtGui import (QFont, QIcon, QRegularExpressionValidator,
                          QStandardItem, QStandardItemModel)
-from PyQt5.QtWidgets import (QAbstractItemDelegate, QAbstractItemView, QAction,
-                             QApplication, QDialog, QFileDialog, QHeaderView,
-                             QLabel, QMenu, QMessageBox)
+from PyQt5.QtWidgets import (QAbstractItemView, QAction, QApplication,
+                             QFileDialog, QHeaderView, QMenu, QMessageBox)
 
 # 导入协议通信界面
 from Ui_FTPUtil import Ui_FTPSetting
+# 导入自定义Excel操作类
+from Utilities.Excel.OpenPyxl import PrivateOpenPyxl
 # 导入PYFTPDLIB类 Server
 from Utilities.FTPD.ftpd import PrivateFTP
 # 导入自定义工具
@@ -44,15 +44,15 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
     def __init__(self):
         super(FTPStationlWin, self).__init__()  # 继承父类的所有属性
         self.initUi()
-        # 获取应用程序当前工作路径
-        self.configFolder = os.path.join(os.getcwd(), 'configurations')
-        self.ftpRecordFile = os.path.join(self.configFolder, 'ftpOperationRecord.txt')
-        self.isThisPCAsServer = False
-        self.userAttribute = { 'U1':None, 'U2':None, 'U3':None }
         self.createFTPOperationRecord()
+        self.createDetRecordFile()
 
     def initUi(self):
         self.setupUi(self)
+        # 获取应用程序当前工作路径
+        self.configFolder = os.path.join(os.getcwd(), 'configurations')
+        self.ftpRecordFile = os.path.join(self.configFolder, 'ftpOperationRecord.txt')
+        self.detRecordFile = os.path.join(self.configFolder, 'detRecordFile.txt')
         # 设置窗口居中显示
         self.desktop = QApplication.desktop()
         self.screenRect = self.desktop.screenGeometry()
@@ -60,7 +60,7 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
         self.height = self.screenRect.height()
         self.Wsize = self.geometry()
         centerX = int((self.width - self.Wsize.width()) / 2)
-        centerY = int((self.height - self.Wsize.height()) / 2 - 20)
+        centerY = int((self.height - self.Wsize.height()) / 2 - 35)
         self.move(centerX, centerY)
         self.setWindowTitle("FTPUtil")
         iconPath = os.path.join(os.getcwd(),'./resources/icons/IDDD.ico')
@@ -81,7 +81,7 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
         self.tb_Message.setFontFamily("微软雅黑")
         self.tb_Message.setFontPointSize(16)
         # 本机是否为服务器
-        self.thisPCServerOrClient = None
+        self.pcAsServerOrClient = None
         # self.btn_ThisPCAsServer.setStyleSheet("QPushButton{color: rgb(0, 170, 255)}")
         self.disableAllFunc()
         self.ftpThread = PrivateFTP()
@@ -90,15 +90,16 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
         self.myftp = FTP()
         self.myftp.set_debuglevel(2)
         self.myftp.encoding = 'gbk'
-        #*------------------------------- 表格显示控件之模型、委托、视图初始化 MV--------------------------------*#
+        #*------------------------------- 表格显示控件之模型、委托、视图初始化 MVC--------------------------------*#
         # 1 表格模型初始化
-        self.tableViewModel = QStandardItemModel(0, 4, self)
+        self.tableViewModel = QStandardItemModel(0, 3, self)
         self.tableviewRowIndex = 0 # 表格视图写入数据行索引
         self.tableHeadline = [
-            "文件名.xlsx",   "文件大小/KB",   "创建时间", "修改时间"]
+            "名称",       "大小",     "修改时间", 
+            "检测人员",  "所属类型",   "操作状态"]
         self.tableViewModel.setHorizontalHeaderLabels(self.tableHeadline) # 设置表头
         # 2 表格委托初始化
-        self.tableViewDelegate = PrivateTableViewDelegate()        
+        self.tableViewDelegate = PrivateTableViewDelegate()    
         # 3 表格视图初始化
         self.tv_FileInfo.setModel(self.tableViewModel)
         self.tv_FileInfo.horizontalHeader().setStretchLastSection(True)
@@ -111,15 +112,22 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
         self.tv_FileInfo.setEditTriggers (QAbstractItemView.NoEditTriggers)
         # 3.1 表格视图上下文菜单
         self.tvMenu = QMenu(self.tv_FileInfo)
-        self.upLoad = QAction()
-        self.upLoad.setText('上传选中文件')
-        self.upLoad.triggered.connect(self.tvUpLoad)
-        self.tvMenu.addAction(self.upLoad)
         self.tv_FileInfo.customContextMenuRequested.connect(self.tvCustomContextMenuRequested)
-        #*------------------------------- 表格显示控件之模型、委托、视图初始化 MV--------------------------------*#
-    
+        #*------------------------------- 表格显示控件之模型、委托、视图初始化 MVC--------------------------------*#
+        self.detFileInfo = {}
+        self.isThisPCAsServer = False
+        # 检测数据Excel文件初始化
+        self.excel = PrivateOpenPyxl() # 实例化Excel对象
+        self.xlsxFiles = []
+        self.detFileIdDict = {}
+        self.detFileList = []
+        self.detIdList = []
+
     def tvUpLoad(self):
         self.tbMessageAppend('开始上传')
+
+    def tvDownLoad(self):
+        self.tbMessageAppend('开始下载')
 
     def tvCustomContextMenuRequested(self, p):
         self.tvIndex = self.tv_FileInfo.selectionModel().selectedRows()
@@ -128,6 +136,11 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
             self.tvRowList.append(i.row())
         self.tvRowList.sort(key=int, reverse=True)
         self.tvMenu.exec_(self.tv_FileInfo.mapToGlobal(p))
+
+    def tbMessageAppend(self, str):
+        ts = self.usualTools.getTimeStamp()
+        self.tb_Message.append(ts + str)
+        self.tb_Message.moveCursor(self.tb_Message.textCursor().End)  
 
     def disableAllFunc(self):
         self.le_ServerIP.setEnabled(False)
@@ -139,16 +152,11 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
         self.btn_PushFile.setEnabled(False)
         self.btn_PullFile.setEnabled(False)
         self.btn_MergeFile.setEnabled(False)
-
-    def tbMessageAppend(self, str):
-        ts = self.usualTools.getTimeStamp()
-        self.tb_Message.append(ts + str)
-        self.tb_Message.moveCursor(self.tb_Message.textCursor().End)  
      
     @QtCore.pyqtSlot()
     def on_btn_ThisPCAsServer_clicked(self):
-        if self.thisPCServerOrClient == None:
-            self.thisPCServerOrClient = True
+        if self.pcAsServerOrClient == None:
+            self.pcAsServerOrClient = True
             self.le_ServerIP.setEnabled(False)
             self.le_UserName.setEnabled(False)
             self.le_UserPasswd.setEnabled(False) 
@@ -165,11 +173,16 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
             self.btn_ScanRemoteFile.move(360, 160)
             self.btn_PushFile.move(360, 230)
             self.btn_PullFile.move(360, 300)
+            # 视图右键动作
+            self.upLoad = QAction()
+            self.upLoad.setText('上传本地汇总文件')
+            self.upLoad.triggered.connect(self.tvUpLoad)
+            self.tvMenu.addAction(self.upLoad)
 
     @QtCore.pyqtSlot()
     def on_btn_ThisPCAsClient_clicked(self):
-        if self.thisPCServerOrClient == None:
-            self.thisPCServerOrClient = False
+        if self.pcAsServerOrClient == None:
+            self.pcAsServerOrClient = False
             self.le_ServerIP.setEnabled(True)
             self.le_UserName.setEnabled(True)
             self.le_UserPasswd.setEnabled(True)
@@ -187,13 +200,18 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
             self.btn_PullFile.move(360, 220)
             self.line_Right.move(354, 293)
             self.btn_MergeFile.move(360, 300)
+            # 视图右键动作
+            self.downLoad = QAction()
+            self.downLoad.setText('下载选中远端文件')
+            self.downLoad.triggered.connect(self.tvDownLoad)
+            self.tvMenu.addAction(self.downLoad)
 
     @QtCore.pyqtSlot()
     def on_btn_Connection_clicked(self):
         l = list()
         self.btn_Connection.setEnabled(False)
         btnText = self.btn_Connection.text()
-        if self.thisPCServerOrClient == True: # 作为服务器
+        if self.pcAsServerOrClient == True: # 作为服务器
             if btnText == '开启服务器':
                 self.btn_Connection.setText('关闭服务器')
                 if self.isServerStart == False:
@@ -209,7 +227,7 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
                 self.btn_ScanLocalFile.setEnabled(False)
                 self.btn_MergeFile.setEnabled(False)
                 self.tbMessageAppend('服务器已关闭')
-        elif self.thisPCServerOrClient == False: # 作为客户端
+        elif self.pcAsServerOrClient == False: # 作为客户端
             a = 1 if self.le_ServerIP.text() != '' else 0
             b = 1 if self.le_UserName.text() != '' else 0
             c = 1 if self.le_UserPasswd.text() != '' else 0
@@ -257,13 +275,13 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
                                                 self.btn_Connection.setText('连接服务器')
                                                 QApplication.processEvents()
                                 except EOFError:
-                                    self.tbMessageAppend('connect:EOFError')
+                                    self.tbMessageAppend('connection:EOFError')
                                 except error_temp:
-                                    self.tbMessageAppend('connect:error_temp')
+                                    self.tbMessageAppend('connection:error_temp')
                                 except error_perm:
-                                    self.tbMessageAppend('connect:error_perm')
+                                    self.tbMessageAppend('connection:error_perm')
                                 except error_proto:
-                                    self.tbMessageAppend('connect:error_proto')
+                                    self.tbMessageAppend('connection:error_proto')
                                 except TimeoutError:
                                     self.tbMessageAppend('连接超时，请检查IP是否正确')
                                     QApplication.processEvents()
@@ -301,133 +319,198 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
         xlsxFiles = glob.glob('*.xlsx')
         for file in xlsxFiles:
             xlsxStat = os.stat(file)
-            if ('xlsx' in file) and ('年' in file) and ('月' in file) and ('日' in file):
-                #-------------------------------------------------------------文件名-------------------------------------------------------------#
-                filenameItem = QStandardItem(file)
-                filenameItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
-                self.tableViewModel.setItem(self.tableviewRowIndex, 0, filenameItem)
-                #-------------------------------------------------------------文件大小-------------------------------------------------------------#
-                sizeOfFile = xlsxStat.st_size / 1024
-                sizeItem = QStandardItem('%.1f' % sizeOfFile)
-                sizeItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
-                self.tableViewModel.setItem(self.tableviewRowIndex, 1, sizeItem)
-                #-------------------------------------------------------------创建时间-------------------------------------------------------------#
-                createTime = time.strftime('%Y年%m月%d日 %H时%M分%S秒', time.localtime(xlsxStat.st_ctime))
-                createItem = QStandardItem(createTime)
-                createItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
-                self.tableViewModel.setItem(self.tableviewRowIndex, 2, createItem)
-                #-------------------------------------------------------------修改时间-------------------------------------------------------------#
-                modifyTime = time.strftime('%Y年%m月%d日 %H时%M分%S秒', time.localtime(xlsxStat.st_mtime))
-                modifyItem = QStandardItem(modifyTime)
-                modifyItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
-                self.tableViewModel.setItem(self.tableviewRowIndex, 3, modifyItem)
-                self.tableviewRowIndex = self.tableviewRowIndex + 1
+            if '~$' not in file:
+                if ('xlsx' in file) and ('年' in file) and ('月' in file) and ('日' in file):
+                    #-------------------------------------------------------------文件名-------------------------------------------------------------#
+                    filenameItem = QStandardItem(file)
+                    filenameItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
+                    self.tableViewModel.setItem(self.tableviewRowIndex, 0, filenameItem)
+                    #-------------------------------------------------------------文件大小-------------------------------------------------------------#
+                    sizeOfFile = xlsxStat.st_size / 1024
+                    sizeItem = QStandardItem('%.1f' % sizeOfFile)
+                    sizeItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
+                    self.tableViewModel.setItem(self.tableviewRowIndex, 1, sizeItem)
+                    #-------------------------------------------------------------修改时间-------------------------------------------------------------#
+                    modifyTime = time.strftime('%Y年%m月%d日 %H时%M分%S秒', time.localtime(xlsxStat.st_mtime))
+                    modifyItem = QStandardItem(modifyTime)
+                    modifyItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
+                    self.tableViewModel.setItem(self.tableviewRowIndex, 2, modifyItem)
+                    #-------------------------------------------------------------检测人员-------------------------------------------------------------#
+                    l = len(file)
+                    ulp = file.rfind('_', 0, l) # '_'：姓名前的下划线位置
+                    detNameItem = QStandardItem(file[ulp + 1 : l - 5])
+                    detNameItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
+                    self.tableViewModel.setItem(self.tableviewRowIndex, 3, detNameItem)
+                    #-------------------------------------------------------------所属类型------------------------------------------------------------#
+                    typeItem = QStandardItem('检测结果')
+                    typeItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
+                    self.tableViewModel.setItem(self.tableviewRowIndex, 4, typeItem)
+                    #-------------------------------------------------------------操作状态-------------------------------------------------------------#
+                    opstaItem = QStandardItem('-')
+                    opstaItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
+                    self.tableViewModel.setItem(self.tableviewRowIndex, 5, opstaItem)
+                    self.tableviewRowIndex = self.tableviewRowIndex + 1
         self.tbMessageAppend('本地文件扫描完成')
 
     @QtCore.pyqtSlot()
     def on_btn_ScanRemoteFile_clicked(self):
-        if self.thisPCServerOrClient == False: # 客户端才具有的功能
+        if self.pcAsServerOrClient == False: # 客户端才具有的功能
             try:
-                res = self.myftp.mlsd(path='.', facts=['modify', 'create', 'size'])
                 self.tableviewRowIndex = 0
                 self.tableViewModel.removeRows(0, self.tableViewModel.rowCount())
-                for r in res:
-                    if ('xlsx' in r[0]) and ('年' in r[0]) and ('月' in r[0]) and ('日' in r[0]):
-                        #-------------------------------------------------------------文件名-------------------------------------------------------------#
-                        filenameItem = QStandardItem(r[0])
-                        filenameItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
-                        self.tableViewModel.setItem(self.tableviewRowIndex, 0, filenameItem)
-                        #-------------------------------------------------------------文件大小-------------------------------------------------------------#
-                        sizeOfFile = int(r[1]['size']) / 1024
-                        sizeItem = QStandardItem('%.1f' % sizeOfFile)
-                        sizeItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
-                        self.tableViewModel.setItem(self.tableviewRowIndex, 1, sizeItem)
-                        #-------------------------------------------------------------创建时间-------------------------------------------------------------#
-                        hour = int(r[1]['create'][8:10])
-                        if hour >= 0 and hour <= 15:
-                            hour = hour + 8
-                        elif hour >= 16 and hour <= 24:
-                            hour = hour - 16
-                        createTime = str(r[1]['create'][0:4]) + '年' + str(r[1]['create'][4:6]) + '月' + str(r[1]['create'][6:8]) + '日 ' +\
-                                     '%02d' % hour + '时' + str(r[1]['create'][10:12]) + '分' + str(r[1]['modify'][12:14]) + '秒'
-                        createItem = QStandardItem(createTime)
-                        createItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
-                        self.tableViewModel.setItem(self.tableviewRowIndex, 2, createItem)
-                        #-------------------------------------------------------------修改时间-------------------------------------------------------------#
-                        hour = int(r[1]['modify'][8:10])
-                        if hour >= 0 and hour <= 15:
-                            hour = hour + 8
-                        elif hour >= 16 and hour <= 24:
-                            hour = hour - 16
-                        modifyTime = str(r[1]['modify'][0:4]) + '年' + str(r[1]['modify'][4:6]) + '月' + str(r[1]['modify'][6:8]) + '日 ' +\
-                                     str(hour) + '时' + str(r[1]['modify'][10:12]) + '分' + str(r[1]['modify'][12:14]) + '秒' 
-                        modifyItem = QStandardItem(modifyTime)
-                        modifyItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
-                        self.tableViewModel.setItem(self.tableviewRowIndex, 3, modifyItem)
-                        self.tableviewRowIndex = self.tableviewRowIndex + 1
-                self.tbMessageAppend('服务器文件扫描完成')
+                res = self.myftp.mlsd(path='.', facts=['modify', 'create', 'size'])
+                if res != []:
+                    for r in res:
+                        if ('xlsx' in r[0]) and ('年' in r[0]) and ('月' in r[0]) and ('日' in r[0]):
+                            #-------------------------------------------------------------文件名-------------------------------------------------------------#
+                            filenameItem = QStandardItem(r[0])
+                            filenameItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
+                            self.tableViewModel.setItem(self.tableviewRowIndex, 0, filenameItem)
+                            #-------------------------------------------------------------文件大小-------------------------------------------------------------#
+                            sizeOfFile = int(r[1]['size']) / 1024
+                            sizeItem = QStandardItem('%.1f' % sizeOfFile)
+                            sizeItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
+                            self.tableViewModel.setItem(self.tableviewRowIndex, 1, sizeItem)
+                            #-------------------------------------------------------------创建时间-------------------------------------------------------------#
+                            # hour = int(r[1]['create'][8:10])
+                            # if hour >= 0 and hour <= 15:
+                            #     hour = hour + 8
+                            # elif hour >= 16 and hour <= 24:
+                            #     hour = hour - 16
+                            # createTime = str(r[1]['create'][0:4]) + '年' + str(r[1]['create'][4:6]) + '月' + str(r[1]['create'][6:8]) + '日 ' +\
+                            #             '%02d' % hour + '时' + str(r[1]['create'][10:12]) + '分' + str(r[1]['modify'][12:14]) + '秒'
+                            # createItem = QStandardItem(createTime)
+                            # createItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
+                            # self.tableViewModel.setItem(self.tableviewRowIndex, 2, createItem)
+                            #-------------------------------------------------------------修改时间-------------------------------------------------------------#
+                            hour = int(r[1]['modify'][8:10])
+                            if hour >= 0 and hour <= 15:
+                                hour = hour + 8
+                            elif hour >= 16 and hour <= 24:
+                                hour = hour - 16
+                            modifyTime = str(r[1]['modify'][0:4]) + '年' + str(r[1]['modify'][4:6]) + '月' + str(r[1]['modify'][6:8]) + '日 ' +\
+                                        '%02d' % hour + '时' + str(r[1]['modify'][10:12]) + '分' + str(r[1]['modify'][12:14]) + '秒' 
+                            modifyItem = QStandardItem(modifyTime)
+                            modifyItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
+                            self.tableViewModel.setItem(self.tableviewRowIndex, 2, modifyItem)
+                            # #-------------------------------------------------------------修改时间-------------------------------------------------------------#
+                            # posItem = QStandardItem('远端')
+                            # posItem.setFont(QFont('Times New Roman', 16, QFont.Weight.Light))
+                            # self.tableViewModel.setItem(self.tableviewRowIndex, 4, posItem)
+                            self.tableviewRowIndex = self.tableviewRowIndex + 1
+                    self.tbMessageAppend('服务器文件扫描完成')
+                else:
+                    self.tbMessageAppend('服务器暂无检测文件')
             except error_perm:
                 self.tbMessageAppend('无此目录')
 
     @QtCore.pyqtSlot()
     def on_btn_PushFile_clicked(self):
-        if self.thisPCServerOrClient == False:
-            try:
-                xlsxFiles = glob.glob('*.xlsx')
-                for xf in xlsxFiles:
-                    if ('xlsx' in xf) and ('年' in xf) and ('月' in xf) and ('日' in xf):
-                        with open(xf, 'rb') as fp:
-                            self.tbMessageAppend('开始上传文件...\n>>' + xf)
-                            try:
-                                uploadcmd = 'STOR ' + xf
-                                res = self.myftp.storbinary(uploadcmd, fp)
-                                if res.find('226 Transfer complete.') != -1:
-                                    self.tbMessageAppend('上传完成')
-                            except error_perm:
-                                self.tbMessageAppend('上传失败')
-            except error_perm:
-                self.tbMessageAppend('无此目录')
-            except ConnectionAbortedError:
-                self.tbMessageAppend('连接已断开，请重新连接')
-                self.btn_Connection.setText('连接服务器')
+        if self.pcAsServerOrClient == False:
+            if self.tv_FileInfo.rowCount() != 0:
+                try:
+                    xlsxFiles = glob.glob('*.xlsx')
+                    for xf in xlsxFiles:
+                        if ('xlsx' in xf) and ('年' in xf) and ('月' in xf) and ('日' in xf):
+                            with open(xf, 'rb') as fp:
+                                self.tbMessageAppend('开始上传文件...\n>>' + xf)
+                                try:
+                                    uploadcmd = 'STOR ' + xf
+                                    res = self.myftp.storbinary(uploadcmd, fp)
+                                    if res.find('226 Transfer complete.') != -1:
+                                        self.tbMessageAppend('上传完成')
+                                except error_perm:
+                                    self.tbMessageAppend('上传失败')
+                except error_perm:
+                    self.tbMessageAppend('无此文件')
+                except ConnectionAbortedError:
+                    self.tbMessageAppend('连接已断开，请重新连接')
+                    self.btn_Connection.setText('连接服务器')
+            else:
+                self.tbMessageAppend('请进行文件扫描操作！')
             
     @QtCore.pyqtSlot()
     def on_btn_PullFile_clicked(self):
-        if self.thisPCServerOrClient == False:
-            try:
-                res = self.myftp.mlsd(path='.', facts=['modify', 'create', 'size'])
-                for r in res:
-                    if ('xlsx' in r[0]) and ('年' in r[0]) and ('月' in r[0]) and ('日' in r[0]):
-                        with open(r[0], 'wb') as fp:
-                            self.tbMessageAppend('开始下载文件...\n>>' + r[0])
-                            try:
-                                downloadcmd = 'RETR ' + r[0]
-                                res = self.myftp.retrbinary(downloadcmd, fp.write)
-                                if res.find('226 Transfer complete.') != -1:
-                                    self.tbMessageAppend('下载完成')
-                            except error_perm:
-                                self.tbMessageAppend('下载失败')
-            except error_perm:
-                self.tbMessageAppend('无此文件')
-            except ConnectionAbortedError:
-                self.tbMessageAppend('连接已断开，请重新连接')
-                self.btn_Connection.setText('连接服务器')
-
+        if self.pcAsServerOrClient == False:
+            if self.tv_FileInfo.rowCount() != 0:
+                try:
+                    res = self.myftp.mlsd(path='.', facts=['modify', 'create', 'size'])
+                    for r in res:
+                        if ('xlsx' in r[0]) and ('年' in r[0]) and ('月' in r[0]) and ('日' in r[0]):
+                            with open(r[0], 'wb') as fp:
+                                self.tbMessageAppend('开始下载文件...\n>>' + r[0])
+                                try:
+                                    downloadcmd = 'RETR ' + r[0]
+                                    res = self.myftp.retrbinary(downloadcmd, fp.write)
+                                    if res.find('226 Transfer complete.') != -1:
+                                        self.tbMessageAppend('下载完成')
+                                except error_perm:
+                                    self.tbMessageAppend('下载失败')
+                except error_perm:
+                    self.tbMessageAppend('无此文件')
+                except ConnectionAbortedError:
+                    self.tbMessageAppend('连接已断开，请重新连接')
+                    self.btn_Connection.setText('连接服务器')
+            else:
+                self.tbMessageAppend('请进行文件扫描操作！')
+    
     @QtCore.pyqtSlot()
     def on_btn_MergeFile_clicked(self):
-        pass
+        self.xlsxFiles.clear()
+        self.detFileList.clear()
+        self.detIdList.clear()
+        self.detFileIdDict.clear()
+        tmpList = []
+        # 
+        self.tbMessageAppend('开始汇总...')
+        time.sleep(1)
+        QApplication.processEvents()
+        self.xlsxFiles = glob.glob('*.xlsx')
+        # 检查是否有打开的文件
+        if not self.checkXlsxState():
+            time.sleep(1)
+            QApplication.processEvents()
+            self.tbMessageAppend('退出汇总')
+            return
+        # 获取文件和ID，列出文件中的所有ID，生成对应的字典
+        for file in self.xlsxFiles:
+            if '~$' not in file :
+                if ('xlsx' in file) and ('年' in file) and ('月' in file) and ('日' in file):
+                    self.detFileList.append(file)
+                    self.excel.loadSheet(file)
+                    idRowGen = self.excel.ws.iter_rows(2, self.excel.ws.max_row, 1, self.excel.ws.max_column)
+                    tmpList.clear()
+                    for rowid in idRowGen:
+                        tmpList.append(rowid[6].value)
+                    self.detIdList.append(tmpList.copy())
+                    # print(self.detIdList)
+                    self.excel.closeSheet()
+        self.detFileIdDict = dict.fromkeys(self.detFileList)
+        for i in range(len(self.detFileList)):
+            self.detFileIdDict[self.detFileList[i]] = self.detIdList[i]
+        # 查找重复ID，并记录ID所在的所有文件及其检测时间
+        self.tbMessageAppend('---')
+        # 根据特定的检测时间进行筛选，保留最新检测时间的记录
+
+        # 汇总所有文件，生成汇总文件
+
+
+        # 完成汇总
+        time.sleep(1)
+        self.tbMessageAppend('完成汇总')
+        QApplication.processEvents()
 
     @QtCore.pyqtSlot()
     def on_btn_ShowFile_clicked(self):
         pass
 
     def createFTPOperationRecord(self):
-        if not os.path.isfile(self.ftpRecordFile):
-            self.loadFTPOperationRecord()
+        if os.path.isfile(self.ftpRecordFile):
+            pass
         else:
             try:
-                with open(self.ftpRecordFile, encoding="utf-8", mode="w") as frf:
-                    self.saved_info = (self.isThisPCAsServer, self.userAttribute)
+                with open(self.ftpRecordFile, encoding="gbk", mode="w") as frf:
+                    self.saved_info = self.userAttribute
                     frf.write(self.saved_info)
             except:
                 pass
@@ -445,3 +528,47 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
         self.saved_info = (self.isThisPCAsServer, self.userAttribute)
         with open(self.ftpRecordFile, "wb") as frf:
             pk.dump(self.saved_info, frf) # 用dump函数将Python对象转成二进制对象文件
+
+    def createDetRecordFile(self):
+        if os.path.isfile(self.detRecordFile):
+            pass
+        else:
+            try:
+                with open(self.detRecordFile, encoding="gbk", mode="w") as frf:
+                    # self.saved_info = (self.isThisPCAsServer, self.userAttribute)
+                    # frf.write(self.saved_info)
+                    pass
+            except:
+                pass
+
+    def loadDetRecordFile(self):
+        try:
+            with open(self.detRecordFile, "rb") as ofrf:
+                lfor = pk.load(ofrf) # 将二进制文件对象转换成Python对象
+            self.isThisPCAsServer = lfor[0]
+            self.userAttribute = lfor[1]
+        except:
+            pass
+    
+    def saveDetRecordFile(self):
+        self.saved_info = (self.isThisPCAsServer, self.userAttribute)
+        with open(self.detRecordFile, "wb") as frf:
+            pk.dump(self.saved_info, frf) # 用dump函数将Python对象转成二进制对象文件
+
+    def checkXlsxState(self):
+        openFileList = []
+        for file in self.xlsxFiles:
+            if '~$' not in file:
+                if self.usualTools.isExcelFileOpen(file) == True:
+                    openFileList.append(file)
+                else:
+                    continue
+        if len(openFileList) > 0:
+            self.tb_Message.append('已被打开文件：')
+            for f in openFileList:
+                self.tb_Message.append(f)
+            self.tb_Message.append('请先关闭上述文件！')
+            self.tb_Message.moveCursor(self.tb_Message.textCursor().End)
+            QApplication.processEvents()
+            return False
+        return True

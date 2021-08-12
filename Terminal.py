@@ -42,9 +42,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setWindowIcon(QIcon(iconPath))
         self.setIconSize(QSize(256, 256))
         self.geo = self.geometry()
-        # self.geoTimer = QTimer()
-        # self.geoTimer.timeout.connect(self.showUiLocation)
-        # self.geoTimer.start(1000)
         #*---------------------------------------------------------------------------------------------------------------*#
         self.switchInputMethod('English')
         # 状态栏初始化
@@ -204,8 +201,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.savedOrSavedAsClicked = None
         # 先加载保存记录
         self.loadExcelOperationRecord()
-        # 发送命令响应
-        self.isDeviceResponsed = False
         # 是否是主窗口发起的自动参数下发
         self.isMainSendPara = True # 开启软件默认就是主窗口发送，无需关闭参数下发窗口
         # 1 搜索并连接控制仪串口
@@ -219,6 +214,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.uidLengthCheckTimer = QTimer()
         self.uidLengthCheckTimer.timeout.connect(self.monitorInputUID)
         self.uidLengthCheckTimer.start(10)
+        # FTP操作界面
         self.ftpStation = FTPStationlWin()
         GetSetObj.set(3, self.ftpStation)
         self.setMouseTracking(True)
@@ -471,6 +467,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if not self.ftpStation.isVisible():
             QMessageBox.about(self, "使用须知", "1、使用前请先选择服务类型\n2、当前版本下，服务类型选择后无法更改，请注意！\n3、请不要反复打开关闭服务")
             self.ftpStation.show()
+            self.ftpStation.setWindowModality(Qt.WindowModality.ApplicationModal)
             # self.ftpStation.tbMessageAppend("使用须知\n1、使用前请先选择服务类型\n2、当前版本下，服务类型选择后无法更改，请注意！\n3、请不要反复打开关闭服务")
         else:
             QMessageBox.about(self, "FTP工具", "已打开FTP操作界面")
@@ -817,14 +814,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.userTextBrowserAppend('无显示数据，请进行检测')
     
-    def isResultsExcelFileOpened(self, file): # 操作的Excel是否被打开
-        if os.path.exists('~$' + file):
-            # print('excel已被打开')
-            return True
-        else:
-            # print('excel未被打开')
-            return False
-
     def saveDataOfView(self): # 保存视图检测结果
         rows = self.tableViewModel.rowCount()
         cols = self.tableViewModel.columnCount()
@@ -861,12 +850,16 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def firstsaveResults(self): # 首次保存结果
         self.loadExcelOperationRecord()
-        if not os.path.isfile(self.excelFilePath):
-            if self.isExcelSavedFirst:
-                self.excelFilePath, isAccept =  QFileDialog.getSaveFileName(self, "保存检测结果", '', "recorded data(*.xlsx)")
-                if isAccept:
-                    if self.excelFilePath:
-                        self.excelFile = os.path.split(self.excelFilePath)[1]
+        # if not os.path.isfile(self.excelFilePath):
+        if self.isExcelSavedFirst:
+            self.saveTime = time.strftime("%Y年%m月%d日_%H时%M分%S秒", time.localtime()) # 保存时间
+            self.saveCnts = str(self.tableViewModel.rowCount()) # 保存条数
+            self.saveFileName = self.saveTime + '_' + self.saveCnts + '条_' + self.le_Name.text()
+            self.excelFilePath, isAccept =  QFileDialog.getSaveFileName(self, "保存检测结果", self.saveFileName, "recorded data(*.xlsx)")
+            if isAccept:
+                if self.excelFilePath:
+                    self.excelFile = os.path.split(self.excelFilePath)[1]
+                    if self.usualTools.isExcelFileOpen(self.excelFile) == False:
                         self.excel_sheet = "Sheet Of Records"
                         self.excel.initWorkBook(self.excelFile, self.excel_sheet)
                         self.excel.setStyledHeader(self.tableHeadline)
@@ -887,7 +880,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             self.btn_SaveResultsAs.setEnabled(False)
                         self.showOperationFile(self.excelFilePath)
                     else:
-                        self.userTextBrowserAppend("保存文件出错！")
+                        self.userTextBrowserAppend(self.excelFile + "已被打开，无法保存，若要覆盖此文件，请先关闭")
+                else:
+                    self.userTextBrowserAppend("保存文件出错！")
         self.saveExcelOperationRecord()
 
     def saveResults(self): # 保存结果
@@ -915,7 +910,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_btn_SaveResults_clicked(self): # 保存检测结果
         self.savedOrSavedAsClicked = True
         self.loadExcelOperationRecord()
-        sta = self.isResultsExcelFileOpened(self.excelFile)
+        sta = self.usualTools.isExcelFileOpen(self.excelFile)
         if sta == True:
             self.userTextBrowserAppend(self.excelFile + '已被打开, 请关闭文件后再写入')
         else:
@@ -934,12 +929,12 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.tableViewModel.rowCount() != 0:
             self.savedOrSavedAsClicked = False
             self.saveTime = time.strftime("%Y年%m月%d日_%H时%M分%S秒", time.localtime()) # 保存时间
-            self.saveCnts = str(self.tableViewModel.rowCount()) # 保存时间
+            self.saveCnts = str(self.tableViewModel.rowCount()) # 保存条数
             self.saveFileName = self.saveTime + '_' + self.saveCnts + '条_' + self.le_Name.text()
             self.excelAsFilePath, isAccept =  QFileDialog.getSaveFileName(self, "保存检测结果另存为", self.saveFileName, "recorded data(*.xlsx)")
             if isAccept:
                 if self.excelAsFilePath:
-                    if not self.isResultsExcelFileOpened(self.excelAsFile):
+                    if not self.usualTools.isExcelFileOpen(self.excelAsFile):
                         self.excelAsFile = os.path.split(self.excelAsFilePath)[1]
                         self.saveExcelOperationRecord()
                         self.excel_sheet = "Sheet Of Records"

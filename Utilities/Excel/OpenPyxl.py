@@ -3,7 +3,7 @@
 import GetSetObj
 # openpyxl相关模块
 from openpyxl import Workbook, load_workbook
-from openpyxl.styles import Alignment, Color, Font, NamedStyle, Border, Side
+from openpyxl.styles import Alignment, Border, Color, Font, NamedStyle, Side
 from openpyxl.styles.fills import PatternFill  # 填充
 
 
@@ -72,7 +72,7 @@ class PrivateOpenPyxl():
         self.ws = self.wb.create_sheet(self.wsname, 0)
         self.ws.title = self.wsname
         self.ws.sheet_properties.tabColor = "1072BA"
-        # 添加命名样式 样式添加后一定要保存一次
+        # 添加命名样式 样式添加后一定要保存一次!!!
         self.wb.add_named_style(self.resultPassStyle)
         self.wb.add_named_style(self.resultFailStyle)
         self.wb.add_named_style(self.defaultContentStyle)
@@ -98,6 +98,7 @@ class PrivateOpenPyxl():
         self.ws.append(rowList)
         
     def saveSheet(self):
+        
         self.wb.save(self.wbname)
 
     def setStyledHeader(self, tableHeadline):
@@ -114,7 +115,7 @@ class PrivateOpenPyxl():
         self.saveSheet()
         self.closeSheet()
     
-    def cellResultFillingStyleSetting(self, row, dataList):
+    def fillingResultCellWithStyle(self, row, dataList):
         thresholdInstance = GetSetObj.get(2) # 获取阈值界面对象实例
         for col in range(15):
             pos = '{0}{1}'.format(self.colindex[col], row) # 表格索引 
@@ -183,20 +184,20 @@ class PrivateOpenPyxl():
             else:
                 self.ws[pos].style = 'defaultContentStyle'
 
-    def updateRowDataByUID(self, dataList): # 根据输入UID编码去替换其对应所在行的数据
+    def updateRowDataByUID(self, dataList): # 根据输入UID编码新增行数据或者替换其对应所在行的数据
         maxrows = self.ws.max_row # 每次执行行数据填入都获取最新的最大行（包括表头所在行）
         maxcols = self.ws.max_column # 每次执行行数据填入都获取最新的最大列
         nonDupCnt = 0
         if maxrows >= 2: # 已填入了表头和数据
             gen = self.ws.iter_rows(2, maxrows, 1, maxcols) # 返回数据生成器
-            for rowdata in gen: # 迭代访问，判断并更新重复检测结果
+            for rowdata in gen: # 循环访问，判断并更新重复检测结果
                 if str(rowdata[6].value) == dataList[6]: # # 第六列：UID编码
-                    self.cellResultFillingStyleSetting(rowdata[6].row, dataList)
+                    self.fillingResultCellWithStyle(rowdata[6].row, dataList)
                     break
                 else:
                     nonDupCnt = nonDupCnt + 1
                     continue
             if nonDupCnt == maxrows - 1: # 没有重复结果则新添加一行即可
-                self.cellResultFillingStyleSetting(maxrows + 1, dataList)
+                self.fillingResultCellWithStyle(maxrows + 1, dataList)
         else: # 只填入了表头，还未填入有数据，直接写入数据到表头下面一行
-            self.cellResultFillingStyleSetting(2, dataList)
+            self.fillingResultCellWithStyle(2, dataList)
