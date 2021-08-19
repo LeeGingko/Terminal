@@ -376,4 +376,4 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.serialSendData(Func.f_DevGetSelfPara, '', '')
         self.sendParaInstance = GetSetObj.get(2)
         # 参数下发阈值定时器
-        QTimer.singleShot(3000, self.sendParaInstance.aloneSaveSettingsRecord)
+        QTimer.singleShot(5500, self.sendParaInstance.aloneSaveSettingsRecord)

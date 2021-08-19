@@ -9,6 +9,8 @@ import glob
 import os
 # 导入pickle模块
 import pickle as pk
+# 导入shutil模块
+import shutil
 # 导入socket模块
 import socket
 # 导入time模块
@@ -118,10 +120,14 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
         self.isThisPCAsServer = False
         # 检测数据Excel文件初始化
         self.excel = PrivateOpenPyxl() # 实例化Excel对象
-        self.xlsxFiles = []
-        self.detFileIdDict = {}
-        self.detFileList = []
-        self.detIdList = []
+        self.excel = PrivateOpenPyxl() # 实例化Excel对象
+        self.xlsxFiles = []         
+        self.detFileList = []       # 检测文件           
+        self.detIdList = []         # 检测文件中的所有ID       
+        self.detTimeList = []       # ID对应的检测时间         
+        self.detFileIdTimeList = [] # 综合信息List
+        self.detFileIdTimeDict = {} # 综合信息Dict
+        self.dupIdSet = set()       
 
     def tvUpLoad(self):
         self.tbMessageAppend('开始上传')
@@ -172,12 +178,15 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
             self.line_Right.move(354, 153)
             self.btn_ScanRemoteFile.move(360, 160)
             self.btn_PushFile.move(360, 230)
+            self.btn_ScanLocalFile.setEnabled(True)
+            self.btn_MergeFile.setEnabled(True)            
             self.btn_PullFile.move(360, 300)
             # 视图右键动作
             self.upLoad = QAction()
             self.upLoad.setText('上传本地汇总文件')
             self.upLoad.triggered.connect(self.tvUpLoad)
             self.tvMenu.addAction(self.upLoad)
+
 
     @QtCore.pyqtSlot()
     def on_btn_ThisPCAsClient_clicked(self):
@@ -457,43 +466,69 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
     @QtCore.pyqtSlot()
     def on_btn_MergeFile_clicked(self):
         self.xlsxFiles.clear()
-        self.detFileList.clear()
-        self.detIdList.clear()
-        self.detFileIdDict.clear()
-        tmpList = []
-        # 
+        self.detFileList.clear()        # 检测文件
+        self.detIdList.clear()          # 检测文件中的所有ID
+        self.detTimeList.clear()        # ID对应的检测时间
+        self.detFileIdTimeList.clear()  # 综合信息List
+        self.detFileIdTimeDict.clear()  # 综合信息Dict
+        # 列出文件
         self.tbMessageAppend('开始汇总...')
         time.sleep(1)
         QApplication.processEvents()
-        self.xlsxFiles = glob.glob('*.xlsx')
+        self.xlsxFiles = glob.glob('*.xlsx')     
         # 检查是否有打开的文件
         if not self.checkXlsxState():
             time.sleep(1)
-            QApplication.processEvents()
             self.tbMessageAppend('退出汇总')
+            QApplication.processEvents()
             return
-        # 获取文件和ID，列出文件中的所有ID，生成对应的字典
+        # 获取文件和ID，列出文件中的所有ID及其对应检测记录的时间，生成对应的字典
+        f = ''
+        cnt = 0
         for file in self.xlsxFiles:
-            if '~$' not in file :
-                if ('xlsx' in file) and ('年' in file) and ('月' in file) and ('日' in file):
-                    self.detFileList.append(file)
-                    self.excel.loadSheet(file)
-                    idRowGen = self.excel.ws.iter_rows(2, self.excel.ws.max_row, 1, self.excel.ws.max_column)
-                    tmpList.clear()
-                    for rowid in idRowGen:
-                        tmpList.append(rowid[6].value)
-                    self.detIdList.append(tmpList.copy())
-                    # print(self.detIdList)
-                    self.excel.closeSheet()
-        self.detFileIdDict = dict.fromkeys(self.detFileList)
+            # if '~$' not in file :
+            if ('xlsx' in file) and ('年' in file) and ('月' in file) and ('日' in file):
+                cnt = cnt + 1
+                f = shutil.copy(file, 'f{0}.xlsx'.format(cnt))
+                self.detFileList.append(f)
+                self.excel.loadSheet(file)
+                idRowGen = self.excel.ws.iter_rows(2, self.excel.ws.max_row, 1, self.excel.ws.max_column)
+                self.detIdList.clear()          # 检测文件中的所有ID
+                self.detTimeList.clear()        # ID对应的检测时间
+                for rowid in idRowGen:
+                    self.detIdList.append(rowid[6].value)
+                    self.detTimeList.append(rowid[1].value)
+                self.detFileIdTimeList.append([self.detIdList.copy(), self.detTimeList.copy()])
+                self.excel.closeSheet()
+        self.detFileIdTimeDict = dict.fromkeys(self.detFileList)
         for i in range(len(self.detFileList)):
-            self.detFileIdDict[self.detFileList[i]] = self.detIdList[i]
-        # 查找重复ID，并记录ID所在的所有文件及其检测时间
-        self.tbMessageAppend('---')
+            self.detFileIdTimeDict[self.detFileList[i]] = self.detFileIdTimeList[i]
+        # 查找重复ID,对其检测结果按日期时间进行筛选
+        l = len(self.detFileIdTimeDict)
+        for index in range(l):
+            if index != l-1:
+                f1 = self.detFileList[index]
+                for t in range(l-1, index, -1):
+                    f2 = self.detFileList[t]
+                    tmp = set(self.detFileIdTimeDict[f2][0]) & set(self.detFileIdTimeDict[f1][0])
+                    print(tmp)
+                    if tmp != set():
+                        for id in tmp:
+                            i = self.detFileIdTimeDict[f1][0].index(id)
+                            j = self.detFileIdTimeDict[f2][0].index(id)
+                            if self.detFileIdTimeDict[f1][1][i] < self.detFileIdTimeDict[f2][1][j]:
+                                self.excel.loadSheet(f1)
+                            else:
+                                self.excel.loadSheet(f2)
+                            row = self.excel.getRowIndexByID(id)
+                            self.excel.deleteRow(row)
+                            self.excel.saveSheet()
+                            self.excel.closeSheet()
+                    else:
+                        pass
         # 根据特定的检测时间进行筛选，保留最新检测时间的记录
 
         # 汇总所有文件，生成汇总文件
-
 
         # 完成汇总
         time.sleep(1)
@@ -504,7 +539,7 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
     def on_btn_ShowFile_clicked(self):
         pass
 
-    def createFTPOperationRecord(self):
+    def createFTPOperationRecord(self): 
         if os.path.isfile(self.ftpRecordFile):
             pass
         else:

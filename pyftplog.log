@@ -586,3 +586,31 @@ INFO:pyftpdlib:passive ports: None
 INFO:pyftpdlib:concurrency model: multi-thread
 INFO:pyftpdlib:masquerade (NAT) address: None
 INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> shutting down FTP server (0 active workers) <<<
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None

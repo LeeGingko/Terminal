@@ -156,6 +156,7 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
     def settingThreshold(self):
         print("Setting threshold.................: ")
         self.thresholdAppendSignal.emit("下发参数到测试仪")
+        QApplication.processEvents()
         self.pSerial = GetSetObj.get(1)
         if self.pSerial.prvSerial.isOpen():
             self.pSerial.data = b''

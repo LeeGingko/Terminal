@@ -64,7 +64,7 @@ class PrivateOpenPyxl():
         self.colindex = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
         
 
-    def initWorkBook(self, wbname, wsname):
+    def createWorkBook(self, wbname, wsname):
         # 创建工作簿工作表
         self.wbname = wbname
         self.wsname = wsname
@@ -98,7 +98,6 @@ class PrivateOpenPyxl():
         self.ws.append(rowList)
         
     def saveSheet(self):
-        
         self.wb.save(self.wbname)
 
     def setStyledHeader(self, tableHeadline):
@@ -115,7 +114,7 @@ class PrivateOpenPyxl():
         self.saveSheet()
         self.closeSheet()
     
-    def fillingResultCellWithStyle(self, row, dataList):
+    def fillingCellsWithStyle(self, row, dataList):
         thresholdInstance = GetSetObj.get(2) # 获取阈值界面对象实例
         for col in range(15):
             pos = '{0}{1}'.format(self.colindex[col], row) # 表格索引 
@@ -192,12 +191,25 @@ class PrivateOpenPyxl():
             gen = self.ws.iter_rows(2, maxrows, 1, maxcols) # 返回数据生成器
             for rowdata in gen: # 循环访问，判断并更新重复检测结果
                 if str(rowdata[6].value) == dataList[6]: # # 第六列：UID编码
-                    self.fillingResultCellWithStyle(rowdata[6].row, dataList)
+                    self.fillingCellsWithStyle(rowdata[6].row, dataList)
                     break
                 else:
                     nonDupCnt = nonDupCnt + 1
                     continue
             if nonDupCnt == maxrows - 1: # 没有重复结果则新添加一行即可
-                self.fillingResultCellWithStyle(maxrows + 1, dataList)
+                self.fillingCellsWithStyle(maxrows + 1, dataList)
         else: # 只填入了表头，还未填入有数据，直接写入数据到表头下面一行
-            self.fillingResultCellWithStyle(2, dataList)
+            self.fillingCellsWithStyle(2, dataList)
+    
+    def deleteRow(self, rowIndex):
+        self.ws.delete_rows(rowIndex)
+
+    def getRowIndexByID(self, id):
+        maxrows = self.ws.max_row # 每次执行行数据填入都获取最新的最大行（包括表头所在行）
+        maxcols = self.ws.max_column # 每次执行行数据填入都获取最新的最大列
+        gen = self.ws.iter_rows(2, maxrows, 1, maxcols) # 返回数据生成器
+        for rowdata in gen: # 循环访问
+            if str(rowdata[6].value) == id: # # 第六列：UID编码
+                return rowdata[6].row
+            else:
+                continue

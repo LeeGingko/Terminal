@@ -69,17 +69,17 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.createConfigFile()
         self.createDevicesStateFile()
         self.createResultsFile()
+        # 通信配置界面类实例
+        self.protocolWin = ProtocolWin()
+        self.protocolWin.protocolAppendSignal.connect(self.userTextBrowserAppend) 
+        # 串口通信实例传入到全局对象，供阈值设置实例访问
+        GetSetObj.set(1, self.protocolWin)        
         # 阈值设置界面类实例
         self.thresholdWin = ThresholdWin()
         self.thresholdWin.thresholdAppendSignal.connect(self.userTextBrowserAppend)
         self.thresholdWin.openFileSignal.connect(self.showOperationFile)
         # 阈值设置实例传入到全局对象，供通信设置实例访问
         GetSetObj.set(2, self.thresholdWin)        
-        # 通信配置界面类实例
-        self.protocolWin = ProtocolWin()
-        self.protocolWin.protocolAppendSignal.connect(self.userTextBrowserAppend)
-        # 串口通信实例传入到全局对象，供阈值设置实例访问
-        GetSetObj.set(1, self.protocolWin)
         # 串口接收线程处理函数
         self.protocolWin.serialManager.recvSignal.connect(self.serialRecvData)
         # 工作模式初始化
@@ -207,7 +207,6 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.disableBtnFunc()
         self.actTimer = QTimer.singleShot(100, self.protocolWin.autoConnectDetector)
         self.enableBtnFunc()
-        self.le_Name.setFocus()
         self.isLVLCOK = False
         self.encDetEncdetQuery = 0 # 编码 检测 编码检测 查询 -> 0 1 2 3
         self.detResCode = [ -1, -1, -1, -1, -1, -1, -1] # 检测响应代码，均为1代表检测成功
@@ -218,6 +217,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.ftpStation = FTPStationlWin()
         GetSetObj.set(3, self.ftpStation)
         self.setMouseTracking(True)
+        self.le_Name.setFocus()
    
     def showUiLocation(self):
         self.geo = self.geometry()
@@ -558,7 +558,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.userTextBrowserAppend("测试仪自检")
                 if self.checkControllerState() == True:
                     self.getSelfCheckParameters()
-                    QTimer.singleShot(3000, self.autoSendParameters)
+                    QTimer.singleShot(5500, self.autoSendParameters)
                     self.le_Encoding.setFocus()
                 else:
                     self.enableBtnFunc()
@@ -861,8 +861,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.excelFile = os.path.split(self.excelFilePath)[1]
                     if self.usualTools.isExcelFileOpen(self.excelFile) == False:
                         self.excel_sheet = "Sheet Of Records"
-                        self.excel.initWorkBook(self.excelFile, self.excel_sheet)
-                        self.excel.setStyledHeader(self.tableHeadline)
+                        self.excel.createWorkBook(self.excelFile, self.excel_sheet)
+                        self.excel.setHeaderStyle(self.tableHeadline)
                         self.isExcelSavedFirst = False
                         self.isExcelSaved = True
                         self.saveExcelOperationRecord()
@@ -938,8 +938,8 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.excelAsFile = os.path.split(self.excelAsFilePath)[1]
                         self.saveExcelOperationRecord()
                         self.excel_sheet = "Sheet Of Records"
-                        self.excel.initWorkBook(self.excelAsFile, self.excel_sheet)
-                        self.excel.setStyledHeader(self.tableHeadline)
+                        self.excel.createWorkBook(self.excelAsFile, self.excel_sheet)
+                        self.excel.setHeaderStyle(self.tableHeadline)
                         self.userTextBrowserAppend("创建数据记录表成功")
                         self.userTextBrowserAppend("@保存至\"" + str(self.excelAsFilePath) + "\"")
                         self.loadExcelOperationRecord()
@@ -958,7 +958,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             else:
                 self.userTextBrowserAppend("取消保存当前记录")
         else:
-                self.userTextBrowserAppend('无显示数据，请进行检测')
+            self.userTextBrowserAppend('无显示数据，请进行检测')
         self.le_Encoding.setFocus()
 
     @QtCore.pyqtSlot()
@@ -1024,6 +1024,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.reportSystemPower(tmp)
                 else:
                     self.updateWorkMode(tmp)
+        QApplication.processEvents()
         self.flushTheSerialBuffer()
     
     def reportSystemPower(self, str): # 电源接通响应，设备自检
@@ -1165,7 +1166,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         elif res == "PARALESS":
             self.userTextBrowserAppend("测试仪接收参数缺失")
         self.flushTheSerialBuffer()
-
+        
     def parseQueryCodeResults(self): # 解析查询结果
         tmp = self.protocolWin.data.decode("utf-8")
         self.queryCode = tmp[tmp.find("UID", 0, len(tmp)) + 3 : len(tmp) - 4]
