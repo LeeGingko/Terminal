@@ -182,6 +182,8 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
             self.comController = ''
             self.comPortList.clear()
             self.comDescriptionList.clear()
+            s = diffset.pop()
+            self.protocolAppendSignal.emit("[" + s.description + "]已拔出")
             self.protocolAppendSignal.emit("当前已无串口")
             print(str(comlist[0]))
             self.comboBox_selectComNum.setEnabled(True)
@@ -204,7 +206,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                 for p in self.comDescriptionList:
                     self.comboBox_selectComNum.addItem(p)
             self.btn_SwitchSerial.setText('打开串口')
-            if (self.comController != '') and (not self.comController in self.comDescriptionList):
+            if (self.comController != '') and (self.comController not in self.comDescriptionList):
                 self.prvSerial.close()
                 self.comboBox_selectComNum.setCurrentText(self.comDescription)
                 self.comboBox_selectComNum.setEnabled(True)

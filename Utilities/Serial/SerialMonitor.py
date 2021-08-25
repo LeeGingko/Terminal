@@ -23,13 +23,13 @@ class PrivateSerialMonitor(QThread):
 
     def run(self):
         while True:
-            self.msleep(1000)
+            self.msleep(500)
             self.tmpList.clear()
             self.tmpList = serial.tools.list_ports.comports()
             self.tmpList.sort() 
             if len(self.tmpList) == 0 and len(self.portList) == 1:
+                self.portChangeSignal.emit(['NOCOM'], '', set(self.portList))
                 self.portList.clear()
-                self.portChangeSignal.emit(['NOCOM'], '', set())
             elif len(self.tmpList) >= 1:
                 if len(self.tmpList) != len(self.portList):
                     action = ''

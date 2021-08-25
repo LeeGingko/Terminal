@@ -63,7 +63,6 @@ class PrivateOpenPyxl():
         # 26列列索引
         self.colindex = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
         
-
     def createWorkBook(self, wbname, wsname):
         # 创建工作簿工作表
         self.wbname = wbname
@@ -72,7 +71,6 @@ class PrivateOpenPyxl():
         self.ws = self.wb.create_sheet(self.wsname, 0)
         self.ws.title = self.wsname
         self.ws.sheet_properties.tabColor = "1072BA"
-        # 添加命名样式 样式添加后一定要保存一次!!!
         self.wb.add_named_style(self.resultPassStyle)
         self.wb.add_named_style(self.resultFailStyle)
         self.wb.add_named_style(self.defaultContentStyle)
@@ -80,13 +78,24 @@ class PrivateOpenPyxl():
         self.wb.add_named_style(self.abnormalContentStyle)
         self.wb.save(self.wbname)
 
-    def closeSheet(self):
-        self.wb.close()
+    def addNamedStyle(self):
+        # 添加命名样式 样式添加后一定要保存一次!!!
+        self.wb.add_named_style(self.resultPassStyle)
+        self.wb.add_named_style(self.resultFailStyle)
+        self.wb.add_named_style(self.defaultContentStyle)
+        self.wb.add_named_style(self.normalContentStyle)
+        self.wb.add_named_style(self.abnormalContentStyle)
 
     def loadSheet(self, wbname):
         self.wbname = wbname
         self.wb = load_workbook(wbname)
-        self.ws = self.wb.active # 默认工作表
+        self.ws = self.wb.active # 默认工作表    
+
+    def saveSheet(self):
+        self.wb.save(self.wbname)
+    
+    def closeSheet(self):
+        self.wb.close()
 
     def writeData(self, wbname, row, col, val):
         self.wb = load_workbook(wbname)
@@ -94,14 +103,35 @@ class PrivateOpenPyxl():
         self.ws.cell(row, col, val)
         self.wb.save(wbname)
 
-    def wrtieRow(self, rowList):
+    def appendRow(self, rowList):
         self.ws.append(rowList)
-        
-    def saveSheet(self):
-        self.wb.save(self.wbname)
 
-    def setStyledHeader(self, tableHeadline):
-        self.loadSheet(self.wbname)
+    def deleteRow(self, rowIndex):
+        self.ws.delete_rows(rowIndex)
+
+    def insertRow(self, rowIndex):
+        self.ws.insert_rows(rowIndex)
+
+    def deleteCloumn(self, colIndex):
+        self.ws.delete_cols(colIndex)
+
+    def getRowIndexByID(self, id):
+        maxrows = self.ws.max_row # 每次执行行数据填入都获取最新的最大行（包括表头所在行）
+        maxcols = self.ws.max_column # 每次执行行数据填入都获取最新的最大列
+        gen = self.ws.iter_rows(2, maxrows, 1, maxcols) # 返回数据生成器
+        for rowdata in gen: # 循环访问
+            if str(rowdata[6].value) == id: # # 第七列：UID编码
+                return rowdata[6].row
+            else:
+                continue
+
+    def setRowData(self, rowIndex, data):
+        l = len(data)
+        for c in range(l):
+            self.ws.cell(rowIndex, c+1, data[c])
+    
+    def setHeaderStyle(self, wbname, tableHeadline):
+        self.loadSheet(wbname)
         for c in range(15):
             column = self.colindex[c]
             pos = '{0}{1}'.format(column, 1)
@@ -112,73 +142,74 @@ class PrivateOpenPyxl():
             self.ws[pos].fill = self.hfill
             self.ws.column_dimensions[column].width = self.columnWidth[c]
         self.saveSheet()
-        self.closeSheet()
+        self.closeSheet()    
     
-    def fillingCellsWithStyle(self, row, dataList):
+    def putDataToCellAndSetStyle(self, row, dataList):
         thresholdInstance = GetSetObj.get(2) # 获取阈值界面对象实例
         for col in range(15):
             pos = '{0}{1}'.format(self.colindex[col], row) # 表格索引 
             self.ws[pos] = dataList[col]
+            val = self.ws[pos].value
             if col == 2: # 漏电流
-                if dataList[col] != '-' and float(dataList[col]) > float(thresholdInstance.paraDict['th_DrainCurrent_Up']):
+                if val != '-' and float(val) > float(thresholdInstance.paraDict['th_DrainCurrent_Up']):
                     self.ws[pos].style = 'abnormalContentStyle'
-                elif dataList[col] != '-' and float(dataList[col]) <= float(thresholdInstance.paraDict['th_DrainCurrent_Up']):
+                elif val != '-' and float(val) <= float(thresholdInstance.paraDict['th_DrainCurrent_Up']):
                     self.ws[pos].style = 'normalContentStyle'
-                elif dataList[col] == '-':
+                elif val == '-':
                     self.ws[pos].style = 'defaultContentStyle'
             elif col == 3: # 工作电流
-                if dataList[col] != '-' and float(dataList[col]) > float(thresholdInstance.paraDict['th_WorkCurrent_Up']):
+                if val != '-' and float(val) > float(thresholdInstance.paraDict['th_WorkCurrent_Up']):
                     self.ws[pos].style = 'abnormalContentStyle'
-                elif dataList[col] != '-' and float(dataList[col]) <= float(thresholdInstance.paraDict['th_WorkCurrent_Up']):
+                elif val != '-' and float(val) <= float(thresholdInstance.paraDict['th_WorkCurrent_Up']):
                     self.ws[pos].style = 'normalContentStyle'
-                elif dataList[col] == '-':
+                elif val == '-':
                     self.ws[pos].style = 'defaultContentStyle'
             elif col == 4: # ID核对
-                if dataList[col] != '-' and dataList[col] == '失败':
+                if val != '-' and val == '失败':
                     self.ws[pos].style = 'abnormalContentStyle'
-                elif dataList[col] != '-' and dataList[col] == '成功':
+                elif val != '-' and val == '成功':
                     self.ws[pos].style = 'normalContentStyle'
-                elif dataList[col] == '-':
+                elif val == '-':
                     self.ws[pos].style = 'defaultContentStyle'
             elif col == 5: # 在线检测
-                if dataList[col] != '-' and dataList[col] == '离线':
+                if val != '-' and val == '离线':
                     self.ws[pos].style = 'abnormalContentStyle'
-                elif dataList[col] != '-' and dataList[col] == '在线':
+                elif val != '-' and val == '在线':
                     self.ws[pos].style = 'normalContentStyle'
-                elif dataList[col] == '-':
+                elif val == '-':
                     self.ws[pos].style = 'defaultContentStyle'
             elif col == 7: # 被测模块引爆电流
-                if dataList[col] != '-' and float(dataList[col]) > float(thresholdInstance.paraDict['th_FireCurrent_Up']):
+                if val != '-' and float(val) > float(thresholdInstance.paraDict['th_FireCurrent_Up']):
                     self.ws[pos].style = 'abnormalContentStyle'
-                elif dataList[col] != '-' and float(dataList[col]) <= float(thresholdInstance.paraDict['th_FireCurrent_Up']):
+                elif val != '-' and float(val) <= float(thresholdInstance.paraDict['th_FireCurrent_Up']):
                     self.ws[pos].style = 'normalContentStyle'
-                elif dataList[col] == '-':
+                elif val == '-':
                     self.ws[pos].style = 'defaultContentStyle'
             elif col == 9: # 被测模块引爆电流判断
-                if dataList[col] != '-' and dataList[col] == '超限':
+                if val != '-' and val == '超限':
                     self.ws[pos].style = 'abnormalContentStyle'
-                elif dataList[col] != '-' and dataList[col] == '正常':
+                elif val != '-' and val == '正常':
                     self.ws[pos].style = 'normalContentStyle'
-                elif dataList[col] == '-':
+                elif val == '-':
                     self.ws[pos].style = 'defaultContentStyle'
             elif col == 11: # 内置模块引爆电流
-                if dataList[col] != '-' and float(dataList[col]) > float(thresholdInstance.paraDict['th_FireCurrent_Up']):
+                if val != '-' and float(val) > float(thresholdInstance.paraDict['th_FireCurrent_Up']):
                     self.ws[pos].style = 'abnormalContentStyle'
-                elif dataList[col] != '-' and float(dataList[col]) <= float(thresholdInstance.paraDict['th_FireCurrent_Up']):
+                elif val != '-' and float(val) <= float(thresholdInstance.paraDict['th_FireCurrent_Up']):
                     self.ws[pos].style = 'normalContentStyle'
-                elif dataList[col] == '-':
+                elif val == '-':
                     self.ws[pos].style = 'defaultContentStyle'
             elif col == 13: # 内置模块引爆电流判断
-                if dataList[col] != '-' and dataList[col] == '超限':
+                if val != '-' and val == '超限':
                     self.ws[pos].style = 'abnormalContentStyle'
-                elif dataList[col] != '-' and dataList[col] == '正常':
+                elif val != '-' and val == '正常':
                     self.ws[pos].style = 'normalContentStyle'
-                elif dataList[col] == '-':
+                elif val == '-':
                     self.ws[pos].style = 'defaultContentStyle'
             elif col == 14: # 结论
-                if dataList[col] != '-' and dataList[col] == '失败':
+                if val != '-' and val == '失败':
                     self.ws[pos].style = 'resultFailStyle'
-                elif dataList[col] != '-' and dataList[col] == '通过':
+                elif val != '-' and val == '通过':
                     self.ws[pos].style = 'resultPassStyle'
             else:
                 self.ws[pos].style = 'defaultContentStyle'
@@ -191,25 +222,92 @@ class PrivateOpenPyxl():
             gen = self.ws.iter_rows(2, maxrows, 1, maxcols) # 返回数据生成器
             for rowdata in gen: # 循环访问，判断并更新重复检测结果
                 if str(rowdata[6].value) == dataList[6]: # # 第六列：UID编码
-                    self.fillingCellsWithStyle(rowdata[6].row, dataList)
+                    self.putDataToCellAndSetStyle(rowdata[6].row, dataList)
                     break
                 else:
                     nonDupCnt = nonDupCnt + 1
                     continue
             if nonDupCnt == maxrows - 1: # 没有重复结果则新添加一行即可
-                self.fillingCellsWithStyle(maxrows + 1, dataList)
+                self.putDataToCellAndSetStyle(maxrows + 1, dataList)
         else: # 只填入了表头，还未填入有数据，直接写入数据到表头下面一行
-            self.fillingCellsWithStyle(2, dataList)
-    
-    def deleteRow(self, rowIndex):
-        self.ws.delete_rows(rowIndex)
+            self.putDataToCellAndSetStyle(2, dataList)
 
-    def getRowIndexByID(self, id):
-        maxrows = self.ws.max_row # 每次执行行数据填入都获取最新的最大行（包括表头所在行）
-        maxcols = self.ws.max_column # 每次执行行数据填入都获取最新的最大列
-        gen = self.ws.iter_rows(2, maxrows, 1, maxcols) # 返回数据生成器
-        for rowdata in gen: # 循环访问
-            if str(rowdata[6].value) == id: # # 第六列：UID编码
-                return rowdata[6].row
-            else:
-                continue
+    def setCellStyle(self, wb):
+        columnDefaultStyle = [0, 1, 6, 8, 10, 12] # 0-based start
+        columnMarkedStyle  = [2, 3, 4, 5, 7, 9, 11, 13, 14] # 0-based start
+        thresholdInstance = GetSetObj.get(2) # 获取阈值界面对象实例
+        self.loadSheet(wb)
+        maxrow = self.ws.max_row + 1
+        # 格式化默认数据格式
+        for c in columnDefaultStyle:
+            for r in range(2, maxrow, 1):
+                pos = '{0}{1}'.format(self.colindex[c], r) # 表格索引
+                self.ws[pos].style = 'defaultContentStyle'
+        # 
+        for col in columnMarkedStyle:
+            for r in range(2, maxrow, 1):
+                pos = '{0}{1}'.format(self.colindex[col], r) # 表格索引 
+                val = self.ws[pos].value
+                if col == 2: # 漏电流
+                    if val != '-' and float(val) > float(thresholdInstance.paraDict['th_DrainCurrent_Up']):
+                        self.ws[pos].style = 'abnormalContentStyle'
+                    elif val != '-' and float(val) <= float(thresholdInstance.paraDict['th_DrainCurrent_Up']):
+                        self.ws[pos].style = 'normalContentStyle'
+                    elif val == '-':
+                        self.ws[pos].style = 'defaultContentStyle'
+                elif col == 3: # 工作电流
+                    if val != '-' and float(val) > float(thresholdInstance.paraDict['th_WorkCurrent_Up']):
+                        self.ws[pos].style = 'abnormalContentStyle'
+                    elif val != '-' and float(val) <= float(thresholdInstance.paraDict['th_WorkCurrent_Up']):
+                        self.ws[pos].style = 'normalContentStyle'
+                    elif val == '-':
+                        self.ws[pos].style = 'defaultContentStyle'
+                elif col == 4: # ID核对
+                    if val != '-' and val == '失败':
+                        self.ws[pos].style = 'abnormalContentStyle'
+                    elif val != '-' and val == '成功':
+                        self.ws[pos].style = 'normalContentStyle'
+                    elif val == '-':
+                        self.ws[pos].style = 'defaultContentStyle'
+                elif col == 5: # 在线检测
+                    if val != '-' and val == '离线':
+                        self.ws[pos].style = 'abnormalContentStyle'
+                    elif val != '-' and val == '在线':
+                        self.ws[pos].style = 'normalContentStyle'
+                    elif val == '-':
+                        self.ws[pos].style = 'defaultContentStyle'
+                elif col == 7: # 被测模块引爆电流
+                    if val != '-' and float(val) > float(thresholdInstance.paraDict['th_FireCurrent_Up']):
+                        self.ws[pos].style = 'abnormalContentStyle'
+                    elif val != '-' and float(val) <= float(thresholdInstance.paraDict['th_FireCurrent_Up']):
+                        self.ws[pos].style = 'normalContentStyle'
+                    elif val == '-':
+                        self.ws[pos].style = 'defaultContentStyle'
+                elif col == 9: # 被测模块引爆电流判断
+                    if val != '-' and val == '超限':
+                        self.ws[pos].style = 'abnormalContentStyle'
+                    elif val != '-' and val == '正常':
+                        self.ws[pos].style = 'normalContentStyle'
+                    elif val == '-':
+                        self.ws[pos].style = 'defaultContentStyle'
+                elif col == 11: # 内置模块引爆电流
+                    if val != '-' and float(val) > float(thresholdInstance.paraDict['th_FireCurrent_Up']):
+                        self.ws[pos].style = 'abnormalContentStyle'
+                    elif val != '-' and float(val) <= float(thresholdInstance.paraDict['th_FireCurrent_Up']):
+                        self.ws[pos].style = 'normalContentStyle'
+                    elif val == '-':
+                        self.ws[pos].style = 'defaultContentStyle'
+                elif col == 13: # 内置模块引爆电流判断
+                    if val != '-' and val == '超限':
+                        self.ws[pos].style = 'abnormalContentStyle'
+                    elif val != '-' and val == '正常':
+                        self.ws[pos].style = 'normalContentStyle'
+                    elif val == '-':
+                        self.ws[pos].style = 'defaultContentStyle'
+                elif col == 14: # 结论
+                    if val != '-' and val == '失败':
+                        self.ws[pos].style = 'resultFailStyle'
+                    elif val != '-' and val == '通过':
+                        self.ws[pos].style = 'resultPassStyle'
+        self.saveSheet()
+        self.closeSheet()

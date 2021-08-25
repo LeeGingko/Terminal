@@ -9,8 +9,6 @@ import pickle as pk
 import sys
 # 导入time相关模块
 import time
-# 进程
-from multiprocessing import Process
 
 # 导入serial相关模块
 import serial

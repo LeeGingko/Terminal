@@ -1028,6 +1028,9 @@ border:2px solid rgb(41, 133, 135);</string>
     <property name="text">
      <string>12345</string>
     </property>
+    <property name="maxLength">
+     <number>8</number>
+    </property>
     <property name="frame">
      <bool>true</bool>
     </property>
@@ -1039,6 +1042,9 @@ border:2px solid rgb(41, 133, 135);</string>
     </property>
     <property name="placeholderText">
      <string>请输入密码</string>
+    </property>
+    <property name="cursorMoveStyle">
+     <enum>Qt::LogicalMoveStyle</enum>
     </property>
     <property name="clearButtonEnabled">
      <bool>true</bool>
@@ -3937,7 +3943,10 @@ p, li { white-space: pre-wrap; }
     <number>54</number>
    </attribute>
    <attribute name="verticalHeaderVisible">
-    <bool>false</bool>
+    <bool>true</bool>
+   </attribute>
+   <attribute name="verticalHeaderCascadingSectionResizes">
+    <bool>true</bool>
    </attribute>
    <attribute name="verticalHeaderMinimumSectionSize">
     <number>54</number>
