@@ -11,7 +11,7 @@ class PrivateSerialThread(QThread):
     def __init__(self):
         super(PrivateSerialThread, self).__init__()
         self.usingSerial = serial.Serial()
-        self.recvComEvent = QThread.event
+        self.buffer = bytes()
         
     def  __del__(self):
         if self.usingSerial.isOpen:
@@ -30,7 +30,7 @@ class PrivateSerialThread(QThread):
 
     def run(self):
         while True:
-            self.msleep(10)
+            self.msleep(1)
             self.data = b''
             tmp = ''
             if self.usingSerial.isOpen():
@@ -38,30 +38,29 @@ class PrivateSerialThread(QThread):
                     self.num = self.usingSerial.inWaiting()
                     if self.num == 0: # 无数据
                         continue 
-                    elif self.num > 0 and self.num <= 4: # 解决00\r\n这个bug
-                        # self.usingSerial.flushInput()
-                        self.usingSerial.read(self.num)
                     else:
                         self.msleep(10)
                         self.num = self.usingSerial.inWaiting()
-                        if self.num >= 9: # 正常通信，至少都是9字节
-                            # print("@PrivateSerialThread->run->" + str(self.num)) # 输出收到的字节数
-                            self.data = self.usingSerial.read(self.num)
-                            tmp = self.data.decode("utf-8")
-                            print("@SerialRecv->" + tmp) 
-                            if (tmp[0] == "U")  and (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"):
-                                self.recvSignal.emit(self.data)
-                        elif self.num == 6: # 工作模式改变
-                            self.data = self.usingSerial.read(self.num)
-                            tmp = self.data.decode("utf-8")
-                            print("@SerialRecv->" + tmp) 
-                            if (tmp[0] == "R")  and (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"):
-                                self.recvSignal.emit(self.data)
+                        # print("@SerialRecv Leng:" + str(self.num)) # 输出收到的字节数
+                        self.data = self.usingSerial.read(self.num)
+                        tmp = self.data.decode("utf-8")
+                        # print("@SerialRecv Data:" + tmp)
+                        if tmp[0] == "U": # 数据帧头
+                            if (tmp[self.num - 2] != "\r") and (tmp[self.num - 1] != "\n"): # 部分数据帧
+                                self.buffer = self.data
+                                print("@Seg1:" + self.buffer.decode("utf-8"))
+                                continue
+                            elif (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"): # 完整数据帧
+                                self.buffer = self.data
+                                self.recvSignal.emit(self.buffer)
+                        elif (tmp[0] != "U") and (tmp[0] != "R") and (tmp[self.num - 2 : self.num] == "\r\n"):
+                            self.buffer = self.buffer + self.data
+                            self.recvSignal.emit(self.buffer)
+                            print("@SegAll:" + self.buffer.decode("utf-8"))
+                        elif (tmp[0] == "R") and (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"):
+                            self.recvSignal.emit(self.data)
                         else:
-                            if tmp[0] == "R": # bug->诸如RX1015\r\n之类的
-                                self.recvSignal.emit(self.data)
-                            else:
-                                self.usingSerial.flushInput()
+                            self.usingSerial.flushInput()
                 except:
                     pass
             else:

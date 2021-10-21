@@ -8,11 +8,12 @@ from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer, ThreadedFTPServer
 # 默认导入
-from PyQt5.QtCore import QThread
+from PyQt5.QtCore import QThread, pyqtSignal
 from Utilities.FTPD.MyFTPHandler import PrivateFTPHandler
 
 
 class PrivateFTP(QThread):
+    ftpdSignal = pyqtSignal(str)
 
     def __init__(self):
         super(PrivateFTP, self).__init__()
@@ -37,8 +38,8 @@ class PrivateFTP(QThread):
 
         # Specify a masquerade address and the range of ports to use for
         # passive connections.  Decomment in case you're behind a NAT.
-        #handler.masquerade_address = '151.25.42.11'
-        #handler.passive_ports = range(60000, 65535)
+        # handler.masquerade_address = '151.25.42.11'
+        # handler.passive_ports = range(60000, 65535)
 
         # log file
         logfile = os.path.join(os.getcwd(), 'pyftplog.log')
@@ -48,8 +49,11 @@ class PrivateFTP(QThread):
         name = socket.gethostname()
         ip = socket.gethostbyname(name)
         address = (ip, 21)
-        self.server = ThreadedFTPServer(address, self.ftphandler)
-
+        try:
+            self.server = FTPServer(address, self.ftphandler)
+        except OSError:
+            self.ftpdSignal.emit('该IP已经使用！')
+            return
         # set a limit for connections
         self.server.max_cons = 5
         self.server.max_cons_per_ip = 1

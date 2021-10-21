@@ -709,3 +709,574 @@ INFO:pyftpdlib:10.23.64.34:3217-[U3] RETR E:\Learing\2021\719\Python\Terminal\20
 INFO:pyftpdlib:10.23.64.34:3217-[U3] RETR E:\Learing\2021\719\Python\Terminal\2021年08月20日_15时52分29秒_1条_李爱明.xlsx completed=1 bytes=5337 seconds=0.0
 INFO:pyftpdlib:10.23.64.34:3217-[U3] RETR E:\Learing\2021\719\Python\Terminal\2021年08月20日_15时57分53秒_1条_李爱明.xlsx completed=1 bytes=5628 seconds=0.016
 INFO:pyftpdlib:10.23.64.34:3217-[U3] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月20日]_13条.xlsx completed=1 bytes=11190 seconds=0.0
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:3007-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:3007-[U3] USER 'U3' logged in.
+INFO:pyftpdlib:concurrency model: multi-thread
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:10.23.64.34:6684-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:6684-[U3] USER 'U3' logged in.
+INFO:pyftpdlib:10.23.64.34:6684-[U3] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=3696 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=4920 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=4192 <<<
+INFO:pyftpdlib:>>> shutting down FTP server, 0 socket(s), pid=4192 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=4192 <<<
+INFO:pyftpdlib:>>> shutting down FTP server, 0 socket(s), pid=4192 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=4192 <<<
+INFO:pyftpdlib:>>> shutting down FTP server, 0 socket(s), pid=4192 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=4192 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=1660 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=5224 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=1728 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=1912 <<<
+INFO:pyftpdlib:10.23.106.194:53246-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.106.194:53246-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.106.194:53246-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时06分59秒_1条_李爱明.xlsx completed=1 bytes=5626 seconds=0.0
+INFO:pyftpdlib:10.23.106.194:53246-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时56分56秒_1条_李爱明.xlsx completed=1 bytes=5620 seconds=0.0
+INFO:pyftpdlib:10.23.106.194:53246-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时66分66秒_1条_李爱明.xlsx completed=1 bytes=5626 seconds=0.015
+INFO:pyftpdlib:10.23.106.194:53246-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_17时09分46秒_1条_李爱明.xlsx completed=1 bytes=5640 seconds=0.0
+INFO:pyftpdlib:10.23.106.194:53246-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月12日_16时30分19秒_2条_李爱明.xlsx completed=1 bytes=5712 seconds=0.016
+INFO:pyftpdlib:10.23.106.194:53246-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月12日_16时33分26秒_4条_李爱明.xlsx completed=1 bytes=5798 seconds=0.0
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=7496 <<<
+INFO:pyftpdlib:10.23.106.194:54760-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.106.194:54760-[] USER 'U4' failed login.
+INFO:pyftpdlib:10.23.106.194:54760-[] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.106.194:54767-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.106.194:54767-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.106.194:54767-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.0
+INFO:pyftpdlib:10.23.106.194:54767-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=2744 <<<
+INFO:pyftpdlib:10.23.64.34:13739-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:13739-[] USER 'U1' failed login.
+INFO:pyftpdlib:10.23.64.34:13739-[] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:13745-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:13745-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:13745-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.016
+INFO:pyftpdlib:10.23.64.34:13745-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=4092 <<<
+INFO:pyftpdlib:10.23.64.34:13907-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:13907-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:13907-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:13907-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=7592 <<<
+INFO:pyftpdlib:10.23.64.34:1523-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:1523-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:1523-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.0
+ERROR:pyftpdlib:unhandled exception in instance <DTPHandler(id=1696543340288, addr='10.23.64.34:1523', user='U1', receiving-file=<_io.BufferedReader name='E:\\Learing\\2021\\719\\Python\\Terminal\\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx'>, bytes-trans=6331)>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\asyncore.py", line 91, in write
+    obj.handle_write_event()
+  File "D:\Program Files\Python39\lib\asyncore.py", line 439, in handle_write_event
+    self.handle_write()
+  File "D:\Program Files\Python39\lib\asynchat.py", line 187, in handle_write
+    self.initiate_send()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 668, in initiate_send
+    asynchat.async_chat.initiate_send(self)
+  File "D:\Program Files\Python39\lib\asynchat.py", line 231, in initiate_send
+    self.handle_close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 876, in handle_close
+    self.close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 909, in close
+    self.cmd_channel.on_file_sent(filename)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 27, in on_file_sent
+    ftppanel.tbMessageAppend('发送文件：\n' + os.path.split(file) + '成功')
+TypeError: can only concatenate str (not "tuple") to str
+INFO:pyftpdlib:10.23.64.34:1523-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.016
+ERROR:pyftpdlib:unhandled exception in instance <DTPHandler(id=1696543340288, addr='10.23.64.34:1523', user='U1', receiving-file=<_io.BufferedReader name='E:\\Learing\\2021\\719\\Python\\Terminal\\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx'>, bytes-trans=6331)>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\asyncore.py", line 91, in write
+    obj.handle_write_event()
+  File "D:\Program Files\Python39\lib\asyncore.py", line 439, in handle_write_event
+    self.handle_write()
+  File "D:\Program Files\Python39\lib\asynchat.py", line 187, in handle_write
+    self.initiate_send()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 668, in initiate_send
+    asynchat.async_chat.initiate_send(self)
+  File "D:\Program Files\Python39\lib\asynchat.py", line 231, in initiate_send
+    self.handle_close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 876, in handle_close
+    self.close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 909, in close
+    self.cmd_channel.on_file_sent(filename)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 27, in on_file_sent
+    ftppanel.tbMessageAppend('发送文件：\n' + os.path.split(file) + '成功')
+TypeError: can only concatenate str (not "tuple") to str
+INFO:pyftpdlib:10.23.64.34:1553-[] FTP session opened (connect)
+WARNING:pyftpdlib:10.23.64.34:1553-[] Too many connections from the same IP address.
+INFO:pyftpdlib:10.23.64.34:1553-[] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:1558-[] FTP session opened (connect)
+WARNING:pyftpdlib:10.23.64.34:1558-[] Too many connections from the same IP address.
+INFO:pyftpdlib:10.23.64.34:1558-[] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.64.34:1559-[] FTP session opened (connect)
+WARNING:pyftpdlib:10.23.64.34:1559-[] Too many connections from the same IP address.
+INFO:pyftpdlib:10.23.64.34:1559-[] FTP session closed (disconnect).
+INFO:pyftpdlib:>>> shutting down FTP server, 0 socket(s), pid=7592 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=7592 <<<
+INFO:pyftpdlib:10.23.64.34:1571-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:1571-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:1571-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.0
+ERROR:pyftpdlib:unhandled exception in instance <DTPHandler(id=1696747758784, addr='10.23.64.34:1571', user='U1', receiving-file=<_io.BufferedReader name='E:\\Learing\\2021\\719\\Python\\Terminal\\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx'>, bytes-trans=6331)>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\asyncore.py", line 91, in write
+    obj.handle_write_event()
+  File "D:\Program Files\Python39\lib\asyncore.py", line 439, in handle_write_event
+    self.handle_write()
+  File "D:\Program Files\Python39\lib\asynchat.py", line 187, in handle_write
+    self.initiate_send()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 668, in initiate_send
+    asynchat.async_chat.initiate_send(self)
+  File "D:\Program Files\Python39\lib\asynchat.py", line 231, in initiate_send
+    self.handle_close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 876, in handle_close
+    self.close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 909, in close
+    self.cmd_channel.on_file_sent(filename)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 27, in on_file_sent
+    ftppanel.tbMessageAppend('发送文件：\n' + os.path.split(file) + '成功')
+TypeError: can only concatenate str (not "tuple") to str
+INFO:pyftpdlib:10.23.64.34:1571-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.0
+ERROR:pyftpdlib:unhandled exception in instance <DTPHandler(id=1696747758784, addr='10.23.64.34:1571', user='U1', receiving-file=<_io.BufferedReader name='E:\\Learing\\2021\\719\\Python\\Terminal\\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx'>, bytes-trans=6331)>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\asyncore.py", line 91, in write
+    obj.handle_write_event()
+  File "D:\Program Files\Python39\lib\asyncore.py", line 439, in handle_write_event
+    self.handle_write()
+  File "D:\Program Files\Python39\lib\asynchat.py", line 187, in handle_write
+    self.initiate_send()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 668, in initiate_send
+    asynchat.async_chat.initiate_send(self)
+  File "D:\Program Files\Python39\lib\asynchat.py", line 231, in initiate_send
+    self.handle_close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 876, in handle_close
+    self.close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 909, in close
+    self.cmd_channel.on_file_sent(filename)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 27, in on_file_sent
+    ftppanel.tbMessageAppend('发送文件：\n' + os.path.split(file) + '成功')
+TypeError: can only concatenate str (not "tuple") to str
+INFO:pyftpdlib:10.23.64.34:1571-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.0
+ERROR:pyftpdlib:unhandled exception in instance <DTPHandler(id=1696747758784, addr='10.23.64.34:1571', user='U1', receiving-file=<_io.BufferedReader name='E:\\Learing\\2021\\719\\Python\\Terminal\\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx'>, bytes-trans=6331)>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\asyncore.py", line 91, in write
+    obj.handle_write_event()
+  File "D:\Program Files\Python39\lib\asyncore.py", line 439, in handle_write_event
+    self.handle_write()
+  File "D:\Program Files\Python39\lib\asynchat.py", line 187, in handle_write
+    self.initiate_send()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 668, in initiate_send
+    asynchat.async_chat.initiate_send(self)
+  File "D:\Program Files\Python39\lib\asynchat.py", line 231, in initiate_send
+    self.handle_close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 876, in handle_close
+    self.close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 909, in close
+    self.cmd_channel.on_file_sent(filename)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 27, in on_file_sent
+    ftppanel.tbMessageAppend('发送文件：\n' + os.path.split(file) + '成功')
+TypeError: can only concatenate str (not "tuple") to str
+INFO:pyftpdlib:10.23.64.34:1571-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.0
+ERROR:pyftpdlib:unhandled exception in instance <DTPHandler(id=1696747758784, addr='10.23.64.34:1571', user='U1', receiving-file=<_io.BufferedReader name='E:\\Learing\\2021\\719\\Python\\Terminal\\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx'>, bytes-trans=6331)>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\asyncore.py", line 91, in write
+    obj.handle_write_event()
+  File "D:\Program Files\Python39\lib\asyncore.py", line 439, in handle_write_event
+    self.handle_write()
+  File "D:\Program Files\Python39\lib\asynchat.py", line 187, in handle_write
+    self.initiate_send()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 668, in initiate_send
+    asynchat.async_chat.initiate_send(self)
+  File "D:\Program Files\Python39\lib\asynchat.py", line 231, in initiate_send
+    self.handle_close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 876, in handle_close
+    self.close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 909, in close
+    self.cmd_channel.on_file_sent(filename)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 27, in on_file_sent
+    ftppanel.tbMessageAppend('发送文件：\n' + os.path.split(file) + '成功')
+TypeError: can only concatenate str (not "tuple") to str
+INFO:pyftpdlib:10.23.64.34:1571-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.0
+ERROR:pyftpdlib:unhandled exception in instance <DTPHandler(id=1696747758784, addr='10.23.64.34:1571', user='U1', receiving-file=<_io.BufferedReader name='E:\\Learing\\2021\\719\\Python\\Terminal\\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx'>, bytes-trans=6331)>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\asyncore.py", line 91, in write
+    obj.handle_write_event()
+  File "D:\Program Files\Python39\lib\asyncore.py", line 439, in handle_write_event
+    self.handle_write()
+  File "D:\Program Files\Python39\lib\asynchat.py", line 187, in handle_write
+    self.initiate_send()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 668, in initiate_send
+    asynchat.async_chat.initiate_send(self)
+  File "D:\Program Files\Python39\lib\asynchat.py", line 231, in initiate_send
+    self.handle_close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 876, in handle_close
+    self.close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 909, in close
+    self.cmd_channel.on_file_sent(filename)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 27, in on_file_sent
+    ftppanel.tbMessageAppend('发送文件：\n' + os.path.split(file) + '成功')
+TypeError: can only concatenate str (not "tuple") to str
+INFO:pyftpdlib:10.23.64.34:1571-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.0
+ERROR:pyftpdlib:unhandled exception in instance <DTPHandler(id=1696747758784, addr='10.23.64.34:1571', user='U1', receiving-file=<_io.BufferedReader name='E:\\Learing\\2021\\719\\Python\\Terminal\\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx'>, bytes-trans=6331)>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\asyncore.py", line 91, in write
+    obj.handle_write_event()
+  File "D:\Program Files\Python39\lib\asyncore.py", line 439, in handle_write_event
+    self.handle_write()
+  File "D:\Program Files\Python39\lib\asynchat.py", line 187, in handle_write
+    self.initiate_send()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 668, in initiate_send
+    asynchat.async_chat.initiate_send(self)
+  File "D:\Program Files\Python39\lib\asynchat.py", line 231, in initiate_send
+    self.handle_close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 876, in handle_close
+    self.close()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 909, in close
+    self.cmd_channel.on_file_sent(filename)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 27, in on_file_sent
+    ftppanel.tbMessageAppend('发送文件：\n' + os.path.split(file) + '成功')
+TypeError: can only concatenate str (not "tuple") to str
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=9748 <<<
+INFO:pyftpdlib:10.23.64.34:14463-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:14463-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:14463-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.0
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=2640 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=408 <<<
+INFO:pyftpdlib:10.23.64.34:9587-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:9587-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:9587-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时06分59秒_1条_李爱明.xlsx completed=1 bytes=5626 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9587-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时56分56秒_1条_李爱明.xlsx completed=1 bytes=5620 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9587-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时66分66秒_1条_李爱明.xlsx completed=1 bytes=5626 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9587-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_17时09分46秒_1条_李爱明.xlsx completed=1 bytes=5640 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9587-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月12日_16时30分19秒_2条_李爱明.xlsx completed=1 bytes=5712 seconds=0.015
+INFO:pyftpdlib:10.23.64.34:9587-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月12日_16时33分26秒_4条_李爱明.xlsx completed=1 bytes=5798 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9587-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月19日_21时41分23秒_1条_李爱明.xlsx completed=1 bytes=5627 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9587-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月20日_10时49分37秒_1条_李爱明.xlsx completed=1 bytes=5628 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9587-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月20日_11时40分11秒_1条_李爱明.xlsx completed=1 bytes=5639 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9587-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月20日_15时52分29秒_1条_李爱明.xlsx completed=1 bytes=5337 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9587-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月20日_15时57分53秒_1条_李爱明.xlsx completed=1 bytes=5628 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9587-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月26日_16时35分35秒_2条_李爱明.xlsx completed=1 bytes=5718 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9587-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=11324 <<<
+INFO:pyftpdlib:10.23.64.34:9670-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:9670-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:9670-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时06分59秒_1条_李爱明.xlsx completed=1 bytes=5626 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9670-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时56分56秒_1条_李爱明.xlsx completed=1 bytes=5620 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9670-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时66分66秒_1条_李爱明.xlsx completed=1 bytes=5626 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9670-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_17时09分46秒_1条_李爱明.xlsx completed=1 bytes=5640 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9670-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月12日_16时30分19秒_2条_李爱明.xlsx completed=1 bytes=5712 seconds=0.016
+INFO:pyftpdlib:10.23.64.34:9670-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月12日_16时33分26秒_4条_李爱明.xlsx completed=1 bytes=5798 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9670-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月19日_21时41分23秒_1条_李爱明.xlsx completed=1 bytes=5627 seconds=0.015
+INFO:pyftpdlib:10.23.64.34:9670-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月20日_10时49分37秒_1条_李爱明.xlsx completed=1 bytes=5628 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9670-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月20日_11时40分11秒_1条_李爱明.xlsx completed=1 bytes=5639 seconds=0.016
+INFO:pyftpdlib:10.23.64.34:9670-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月20日_15时52分29秒_1条_李爱明.xlsx completed=1 bytes=5337 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9670-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月20日_15时57分53秒_1条_李爱明.xlsx completed=1 bytes=5628 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9670-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月26日_16时35分35秒_2条_李爱明.xlsx completed=1 bytes=5718 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:9670-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=6320 <<<
+INFO:pyftpdlib:10.23.64.34:4579-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:4579-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:4579-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:4579-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:4579-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.015
+INFO:pyftpdlib:10.23.64.34:4579-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时06分59秒_1条_李爱明.xlsx completed=1 bytes=5626 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:4579-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时56分56秒_1条_李爱明.xlsx completed=1 bytes=5620 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:4579-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时66分66秒_1条_李爱明.xlsx completed=1 bytes=5626 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:4579-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_17时09分46秒_1条_李爱明.xlsx completed=1 bytes=5640 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:4579-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月12日_16时30分19秒_2条_李爱明.xlsx completed=1 bytes=5712 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:4579-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月12日_16时33分26秒_4条_李爱明.xlsx completed=1 bytes=5798 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:4579-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月19日_21时41分23秒_1条_李爱明.xlsx completed=1 bytes=5627 seconds=0.015
+INFO:pyftpdlib:10.23.64.34:4579-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月20日_10时49分37秒_1条_李爱明.xlsx completed=1 bytes=5628 seconds=0.0
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=11468 <<<
+INFO:pyftpdlib:10.23.64.34:13555-[] FTP session opened (connect)
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1734714327248, addr='10.23.64.34:13555')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 286, in handle_accepted
+    handler.handle()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 1354, in handle
+    self.on_connect()
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 11, in on_connect
+    self.ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已连接成功')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:10.23.64.34:13555-[] FTP session closed (disconnect).
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1734714327248, addr='10.23.64.34:13555')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\ioloop.py", line 224, in call
+    self._target(*self._args, **self._kwargs)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 14, in on_disconnect
+    self.ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已断开连接')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:>>> shutting down FTP server, 0 socket(s), pid=11468 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=11468 <<<
+INFO:pyftpdlib:10.23.64.34:13560-[] FTP session opened (connect)
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1734714328640, addr='10.23.64.34:13560')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 286, in handle_accepted
+    handler.handle()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 1354, in handle
+    self.on_connect()
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 11, in on_connect
+    self.ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已连接成功')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:10.23.64.34:13560-[] FTP session closed (disconnect).
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1734714328640, addr='10.23.64.34:13560')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\ioloop.py", line 224, in call
+    self._target(*self._args, **self._kwargs)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 14, in on_disconnect
+    self.ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已断开连接')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:10.23.64.34:13566-[] FTP session opened (connect)
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1734714329024, addr='10.23.64.34:13566')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 286, in handle_accepted
+    handler.handle()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 1354, in handle
+    self.on_connect()
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 11, in on_connect
+    self.ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已连接成功')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:10.23.64.34:13566-[] FTP session closed (disconnect).
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1734714329024, addr='10.23.64.34:13566')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\ioloop.py", line 224, in call
+    self._target(*self._args, **self._kwargs)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 14, in on_disconnect
+    self.ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已断开连接')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:10.23.64.34:13579-[] FTP session opened (connect)
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1734714328976, addr='10.23.64.34:13579')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 286, in handle_accepted
+    handler.handle()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 1354, in handle
+    self.on_connect()
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 11, in on_connect
+    self.ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已连接成功')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:10.23.64.34:13579-[] FTP session closed (disconnect).
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1734714328976, addr='10.23.64.34:13579')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\ioloop.py", line 224, in call
+    self._target(*self._args, **self._kwargs)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 14, in on_disconnect
+    self.ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已断开连接')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:>>> shutting down FTP server, 0 socket(s), pid=11468 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=11468 <<<
+INFO:pyftpdlib:10.23.64.34:13588-[] FTP session opened (connect)
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1734714330032, addr='10.23.64.34:13588')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 286, in handle_accepted
+    handler.handle()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 1354, in handle
+    self.on_connect()
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 11, in on_connect
+    self.ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已连接成功')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:10.23.64.34:13588-[] FTP session closed (disconnect).
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1734714330032, addr='10.23.64.34:13588')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\ioloop.py", line 224, in call
+    self._target(*self._args, **self._kwargs)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 14, in on_disconnect
+    self.ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已断开连接')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=11188 <<<
+INFO:pyftpdlib:10.23.64.34:13608-[] FTP session opened (connect)
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1669323077040, addr='10.23.64.34:13608')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 286, in handle_accepted
+    handler.handle()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 1354, in handle
+    self.on_connect()
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 11, in on_connect
+    self.ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已连接成功')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:10.23.64.34:13608-[] FTP session closed (disconnect).
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1669323077040, addr='10.23.64.34:13608')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\ioloop.py", line 224, in call
+    self._target(*self._args, **self._kwargs)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 14, in on_disconnect
+    self.ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已断开连接')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=13016 <<<
+INFO:pyftpdlib:10.23.64.34:13684-[] FTP session opened (connect)
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1614924743344, addr='10.23.64.34:13684')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\servers.py", line 286, in handle_accepted
+    handler.handle()
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\handlers.py", line 1354, in handle
+    self.on_connect()
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 12, in on_connect
+    self.ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已连接成功')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:10.23.64.34:13684-[] FTP session closed (disconnect).
+ERROR:pyftpdlib:unhandled exception in instance <PrivateFTPHandler(id=1614924743344, addr='10.23.64.34:13684')>
+Traceback (most recent call last):
+  File "D:\Program Files\Python39\lib\site-packages\pyftpdlib\ioloop.py", line 224, in call
+    self._target(*self._args, **self._kwargs)
+  File "e:\Learing\2021\719\Python\Terminal\Utilities\FTPD\MyFTPHandler.py", line 15, in on_disconnect
+    self.ftppanel.tbMessageAppend('客户端[' + self.remote_ip + ']已断开连接')
+AttributeError: 'NoneType' object has no attribute 'tbMessageAppend'
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=13548 <<<
+INFO:pyftpdlib:10.23.64.34:14024-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:14024-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:14024-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时06分59秒_1条_李爱明.xlsx completed=1 bytes=5626 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:14024-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时56分56秒_1条_李爱明.xlsx completed=1 bytes=5620 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:14024-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时66分66秒_1条_李爱明.xlsx completed=1 bytes=5626 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:14024-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_17时09分46秒_1条_李爱明.xlsx completed=1 bytes=5640 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:14024-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月12日_16时30分19秒_2条_李爱明.xlsx completed=1 bytes=5712 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:14024-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月12日_16时33分26秒_4条_李爱明.xlsx completed=1 bytes=5798 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:14024-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月19日_21时41分23秒_1条_李爱明.xlsx completed=1 bytes=5627 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:14024-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月20日_10时49分37秒_1条_李爱明.xlsx completed=1 bytes=5628 seconds=0.015
+INFO:pyftpdlib:10.23.64.34:14024-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月20日_11时40分11秒_1条_李爱明.xlsx completed=1 bytes=5639 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:14024-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月20日_15时52分29秒_1条_李爱明.xlsx completed=1 bytes=5337 seconds=0.016
+INFO:pyftpdlib:10.23.64.34:14024-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月20日_15时57分53秒_1条_李爱明.xlsx completed=1 bytes=5628 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:14024-[U1] STOR E:\Learing\2021\719\Python\Terminal\2021年08月26日_16时35分35秒_2条_李爱明.xlsx completed=1 bytes=5718 seconds=0.0
+INFO:pyftpdlib:10.23.64.34:14024-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.0
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=9180 <<<
+INFO:pyftpdlib:10.23.64.34:8969-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:8969-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:8969-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:>>> shutting down FTP server, 0 socket(s), pid=9180 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=9180 <<<
+INFO:pyftpdlib:10.23.64.34:9002-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:9002-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:>>> shutting down FTP server, 0 socket(s), pid=9180 <<<
+INFO:pyftpdlib:10.23.64.34:9002-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=9180 <<<
+INFO:pyftpdlib:10.23.64.34:9010-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.64.34:9010-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.64.34:9010-[U1] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_10条.xlsx completed=1 bytes=6331 seconds=0.0
+INFO:pyftpdlib:>>> shutting down FTP server, 0 socket(s), pid=9180 <<<
+INFO:pyftpdlib:10.23.64.34:9010-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=12916 <<<
+INFO:pyftpdlib:10.23.106.194:64146-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.106.194:64146-[] USER 'UX' failed login.
+INFO:pyftpdlib:10.23.106.194:64146-[] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.106.194:64214-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.106.194:64214-[U2] USER 'U2' logged in.
+INFO:pyftpdlib:10.23.106.194:64214-[U2] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时06分59秒_1条_李四.xlsx completed=1 bytes=5626 seconds=0.0
+INFO:pyftpdlib:10.23.106.194:64214-[U2] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时56分56秒_1条_李四.xlsx completed=1 bytes=5620 seconds=0.016
+INFO:pyftpdlib:10.23.106.194:64214-[U2] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_16时66分66秒_1条_李四.xlsx completed=1 bytes=5626 seconds=0.0
+INFO:pyftpdlib:10.23.110.159:50562-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.110.159:50562-[U3] USER 'U3' logged in.
+INFO:pyftpdlib:10.23.110.159:50562-[U3] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_17时09分46秒_1条_李世民.xlsx completed=1 bytes=5640 seconds=0.0
+INFO:pyftpdlib:10.23.110.159:50562-[U3] STOR E:\Learing\2021\719\Python\Terminal\2021年08月12日_16时30分19秒_2条_李世民.xlsx completed=1 bytes=5712 seconds=0.0
+INFO:pyftpdlib:10.23.110.159:50562-[U3] STOR E:\Learing\2021\719\Python\Terminal\2021年08月12日_16时33分26秒_4条_李世民.xlsx completed=1 bytes=5798 seconds=0.016
+INFO:pyftpdlib:10.23.110.159:50562-[U3] STOR E:\Learing\2021\719\Python\Terminal\2021年08月05日_17时09分46秒_1条_李世民.xlsx completed=1 bytes=5640 seconds=0.0
+INFO:pyftpdlib:10.23.110.159:50562-[U3] STOR E:\Learing\2021\719\Python\Terminal\2021年08月12日_16时30分19秒_2条_李世民.xlsx completed=1 bytes=5712 seconds=0.016
+INFO:pyftpdlib:10.23.110.159:50562-[U3] STOR E:\Learing\2021\719\Python\Terminal\2021年08月12日_16时33分26秒_4条_李世民.xlsx completed=1 bytes=5798 seconds=0.0
+INFO:pyftpdlib:10.23.106.194:64214-[U2] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_9条.xlsx completed=1 bytes=6231 seconds=0.0
+INFO:pyftpdlib:10.23.110.159:50562-[U3] RETR E:\Learing\2021\719\Python\Terminal\汇总_[2021年08月05日-2021年08月26日]_9条.xlsx completed=1 bytes=6231 seconds=0.0
+INFO:pyftpdlib:10.23.110.159:50562-[U3] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.106.194:64214-[U2] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.106.194:64723-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.106.194:64723-[U1] USER 'U1' logged in.
+INFO:pyftpdlib:10.23.106.194:64723-[U1] FTP session closed (disconnect).
+INFO:pyftpdlib:10.23.106.194:64727-[] FTP session opened (connect)
+INFO:pyftpdlib:10.23.106.194:64727-[U2] USER 'U2' logged in.
+INFO:pyftpdlib:10.23.106.194:64727-[U2] FTP session closed (disconnect).
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=7908 <<<
+INFO:pyftpdlib:concurrency model: async
+INFO:pyftpdlib:masquerade (NAT) address: None
+INFO:pyftpdlib:passive ports: None
+INFO:pyftpdlib:>>> starting FTP server on 10.23.64.34:21, pid=11248 <<<
+INFO:pyftpdlib:>>> shutting down FTP server, 0 socket(s), pid=11248 <<<

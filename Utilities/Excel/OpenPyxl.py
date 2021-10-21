@@ -15,19 +15,19 @@ class PrivateOpenPyxl():
     resultPassStyle.font = Font(name='Times New Roman', size=16, bold=False, color=Color(indexed=0))# 黑色字体
     resultPassStyle.alignment = Alignment(horizontal='center', vertical='center')
     resultPassStyle.fill = PatternFill('solid', '0000CCFF') # 蓝色填充背景
-    resultPassStyle.border = Border(left    = Side('thin', color=Color(indexed=0)),
-                                    right   = Side('thin', color=Color(indexed=0)),
-                                    top     = Side('thin', color=Color(indexed=0)),
-                                    bottom  = Side('thin', color=Color(indexed=0)))
+    resultPassStyle.border = Border(left   = Side('thin', color=Color(indexed=0)),
+                                    right  = Side('thin', color=Color(indexed=0)),
+                                    top    = Side('thin', color=Color(indexed=0)),
+                                    bottom = Side('thin', color=Color(indexed=0)))
     # 检测结果失败
     resultFailStyle = NamedStyle('resultFailStyle')
     resultFailStyle.font = Font(name='Times New Roman', size=16, bold=False, color=Color(indexed=0))# 黑色字体
     resultFailStyle.alignment = Alignment(horizontal='center', vertical='center')
     resultFailStyle.fill = PatternFill('solid', '00FF0000') # 红色填充背景
-    resultFailStyle.border = Border(left    = Side('thin', color=Color(indexed=0)),
-                                    right   = Side('thin', color=Color(indexed=0)),
-                                    top     = Side('thin', color=Color(indexed=0)),
-                                    bottom  = Side('thin', color=Color(indexed=0)))
+    resultFailStyle.border = Border(left   = Side('thin', color=Color(indexed=0)),
+                                    right  = Side('thin', color=Color(indexed=0)),
+                                    top    = Side('thin', color=Color(indexed=0)),
+                                    bottom = Side('thin', color=Color(indexed=0)))
     # 默认字体
     defaultContentStyle = NamedStyle('defaultContentStyle')
     defaultContentStyle.font = Font(name='Times New Roman', size=16, bold=False, color=Color(indexed=0))# 黑色字体
@@ -44,21 +44,21 @@ class PrivateOpenPyxl():
     def __init__(self, wbname = "", wsname = ""):
         super(PrivateOpenPyxl, self).__init__()
         # 添加属性
-        self.wbname  = wbname   # 工作簿名
-        self.wsname = wsname    # 工作表名
-        self.wb  = None         # 工作簿对象
-        self.ws = None          # 工作表对象
+        self.wbname  = wbname # 工作簿名
+        self.wsname = wsname  # 工作表名
+        self.wb  = None       # 工作簿对象
+        self.ws = None        # 工作表对象
         #*------------------------------------------------一般样式------------------------------------------------*#
         #*----------------------------------------------Cell Styles----------------------------------------------*#
-        # 表头单元格格式
+        # 表头单元格样式
         self.hfont = Font(name='Times New Roman', size=16, bold=False, color=Color(indexed=17))
         self.halignment = Alignment(horizontal='center', vertical='center', textRotation=0, wrapText=False)
         self.hfill = PatternFill('solid', '00FFFF00') # 黄色填充背景
-        self.hborder = Border(left    = Side('thin', color=Color(indexed=0)),
-                              right   = Side('thin', color=Color(indexed=0)),
-                              top     = Side('thin', color=Color(indexed=0)),
-                              bottom  = Side('thin', color=Color(indexed=0)))
-        # 默认列宽 对应字体如上
+        self.hborder = Border(left   = Side('thin', color=Color(indexed=0)),
+                              right  = Side('thin', color=Color(indexed=0)),
+                              top    = Side('thin', color=Color(indexed=0)),
+                              bottom = Side('thin', color=Color(indexed=0)))
+        # 默认列宽 对应字体大小如上
         self.columnWidth = [12, 30, 14.38, 17.25, 9, 11.88, 11.88, 12.13, 10, 11.88, 11.88, 12.13, 10, 11.88, 6.38]
         # 26列列索引
         self.colindex = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -233,18 +233,18 @@ class PrivateOpenPyxl():
             self.putDataToCellAndSetStyle(2, dataList)
 
     def setCellStyle(self, wb):
-        columnDefaultStyle = [0, 1, 6, 8, 10, 12] # 0-based start
-        columnMarkedStyle  = [2, 3, 4, 5, 7, 9, 11, 13, 14] # 0-based start
+        defaultColumnStyle = [0, 1, 6, 8, 10, 12] # 0-based start
+        markedColumnStyle  = [2, 3, 4, 5, 7, 9, 11, 13, 14] # 0-based start
         thresholdInstance = GetSetObj.get(2) # 获取阈值界面对象实例
         self.loadSheet(wb)
         maxrow = self.ws.max_row + 1
         # 格式化默认数据格式
-        for c in columnDefaultStyle:
+        for c in defaultColumnStyle:
             for r in range(2, maxrow, 1):
                 pos = '{0}{1}'.format(self.colindex[c], r) # 表格索引
                 self.ws[pos].style = 'defaultContentStyle'
         # 
-        for col in columnMarkedStyle:
+        for col in markedColumnStyle:
             for r in range(2, maxrow, 1):
                 pos = '{0}{1}'.format(self.colindex[col], r) # 表格索引 
                 val = self.ws[pos].value

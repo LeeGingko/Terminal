@@ -87,10 +87,10 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         endTiming = startTiming
         while True: # 等待测试仪回应
             QApplication.processEvents()
-            time.sleep(0.01)
+            time.sleep(0.001)
             num = self.prvSerial.inWaiting()
             endTiming = dt.datetime.now()
-            if (endTiming - startTiming).seconds <= 1:
+            if (endTiming - startTiming).seconds <= 2:
                 QApplication.processEvents()
                 # print('endTiming - startTiming:' + str((endTiming - startTiming).seconds))
                 if num >= 5:
@@ -179,11 +179,14 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
 
     def portsMonitoring(self, comlist, action, diffset):
         if comlist[0] == 'NOCOM':
+            s = diffset.pop()
+            if s.description == self.comController:
+                self.protocolAppendSignal.emit("测试仪[" + s.description + "]已拔出")
+            else:
+                self.protocolAppendSignal.emit("[" + s.description + "]已拔出")
             self.comController = ''
             self.comPortList.clear()
             self.comDescriptionList.clear()
-            s = diffset.pop()
-            self.protocolAppendSignal.emit("[" + s.description + "]已拔出")
             self.protocolAppendSignal.emit("当前已无串口")
             print(str(comlist[0]))
             self.comboBox_selectComNum.setEnabled(True)

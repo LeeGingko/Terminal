@@ -24,7 +24,7 @@ import pandas as pd
 from multiping import MultiPing, MultiPingSocketError
 # 默认导入
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtCore import QRegularExpression, Qt, pyqtSlot
+from PyQt5.QtCore import QRegularExpression, Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import (QFont, QIcon, QRegularExpressionValidator,
                          QStandardItem, QStandardItemModel)
 from PyQt5.QtWidgets import (QAbstractItemDelegate, QAbstractItemView, QAction, QApplication,
@@ -43,6 +43,7 @@ from Utilities.ViewDelegation.TableViewDelegate import PrivateTableViewDelegate
 
 
 class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
+    signal = pyqtSignal(str)
 
     def __init__(self):
         super(FTPStationlWin, self).__init__()  # 继承父类的所有属性
@@ -83,6 +84,7 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
         self.tb_Message.setFontPointSize(16)
         # 本机是否为服务器
         self.pcAsServerOrClient = None
+        self.isThisPCAsServer = False        
         # self.btn_ThisPCAsServer.setStyleSheet("QPushButton{color: rgb(0, 170, 255)}")
         self.disableAllFunc()
         self.ftpThread = PrivateFTP()
@@ -91,6 +93,7 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
         self.myftp = FTP()
         self.myftp.set_debuglevel(2)
         self.myftp.encoding = 'gbk'
+        self.isIPDuplicated = False
         #*------------------------------- 表格显示控件之模型、委托、视图初始化 MVC--------------------------------*#
         # 1 表格模型初始化
         self.tableViewModel = QStandardItemModel(0, 3, self)
@@ -115,7 +118,6 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
         # 3.1 表格视图上下文菜单
         self.tvMenu = QMenu(self.tv_FileInfo)
         # self.tv_FileInfo.customContextMenuRequested.connect(self.tvCustomContextMenuRequested)
-        self.isThisPCAsServer = False
         #*------------------------------- 表格显示控件之模型、委托、视图初始化 MVC--------------------------------*#
         # 检测数据Excel文件初始化
         self.excel = PrivateOpenPyxl()  # 实例化Excel对象
@@ -128,6 +130,7 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
         self.detFileIdTimeDict = {}     # 综合信息Dict
         self.detFileIdTimeDictBkp = {}  # 综合信息Dict备份
         self.detDateOfDetFile = []      # 模块检测日期时间
+        self.signal.connect(self.tbMessageAppend)
 
     def tvUpLoad(self):
         self.tbMessageAppend('开始上传')
@@ -208,11 +211,15 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
             self.line_Right.move(354, 293)
             self.btn_MergeFile.move(360, 300)
             # 视图右键动作
-            self.downLoad = QAction()
-            self.downLoad.setText('下载汇总文件')
-            self.downLoad.triggered.connect(self.tvDownLoad)
-            self.tvMenu.addAction(self.downLoad)
-
+            # self.downLoad = QAction()
+            # self.downLoad.setText('下载选中文件')
+            # self.downLoad.triggered.connect(self.tvDownLoad)
+            # self.tvMenu.addAction(self.downLoad)
+            # self.upLoad = QAction()
+            # self.upLoad.setText('上传检测文件')
+            # self.upLoad.triggered.connect(self.tvDownLoad)
+            # self.tvMenu.addAction(self.upLoad)
+            
     @QtCore.pyqtSlot()
     def on_btn_Connection_clicked(self):
         l = list()
@@ -220,13 +227,13 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
         btnText = self.btn_Connection.text()
         if self.pcAsServerOrClient == True: # 作为服务器
             if btnText == '开启服务器':
-                self.btn_Connection.setText('关闭服务器')
                 if self.isServerStart == False:
                     self.ftpThread.start()
                     self.isServerStart = True
                     self.btn_ScanLocalFile.setEnabled(True)
                     self.btn_MergeFile.setEnabled(True)
                     self.tbMessageAppend('服务器已开启，服务器IP:' + self.ip)
+                    self.btn_Connection.setText('关闭服务器')
             elif btnText == '关闭服务器':
                 self.btn_Connection.setText('开启服务器')
                 self.ftpThread.server.close_all() # 关闭服务器及其所有连接
@@ -402,19 +409,33 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
                 if cnt == 0:
                     self.tbMessageAppend('服务器暂无检测相关文件')
                     return
+                self.tbMessageAppend('检测到[' + str(cnt) + '个]检测相关文件')
                 self.tbMessageAppend('服务器文件扫描完成')
             except error_perm:
                 self.tbMessageAppend('无此目录')
+            except ConnectionAbortedError:
+                self.isClientConnect = False
+                self.btn_Connection.setText('连接服务器')
+                try:
+                    res = self.myftp.quit()
+                    if res.find('221 Goodbye') != -1:
+                        self.tbMessageAppend('已和服务器:' + self.myftp.host + '断开连接')
+                except ConnectionResetError:
+                    self.tbMessageAppend('服务器已关闭，连接已断开！')
+                except ConnectionAbortedError:
+                    self.tbMessageAppend('服务器已关闭，连接已断开！')
 
     @QtCore.pyqtSlot()
     def on_btn_PushFile_clicked(self):
         if self.pcAsServerOrClient == False:
-            self.tbMessageAppend('上传文件')
+            self.tbMessageAppend('上传检测文件')
             if self.tableViewModel.rowCount() != 0:
                 try:
                     xlsxFiles = glob.glob('*.xlsx')
+                    cnt = 0
                     for xf in xlsxFiles:
-                        if ('xlsx' in xf) and ('年' in xf) and ('月' in xf) and ('日' in xf):
+                        if ('xlsx' in xf) and ('年' in xf) and ('月' in xf) and ('日' in xf) and ('汇总' not in xf):
+                            cnt = cnt + 1
                             with open(xf, 'rb') as fp:
                                 self.tbMessageAppend('开始上传文件...\n>>' + xf)
                                 try:
@@ -424,9 +445,12 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
                                         self.tbMessageAppend('上传完成')
                                 except error_perm:
                                     self.tbMessageAppend('上传失败')
+                    if cnt == 0:
+                        self.tbMessageAppend('无检测文件，请检测')
                 except error_perm:
                     self.tbMessageAppend('无此文件')
                 except ConnectionAbortedError:
+                    self.isClientConnect = False
                     self.tbMessageAppend('连接已断开，请重新连接')
                     self.btn_Connection.setText('连接服务器')
             else:
@@ -435,12 +459,12 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
     @QtCore.pyqtSlot()
     def on_btn_PullFile_clicked(self):
         if self.pcAsServerOrClient == False:
-            self.tbMessageAppend('下载文件')
+            self.tbMessageAppend('下载汇总文件')
             try:
                 res = self.myftp.mlsd(path='.', facts=['modify', 'create', 'size'])
                 cnt = 0
                 for r in res:
-                    if ('xlsx' in r[0]) and ('年' in r[0]) and ('月' in r[0]) and ('日' in r[0]):
+                    if ('xlsx' in r[0]) and ('年' in r[0]) and ('月' in r[0]) and ('日' in r[0]) and ('汇总' in r[0]) :
                         cnt = cnt + 1
                         with open(r[0], 'wb') as fp:
                             self.tbMessageAppend('开始下载文件...\n>>' + r[0])
@@ -456,6 +480,7 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
             except error_perm:
                 self.tbMessageAppend('无此文件')
             except ConnectionAbortedError:
+                self.isClientConnect = False
                 self.tbMessageAppend('连接已断开，请重新连接')
                 self.btn_Connection.setText('连接服务器')
                

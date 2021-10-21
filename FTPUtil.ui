@@ -3,7 +3,7 @@
  <class>FTPSetting</class>
  <widget class="QWidget" name="FTPSetting">
   <property name="windowModality">
-   <enum>Qt::ApplicationModal</enum>
+   <enum>Qt::WindowModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -589,7 +589,7 @@ border:2px solid rgb(41, 133, 135);</string>
      <string/>
     </property>
     <property name="text">
-     <string>10.23.64.34</string>
+     <string/>
     </property>
     <property name="frame">
      <bool>true</bool>
@@ -686,7 +686,7 @@ border:2px solid rgb(41, 133, 135);
      <number>2</number>
     </property>
     <property name="text">
-     <string>255.255.255.255</string>
+     <string/>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
@@ -766,7 +766,7 @@ border:2px solid rgb(41, 133, 135);</string>
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>U3</string>
+     <string/>
     </property>
     <property name="frame">
      <bool>true</bool>
@@ -1026,7 +1026,7 @@ border:2px solid rgb(41, 133, 135);</string>
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>12345</string>
+     <string/>
     </property>
     <property name="maxLength">
      <number>8</number>

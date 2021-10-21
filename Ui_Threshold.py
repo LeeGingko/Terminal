@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_ThresholdDialog(object):
     def setupUi(self, ThresholdDialog):
         ThresholdDialog.setObjectName("ThresholdDialog")
-        ThresholdDialog.setWindowModality(QtCore.Qt.ApplicationModal)
+        ThresholdDialog.setWindowModality(QtCore.Qt.WindowModal)
         ThresholdDialog.resize(319, 410)
         self.label_operator_11 = QtWidgets.QLabel(ThresholdDialog)
         self.label_operator_11.setGeometry(QtCore.QRect(84, 4, 151, 37))

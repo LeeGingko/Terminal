@@ -9,6 +9,7 @@ import pickle as pk
 import sys
 # 导入time相关模块
 import time
+from pickle import FALSE
 
 # 导入serial相关模块
 import serial

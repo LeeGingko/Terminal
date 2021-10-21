@@ -5094,7 +5094,10 @@ p, li { white-space: pre-wrap; }
        <number>54</number>
       </attribute>
       <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderCascadingSectionResizes">
+       <bool>true</bool>
       </attribute>
       <attribute name="verticalHeaderMinimumSectionSize">
        <number>54</number>
