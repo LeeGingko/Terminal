@@ -46,7 +46,7 @@ class PrivateOpenPyxl():
         # 添加属性
         self.wbname  = wbname # 工作簿名
         self.wsname = wsname  # 工作表名
-        self.wb  = None       # 工作簿对象
+        self.wb = None        # 工作簿对象
         self.ws = None        # 工作表对象
         #*------------------------------------------------一般样式------------------------------------------------*#
         #*----------------------------------------------Cell Styles----------------------------------------------*#
@@ -243,7 +243,7 @@ class PrivateOpenPyxl():
             for r in range(2, maxrow, 1):
                 pos = '{0}{1}'.format(self.colindex[c], r) # 表格索引
                 self.ws[pos].style = 'defaultContentStyle'
-        # 
+        # 标记关键数据格式
         for col in markedColumnStyle:
             for r in range(2, maxrow, 1):
                 pos = '{0}{1}'.format(self.colindex[col], r) # 表格索引 

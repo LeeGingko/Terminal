@@ -571,7 +571,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             if self.portStatus == True:  # 该串口空闲
                 self.disableBtnFunc()
                 self.userTextBrowserAppend("测试仪自检")
+                self.protocolWin.serialManager.pause()
                 if self.checkControllerState() == True:
+                    self.protocolWin.serialManager.resume()
                     self.getSelfCheckParameters()
                     QTimer.singleShot(5500, self.autoSendParameters)
                     self.le_Encoding.setFocus()
@@ -612,7 +614,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.userTextBrowserAppend("输入编码：" + self.le_Encoding.text())
                         self.disableBtnFunc()
                         if len(self.uid) == 5:
+                            self.protocolWin.serialManager.pause()
                             if self.checkControllerState() == True:
+                                self.protocolWin.serialManager.resume()
                                 self.justQueryCode = True
                                 self.protocolWin.serialSendData(Func.f_DevQueryCurrentCode, '', '')
                                 QApplication.processEvents()
@@ -677,7 +681,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             print("/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/")
             print("Querying......")
             self.userTextBrowserAppend("执行查询")
+            self.protocolWin.serialManager.pause()
             if self.checkControllerState() == True:
+                self.protocolWin.serialManager.resume()
                 self.disableBtnFunc()
                 self.encDetEncdetQuery = 3
                 self.justQueryCode = True
@@ -733,7 +739,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.disableBtnFunc()
                         if len(self.uid) == 5:
                             self.userTextBrowserAppend("输入编码：" + self.uid)
+                            self.protocolWin.serialManager.pause()
                             if self.checkControllerState() == True:
+                                self.protocolWin.serialManager.resume()
                                 res = self.loadResultsFile() # 加载检测结果
                                 resSta, index = self.isResultDetected(res, self.uid)
                                 self.devicesState = self.loadDevicesStateFile()
@@ -793,18 +801,25 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.executeTheDetection()
     
     def executeEncodingDetection(self): # 执行编码检测
+        cnt = 0
         if self.executeTheEncoding() == 0:
             return
         while True:
             time.sleep(0.001)
+            cnt = cnt + 1
             if self.protocolWin.data != b'':
-                if self.protocolWin.data[2] != 50:
+                if self.protocolWin.data.decode('utf-8').find('DIDOK') == -1:
                     continue
                 else:
                     break
             QApplication.processEvents()
+            if cnt >= 5000:
+                self.userTextBrowserAppend('测试仪无响应')
+                self.enableBtnFunc()
+                return
         tmp = self.protocolWin.data.decode('utf-8')
         if tmp.find('DIDOK', 0, len(tmp)) != -1:
+            time.sleep(1)
             self.executeTheDetection()
         else:
             self.enableBtnFunc()
@@ -1079,7 +1094,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 else:
                     self.userTextBrowserAppend("接收帧错误")
                     self.detTimer.stop()
-            elif tmp[0] == "R":
+            elif tmp[0] == "G":
                 if tmp[1] == "M":
                     self.reportSystemPower(tmp)
                 else:
@@ -1089,11 +1104,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     
     def reportSystemPower(self, str): # 电源接通响应，设备自检
         print("In reportSystemPower...............")
-        if str == "RMPO\r\n":
+        if str == "GMPO\r\n":
             # self.enableBtnFunc()
             self.userTextBrowserAppend("测试仪已上电，线路供电接通")
             self.executeControllerSelfCheck() # 进行一次测试仪自检
-        elif str == "RMPE\r\n":
+        elif str == "GMPE\r\n":
             self.userTextBrowserAppend("测试仪已上电，线路供电断开") # 电源断开，JLink连接时才会出现此回应
    
     def setWorkMode(self, tmp): # 设置工作模式

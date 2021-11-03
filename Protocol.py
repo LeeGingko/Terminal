@@ -129,12 +129,13 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                         self.prvSerial.open()
                         # if self.prvSerial.isOpen(): # 多余判断
                         self.protocolAppendSignal.emit("[" + i.device + "]已打开")
+                        self.serialManager.pause()
                         self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
                         startTiming = dt.datetime.now()
                         endTiming = startTiming
                         while True: # 等待测试仪回应
                             QApplication.processEvents()
-                            time.sleep(0.01)
+                            time.sleep(0.001)
                             num = self.prvSerial.inWaiting()
                             # print("openClosePort num:" + str(num) + ' time:' + str((endTiming1 - startTiming).seconds)) # 输出收到的字节数
                             # print("Port num:" + str(num)) # 输出收到的字节数
@@ -152,6 +153,8 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                         self.comboBox_selectComNum.setEnabled(False)
                                         self.btn_SwitchSerial.setText("关闭串口")
                                         print('/*+++++++++++++++++++++++++++++++++++++++++++++*/\nChecking device parameters ......:')
+                                        self.serialManager.resume()
+                                        time.sleep(0.1)
                                         self.deviceSelfCheck() # 每次运行程序执行一次自检即可
                                         break
                                     else:
@@ -252,7 +255,9 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                         self.btn_SwitchSerial.setEnabled(False)
                         if self.prvSerial.isOpen(): 
                             self.prvSerial.flush()
+                            self.serialManager.pause()
                             self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
+                            self.serialManager.start()
                             startTiming = dt.datetime.now()
                             endTiming = startTiming
                             # self.protocolAppendSignal.emit("等待测试仪回应")
@@ -268,11 +273,12 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                         self.btn_SwitchSerial.setEnabled(True)
                                         self.btn_SwitchSerial.setText("打开串口")
                                         self.isSTM32Online = False
+                                        self.serialManager.resume()
                                         return
                                 elif (num > 0 and num <= 4):
                                     self.prvSerial.flushInput()
                                 elif num >= 5:
-                                    time.sleep(0.01)
+                                    time.sleep(0.001)
                                     data = self.prvSerial.read(num)
                                     try:
                                         if data.decode("utf-8") == "STM32":
@@ -284,6 +290,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                 endTiming = dt.datetime.now()  
                             if self.isSTM32Online == True:
                                 self.protocolAppendSignal.emit("测试仪在线!")
+                                self.serialManager.resume()
                                 self.close()
                                 self.deviceSelfCheck() # 每次重新运行程序执行一次自检
                             self.btn_SwitchSerial.setEnabled(True)
@@ -314,6 +321,8 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
            (self.data[dataLength - 2] == 13) and (self.data[dataLength - 1] == 10):
             print("RxFrame is right!")
             return State.s_RxFrameCheckOK
+        elif (self.data[0] == 71): # G
+            pass
         else:
             print("RxFrame is wrong!")
             return State.s_RxFrameCheckErr
@@ -381,4 +390,4 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.serialSendData(Func.f_DevGetSelfPara, '', '')
         self.sendParaInstance = GetSetObj.get(2)
         # 参数下发阈值定时器
-        QTimer.singleShot(5500, self.sendParaInstance.aloneSaveSettingsRecord)
+        QTimer.singleShot(6000, self.sendParaInstance.aloneSaveSettingsRecord)
