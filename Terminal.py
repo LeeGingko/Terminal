@@ -602,7 +602,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def executeTheEncoding(self): # 执行编码
         if self.workMode["encoding"] == "1":
-            print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
+            print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
             print("Encoding......")
             self.userTextBrowserAppend("执行编码")
             if self.protocolWin.prvSerial.isOpen():
@@ -612,10 +612,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     if self.uid != '' and self.uid != '55555':
                         self.flushTheSerialBuffer()
                         self.userTextBrowserAppend("输入编码：" + self.le_Encoding.text())
-                        self.disableBtnFunc()
                         if len(self.uid) == 5:
                             self.protocolWin.serialManager.pause()
                             if self.checkControllerState() == True:
+                                self.disableBtnFunc()
                                 self.protocolWin.serialManager.resume()
                                 self.justQueryCode = True
                                 self.protocolWin.serialSendData(Func.f_DevQueryCurrentCode, '', '')
@@ -654,21 +654,29 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                             else:
                                 self.enableBtnFunc()
                                 self.userTextBrowserAppend("测试仪无响应，请重新选择串口或检查连线！")
+                                return 0
                         elif len(self.uid) < 5:
                             self.userTextBrowserAppend("输入编码小于五位，请输入五位编码")
+                            return 0
                     elif self.uid == '55555':
                         self.userTextBrowserAppend("此编号无法编码，请重新输入！")
+                        return 0
                         self.le_Encoding.clear()
                     elif self.uid == '':
                         self.userTextBrowserAppend("请输入编码！")
+                        return 0
                 elif name == '':
                     self.userTextBrowserAppend("请输入姓名！")
+                    return 0
             else:
                 self.userTextBrowserAppend("串口未打开")
+                return 0
         elif self.workMode["encoding"] == "X":
             self.userTextBrowserAppend("编码【未知】")
+            return 0
         else:
             self.userTextBrowserAppend("编码【未开启】")
+            return 0
 
     @QtCore.pyqtSlot()
     def on_btn_DeviceEncoding_clicked(self): # 槽：编码按钮
@@ -678,7 +686,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def on_btn_QueryCode_clicked(self): # 查询编码
         if self.protocolWin.prvSerial.isOpen() == True:
-            print("/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/")
+            print("/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/")
             print("Querying......")
             self.userTextBrowserAppend("执行查询")
             self.protocolWin.serialManager.pause()
@@ -727,7 +735,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.protocolWin.prvSerial.reset_output_buffer()
         if self.workMode["detection"] == "1":
             self.isLVLCOK = False
-            print("/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/")
+            print("/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/")
             print("Detecting......")
             self.userTextBrowserAppend("执行检测")
             if self.protocolWin.prvSerial.isOpen():
@@ -736,11 +744,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 if name != '':
                     if self.uid != '' and self.uid != '55555':
                         self.flushTheSerialBuffer()
-                        self.disableBtnFunc()
                         if len(self.uid) == 5:
                             self.userTextBrowserAppend("输入编码：" + self.uid)
                             self.protocolWin.serialManager.pause()
                             if self.checkControllerState() == True:
+                                self.disableBtnFunc()
                                 self.protocolWin.serialManager.resume()
                                 res = self.loadResultsFile() # 加载检测结果
                                 resSta, index = self.isResultDetected(res, self.uid)
@@ -1180,7 +1188,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.userTextBrowserAppend("无法进行【编码】和【检测】，请按下功能按键！")
     
     def getSelfCheckParameters(self): # 获取自检参数
-        print("/*+++++++++++++++++++++++++++++++++++++++++++++*/")
+        print("/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++*/")
         print("Checking device parameters ......")
         self.label_detection.setStyleSheet("QLabel{border-image: url(./resources/icons/NONE)}")
         self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/NONE)}")

@@ -209,7 +209,7 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
             cnt += 1
 
     def aloneSaveSettingsRecord(self):
-        print("/*>>>>>>>>>>>>>>>>>>>>>aloneSaveSettingsRecord>>>>>>>>>>>>>>>>>>>>>>>>*/")
+        print("/*>>>>>>>>>>>>>>>>>>>>>>>>>>>aloneSaveSettingsRecord>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/")
         self.getThreshold()
         self.saveThreshold(self.para)
 

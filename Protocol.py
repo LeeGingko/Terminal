@@ -152,7 +152,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                         self.comboBox_selectComNum.setCurrentText(self.comController)
                                         self.comboBox_selectComNum.setEnabled(False)
                                         self.btn_SwitchSerial.setText("关闭串口")
-                                        print('/*+++++++++++++++++++++++++++++++++++++++++++++*/\nChecking device parameters ......:')
+                                        print('/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++*/\nChecking device parameters ......:')
                                         self.serialManager.resume()
                                         time.sleep(0.1)
                                         self.deviceSelfCheck() # 每次运行程序执行一次自检即可
@@ -282,6 +282,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                     data = self.prvSerial.read(num)
                                     try:
                                         if data.decode("utf-8") == "STM32":
+                                            self.serialManager.resume()
                                             self.isSTM32Online = True
                                             self.comController = self.comDescription
                                             break
@@ -290,7 +291,6 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                 endTiming = dt.datetime.now()  
                             if self.isSTM32Online == True:
                                 self.protocolAppendSignal.emit("测试仪在线!")
-                                self.serialManager.resume()
                                 self.close()
                                 self.deviceSelfCheck() # 每次重新运行程序执行一次自检
                             self.btn_SwitchSerial.setEnabled(True)
