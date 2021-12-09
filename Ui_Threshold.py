@@ -755,7 +755,7 @@ class Ui_ThresholdDialog(object):
         self.label_operator_20.setText(_translate("ThresholdDialog", "线路电压"))
         self.lineEdit_setLineVoltageTop.setText(_translate("ThresholdDialog", "26"))
         self.label_operator_55.setText(_translate("ThresholdDialog", "线路电流"))
-        self.lineEdit_setLineCurrentTop.setText(_translate("ThresholdDialog", "10"))
+        self.lineEdit_setLineCurrentTop.setText(_translate("ThresholdDialog", "15"))
         self.label_operator_9.setText(_translate("ThresholdDialog", "通信电压"))
         self.lineEdit_setComVoltageTop.setText(_translate("ThresholdDialog", "38"))
         self.label_operator_49.setText(_translate("ThresholdDialog", "通信电流"))

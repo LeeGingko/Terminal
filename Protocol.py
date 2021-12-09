@@ -128,7 +128,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                     try:
                         self.prvSerial.open()
                         # if self.prvSerial.isOpen(): # 多余判断
-                        self.protocolAppendSignal.emit("[" + i.device + "]已打开")
+                        # self.protocolAppendSignal.emit("[" + i.device + "]已打开")
                         self.serialManager.pause()
                         self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
                         startTiming = dt.datetime.now()
@@ -147,7 +147,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                     if data.decode("utf-8") == "STM32":
                                         self.isSTM32Online = True
                                         self.comController = self.comDescription
-                                        self.protocolAppendSignal.emit("测试仪在线!")
+                                        self.protocolAppendSignal.emit("[" + i.device + "],测试仪在线!")
                                         self.isAutoConnectDetectorOK = True
                                         self.comboBox_selectComNum.setCurrentText(self.comController)
                                         self.comboBox_selectComNum.setEnabled(False)
@@ -168,7 +168,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                 self.isSTM32Online = False
                                 self.prvSerial.close()
                                 self.isAutoConnectDetectorOK = False
-                                self.protocolAppendSignal.emit("测试仪无响应，已关闭[" + i.device + "]")
+                                # self.protocolAppendSignal.emit("测试仪无响应，已关闭[" + i.device + "]")
                                 self.btn_SwitchSerial.setText("打开串口")
                                 self.comboBox_selectComNum.setEnabled(True)
                                 break
@@ -224,7 +224,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                     self.serialManager.initPort(self.comPortList[self.comIndex].device)
                     if not self.prvSerial.isOpen():
                         self.prvSerial.open()
-                        self.deviceSelfCheck()
+                        # self.deviceSelfCheck()
                 self.btn_SwitchSerial.setText('关闭串口')
                 self.comboBox_selectComNum.setCurrentText(self.comController)
                 self.comboBox_selectComNum.setEnabled(False)
@@ -390,4 +390,4 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.serialSendData(Func.f_DevGetSelfPara, '', '')
         self.sendParaInstance = GetSetObj.get(2)
         # 参数下发阈值定时器
-        QTimer.singleShot(6000, self.sendParaInstance.aloneSaveSettingsRecord)
+        QTimer.singleShot(7500, self.sendParaInstance.aloneSaveSettingsRecord)

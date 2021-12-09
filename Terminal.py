@@ -148,6 +148,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tv_Results.horizontalHeader().setFont(QFont("幼圆", 12, QFont.Light))
         self.tv_Results.setSelectionBehavior(QAbstractItemView.SelectRows)
         # self.tv_Results.verticalHeader().hide()
+        self.tv_Results.scrollToBottom()
         self.tv_Results.setContextMenuPolicy(Qt.CustomContextMenu)
         self.tv_Results.setEditTriggers (QAbstractItemView.NoEditTriggers)
         # 3.1 表格视图上下文菜单
@@ -404,7 +405,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btn_ThresholdSetting.setEnabled(False)
         self.btn_ControllerSelfCheck.setEnabled(False)
 
-    def checkControllerState(self):
+    def checkControllerState(self): # 检查控制仪状态
         try:
             self.protocolWin.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
         except serial.serialutil.SerialException:
@@ -413,9 +414,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         startTiming = dt.datetime.now()
         endTiming = startTiming
         while True: # 等待测试仪回应
-            QApplication.processEvents()
-            time.sleep(0.001)
             num = self.protocolWin.prvSerial.inWaiting()
+            time.sleep(0.001)
+            QApplication.processEvents()
             endTiming = dt.datetime.now()
             if (endTiming - startTiming).seconds <= 2:
                 QApplication.processEvents()
@@ -575,7 +576,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 if self.checkControllerState() == True:
                     self.protocolWin.serialManager.resume()
                     self.getSelfCheckParameters()
-                    QTimer.singleShot(5500, self.autoSendParameters)
+                    QTimer.singleShot(7500, self.autoSendParameters)
                     self.le_Encoding.setFocus()
                 else:
                     self.enableBtnFunc()
@@ -602,7 +603,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def executeTheEncoding(self): # 执行编码
         if self.workMode["encoding"] == "1":
-            print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
+            print("/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/")
             print("Encoding......")
             self.userTextBrowserAppend("执行编码")
             if self.protocolWin.prvSerial.isOpen():
@@ -611,11 +612,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.uid = self.le_Encoding.text()
                     if self.uid != '' and self.uid != '55555':
                         self.flushTheSerialBuffer()
-                        self.userTextBrowserAppend("输入编码：" + self.le_Encoding.text())
                         if len(self.uid) == 5:
+                            self.disableBtnFunc()
+                            self.userTextBrowserAppend("输入编码：" + self.le_Encoding.text())
                             self.protocolWin.serialManager.pause()
                             if self.checkControllerState() == True:
-                                self.disableBtnFunc()
                                 self.protocolWin.serialManager.resume()
                                 self.justQueryCode = True
                                 self.protocolWin.serialSendData(Func.f_DevQueryCurrentCode, '', '')
@@ -652,16 +653,16 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                     else:
                                         self.encodingFunc(self.uid)
                             else:
-                                self.enableBtnFunc()
                                 self.userTextBrowserAppend("测试仪无响应，请重新选择串口或检查连线！")
+                                self.enableBtnFunc()
                                 return 0
                         elif len(self.uid) < 5:
                             self.userTextBrowserAppend("输入编码小于五位，请输入五位编码")
                             return 0
                     elif self.uid == '55555':
                         self.userTextBrowserAppend("此编号无法编码，请重新输入！")
-                        return 0
                         self.le_Encoding.clear()
+                        return 0
                     elif self.uid == '':
                         self.userTextBrowserAppend("请输入编码！")
                         return 0
@@ -689,10 +690,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             print("/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/")
             print("Querying......")
             self.userTextBrowserAppend("执行查询")
+            self.disableBtnFunc()
             self.protocolWin.serialManager.pause()
             if self.checkControllerState() == True:
                 self.protocolWin.serialManager.resume()
-                self.disableBtnFunc()
                 self.encDetEncdetQuery = 3
                 self.justQueryCode = True
                 self.protocolWin.data = b''
@@ -722,7 +723,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.detTimer.stop()
             else:
                 # QTimer.singleShot(30000, self.detectionNoResponse)
-                self.detTimer.start(30000)
+                self.detTimer.start(45000) # 2021年12月7日15:00:03 增加了编码响应时间
         except:
             self.userTextBrowserAppend('串口发送检测指令失败！')
             self.detTimer.stop()
@@ -745,10 +746,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                     if self.uid != '' and self.uid != '55555':
                         self.flushTheSerialBuffer()
                         if len(self.uid) == 5:
+                            self.disableBtnFunc()
                             self.userTextBrowserAppend("输入编码：" + self.uid)
                             self.protocolWin.serialManager.pause()
                             if self.checkControllerState() == True:
-                                self.disableBtnFunc()
                                 self.protocolWin.serialManager.resume()
                                 res = self.loadResultsFile() # 加载检测结果
                                 resSta, index = self.isResultDetected(res, self.uid)
@@ -809,30 +810,28 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.executeTheDetection()
     
     def executeEncodingDetection(self): # 执行编码检测
-        cnt = 0
         if self.executeTheEncoding() == 0:
             return
-        while True:
-            time.sleep(0.001)
-            cnt = cnt + 1
-            if self.protocolWin.data != b'':
-                if self.protocolWin.data.decode('utf-8').find('DIDOK') == -1:
-                    continue
-                else:
-                    break
+        startTiming = dt.datetime.now()
+        endTiming = startTiming
+        while True: # 等待测试仪回应
             QApplication.processEvents()
-            if cnt >= 5000:
-                self.userTextBrowserAppend('测试仪无响应')
+            time.sleep(0.001)
+            endTiming = dt.datetime.now()
+            if (endTiming - startTiming).seconds <= 15:
+                QApplication.processEvents()
+                if self.protocolWin.data != b'':
+                    if self.protocolWin.data.decode('utf-8').find('DIDOK') == -1:
+                        continue
+                    else:
+                        break
+            else:
+                self.flushTheSerialBuffer()
+                self.userTextBrowserAppend('编码出错！')
                 self.enableBtnFunc()
                 return
-        tmp = self.protocolWin.data.decode('utf-8')
-        if tmp.find('DIDOK', 0, len(tmp)) != -1:
-            time.sleep(1)
-            self.executeTheDetection()
-        else:
-            self.enableBtnFunc()
-            self.userTextBrowserAppend("编码未通过，无法执行检测！")
-            self.detectionTimeout = False
+        time.sleep(1)
+        self.executeTheDetection()
     
     def detectionNoResponse(self):
         if self.detectionTimeout == True:
@@ -1579,6 +1578,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.enableBtnFunc()
         self.flushTheSerialBuffer()
         self.le_Encoding.setFocus()
+        self.tv_Results.scrollToBottom()
 #------------------------------------END----------------------数据解析------------------------------------END----------------------#
    
     def sleepUpdate(self, sec):

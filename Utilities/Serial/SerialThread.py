@@ -18,10 +18,10 @@ class PrivateSerialThread(QThread):
         if self.usingSerial.isOpen:
             self.usingSerial.close()
 
-    def pause(self):
+    def pause(self): # 暂停处理
         self.isPause = True
 
-    def resume(self):
+    def resume(self): # 恢复处理
         self.isPause = False
 
     def initPort(self, port):
@@ -38,7 +38,7 @@ class PrivateSerialThread(QThread):
     def run(self):
         while True:
             if self.isPause == False:
-                self.msleep(1)
+                self.usleep(10)
                 self.data = b''
                 tmp = ''
                 if self.usingSerial.isOpen():
@@ -47,7 +47,7 @@ class PrivateSerialThread(QThread):
                         if self.num == 0: # 无数据
                             continue
                         else:
-                            self.msleep(1)
+                            self.usleep(10)
                             self.num = self.usingSerial.inWaiting()
                             # print("@SerialRecv Leng:" + str(self.num)) # 输出收到的字节数
                             self.data = self.usingSerial.read(self.num)
@@ -61,12 +61,12 @@ class PrivateSerialThread(QThread):
                                 elif (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"):
                                     self.buffer = self.data
                                     self.recvSignal.emit(self.buffer)
-                            # elif (tmp[0] != "U") and (tmp[0] != "R") and (tmp[self.num - 2 : self.num] == "\r\n"): 
+                            # elif (tmp[0] != "U") and (tmp[0] != "R") and (tmp[self.num - 2 : self.num] == "\r\n"):
                             elif (tmp[0] != "U") and (tmp[0] != "G") and (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"): 
                                 self.buffer = self.buffer + self.data
                                 self.recvSignal.emit(self.buffer)
-                                print("@SegAll:" + self.buffer.decode("utf-8"))
                                 self.buffer.clear()
+                                print("@SegAll:" + self.buffer.decode("utf-8"))
                             elif (tmp[0] == "G") and (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"):
                                 self.recvSignal.emit(self.data)
                             else:
@@ -76,4 +76,4 @@ class PrivateSerialThread(QThread):
                 else:
                     pass
             else:
-                self.msleep(1)
+                self.usleep(10)
