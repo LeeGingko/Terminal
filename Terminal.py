@@ -610,7 +610,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 name = self.le_Name.text()
                 if name != '':
                     self.uid = self.le_Encoding.text()
-                    if self.uid != '' and self.uid != '55555':
+                    if self.uid != '' and self.uid != '66666':
                         self.flushTheSerialBuffer()
                         if len(self.uid) == 5:
                             self.disableBtnFunc()
@@ -659,7 +659,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                         elif len(self.uid) < 5:
                             self.userTextBrowserAppend("输入编码小于五位，请输入五位编码")
                             return 0
-                    elif self.uid == '55555':
+                    elif self.uid == '66666':
                         self.userTextBrowserAppend("此编号无法编码，请重新输入！")
                         self.le_Encoding.clear()
                         return 0
@@ -743,7 +743,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.uid = self.le_Encoding.text()
                 name = self.le_Name.text()
                 if name != '':
-                    if self.uid != '' and self.uid != '55555':
+                    if self.uid != '' and self.uid != '66666':
                         self.flushTheSerialBuffer()
                         if len(self.uid) == 5:
                             self.disableBtnFunc()
@@ -791,7 +791,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                                 self.userTextBrowserAppend("测试仪无响应，请重新选择串口或检查连线！")
                         elif len(self.uid) < 5:
                             self.userTextBrowserAppend("输入编码小于五位，请输入五位编码")
-                    elif self.uid == '55555':
+                    elif self.uid == '66666':
                         self.le_Encoding.clear()
                         self.userTextBrowserAppend("此编号无法检测，请重新输入！")
                     elif self.uid == '':
@@ -818,7 +818,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             QApplication.processEvents()
             time.sleep(0.001)
             endTiming = dt.datetime.now()
-            if (endTiming - startTiming).seconds <= 15:
+            if (endTiming - startTiming).seconds <= 30:
                 QApplication.processEvents()
                 if self.protocolWin.data != b'':
                     if self.protocolWin.data.decode('utf-8').find('DIDOK') == -1:
@@ -1254,11 +1254,11 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.queryCode = tmp[tmp.find("DID", 0, len(tmp)) + 3 : len(tmp) - 4]
         if self.queryCode == 'NODET':
             self.enableBtnFunc()
-            self.userTextBrowserAppend("无模块连接，请检查接线")
+            self.userTextBrowserAppend("模块无响应，或无模块连接")
             self.justQueryCode = None
             self.le_Encoding.setFocus()
         else:
-            if self.queryCode != '55555':
+            if self.queryCode != '66666':
                 self.userTextBrowserAppend("当前模块编号：" + self.queryCode)
         if self.encDetEncdetQuery == 3 and self.justQueryCode == True:
             self.enableBtnFunc()
@@ -1422,7 +1422,10 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         tmp = self.protocolWin.data.decode("utf-8")
         l = len(tmp)
         if tmp.find("DIDNODET", 0, l) != -1:
-            self.userTextBrowserAppend("无模块连接，请检查接线")
+            self.userTextBrowserAppend("模块无响应，或无模块连接")
+            self.enableBtnFunc()
+        elif tmp.find("NOTHRESHOLD", 0, l) != -1:
+            self.userTextBrowserAppend("请进行一次参数下发")
             self.enableBtnFunc()
         else:
             self.resultList[6] = self.uid

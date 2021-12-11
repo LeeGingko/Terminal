@@ -290,7 +290,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                         pass
                                 endTiming = dt.datetime.now()  
                             if self.isSTM32Online == True:
-                                self.protocolAppendSignal.emit("测试仪在线!")
+                                self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "],测试仪在线!")
                                 self.close()
                                 self.deviceSelfCheck() # 每次重新运行程序执行一次自检
                             self.btn_SwitchSerial.setEnabled(True)
