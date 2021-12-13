@@ -494,7 +494,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         for i in self.tvIndex:
             self.tvRowList.append(i.row())
         self.tvRowList.sort(key=int, reverse=True)
-        print(self.tvRowList)
+        # print(self.tvRowList)
         self.tvMenu.exec_(self.tv_Results.mapToGlobal(p))
 #------------------------------------END----------------------数据显示上下文菜单------------------------------------END----------------------#    
 
@@ -506,7 +506,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
     def monitorInputDID(self): # 输入字符监控
         l = len(self.le_Encoding.text())
         if l >= 6:
-            print(self.le_Encoding.text())
+            # print(self.le_Encoding.text())
             self.le_Encoding.setText(self.le_Encoding.text()[l-5:l])
 
     @QtCore.pyqtSlot()
@@ -1287,7 +1287,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.devicesState.pop(self.uid)
             self.enableBtnFunc()
         elif tmp.find("DIDNODET", 3, l) != -1:
-            self.userTextBrowserAppend("无模块连接！")
+            self.userTextBrowserAppend("模块无响应，或无模块连接！")
         elif tmp.find("NCODE", 3, l) != -1:
             self.workMode["encoding"] = "0"
             self.label_encoding.setStyleSheet("QLabel{border-image: url(./resources/icons/close)}")
@@ -1422,7 +1422,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         tmp = self.protocolWin.data.decode("utf-8")
         l = len(tmp)
         if tmp.find("DIDNODET", 0, l) != -1:
-            self.userTextBrowserAppend("模块无响应，或无模块连接")
+            self.userTextBrowserAppend("模块无响应，或无模块连接！")
             self.enableBtnFunc()
         elif tmp.find("NOTHRESHOLD", 0, l) != -1:
             self.userTextBrowserAppend("请进行一次参数下发")
