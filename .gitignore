@@ -81,3 +81,6 @@ __pycache__/Protocol.cpython-39.pyc
 __pycache__/Terminal.cpython-39.pyc
 dist/测试仪上位机V10_1.exe
 dist/测试仪上位机V10_2.exe
+*.exe
+*.xlsx
+*.spec
