@@ -1,0 +1,143 @@
+/*-------------------------------------------------------2021年10月15日14:35:55-------------------------------------------------------*/
+RxFrame is right!
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+RxFrame is right!
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+@SerialRecv->UID62262A3
+
+RxFrame is wrong!
+GingKo@DESKTOP-6J36BMN  E:\Learing\2021\719\Python\Terminal   dev ↑3 +20 ~32 -23 !                                    [14:22]  
+❯  e:; cd 'e:\Learing\2021\719\Python\Terminal'; & 'D:\Program Files\Python39\python.exe' 'c:\Users\GingKo\.vscode\extensions\ms-python.python-2021.10.1336267007\pythonFiles\lib\python\debugpy\launcher' '10554' '--' 'e:\Learing\2021\719\Python\Terminal\Terminal.py' 
+/*+++++++++++++++++++++++++++++++++++++++++++++*/
+Checking device parameters ......:
+@SerialRecv->U51V121.7A19.797V231.9A28.604V370.0A38.829M11CA
+
+RxFrame is right!
+/*>>>>>>>>>>>>>>>>>>>>>aloneSaveSettingsRecord>>>>>>>>>>>>>>>>>>>>>>>>*/
+Setting threshold.................:
+@SerialRecv->U64PARAOK7D
+
+RxFrame is right!
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+@SerialRecv->U76UID62262A6
+
+RxFrame is right!
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+@SerialRecv->U86UID62262A7
+
+RxFrame is right!
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+@SerialRecv->U96UID62262A8
+
+RxFrame is right!
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+@SerialRecv->U06UID622629F
+
+RxFrame is right!
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+@SerialRecv->U16UID62262A0
+
+RxFrame is right!
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+@SerialRecv->U26UID62262A1
+
+RxFrame is right!
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+@SerialRecv->U36UID62262A2
+
+RxFrame is right!
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+@SerialRecv->U46UID62262A3
+
+RxFrame is right!
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+@SerialRecv->U56UID62262A4
+
+RxFrame is right!
+652262
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+Encoding......
+@SerialRecv->U66UID62262A5
+
+RxFrame is right!
+@SerialRecv->U72UIDOK3A
+
+RxFrame is right!
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+Detecting......
+@SerialRecv->U83LVOK21.6LCOK9.732DA940WA10140UN62262PIOKPOOKUF45678UFRECUFV717UFA445UNRECUNV710UNA44465
+
+RxFrame is right!
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+Detecting......
+@SerialRecv->U93LVOK21.6LCOK9.700DA942WA10140U
+@SerialRecv->N62262PIOKPOOKUF45678UFRECUFV705UFA448UNRECUNV710UNA46465
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+Detecting......
+@SerialRecv->U03LVOK21.5LCOK9.636DA940WA10090UN62262PIOKPOOKUF45678UFRECUFV699UFA446UNRECUNV707UNA45373
+
+RxFrame is right!
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+Encoding......
+@SerialRecv->U16UID62262A0
+
+RxFrame is right!
+@SerialRecv->U22UIDOK35
+
+RxFrame is right!
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+Detecting......
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+@SerialRecv->U36UID62262A2
+
+RxFrame is right!
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+@SerialRecv->U46UID62262A3
+
+RxFrame is right!
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+@SerialRecv->U56UID62262A4
+
+RxFrame is right!
+/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+Querying......
+@SerialRecv->U66UID62262A5
+
+RxFrame is right!
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+Detecting......
+@SerialRecv->U73LVOK21.5LCOK9.668DA942WA10120UN62262PIOKPOOKUF45678UFRECUFV713UFA443UNRECUNV702UNA46367
+
+RxFrame is right!
+/*+++++++++++++++++++++++++++++++++++++++++++++*/
+Checking device parameters ......
+@SerialRecv->U81V121.5A19.797V231.7A28.604V371.0A312.140M11E7
+
+RxFrame is right!
+Setting threshold.................: 
+@SerialRecv->U94PARAOK80
+
+RxFrame is right!
+RxFrame is right!
+/*>>>>>>>>>>>>>>>>>>>>>aloneSaveSettingsRecord>>>>>>>>>>>>>>>>>>>>>>>>*/
+Setting threshold.................:
+@SerialRecv->U14PARAOK78
+
+RxFrame is right!

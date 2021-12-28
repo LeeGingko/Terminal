@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 # 导入time相关模块
+import os
 import time
 
-class Tools:
+
+class Tools(object):
+    def __init__(self):
+        super(Tools, self).__init__()
     
     def getTimeStamp(self):
         return time.strftime("[At %H:%M:%S]>", time.localtime())
@@ -25,3 +29,11 @@ class Tools:
             lowCheck = ch[3]
 
         return highCheck, lowCheck
+
+    def isExcelFileOpen(self, file): # 操作的Excel是否被打开
+        if os.path.exists('~$' + file):
+            # print('excel已被打开')
+            return True
+        else:
+            # print('excel未被打开')
+            return False

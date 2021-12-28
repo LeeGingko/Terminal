@@ -9,11 +9,6 @@ class LocalTimeThread(QThread):
     def __init__(self):
         super(LocalTimeThread, self).__init__()
         self.timeStamp = ""
-
-    # def  __del__(self):
-    #     # self.secondSignal.__del__()
-    #     self.wait()
-    #     self.quit()
         
     def run(self):
         dayOfWeek = time.localtime().tm_wday
@@ -38,5 +33,8 @@ class LocalTimeThread(QThread):
                 self.timeStamp = time.strftime("%Y年%m月%d日 上午 %H:%M:%S  ", time.localtime())
             elif AMPM[0:2] == "PM": # PM
                 self.timeStamp = time.strftime("%Y年%m月%d日 下午 %H:%M:%S  ", time.localtime())
-            self.secondSignal.emit(self.timeStamp + weekday)
-            self.sleep(1)
+            try:
+                self.secondSignal.emit(self.timeStamp + weekday)
+            except AttributeError:
+                pass
+            self.msleep(500) # 2021年10月14日17:44:09 1000-》500 防止跳秒

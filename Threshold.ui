@@ -2,106 +2,122 @@
 <ui version="4.0">
  <class>ThresholdDialog</class>
  <widget class="QDialog" name="ThresholdDialog">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>345</width>
-    <height>425</height>
+    <width>319</width>
+    <height>410</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QLabel" name="label_operator_11">
    <property name="geometry">
     <rect>
-     <x>4</x>
-     <y>8</y>
-     <width>337</width>
-     <height>409</height>
+     <x>84</x>
+     <y>4</y>
+     <width>151</width>
+     <height>37</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="font">
     <font>
-     <family>微软雅黑</family>
-     <pointsize>24</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
+     <family>幼圆</family>
+     <pointsize>18</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
     </font>
    </property>
-   <property name="title">
+   <property name="styleSheet">
+    <string notr="true">QLabel{
+	border-radius: 4px;
+    border:1.5px groove gray;
+	border-color: rgb(0, 85, 0);
+	background-color: rgb(225, 225, 225);
+}</string>
+   </property>
+   <property name="text">
     <string>设备阈值设定</string>
+   </property>
+   <property name="textFormat">
+    <enum>Qt::AutoText</enum>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
-   <widget class="QPushButton" name="pushBtn_saveSettingsRecord">
-    <property name="geometry">
-     <rect>
-      <x>18</x>
-      <y>354</y>
-      <width>150</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>幼圆</family>
-      <pointsize>18</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="text">
-     <string>保存参数</string>
-    </property>
-    <property name="shortcut">
-     <string>Ctrl+8</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushBtn_readSettingsRecord">
-    <property name="geometry">
-     <rect>
-      <x>172</x>
-      <y>354</y>
-      <width>150</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>幼圆</family>
-      <pointsize>18</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="text">
-     <string>读取参数</string>
-    </property>
-    <property name="shortcut">
-     <string>Ctrl+9</string>
-    </property>
-   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>4</x>
+     <y>24</y>
+     <width>309</width>
+     <height>379</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>幼圆</family>
+     <pointsize>24</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QGroupBox{
+	border-radius: 4px;
+    border:1.5px groove gray;
+	border-color: rgb(0, 85, 0);
+}</string>
+   </property>
+   <property name="title">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
    <widget class="QWidget" name="formLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>18</x>
-      <y>84</y>
+      <x>6</x>
+      <y>54</y>
       <width>177</width>
-      <height>265</height>
+      <height>269</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_operator_36">
+       <property name="font">
+        <font>
+         <family>幼圆</family>
+         <pointsize>16</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>漏电流</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="1">
       <widget class="QLineEdit" name="lineEdit_setDrainCurrentTop">
        <property name="font">
@@ -116,7 +132,10 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>100.0</string>
+        <string>100</string>
+       </property>
+       <property name="placeholderText">
+        <string/>
        </property>
       </widget>
      </item>
@@ -155,7 +174,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>2000.0</string>
+        <string>2000</string>
        </property>
       </widget>
      </item>
@@ -194,7 +213,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>74.0</string>
+        <string>74</string>
        </property>
       </widget>
      </item>
@@ -233,7 +252,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>500.0</string>
+        <string>500</string>
        </property>
       </widget>
      </item>
@@ -272,7 +291,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>26.0</string>
+        <string>26</string>
        </property>
       </widget>
      </item>
@@ -311,7 +330,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>10.0</string>
+        <string>15</string>
        </property>
       </widget>
      </item>
@@ -350,7 +369,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>38.0</string>
+        <string>38</string>
        </property>
       </widget>
      </item>
@@ -389,28 +408,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>10.0</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_operator_36">
-       <property name="font">
-        <font>
-         <family>幼圆</family>
-         <pointsize>16</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>漏电流</string>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::AutoText</enum>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <string>32</string>
        </property>
       </widget>
      </item>
@@ -419,8 +417,8 @@
    <widget class="QLabel" name="label_operator_38">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>50</y>
+      <x>96</x>
+      <y>24</y>
       <width>85</width>
       <height>27</height>
      </rect>
@@ -446,8 +444,8 @@
    <widget class="QLabel" name="label_operator_39">
     <property name="geometry">
      <rect>
-      <x>198</x>
-      <y>50</y>
+      <x>184</x>
+      <y>24</y>
       <width>81</width>
       <height>27</height>
      </rect>
@@ -473,10 +471,10 @@
    <widget class="QWidget" name="formLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>182</x>
-      <y>84</y>
+      <x>170</x>
+      <y>54</y>
       <width>99</width>
-      <height>265</height>
+      <height>269</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout_2">
@@ -518,7 +516,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>50.0</string>
+        <string>50</string>
        </property>
       </widget>
      </item>
@@ -557,7 +555,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>500.0</string>
+        <string>500</string>
        </property>
       </widget>
      </item>
@@ -596,7 +594,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>70.0</string>
+        <string>69</string>
        </property>
       </widget>
      </item>
@@ -635,7 +633,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>0.0</string>
+        <string>0</string>
        </property>
       </widget>
      </item>
@@ -674,7 +672,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>21.0</string>
+        <string>21</string>
        </property>
       </widget>
      </item>
@@ -713,7 +711,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>8.0</string>
+        <string>0</string>
        </property>
       </widget>
      </item>
@@ -752,7 +750,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>32.0</string>
+        <string>31</string>
        </property>
       </widget>
      </item>
@@ -791,7 +789,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="text">
-        <string>8.0</string>
+        <string>8</string>
        </property>
       </widget>
      </item>
@@ -830,8 +828,8 @@
    <widget class="QLabel" name="label_operator_42">
     <property name="geometry">
      <rect>
-      <x>282</x>
-      <y>154</y>
+      <x>270</x>
+      <y>124</y>
       <width>35</width>
       <height>21</height>
      </rect>
@@ -857,8 +855,8 @@
    <widget class="QLabel" name="label_operator_51">
     <property name="geometry">
      <rect>
-      <x>284</x>
-      <y>186</y>
+      <x>270</x>
+      <y>156</y>
       <width>35</width>
       <height>21</height>
      </rect>
@@ -884,8 +882,8 @@
    <widget class="QLabel" name="label_operator_44">
     <property name="geometry">
      <rect>
-      <x>282</x>
-      <y>220</y>
+      <x>270</x>
+      <y>190</y>
       <width>35</width>
       <height>21</height>
      </rect>
@@ -911,8 +909,8 @@
    <widget class="QLabel" name="label_operator_52">
     <property name="geometry">
      <rect>
-      <x>284</x>
-      <y>254</y>
+      <x>270</x>
+      <y>224</y>
       <width>35</width>
       <height>21</height>
      </rect>
@@ -938,8 +936,8 @@
    <widget class="QLabel" name="label_operator_43">
     <property name="geometry">
      <rect>
-      <x>282</x>
-      <y>286</y>
+      <x>270</x>
+      <y>256</y>
       <width>35</width>
       <height>21</height>
      </rect>
@@ -965,8 +963,8 @@
    <widget class="QLabel" name="label_operator_53">
     <property name="geometry">
      <rect>
-      <x>284</x>
-      <y>318</y>
+      <x>270</x>
+      <y>288</y>
       <width>35</width>
       <height>21</height>
      </rect>
@@ -992,8 +990,8 @@
    <widget class="QLabel" name="label_operator_35">
     <property name="geometry">
      <rect>
-      <x>282</x>
-      <y>88</y>
+      <x>270</x>
+      <y>58</y>
       <width>35</width>
       <height>21</height>
      </rect>
@@ -1019,8 +1017,8 @@
    <widget class="QLabel" name="label_operator_41">
     <property name="geometry">
      <rect>
-      <x>282</x>
-      <y>122</y>
+      <x>270</x>
+      <y>92</y>
       <width>35</width>
       <height>21</height>
      </rect>
@@ -1043,28 +1041,564 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushBtn_readSettingsRecord">
+    <property name="geometry">
+     <rect>
+      <x>156</x>
+      <y>330</y>
+      <width>140</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>18</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
+}
+QPushButton:hover:pressed{
+	background-color: rgb(0, 170, 255);
+}</string>
+    </property>
+    <property name="text">
+     <string>读取参数</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushBtn_saveSettingsRecord">
+    <property name="geometry">
+     <rect>
+      <x>6</x>
+      <y>330</y>
+      <width>140</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>18</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:hover{
+	background-color: rgb(138, 214, 255);
+}
+QPushButton:hover:pressed{
+	background-color: rgb(0, 170, 255);
+}</string>
+    </property>
+    <property name="text">
+     <string>保存参数</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>316</y>
+      <width>309</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="palette">
+     <palette>
+      <active>
+       <colorrole role="WindowText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Button">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>127</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Light">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>127</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Midlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>127</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Dark">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>63</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Mid">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>85</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Text">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="BrightText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="ButtonText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>127</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Shadow">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="AlternateBase">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>63</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="ToolTipBase">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>220</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="ToolTipText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="PlaceholderText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="128">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </active>
+      <inactive>
+       <colorrole role="WindowText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Button">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>127</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Light">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>127</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Midlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>127</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Dark">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>63</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Mid">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>85</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Text">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="BrightText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="ButtonText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>127</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Shadow">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="AlternateBase">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>63</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="ToolTipBase">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>220</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="ToolTipText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="PlaceholderText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="128">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </inactive>
+      <disabled>
+       <colorrole role="WindowText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>63</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Button">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>127</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Light">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>127</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Midlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>127</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Dark">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>63</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Mid">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>85</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Text">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>63</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="BrightText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="ButtonText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>63</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>127</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>127</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Shadow">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="AlternateBase">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>127</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="ToolTipBase">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>220</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="ToolTipText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="PlaceholderText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="128">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </disabled>
+     </palette>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
   </widget>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>58</x>
+     <y>444</y>
+     <width>307</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active/>
+     <inactive/>
+     <disabled/>
+    </palette>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">Line{
+	border:2px sold rgb(0, 127, 0);
+}
+</string>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <zorder>groupBox</zorder>
+  <zorder>label_operator_11</zorder>
+  <zorder>line</zorder>
  </widget>
- <tabstops>
-  <tabstop>lineEdit_setDrainCurrentTop</tabstop>
-  <tabstop>lineEdit_setDrainCurrentBottom</tabstop>
-  <tabstop>lineEdit_setWorkCurrentTop</tabstop>
-  <tabstop>lineEdit_setWorkCurrentBottom</tabstop>
-  <tabstop>lineEdit_setFireVoltageTop</tabstop>
-  <tabstop>lineEdit_setFireVoltageBottom</tabstop>
-  <tabstop>lineEdit_setFireCurrentTop</tabstop>
-  <tabstop>lineEdit_setFireCurrentBottom</tabstop>
-  <tabstop>lineEdit_setLineVoltageTop</tabstop>
-  <tabstop>lineEdit_setLineVoltageBottom</tabstop>
-  <tabstop>lineEdit_setLineCurrentTop</tabstop>
-  <tabstop>lineEdit_setLineCurrentBottom</tabstop>
-  <tabstop>lineEdit_setComVoltageTop</tabstop>
-  <tabstop>lineEdit_setComVoltageBottom</tabstop>
-  <tabstop>lineEdit_setComCurrentTop</tabstop>
-  <tabstop>lineEdit_setComCurrentBottom</tabstop>
-  <tabstop>pushBtn_saveSettingsRecord</tabstop>
-  <tabstop>pushBtn_readSettingsRecord</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>
