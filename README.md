@@ -1,2 +1,2 @@
 # **Terminal**
-## PYQT5 Terminal
+## Specific Terminal SoftWare Based On PYQT5 
