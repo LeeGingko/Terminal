@@ -576,13 +576,13 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 if self.checkControllerState() == True:
                     self.protocolWin.serialManager.resume()
                     self.getSelfCheckParameters()
-                    QTimer.singleShot(7500, self.autoSendParameters)
+                    QTimer.singleShot(7000, self.autoSendParameters)
                     self.le_Encoding.setFocus()
                 else:
                     self.enableBtnFunc()
                     self.userTextBrowserAppend("测试仪无响应，请重新选择串口或检查连线！")
             else:
-                self.userTextBrowserAppend("当前串口异常，请重新打开串口！")
+                self.userTextBrowserAppend("当前串口占用，请重新选择或打开串口！")
         else:
             QMessageBox.information(self, "串口信息", "串口未打开，请打开串口", QMessageBox.Yes)
     
@@ -1101,6 +1101,7 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 else:
                     self.userTextBrowserAppend("接收帧错误")
                     self.detTimer.stop()
+                    self.enableBtnFunc()
             elif tmp[0] == "G":
                 if tmp[1] == "M":
                     self.reportSystemPower(tmp)
