@@ -38,7 +38,7 @@ class PrivateSerialThread(QThread):
     def run(self):
         while True:
             if self.isPause == False:
-                self.usleep(10)
+                self.usleep(1000)
                 self.data = b''
                 tmp = ''
                 if self.usingSerial.isOpen():
@@ -47,7 +47,7 @@ class PrivateSerialThread(QThread):
                         if self.num == 0: # 无数据
                             continue
                         else:
-                            self.usleep(10)
+                            self.usleep(1000)
                             self.num = self.usingSerial.inWaiting()
                             # print("@SerialRecv Leng:" + str(self.num)) # 输出收到的字节数
                             self.data = self.usingSerial.read(self.num)
@@ -76,4 +76,4 @@ class PrivateSerialThread(QThread):
                 else:
                     pass
             else:
-                self.usleep(10)
+                self.usleep(1000)

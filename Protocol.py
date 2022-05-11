@@ -134,14 +134,12 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                         startTiming = dt.datetime.now()
                         endTiming = startTiming
                         while True: # 等待测试仪回应
-                            QApplication.processEvents()
                             time.sleep(0.001)
                             num = self.prvSerial.inWaiting()
                             # print("openClosePort num:" + str(num) + ' time:' + str((endTiming1 - startTiming).seconds)) # 输出收到的字节数
                             # print("Port num:" + str(num)) # 输出收到的字节数
                             endTiming = dt.datetime.now()
                             if (endTiming - startTiming).seconds < 1: # 2021年7月2日 18:08:01 <= 2 改为 < 1
-                                QApplication.processEvents()
                                 if num >= 5:
                                     data = self.prvSerial.read(num)
                                     if data.decode("utf-8") == "STM32":
@@ -154,6 +152,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                         self.btn_SwitchSerial.setText("关闭串口")
                                         print('/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++*/\nChecking device parameters ......:')
                                         self.serialManager.resume()
+                                        QApplication.processEvents()
                                         time.sleep(0.1)
                                         self.deviceSelfCheck() # 每次运行程序执行一次自检即可
                                         break
@@ -172,6 +171,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                 self.btn_SwitchSerial.setText("打开串口")
                                 self.comboBox_selectComNum.setEnabled(True)
                                 break
+                            QApplication.processEvents()
                     except:
                         QApplication.processEvents()
                         # QMessageBox.warning(self, "打开串口", "打开串口失败")
@@ -222,9 +222,12 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                 self.portStatus = self.portInfo.isBusy()  # 该串口状态
                 if self.portStatus == False:  # 该串口空闲
                     self.serialManager.initPort(self.comPortList[self.comIndex].device)
-                    if not self.prvSerial.isOpen():
-                        self.prvSerial.open()
-                        # self.deviceSelfCheck()
+                    # if not self.prvSerial.isOpen():
+                    #     try:
+                    #         self.prvSerial.open()
+                    #     except:
+                    #         pass
+                    #     # self.deviceSelfCheck()
                 self.btn_SwitchSerial.setText('关闭串口')
                 self.comboBox_selectComNum.setCurrentText(self.comController)
                 self.comboBox_selectComNum.setEnabled(False)
@@ -263,6 +266,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                             # self.protocolAppendSignal.emit("等待测试仪回应")
                             while True: # 等待测试仪回应
                                 QApplication.processEvents()
+                                time.sleep(0.001) # 等待1毫秒
                                 num = self.prvSerial.inWaiting()
                                 # print("openClosePort num:" + str(num)) # 输出收到的字节数
                                 if num == 0:
