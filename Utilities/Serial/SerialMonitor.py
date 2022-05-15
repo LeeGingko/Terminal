@@ -23,7 +23,7 @@ class PrivateSerialMonitor(QThread):
 
     def run(self):
         while True:
-            self.msleep(100)
+            self.msleep(500)
             self.tmpList.clear()
             self.tmpList = serial.tools.list_ports.comports()
             self.tmpList.sort() 
@@ -51,3 +51,5 @@ class PrivateSerialMonitor(QThread):
                     pass
             else:
                 self.portList.clear()
+            if QThread.currentThread().isInterruptionRequested():
+                break

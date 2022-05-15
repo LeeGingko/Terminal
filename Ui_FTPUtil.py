@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'e:\Learing\2021\719\Python\Terminal\FTPUtil.ui'
+# Form implementation generated from reading ui file 'e:\Learn\2021\719\Python\Terminal\FTPUtil.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -22,6 +22,7 @@ class Ui_FTPSetting(object):
         sizePolicy.setHeightForWidth(FTPSetting.sizePolicy().hasHeightForWidth())
         FTPSetting.setSizePolicy(sizePolicy)
         FTPSetting.setMinimumSize(QtCore.QSize(1218, 680))
+        FTPSetting.setStyleSheet("background-color:#e9f1f6;")
         self.groupBox = QtWidgets.QGroupBox(FTPSetting)
         self.groupBox.setGeometry(QtCore.QRect(9, 9, 605, 375))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -34,7 +35,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -58,10 +59,10 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -82,7 +83,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -106,10 +107,10 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -130,7 +131,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(127, 127, 127))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -154,10 +155,10 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(127, 127, 127))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -178,13 +179,13 @@ class Ui_FTPSetting(object):
         self.groupBox.setPalette(palette)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(16)
+        font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.groupBox.setFont(font)
         self.groupBox.setStyleSheet("QGroupBox{\n"
 "    border-radius: 4px;\n"
-"    border:2.5px groove gray;\n"
+"    border:2px groove gray;\n"
 "    border-color: rgb(41, 133, 135);\n"
 "}")
         self.groupBox.setTitle("")
@@ -213,8 +214,8 @@ class Ui_FTPSetting(object):
         self.le_ServerIP = QtWidgets.QLineEdit(self.groupBox)
         self.le_ServerIP.setGeometry(QtCore.QRect(108, 240, 239, 35))
         font = QtGui.QFont()
-        font.setFamily("Times New Roman")
-        font.setPointSize(20)
+        font.setFamily("幼圆")
+        font.setPointSize(16)
         font.setBold(False)
         font.setWeight(50)
         self.le_ServerIP.setFont(font)
@@ -239,7 +240,9 @@ class Ui_FTPSetting(object):
         self.label_operator_19.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(18)
+        font.setPointSize(16)
+        font.setBold(False)
+        font.setWeight(50)
         self.label_operator_19.setFont(font)
         self.label_operator_19.setStyleSheet("QLabel{\n"
 "border-radius: 4px;    \n"
@@ -251,8 +254,8 @@ class Ui_FTPSetting(object):
         self.lb_LocalIP = QtWidgets.QLabel(self.groupBox)
         self.lb_LocalIP.setGeometry(QtCore.QRect(118, 8, 231, 35))
         font = QtGui.QFont()
-        font.setFamily("Times New Roman")
-        font.setPointSize(22)
+        font.setFamily("幼圆")
+        font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.lb_LocalIP.setFont(font)
@@ -261,7 +264,7 @@ class Ui_FTPSetting(object):
 "    border:2px solid rgb(41, 133, 135);\n"
 "    \n"
 "    color: rgb(0, 170, 255);\n"
-"    background-color: rgb(255, 255, 255);\n"
+"    background-color: #e9f1f6;\n"
 "}")
         self.lb_LocalIP.setInputMethodHints(QtCore.Qt.ImhNone)
         self.lb_LocalIP.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -280,7 +283,9 @@ class Ui_FTPSetting(object):
         self.label_operator_21.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(18)
+        font.setPointSize(16)
+        font.setBold(False)
+        font.setWeight(50)
         self.label_operator_21.setFont(font)
         self.label_operator_21.setStyleSheet("QLabel{\n"
 "border-radius: 4px;    \n"
@@ -292,8 +297,8 @@ class Ui_FTPSetting(object):
         self.le_UserName = QtWidgets.QLineEdit(self.groupBox)
         self.le_UserName.setGeometry(QtCore.QRect(108, 286, 239, 35))
         font = QtGui.QFont()
-        font.setFamily("Times New Roman")
-        font.setPointSize(22)
+        font.setFamily("幼圆")
+        font.setPointSize(16)
         font.setBold(False)
         font.setWeight(50)
         self.le_UserName.setFont(font)
@@ -309,39 +314,53 @@ class Ui_FTPSetting(object):
         self.le_UserName.setClearButtonEnabled(True)
         self.le_UserName.setObjectName("le_UserName")
         self.btn_ScanLocalFile = QtWidgets.QPushButton(self.groupBox)
-        self.btn_ScanLocalFile.setGeometry(QtCore.QRect(360, 10, 237, 70))
+        self.btn_ScanLocalFile.setGeometry(QtCore.QRect(360, 8, 237, 70))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(26)
+        font.setPointSize(20)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.btn_ScanLocalFile.setFont(font)
         self.btn_ScanLocalFile.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_ScanLocalFile.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
-"QPushButton:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"QPushButton:hover:pressed{\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_ScanLocalFile.setAutoDefault(False)
         self.btn_ScanLocalFile.setDefault(False)
         self.btn_ScanLocalFile.setObjectName("btn_ScanLocalFile")
         self.btn_PushFile = QtWidgets.QPushButton(self.groupBox)
-        self.btn_PushFile.setGeometry(QtCore.QRect(360, 158, 237, 70))
+        self.btn_PushFile.setGeometry(QtCore.QRect(360, 156, 237, 70))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(26)
+        font.setPointSize(20)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.btn_PushFile.setFont(font)
         self.btn_PushFile.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_PushFile.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
-"QPushButton:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"QPushButton:hover:pressed{\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_PushFile.setAutoDefault(False)
         self.btn_PushFile.setDefault(False)
@@ -350,42 +369,56 @@ class Ui_FTPSetting(object):
         self.btn_PullFile.setGeometry(QtCore.QRect(360, 228, 237, 70))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(26)
+        font.setPointSize(20)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.btn_PullFile.setFont(font)
         self.btn_PullFile.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_PullFile.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
-"QPushButton:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"QPushButton:hover:pressed{\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_PullFile.setAutoDefault(False)
         self.btn_PullFile.setDefault(False)
         self.btn_PullFile.setObjectName("btn_PullFile")
         self.btn_MergeFile = QtWidgets.QPushButton(self.groupBox)
-        self.btn_MergeFile.setGeometry(QtCore.QRect(360, 298, 237, 70))
+        self.btn_MergeFile.setGeometry(QtCore.QRect(360, 300, 237, 70))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(26)
+        font.setPointSize(20)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.btn_MergeFile.setFont(font)
         self.btn_MergeFile.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_MergeFile.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
-"QPushButton:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"QPushButton:hover:pressed{\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_MergeFile.setAutoDefault(False)
         self.btn_MergeFile.setDefault(False)
         self.btn_MergeFile.setObjectName("btn_MergeFile")
         self.btn_Connection = QtWidgets.QPushButton(self.groupBox)
-        self.btn_Connection.setGeometry(QtCore.QRect(6, 194, 341, 41))
+        self.btn_Connection.setGeometry(QtCore.QRect(6, 186, 341, 49))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(20)
@@ -395,20 +428,27 @@ class Ui_FTPSetting(object):
         self.btn_Connection.setFont(font)
         self.btn_Connection.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_Connection.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_Connection.setCheckable(False)
         self.btn_Connection.setAutoDefault(False)
         self.btn_Connection.setDefault(False)
         self.btn_Connection.setObjectName("btn_Connection")
         self.le_UserPasswd = QtWidgets.QLineEdit(self.groupBox)
-        self.le_UserPasswd.setGeometry(QtCore.QRect(108, 330, 239, 35))
+        self.le_UserPasswd.setGeometry(QtCore.QRect(108, 328, 239, 37))
         font = QtGui.QFont()
-        font.setFamily("Times New Roman")
-        font.setPointSize(22)
+        font.setFamily("幼圆")
+        font.setPointSize(16)
         font.setBold(False)
         font.setWeight(50)
         font.setStyleStrategy(QtGui.QFont.PreferDefault)
@@ -428,7 +468,7 @@ class Ui_FTPSetting(object):
         self.le_UserPasswd.setClearButtonEnabled(True)
         self.le_UserPasswd.setObjectName("le_UserPasswd")
         self.label_operator_20 = QtWidgets.QLabel(self.groupBox)
-        self.label_operator_20.setGeometry(QtCore.QRect(8, 330, 102, 35))
+        self.label_operator_20.setGeometry(QtCore.QRect(8, 328, 102, 37))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -436,7 +476,10 @@ class Ui_FTPSetting(object):
         self.label_operator_20.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(18)
+        font.setPointSize(16)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setStyleStrategy(QtGui.QFont.PreferDefault)
         self.label_operator_20.setFont(font)
         self.label_operator_20.setStyleSheet("QLabel{\n"
 "    border-radius: 4px;    \n"
@@ -449,23 +492,30 @@ class Ui_FTPSetting(object):
         self.btn_ScanRemoteFile.setGeometry(QtCore.QRect(360, 80, 237, 70))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(26)
+        font.setPointSize(20)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.btn_ScanRemoteFile.setFont(font)
         self.btn_ScanRemoteFile.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_ScanRemoteFile.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
-"QPushButton:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"QPushButton:hover:pressed{\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_ScanRemoteFile.setAutoDefault(False)
         self.btn_ScanRemoteFile.setDefault(False)
         self.btn_ScanRemoteFile.setObjectName("btn_ScanRemoteFile")
         self.line = QtWidgets.QFrame(self.groupBox)
-        self.line.setGeometry(QtCore.QRect(352, 2, 4, 373))
+        self.line.setGeometry(QtCore.QRect(352, 2, 2, 373))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -494,7 +544,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(41, 133, 135))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
         brush = QtGui.QBrush(QtGui.QColor(41, 133, 135))
@@ -542,7 +592,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(41, 133, 135))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
         brush = QtGui.QBrush(QtGui.QColor(41, 133, 135))
@@ -612,15 +662,17 @@ class Ui_FTPSetting(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         self.line.setPalette(palette)
-        self.line.setStyleSheet("Line:{\n"
-"    rgb(0, 189, 139)\n"
-"}")
+        font = QtGui.QFont()
+        font.setFamily("幼圆")
+        font.setPointSize(18)
+        self.line.setFont(font)
+        self.line.setStyleSheet("background-color: rgb(41, 133, 135);")
         self.line.setMidLineWidth(1)
         self.line.setFrameShape(QtWidgets.QFrame.VLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
         self.line_Left = QtWidgets.QFrame(self.groupBox)
-        self.line_Left.setGeometry(QtCore.QRect(-28, 186, 383, 4))
+        self.line_Left.setGeometry(QtCore.QRect(-28, 178, 381, 2))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -655,7 +707,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(41, 133, 135))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
         brush = QtGui.QBrush(QtGui.QColor(41, 133, 135))
@@ -703,7 +755,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(41, 133, 135))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
         brush = QtGui.QBrush(QtGui.QColor(41, 133, 135))
@@ -773,9 +825,11 @@ class Ui_FTPSetting(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         self.line_Left.setPalette(palette)
-        self.line_Left.setStyleSheet("Line:{\n"
-"    rgb(0, 189, 139)\n"
-"}")
+        font = QtGui.QFont()
+        font.setFamily("幼圆")
+        font.setPointSize(18)
+        self.line_Left.setFont(font)
+        self.line_Left.setStyleSheet("background-color: rgb(41, 133, 135);")
         self.line_Left.setFrameShadow(QtWidgets.QFrame.Raised)
         self.line_Left.setLineWidth(1)
         self.line_Left.setMidLineWidth(1)
@@ -787,7 +841,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 170, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(156, 217, 106))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -811,10 +865,10 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(156, 217, 106))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(156, 217, 106))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -835,7 +889,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 170, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(156, 217, 106))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -859,10 +913,10 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(156, 217, 106))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(156, 217, 106))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -883,7 +937,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(127, 127, 127))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(156, 217, 106))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -907,10 +961,10 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(127, 127, 127))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(156, 217, 106))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(156, 217, 106))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -931,7 +985,7 @@ class Ui_FTPSetting(object):
         self.lb_ServiceType.setPalette(palette)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(36)
+        font.setPointSize(20)
         font.setBold(False)
         font.setWeight(50)
         self.lb_ServiceType.setFont(font)
@@ -942,47 +996,88 @@ class Ui_FTPSetting(object):
         self.lb_ServiceType.setAlignment(QtCore.Qt.AlignCenter)
         self.lb_ServiceType.setObjectName("lb_ServiceType")
         self.btn_ThisPCAsServer = QtWidgets.QPushButton(self.groupBox)
-        self.btn_ThisPCAsServer.setGeometry(QtCore.QRect(6, 112, 170, 70))
+        self.btn_ThisPCAsServer.setGeometry(QtCore.QRect(6, 114, 170, 60))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(36)
+        font.setPointSize(20)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.btn_ThisPCAsServer.setFont(font)
         self.btn_ThisPCAsServer.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_ThisPCAsServer.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
-"QPushButton:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"QPushButton:hover:pressed{\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_ThisPCAsServer.setAutoDefault(False)
         self.btn_ThisPCAsServer.setDefault(False)
         self.btn_ThisPCAsServer.setObjectName("btn_ThisPCAsServer")
         self.btn_ThisPCAsClient = QtWidgets.QPushButton(self.groupBox)
-        self.btn_ThisPCAsClient.setGeometry(QtCore.QRect(178, 112, 170, 70))
+        self.btn_ThisPCAsClient.setGeometry(QtCore.QRect(178, 114, 170, 60))
         palette = QtGui.QPalette()
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
         self.btn_ThisPCAsClient.setPalette(palette)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(36)
+        font.setPointSize(20)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.btn_ThisPCAsClient.setFont(font)
         self.btn_ThisPCAsClient.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_ThisPCAsClient.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
-"QPushButton:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"QPushButton:hover:pressed{\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_ThisPCAsClient.setAutoDefault(False)
         self.btn_ThisPCAsClient.setDefault(False)
         self.btn_ThisPCAsClient.setObjectName("btn_ThisPCAsClient")
         self.line_Right = QtWidgets.QFrame(self.groupBox)
-        self.line_Right.setGeometry(QtCore.QRect(353, 151, 251, 4))
+        self.line_Right.setGeometry(QtCore.QRect(353, 151, 251, 2))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -1017,7 +1112,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(41, 133, 135))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
         brush = QtGui.QBrush(QtGui.QColor(41, 133, 135))
@@ -1065,7 +1160,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(41, 133, 135))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
         brush = QtGui.QBrush(QtGui.QColor(41, 133, 135))
@@ -1135,16 +1230,17 @@ class Ui_FTPSetting(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         self.line_Right.setPalette(palette)
-        self.line_Right.setStyleSheet("Line:{\n"
-"    rgb(0, 189, 139)\n"
-"}")
+        font = QtGui.QFont()
+        font.setFamily("幼圆")
+        font.setPointSize(18)
+        self.line_Right.setFont(font)
+        self.line_Right.setStyleSheet("background-color: rgb(41, 133, 135);")
         self.line_Right.setFrameShadow(QtWidgets.QFrame.Raised)
         self.line_Right.setLineWidth(1)
         self.line_Right.setMidLineWidth(1)
         self.line_Right.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_Right.setObjectName("line_Right")
         self.line_Right.raise_()
-        self.line_Left.raise_()
         self.label_operator_18.raise_()
         self.le_ServerIP.raise_()
         self.label_operator_19.raise_()
@@ -1158,10 +1254,11 @@ class Ui_FTPSetting(object):
         self.btn_Connection.raise_()
         self.le_UserPasswd.raise_()
         self.label_operator_20.raise_()
-        self.btn_ScanRemoteFile.raise_()
         self.lb_ServiceType.raise_()
         self.btn_ThisPCAsServer.raise_()
         self.btn_ThisPCAsClient.raise_()
+        self.line_Left.raise_()
+        self.btn_ScanRemoteFile.raise_()
         self.line.raise_()
         self.tb_Message = QtWidgets.QTextBrowser(FTPSetting)
         self.tb_Message.setEnabled(True)
@@ -1176,7 +1273,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
@@ -1185,10 +1282,10 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -1200,7 +1297,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
@@ -1209,10 +1306,10 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -1224,7 +1321,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
@@ -1233,10 +1330,10 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -1247,8 +1344,8 @@ class Ui_FTPSetting(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         self.tb_Message.setPalette(palette)
         font = QtGui.QFont()
-        font.setFamily("Cascadia Mono PL SemiLight")
-        font.setPointSize(16)
+        font.setFamily("幼圆")
+        font.setPointSize(18)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
@@ -1257,7 +1354,8 @@ class Ui_FTPSetting(object):
         self.tb_Message.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.tb_Message.setStyleSheet("QTextBrowser {\n"
 "    border-radius: 5px;\n"
-"    border:2.5px solid rgb(123, 123, 184);\n"
+"    border:2px groove #75878a;\n"
+"    background-color:#e9f1f6;\n"
 "}")
         self.tb_Message.setFrameShape(QtWidgets.QFrame.Box)
         self.tb_Message.setFrameShadow(QtWidgets.QFrame.Plain)
@@ -1274,7 +1372,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -1298,10 +1396,10 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -1322,7 +1420,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -1346,10 +1444,10 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -1370,7 +1468,7 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(127, 127, 127))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -1394,10 +1492,10 @@ class Ui_FTPSetting(object):
         brush = QtGui.QBrush(QtGui.QColor(127, 127, 127))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -1417,8 +1515,8 @@ class Ui_FTPSetting(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         self.tv_FileInfo.setPalette(palette)
         font = QtGui.QFont()
-        font.setFamily("Cascadia Mono PL SemiLight")
-        font.setPointSize(16)
+        font.setFamily("幼圆")
+        font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.tv_FileInfo.setFont(font)
@@ -1426,7 +1524,8 @@ class Ui_FTPSetting(object):
         self.tv_FileInfo.setAutoFillBackground(False)
         self.tv_FileInfo.setStyleSheet("QTableView{\n"
 "    border-radius: 5px;\n"
-"    border:2.5px solid rgb(123, 123, 184);\n"
+"    border:2px groove #75878a;\n"
+"    background-color:#e9f1f6;\n"
 "}")
         self.tv_FileInfo.setLineWidth(1)
         self.tv_FileInfo.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
@@ -1441,6 +1540,9 @@ class Ui_FTPSetting(object):
         self.tv_FileInfo.verticalHeader().setVisible(True)
         self.tv_FileInfo.verticalHeader().setCascadingSectionResizes(True)
         self.tv_FileInfo.verticalHeader().setMinimumSectionSize(54)
+        self.tb_Message.raise_()
+        self.tv_FileInfo.raise_()
+        self.groupBox.raise_()
 
         self.retranslateUi(FTPSetting)
         QtCore.QMetaObject.connectSlotsByName(FTPSetting)
@@ -1486,5 +1588,5 @@ class Ui_FTPSetting(object):
         self.tb_Message.setHtml(_translate("FTPSetting", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Cascadia Mono PL SemiLight\'; font-size:16pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+"</style></head><body style=\" font-family:\'幼圆\'; font-size:18pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Cascadia Mono PL SemiLight\'; font-size:16pt;\"><br /></p></body></html>"))

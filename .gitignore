@@ -1,10 +1,11 @@
-/build/
-/dist/
 /__pycache__/
-/configurations/
 /.vscode/
+/build/
+/configurations/
+/dist/
 *.exe
 *.xlsx
 *.spec
 *~
 *.txt
+*.pyc

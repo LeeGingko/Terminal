@@ -9,12 +9,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>328</width>
-    <height>156</height>
+    <width>330</width>
+    <height>168</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">	background-color:#e9f1f6;</string>
   </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
@@ -22,7 +25,7 @@
      <x>8</x>
      <y>14</y>
      <width>309</width>
-     <height>125</height>
+     <height>139</height>
     </rect>
    </property>
    <property name="font">
@@ -56,8 +59,8 @@
     </property>
     <property name="font">
      <font>
-      <family>Times New Roman</family>
-      <pointsize>14</pointsize>
+      <family>幼圆</family>
+      <pointsize>13</pointsize>
       <weight>50</weight>
       <bold>false</bold>
      </font>
@@ -101,17 +104,16 @@ QPushButton:hover:pressed{
     <property name="geometry">
      <rect>
       <x>8</x>
-      <y>76</y>
+      <y>84</y>
       <width>291</width>
-      <height>40</height>
+      <height>53</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>幼圆</family>
-      <pointsize>16</pointsize>
+      <pointsize>20</pointsize>
       <weight>50</weight>
-      <italic>false</italic>
       <bold>false</bold>
      </font>
     </property>
@@ -123,10 +125,17 @@ QPushButton:hover:pressed{
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton:hover{
-	background-color: rgb(214, 234, 239);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(130, 195, 195);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
     </property>
     <property name="text">

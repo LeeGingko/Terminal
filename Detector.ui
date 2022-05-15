@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>1366</width>
-    <height>729</height>
+    <height>728</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -47,7 +47,9 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QMainWindow {
+	background-color:#e9f1f6;
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QFormLayout" name="formLayout">
@@ -65,11 +67,16 @@
         <height>440</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <family>幼圆</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
       <property name="styleSheet">
        <string notr="true">QGroupBox{
-	border-color: rgb(166, 166, 166);
-	border-radius: 4px;
-    border:2.5px groove gray;
+	border-radius: 15px;
+    border:2px groove #75878a;
 }</string>
       </property>
       <property name="title">
@@ -80,7 +87,7 @@
         <rect>
          <x>8</x>
          <y>23</y>
-         <width>249</width>
+         <width>239</width>
          <height>81</height>
         </rect>
        </property>
@@ -529,7 +536,7 @@
        <property name="font">
         <font>
          <family>幼圆</family>
-         <pointsize>16</pointsize>
+         <pointsize>20</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
@@ -579,7 +586,8 @@
         </property>
         <property name="styleSheet">
          <string notr="true">border-radius: 4px;	
-border:2px solid rgb(41, 133, 135);</string>
+border:2px solid rgb(41, 133, 135);
+background-color: #e9f1f6;</string>
         </property>
         <property name="inputMethodHints">
          <set>Qt::ImhNone</set>
@@ -1058,7 +1066,7 @@ border:2px solid rgb(41, 133, 135);</string>
        <property name="font">
         <font>
          <family>幼圆</family>
-         <pointsize>16</pointsize>
+         <pointsize>20</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
@@ -1067,7 +1075,7 @@ border:2px solid rgb(41, 133, 135);</string>
         <string notr="true">QGroupBox{
 	border-radius: 4px;
     border:2px groove gray;
-	border-color: rgb(41, 133, 135);
+	border-color: #0c8918;
 }</string>
        </property>
        <property name="title">
@@ -1079,7 +1087,7 @@ border:2px solid rgb(41, 133, 135);</string>
        <widget class="QLabel" name="label_operator_3">
         <property name="geometry">
          <rect>
-          <x>204</x>
+          <x>200</x>
           <y>32</y>
           <width>64</width>
           <height>33</height>
@@ -1088,7 +1096,7 @@ border:2px solid rgb(41, 133, 135);</string>
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>20</pointsize>
+          <pointsize>18</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -1118,7 +1126,7 @@ border:2px solid rgb(41, 133, 135);</string>
        <widget class="QLabel" name="label_operator_2">
         <property name="geometry">
          <rect>
-          <x>22</x>
+          <x>12</x>
           <y>32</y>
           <width>64</width>
           <height>33</height>
@@ -1127,7 +1135,7 @@ border:2px solid rgb(41, 133, 135);</string>
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>20</pointsize>
+          <pointsize>18</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -1157,11 +1165,17 @@ border:2px solid rgb(41, 133, 135);</string>
        <widget class="QLabel" name="label_detection">
         <property name="geometry">
          <rect>
-          <x>272</x>
-          <y>4</y>
-          <width>90</width>
-          <height>90</height>
+          <x>268</x>
+          <y>8</y>
+          <width>80</width>
+          <height>80</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>幼圆</family>
+          <pointsize>20</pointsize>
+         </font>
         </property>
         <property name="text">
          <string/>
@@ -1170,11 +1184,17 @@ border:2px solid rgb(41, 133, 135);</string>
        <widget class="QLabel" name="label_encoding">
         <property name="geometry">
          <rect>
-          <x>90</x>
-          <y>4</y>
-          <width>90</width>
-          <height>90</height>
+          <x>80</x>
+          <y>8</y>
+          <width>80</width>
+          <height>80</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>幼圆</family>
+          <pointsize>20</pointsize>
+         </font>
         </property>
         <property name="text">
          <string/>
@@ -1183,7 +1203,7 @@ border:2px solid rgb(41, 133, 135);</string>
        <widget class="QLabel" name="label_operator_12">
         <property name="geometry">
          <rect>
-          <x>12</x>
+          <x>6</x>
           <y>22</y>
           <width>183</width>
           <height>53</height>
@@ -1198,7 +1218,7 @@ border:2px solid rgb(41, 133, 135);</string>
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>18</pointsize>
+          <pointsize>20</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -1225,7 +1245,7 @@ border:2px solid rgb(41, 133, 135);</string>
          <rect>
           <x>192</x>
           <y>22</y>
-          <width>183</width>
+          <width>187</width>
           <height>53</height>
          </rect>
         </property>
@@ -1238,7 +1258,7 @@ border:2px solid rgb(41, 133, 135);</string>
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>18</pointsize>
+          <pointsize>20</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -1276,6 +1296,12 @@ border:2px solid rgb(41, 133, 135);</string>
          <height>145</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>幼圆</family>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
        <property name="styleSheet">
         <string notr="true">QFrame{
 	border-radius: 8px;
@@ -1308,16 +1334,18 @@ border:2px solid rgb(41, 133, 135);</string>
          <font>
           <family>Times New Roman</family>
           <pointsize>16</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="tabletTracking">
          <bool>false</bool>
         </property>
         <property name="styleSheet">
-         <string notr="true">border-radius:0px;
-border:1.5px solid rgb(85, 170, 0);
-color: rgb(0, 170, 0);
-border-color: rgb(0, 170, 0);</string>
+         <string notr="true">QLabel{
+	color: #0aa344;
+	border:1.5px groove #0aa344;
+}</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::WinPanel</enum>
@@ -1332,7 +1360,7 @@ border-color: rgb(0, 170, 0);</string>
          <number>0</number>
         </property>
         <property name="text">
-         <string>-</string>
+         <string>--------</string>
         </property>
         <property name="textFormat">
          <enum>Qt::AutoText</enum>
@@ -1350,7 +1378,7 @@ border-color: rgb(0, 170, 0);</string>
        <widget class="QLabel" name="label_operator_5">
         <property name="geometry">
          <rect>
-          <x>220</x>
+          <x>218</x>
           <y>7</y>
           <width>102</width>
           <height>35</height>
@@ -1365,13 +1393,15 @@ border-color: rgb(0, 170, 0);</string>
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>18</pointsize>
+          <pointsize>16</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border:1px groove rgb(0, 0, 0);
-	border-radius:0px;
+	border:1.5px groove #789262;
 }</string>
         </property>
         <property name="text">
@@ -1387,7 +1417,7 @@ border-color: rgb(0, 170, 0);</string>
        <widget class="QLabel" name="label_operator_22">
         <property name="geometry">
          <rect>
-          <x>588</x>
+          <x>590</x>
           <y>7</y>
           <width>38</width>
           <height>35</height>
@@ -1402,13 +1432,14 @@ border-color: rgb(0, 170, 0);</string>
         <property name="font">
          <font>
           <family>Times New Roman</family>
-          <pointsize>16</pointsize>
+          <pointsize>14</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border:1px groove rgb(0, 0, 0);
-	border-radius:0px;
+	border:1.5px groove #789262;
 }</string>
         </property>
         <property name="text">
@@ -1433,7 +1464,7 @@ border-color: rgb(0, 170, 0);</string>
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>20</pointsize>
+          <pointsize>18</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -1444,10 +1475,17 @@ border-color: rgb(0, 170, 0);</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
         </property>
         <property name="text">
@@ -1466,7 +1504,7 @@ QPushButton:hover:pressed{
        <widget class="QLabel" name="label_operator_7">
         <property name="geometry">
          <rect>
-          <x>220</x>
+          <x>218</x>
           <y>55</y>
           <width>102</width>
           <height>35</height>
@@ -1481,13 +1519,15 @@ QPushButton:hover:pressed{
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>18</pointsize>
+          <pointsize>16</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border:1px groove rgb(0, 0, 0);
-	border-radius:0px;
+	border:1.5px groove #789262;
 }</string>
         </property>
         <property name="text">
@@ -1512,7 +1552,7 @@ QPushButton:hover:pressed{
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>20</pointsize>
+          <pointsize>18</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -1523,10 +1563,17 @@ QPushButton:hover:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
         </property>
         <property name="text">
@@ -1545,7 +1592,7 @@ QPushButton:hover:pressed{
        <widget class="QPushButton" name="btn_ControllerSelfCheck">
         <property name="geometry">
          <rect>
-          <x>140</x>
+          <x>136</x>
           <y>5</y>
           <width>73</width>
           <height>135</height>
@@ -1565,10 +1612,17 @@ QPushButton:hover:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
         </property>
         <property name="text">
@@ -1588,7 +1642,7 @@ QPushButton:hover:pressed{
        <widget class="QLabel" name="label_operator_6">
         <property name="geometry">
          <rect>
-          <x>422</x>
+          <x>420</x>
           <y>7</y>
           <width>102</width>
           <height>35</height>
@@ -1603,13 +1657,15 @@ QPushButton:hover:pressed{
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>18</pointsize>
+          <pointsize>16</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border:1px groove rgb(0, 0, 0);
-	border-radius:0px;
+	border:1.5px groove #789262;
 }</string>
         </property>
         <property name="text">
@@ -1625,7 +1681,7 @@ QPushButton:hover:pressed{
        <widget class="QLabel" name="label_operator_18">
         <property name="geometry">
          <rect>
-          <x>220</x>
+          <x>218</x>
           <y>103</y>
           <width>102</width>
           <height>35</height>
@@ -1640,13 +1696,15 @@ QPushButton:hover:pressed{
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>18</pointsize>
+          <pointsize>16</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border:1px groove rgb(0, 0, 0);
-	border-radius:0px;
+	border:1.5px groove #789262;
 }</string>
         </property>
         <property name="text">
@@ -1662,7 +1720,7 @@ QPushButton:hover:pressed{
        <widget class="QLabel" name="label_operator_24">
         <property name="geometry">
          <rect>
-          <x>588</x>
+          <x>590</x>
           <y>55</y>
           <width>38</width>
           <height>35</height>
@@ -1677,13 +1735,14 @@ QPushButton:hover:pressed{
         <property name="font">
          <font>
           <family>Times New Roman</family>
-          <pointsize>16</pointsize>
+          <pointsize>14</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border:1px groove rgb(0, 0, 0);
-	border-radius:0px;
+	border:1.5px groove #789262;
 }</string>
         </property>
         <property name="text">
@@ -1699,7 +1758,7 @@ QPushButton:hover:pressed{
        <widget class="QLabel" name="label_operator_23">
         <property name="geometry">
          <rect>
-          <x>382</x>
+          <x>384</x>
           <y>55</y>
           <width>35</width>
           <height>35</height>
@@ -1714,13 +1773,14 @@ QPushButton:hover:pressed{
         <property name="font">
          <font>
           <family>Times New Roman</family>
-          <pointsize>18</pointsize>
+          <pointsize>14</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border:1px groove rgb(0, 0, 0);
-	border-radius:0px;
+	border:1.5px groove #789262;
 }</string>
         </property>
         <property name="text">
@@ -1752,16 +1812,18 @@ QPushButton:hover:pressed{
          <font>
           <family>Times New Roman</family>
           <pointsize>16</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="tabletTracking">
          <bool>false</bool>
         </property>
         <property name="styleSheet">
-         <string notr="true">border-radius:0px;
-border:1.5px solid rgb(85, 170, 0);
-color: rgb(0, 170, 0);
-border-color: rgb(0, 170, 0);</string>
+         <string notr="true">QLabel{
+	color: #0aa344;
+	border:1.5px groove #0aa344;
+}</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::WinPanel</enum>
@@ -1776,7 +1838,7 @@ border-color: rgb(0, 170, 0);</string>
          <number>0</number>
         </property>
         <property name="text">
-         <string>-</string>
+         <string>--------</string>
         </property>
         <property name="textFormat">
          <enum>Qt::AutoText</enum>
@@ -1794,7 +1856,7 @@ border-color: rgb(0, 170, 0);</string>
        <widget class="QLabel" name="label_operator_13">
         <property name="geometry">
          <rect>
-          <x>422</x>
+          <x>420</x>
           <y>55</y>
           <width>102</width>
           <height>35</height>
@@ -1809,13 +1871,15 @@ border-color: rgb(0, 170, 0);</string>
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>18</pointsize>
+          <pointsize>16</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border:1px groove rgb(0, 0, 0);
-	border-radius:0px;
+	border:1.5px groove #789262;
 }</string>
         </property>
         <property name="text">
@@ -1831,7 +1895,7 @@ border-color: rgb(0, 170, 0);</string>
        <widget class="QLabel" name="label_operator_21">
         <property name="geometry">
          <rect>
-          <x>382</x>
+          <x>384</x>
           <y>7</y>
           <width>35</width>
           <height>35</height>
@@ -1846,13 +1910,14 @@ border-color: rgb(0, 170, 0);</string>
         <property name="font">
          <font>
           <family>Times New Roman</family>
-          <pointsize>18</pointsize>
+          <pointsize>14</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border:1px groove rgb(0, 0, 0);
-	border-radius:0px;
+	border:1.5px groove #789262;
 }</string>
         </property>
         <property name="text">
@@ -1884,6 +1949,8 @@ border-color: rgb(0, 170, 0);</string>
          <font>
           <family>Times New Roman</family>
           <pointsize>16</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="tabletTracking">
@@ -1891,9 +1958,8 @@ border-color: rgb(0, 170, 0);</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border-radius:0px;
-	border:1.5px solid rgb(255, 66, 138);
-	color: rgb(255, 0, 0);
+	color: #ff2121;
+	border:1.5px groove #ff2121;
 }</string>
         </property>
         <property name="frameShape">
@@ -1909,7 +1975,7 @@ border-color: rgb(0, 170, 0);</string>
          <number>0</number>
         </property>
         <property name="text">
-         <string>-</string>
+         <string>--------</string>
         </property>
         <property name="textFormat">
          <enum>Qt::AutoText</enum>
@@ -1943,6 +2009,8 @@ border-color: rgb(0, 170, 0);</string>
          <font>
           <family>Times New Roman</family>
           <pointsize>16</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="tabletTracking">
@@ -1950,9 +2018,8 @@ border-color: rgb(0, 170, 0);</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border-radius:0px;
-	border:1.5px solid rgb(255, 66, 138);
-	color: rgb(255, 0, 0);
+	color: #ff2121;
+	border:1.5px groove #ff2121;
 }</string>
         </property>
         <property name="frameShape">
@@ -1968,7 +2035,7 @@ border-color: rgb(0, 170, 0);</string>
          <number>0</number>
         </property>
         <property name="text">
-         <string>-</string>
+         <string>--------</string>
         </property>
         <property name="textFormat">
          <enum>Qt::AutoText</enum>
@@ -1986,7 +2053,7 @@ border-color: rgb(0, 170, 0);</string>
        <widget class="QLabel" name="label_operator_8">
         <property name="geometry">
          <rect>
-          <x>422</x>
+          <x>420</x>
           <y>103</y>
           <width>102</width>
           <height>35</height>
@@ -2001,13 +2068,15 @@ border-color: rgb(0, 170, 0);</string>
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>18</pointsize>
+          <pointsize>16</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border:1px groove rgb(0, 0, 0);
-	border-radius:0px;
+	border:1.5px groove #789262;
 }</string>
         </property>
         <property name="text">
@@ -2039,16 +2108,18 @@ border-color: rgb(0, 170, 0);</string>
          <font>
           <family>Times New Roman</family>
           <pointsize>16</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="tabletTracking">
          <bool>false</bool>
         </property>
         <property name="styleSheet">
-         <string notr="true">border-radius:0px;
-border:1.5px solid rgb(85, 170, 0);
-color: rgb(0, 170, 0);
-border-color: rgb(0, 170, 0);</string>
+         <string notr="true">QLabel{
+	color: #0aa344;
+	border:1.5px groove #0aa344;
+}</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::WinPanel</enum>
@@ -2063,7 +2134,7 @@ border-color: rgb(0, 170, 0);</string>
          <number>0</number>
         </property>
         <property name="text">
-         <string>-</string>
+         <string>--------</string>
         </property>
         <property name="textFormat">
          <enum>Qt::AutoText</enum>
@@ -2097,6 +2168,8 @@ border-color: rgb(0, 170, 0);</string>
          <font>
           <family>Times New Roman</family>
           <pointsize>16</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="tabletTracking">
@@ -2104,9 +2177,8 @@ border-color: rgb(0, 170, 0);</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border-radius:0px;
-	border:1.5px solid rgb(255, 66, 138);
-	color: rgb(255, 0, 0);
+	color: #ff2121;
+	border:1.5px groove #ff2121;
 }</string>
         </property>
         <property name="frameShape">
@@ -2122,7 +2194,7 @@ border-color: rgb(0, 170, 0);</string>
          <number>0</number>
         </property>
         <property name="text">
-         <string>-</string>
+         <string>--------</string>
         </property>
         <property name="textFormat">
          <enum>Qt::AutoText</enum>
@@ -2140,7 +2212,7 @@ border-color: rgb(0, 170, 0);</string>
        <widget class="QLabel" name="label_operator_27">
         <property name="geometry">
          <rect>
-          <x>588</x>
+          <x>590</x>
           <y>103</y>
           <width>38</width>
           <height>35</height>
@@ -2155,13 +2227,14 @@ border-color: rgb(0, 170, 0);</string>
         <property name="font">
          <font>
           <family>Times New Roman</family>
-          <pointsize>16</pointsize>
+          <pointsize>14</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border:1px groove rgb(0, 0, 0);
-	border-radius:0px;
+	border:1.5px groove #789262;
 }</string>
         </property>
         <property name="text">
@@ -2177,7 +2250,7 @@ border-color: rgb(0, 170, 0);</string>
        <widget class="QLabel" name="label_operator_40">
         <property name="geometry">
          <rect>
-          <x>382</x>
+          <x>384</x>
           <y>103</y>
           <width>35</width>
           <height>35</height>
@@ -2192,13 +2265,14 @@ border-color: rgb(0, 170, 0);</string>
         <property name="font">
          <font>
           <family>Times New Roman</family>
-          <pointsize>18</pointsize>
+          <pointsize>14</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	border:1px groove rgb(0, 0, 0);
-	border-radius:0px;
+	border:1.5px groove #789262;
 }</string>
         </property>
         <property name="text">
@@ -2214,11 +2288,17 @@ border-color: rgb(0, 170, 0);</string>
        <widget class="Line" name="line">
         <property name="geometry">
          <rect>
-          <x>134</x>
+          <x>214</x>
           <y>0</y>
           <width>2</width>
-          <height>153</height>
+          <height>144</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>幼圆</family>
+          <pointsize>20</pointsize>
+         </font>
         </property>
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -2237,14 +2317,14 @@ border-color: rgb(0, 170, 0);</string>
        <property name="font">
         <font>
          <family>幼圆</family>
-         <pointsize>16</pointsize>
+         <pointsize>20</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
         <string notr="true">QGroupBox{
-	border-radius: 4px;
+	border-radius: 15px;
     border:2px groove gray;
 	border-color: rgb(0, 85, 0);
 }</string>
@@ -2265,9 +2345,9 @@ border-color: rgb(0, 170, 0);</string>
         <property name="geometry">
          <rect>
           <x>8</x>
-          <y>64</y>
+          <y>62</y>
           <width>180</width>
-          <height>45</height>
+          <height>49</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -2279,9 +2359,8 @@ border-color: rgb(0, 170, 0);</string>
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>20</pointsize>
+          <pointsize>18</pointsize>
           <weight>50</weight>
-          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -2290,10 +2369,17 @@ border-color: rgb(0, 170, 0);</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
         </property>
         <property name="text">
@@ -2312,10 +2398,10 @@ QPushButton:hover:pressed{
        <widget class="QPushButton" name="btn_DeviceEncoding">
         <property name="geometry">
          <rect>
-          <x>210</x>
+          <x>212</x>
           <y>18</y>
           <width>200</width>
-          <height>45</height>
+          <height>47</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -2327,9 +2413,8 @@ QPushButton:hover:pressed{
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>20</pointsize>
+          <pointsize>18</pointsize>
           <weight>50</weight>
-          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -2338,10 +2423,17 @@ QPushButton:hover:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
         </property>
         <property name="text">
@@ -2368,7 +2460,7 @@ QPushButton:hover:pressed{
         </property>
         <property name="font">
          <font>
-          <family>Times New Roman</family>
+          <family>幼圆</family>
           <pointsize>20</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -2378,8 +2470,9 @@ QPushButton:hover:pressed{
          <enum>Qt::StrongFocus</enum>
         </property>
         <property name="styleSheet">
-         <string notr="true">border-radius: 4px;
-border:2px solid rgb(0, 85, 0);</string>
+         <string notr="true">background-color: #e9f1f6;
+border: 1px solid #808080;
+border-radius: 10px;</string>
         </property>
         <property name="text">
          <string/>
@@ -2409,18 +2502,17 @@ border:2px solid rgb(0, 85, 0);</string>
        <widget class="QPushButton" name="btn_DeviceDetection">
         <property name="geometry">
          <rect>
-          <x>210</x>
-          <y>64</y>
+          <x>212</x>
+          <y>66</y>
           <width>200</width>
-          <height>45</height>
+          <height>49</height>
          </rect>
         </property>
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>20</pointsize>
+          <pointsize>18</pointsize>
           <weight>50</weight>
-          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -2429,10 +2521,17 @@ border:2px solid rgb(0, 85, 0);</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
         </property>
         <property name="text">
@@ -2454,18 +2553,17 @@ QPushButton:hover:pressed{
        <widget class="QPushButton" name="btn_DeviceEncodingDetection">
         <property name="geometry">
          <rect>
-          <x>422</x>
-          <y>64</y>
+          <x>420</x>
+          <y>66</y>
           <width>200</width>
-          <height>45</height>
+          <height>49</height>
          </rect>
         </property>
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>20</pointsize>
+          <pointsize>18</pointsize>
           <weight>50</weight>
-          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -2474,10 +2572,17 @@ QPushButton:hover:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
         </property>
         <property name="text">
@@ -2496,18 +2601,17 @@ QPushButton:hover:pressed{
        <widget class="QPushButton" name="btn_QueryCode">
         <property name="geometry">
          <rect>
-          <x>422</x>
+          <x>420</x>
           <y>18</y>
           <width>200</width>
-          <height>45</height>
+          <height>47</height>
          </rect>
         </property>
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>20</pointsize>
+          <pointsize>18</pointsize>
           <weight>50</weight>
-          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -2516,14 +2620,21 @@ QPushButton:hover:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
         </property>
         <property name="text">
-         <string>查询编码</string>
+         <string>查询被测编码</string>
         </property>
         <property name="shortcut">
          <string>Ctrl+'</string>
@@ -2538,9 +2649,9 @@ QPushButton:hover:pressed{
        <widget class="Line" name="line_6">
         <property name="geometry">
          <rect>
-          <x>192</x>
-          <y>0</y>
-          <width>16</width>
+          <x>200</x>
+          <y>2</y>
+          <width>2</width>
           <height>115</height>
          </rect>
         </property>
@@ -2632,7 +2743,7 @@ QPushButton:hover:pressed{
             <brush brushstyle="SolidPattern">
              <color alpha="255">
               <red>0</red>
-              <green>0</green>
+              <green>85</green>
               <blue>0</blue>
              </color>
             </brush>
@@ -2778,7 +2889,7 @@ QPushButton:hover:pressed{
             <brush brushstyle="SolidPattern">
              <color alpha="255">
               <red>0</red>
-              <green>0</green>
+              <green>85</green>
               <blue>0</blue>
              </color>
             </brush>
@@ -2986,6 +3097,15 @@ QPushButton:hover:pressed{
           </disabled>
          </palette>
         </property>
+        <property name="font">
+         <font>
+          <family>幼圆</family>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(0, 85, 0);</string>
+        </property>
         <property name="lineWidth">
          <number>1</number>
         </property>
@@ -2997,9 +3117,9 @@ QPushButton:hover:pressed{
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>107</y>
+          <y>116</y>
           <width>631</width>
-          <height>16</height>
+          <height>2</height>
          </rect>
         </property>
         <property name="palette">
@@ -3090,7 +3210,7 @@ QPushButton:hover:pressed{
             <brush brushstyle="SolidPattern">
              <color alpha="255">
               <red>0</red>
-              <green>0</green>
+              <green>85</green>
               <blue>0</blue>
              </color>
             </brush>
@@ -3236,7 +3356,7 @@ QPushButton:hover:pressed{
             <brush brushstyle="SolidPattern">
              <color alpha="255">
               <red>0</red>
-              <green>0</green>
+              <green>85</green>
               <blue>0</blue>
              </color>
             </brush>
@@ -3444,53 +3564,20 @@ QPushButton:hover:pressed{
           </disabled>
          </palette>
         </property>
+        <property name="font">
+         <font>
+          <family>幼圆</family>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(0, 85, 0);</string>
+        </property>
         <property name="lineWidth">
          <number>1</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="btn_ClearMsgArea">
-        <property name="geometry">
-         <rect>
-          <x>508</x>
-          <y>121</y>
-          <width>117</width>
-          <height>40</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>幼圆</family>
-          <pointsize>20</pointsize>
-          <weight>50</weight>
-          <italic>false</italic>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
-}
-QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
-}</string>
-        </property>
-        <property name="text">
-         <string>清除消息</string>
-        </property>
-        <property name="shortcut">
-         <string>Ctrl+/</string>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-        <property name="default">
-         <bool>false</bool>
         </property>
        </widget>
        <widget class="QPushButton" name="btn_SaveResults">
@@ -3505,7 +3592,7 @@ QPushButton:hover:pressed{
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>20</pointsize>
+          <pointsize>18</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -3516,10 +3603,17 @@ QPushButton:hover:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 6px;
+    border-radius: 10px;
 }</string>
         </property>
         <property name="text">
@@ -3541,464 +3635,6 @@ QPushButton:hover:pressed{
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="Line" name="line_8">
-        <property name="geometry">
-         <rect>
-          <x>496</x>
-          <y>115</y>
-          <width>16</width>
-          <height>57</height>
-         </rect>
-        </property>
-        <property name="palette">
-         <palette>
-          <active>
-           <colorrole role="WindowText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Button">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>85</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Light">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>127</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Midlight">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>106</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Dark">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>42</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Mid">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>57</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Text">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="BrightText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="ButtonText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Window">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>85</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Shadow">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="AlternateBase">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>42</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="ToolTipBase">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>220</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="ToolTipText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </active>
-          <inactive>
-           <colorrole role="WindowText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Button">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>85</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Light">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>127</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Midlight">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>106</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Dark">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>42</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Mid">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>57</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Text">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="BrightText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="ButtonText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Window">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>85</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Shadow">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="AlternateBase">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>42</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="ToolTipBase">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>220</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="ToolTipText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </inactive>
-          <disabled>
-           <colorrole role="WindowText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>42</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Button">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>85</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Light">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>127</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Midlight">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>106</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Dark">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>42</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Mid">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>57</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Text">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>42</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="BrightText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="ButtonText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>42</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>85</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Window">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>85</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Shadow">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="AlternateBase">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>85</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="ToolTipBase">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>220</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="ToolTipText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </disabled>
-         </palette>
-        </property>
-        <property name="lineWidth">
-         <number>1</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
        <widget class="QPushButton" name="btn_ConfirmDetection">
         <property name="geometry">
          <rect>
@@ -4011,7 +3647,7 @@ QPushButton:hover:pressed{
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>20</pointsize>
+          <pointsize>18</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -4022,10 +3658,17 @@ QPushButton:hover:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 6px;
+    border-radius: 10px;
 }</string>
         </property>
         <property name="text">
@@ -4059,9 +3702,8 @@ QPushButton:hover:pressed{
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>20</pointsize>
+          <pointsize>18</pointsize>
           <weight>50</weight>
-          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -4070,10 +3712,17 @@ QPushButton:hover:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 6px;
+    border-radius: 10px;
 }</string>
         </property>
         <property name="text">
@@ -4101,7 +3750,7 @@ QPushButton:hover:pressed{
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>20</pointsize>
+          <pointsize>18</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -4112,10 +3761,17 @@ QPushButton:hover:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 6px;
+    border-radius: 10px;
 }</string>
         </property>
         <property name="text">
@@ -4149,7 +3805,7 @@ QPushButton:hover:pressed{
         <property name="font">
          <font>
           <family>幼圆</family>
-          <pointsize>20</pointsize>
+          <pointsize>18</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -4160,10 +3816,17 @@ QPushButton:hover:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 6px;
+    border-radius: 10px;
 }</string>
         </property>
         <property name="text">
@@ -4179,6 +3842,110 @@ QPushButton:hover:pressed{
          <bool>false</bool>
         </property>
        </widget>
+       <widget class="QLabel" name="label_operator_15">
+        <property name="geometry">
+         <rect>
+          <x>4</x>
+          <y>14</y>
+          <width>189</width>
+          <height>101</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>幼圆</family>
+          <pointsize>20</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	border-radius: 8px;
+    border:2px groove gray;
+	border-color: rgb(0, 85, 0);
+}</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_ClearMsgArea">
+        <property name="geometry">
+         <rect>
+          <x>502</x>
+          <y>122</y>
+          <width>123</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>幼圆</family>
+          <pointsize>18</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton:hover{
+	background-color: #c0ebd7;
+}
+QPushButton:hover:pressed{
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 6px;
+    border-radius: 10px;
+}</string>
+        </property>
+        <property name="text">
+         <string>清除消息</string>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+/</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <zorder>line_7</zorder>
+       <zorder>line_6</zorder>
+       <zorder>label_operator_15</zorder>
+       <zorder>btn_ClearInputUid</zorder>
+       <zorder>btn_DeviceEncoding</zorder>
+       <zorder>le_Encoding</zorder>
+       <zorder>btn_DeviceDetection</zorder>
+       <zorder>btn_DeviceEncodingDetection</zorder>
+       <zorder>btn_QueryCode</zorder>
+       <zorder>btn_SaveResults</zorder>
+       <zorder>btn_ConfirmDetection</zorder>
+       <zorder>btn_ClearResults</zorder>
+       <zorder>btn_SaveResultsAs</zorder>
+       <zorder>btn_ShowResults</zorder>
+       <zorder>btn_ClearMsgArea</zorder>
       </widget>
       <widget class="QLabel" name="label_operator_9">
        <property name="geometry">
@@ -4205,10 +3972,10 @@ QPushButton:hover:pressed{
        </property>
        <property name="styleSheet">
         <string notr="true">QLabel{
-	background-color: rgb(225, 225, 225);
+	background-color: #e0eee8;
 	border-radius: 4px;
     border:2px groove gray;
-	border-color: rgb(0, 85, 0);
+	border-color: rgb(41, 133, 135);
 }</string>
        </property>
        <property name="text">
@@ -4241,12 +4008,13 @@ QPushButton:hover:pressed{
          <family>幼圆</family>
          <pointsize>18</pointsize>
          <weight>50</weight>
+         <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
         <string notr="true">QLabel{
-	background-color: rgb(225, 225, 225);
+	background-color: #e0eee8;
 	border-radius: 4px;
     border:2px groove gray;
 	border-color: rgb(41, 133, 135);
@@ -4287,7 +4055,7 @@ QPushButton:hover:pressed{
        </property>
        <property name="styleSheet">
         <string notr="true">QLabel{
-	background-color: rgb(225, 225, 225);
+	background-color: #e0eee8;
 	border-radius: 4px;
     border:2px groove gray;
 	border-color: rgb(41, 133, 135);
@@ -4306,10 +4074,10 @@ QPushButton:hover:pressed{
       <zorder>frame</zorder>
       <zorder>groupBox</zorder>
       <zorder>groupBox_2</zorder>
-      <zorder>groupBox_3</zorder>
-      <zorder>label_operator_9</zorder>
       <zorder>label_operator_10</zorder>
       <zorder>label_operator_11</zorder>
+      <zorder>groupBox_3</zorder>
+      <zorder>label_operator_9</zorder>
      </widget>
     </item>
     <item row="0" column="1">
@@ -4344,9 +4112,9 @@ QPushButton:hover:pressed{
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>238</red>
-            <green>238</green>
-            <blue>238</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
@@ -4371,18 +4139,18 @@ QPushButton:hover:pressed{
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>238</red>
-            <green>238</green>
-            <blue>238</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>238</red>
-            <green>238</green>
-            <blue>238</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
@@ -4418,9 +4186,9 @@ QPushButton:hover:pressed{
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>238</red>
-            <green>238</green>
-            <blue>238</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
@@ -4445,18 +4213,18 @@ QPushButton:hover:pressed{
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>238</red>
-            <green>238</green>
-            <blue>238</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>238</red>
-            <green>238</green>
-            <blue>238</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
@@ -4492,9 +4260,9 @@ QPushButton:hover:pressed{
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>238</red>
-            <green>238</green>
-            <blue>238</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
@@ -4519,18 +4287,18 @@ QPushButton:hover:pressed{
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>238</red>
-            <green>238</green>
-            <blue>238</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>238</red>
-            <green>238</green>
-            <blue>238</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
@@ -4557,8 +4325,8 @@ QPushButton:hover:pressed{
       </property>
       <property name="font">
        <font>
-        <family>Cascadia Mono PL SemiLight</family>
-        <pointsize>16</pointsize>
+        <family>幼圆</family>
+        <pointsize>20</pointsize>
         <weight>50</weight>
         <italic>false</italic>
         <bold>false</bold>
@@ -4571,12 +4339,8 @@ QPushButton:hover:pressed{
        <enum>Qt::DefaultContextMenu</enum>
       </property>
       <property name="styleSheet">
-       <string notr="true">QTextBrowser {
-	border-color: rgb(0, 168, 243);
-	border-radius: 5px;
-	border:2.5px solid rgb(0, 170, 255);
-	font: 16pt &quot;Cascadia Mono PL SemiLight&quot;;
-}</string>
+       <string notr="true">border:2px groove #75878a;
+background-color:#e9f1f6;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::Box</enum>
@@ -4591,8 +4355,8 @@ QPushButton:hover:pressed{
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cascadia Mono PL SemiLight'; font-size:16pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'幼圆'; font-size:20pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Cascadia Mono PL SemiLight'; font-size:16pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </item>
@@ -4601,7 +4365,7 @@ p, li { white-space: pre-wrap; }
       <property name="minimumSize">
        <size>
         <width>1355</width>
-        <height>215</height>
+        <height>210</height>
        </size>
       </property>
       <property name="palette">
@@ -4619,9 +4383,9 @@ p, li { white-space: pre-wrap; }
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>235</red>
-            <green>235</green>
-            <blue>235</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
@@ -4691,18 +4455,18 @@ p, li { white-space: pre-wrap; }
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>235</red>
-            <green>235</green>
-            <blue>235</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>235</red>
-            <green>235</green>
-            <blue>235</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
@@ -4765,9 +4529,9 @@ p, li { white-space: pre-wrap; }
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>235</red>
-            <green>235</green>
-            <blue>235</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
@@ -4837,18 +4601,18 @@ p, li { white-space: pre-wrap; }
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>235</red>
-            <green>235</green>
-            <blue>235</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>235</red>
-            <green>235</green>
-            <blue>235</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
@@ -4911,9 +4675,9 @@ p, li { white-space: pre-wrap; }
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>235</red>
-            <green>235</green>
-            <blue>235</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
@@ -4983,18 +4747,18 @@ p, li { white-space: pre-wrap; }
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>235</red>
-            <green>235</green>
-            <blue>235</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>235</red>
-            <green>235</green>
-            <blue>235</blue>
+            <red>233</red>
+            <green>241</green>
+            <blue>246</blue>
            </color>
           </brush>
          </colorrole>
@@ -5048,8 +4812,8 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="font">
        <font>
-        <family>Cascadia Mono PL SemiLight</family>
-        <pointsize>16</pointsize>
+        <family>幼圆</family>
+        <pointsize>20</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -5062,8 +4826,8 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="styleSheet">
        <string notr="true">QTableView{
-	border-radius: 5px;
-    border:3px groove rgb(0, 170, 255)
+    border:2px groove #75878a;
+	background-color:#e9f1f6;
 }</string>
       </property>
       <property name="lineWidth">
@@ -5116,7 +4880,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1366</width>
-     <height>25</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

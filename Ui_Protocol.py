@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'e:\Learing\2021\719\Python\Terminal\Protocol.ui'
+# Form implementation generated from reading ui file 'e:\Learn\2021\719\Python\Terminal\Protocol.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -15,9 +15,10 @@ class Ui_ProtocolDialog(object):
     def setupUi(self, ProtocolDialog):
         ProtocolDialog.setObjectName("ProtocolDialog")
         ProtocolDialog.setWindowModality(QtCore.Qt.ApplicationModal)
-        ProtocolDialog.resize(328, 156)
+        ProtocolDialog.resize(330, 168)
+        ProtocolDialog.setStyleSheet("    background-color:#e9f1f6;")
         self.groupBox = QtWidgets.QGroupBox(ProtocolDialog)
-        self.groupBox.setGeometry(QtCore.QRect(8, 14, 309, 125))
+        self.groupBox.setGeometry(QtCore.QRect(8, 14, 309, 139))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(16)
@@ -34,8 +35,8 @@ class Ui_ProtocolDialog(object):
         sizePolicy.setHeightForWidth(self.comboBox_selectComNum.sizePolicy().hasHeightForWidth())
         self.comboBox_selectComNum.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setFamily("Times New Roman")
-        font.setPointSize(14)
+        font.setFamily("幼圆")
+        font.setPointSize(13)
         font.setBold(False)
         font.setWeight(50)
         self.comboBox_selectComNum.setFont(font)
@@ -54,21 +55,27 @@ class Ui_ProtocolDialog(object):
         self.comboBox_selectComNum.setObjectName("comboBox_selectComNum")
         self.comboBox_selectComNum.addItem("")
         self.btn_SwitchSerial = QtWidgets.QPushButton(self.groupBox)
-        self.btn_SwitchSerial.setGeometry(QtCore.QRect(8, 76, 291, 40))
+        self.btn_SwitchSerial.setGeometry(QtCore.QRect(8, 84, 291, 53))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(16)
+        font.setPointSize(20)
         font.setBold(False)
-        font.setItalic(False)
         font.setWeight(50)
         self.btn_SwitchSerial.setFont(font)
         self.btn_SwitchSerial.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_SwitchSerial.setAutoFillBackground(False)
         self.btn_SwitchSerial.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(214, 234, 239);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(130, 195, 195);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_SwitchSerial.setAutoDefault(False)
         self.btn_SwitchSerial.setObjectName("btn_SwitchSerial")

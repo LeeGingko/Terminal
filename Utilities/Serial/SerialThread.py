@@ -36,6 +36,7 @@ class PrivateSerialThread(QThread):
         self.usingSerial.dsrdtr = False
 
     def run(self):
+        self.relen = 0
         while True:
             if self.isPause == False:
                 self.usleep(1000)
@@ -52,12 +53,12 @@ class PrivateSerialThread(QThread):
                             # print("@SerialRecv Leng:" + str(self.num)) # 输出收到的字节数
                             self.data = self.usingSerial.read(self.num)
                             tmp = self.data.decode("utf-8")
-                            print("@SerialRecv Data:" + tmp) # 输出收到的数据
+                            # print("@SerialRecv Data:" + tmp) # 输出收到的数据
                             if tmp[0] == "U": # 数据帧头
                                 if (tmp[self.num - 2] != "\r") and (tmp[self.num - 1] != "\n"): # 部分数据帧
                                     self.buffer = self.data
                                     # print("@Seg1:" + self.buffer.decode("utf-8"))
-                                    continue
+                                    continue                               
                                 elif (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"):
                                     self.buffer = self.data
                                     self.recvSignal.emit(self.buffer)
@@ -66,7 +67,7 @@ class PrivateSerialThread(QThread):
                                 self.buffer = self.buffer + self.data
                                 self.recvSignal.emit(self.buffer)
                                 self.buffer.clear()
-                                print("@SegAll:" + self.buffer.decode("utf-8"))
+                                # print("@SegAll:" + self.buffer.decode("utf-8"))
                             elif (tmp[0] == "G") and (tmp[self.num - 2] == "\r") and (tmp[self.num - 1] == "\n"):
                                 self.recvSignal.emit(self.data)
                             else:
@@ -77,3 +78,5 @@ class PrivateSerialThread(QThread):
                     pass
             else:
                 self.usleep(1000)
+            if QThread.currentThread().isInterruptionRequested():
+                break

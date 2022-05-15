@@ -80,7 +80,7 @@ class FTPStationlWin(QtWidgets.QWidget, Ui_FTPSetting):
         self.ip = socket.gethostbyname(pc)
         self.lb_LocalIP.setText(self.ip)
         # 消息提示窗口初始化
-        self.tb_Message.setFontFamily("微软雅黑")
+        self.tb_Message.setFontFamily("幼圆")
         self.tb_Message.setFontPointSize(16)
         # 本机是否为服务器
         self.pcAsServerOrClient = None

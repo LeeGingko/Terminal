@@ -28,6 +28,9 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:#e9f1f6;</string>
+  </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
@@ -64,9 +67,9 @@
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -136,18 +139,18 @@
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -210,9 +213,9 @@
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -282,18 +285,18 @@
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -356,9 +359,9 @@
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -428,18 +431,18 @@
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -494,7 +497,7 @@
    <property name="font">
     <font>
      <family>幼圆</family>
-     <pointsize>16</pointsize>
+     <pointsize>18</pointsize>
      <weight>50</weight>
      <bold>false</bold>
     </font>
@@ -502,7 +505,7 @@
    <property name="styleSheet">
     <string notr="true">QGroupBox{
 	border-radius: 4px;
-    border:2.5px groove gray;
+    border:2px groove gray;
 	border-color: rgb(41, 133, 135);
 }</string>
    </property>
@@ -566,8 +569,8 @@
     </property>
     <property name="font">
      <font>
-      <family>Times New Roman</family>
-      <pointsize>20</pointsize>
+      <family>幼圆</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <bold>false</bold>
      </font>
@@ -628,7 +631,9 @@ border:2px solid rgb(41, 133, 135);</string>
     <property name="font">
      <font>
       <family>幼圆</family>
-      <pointsize>18</pointsize>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -658,8 +663,8 @@ border:2px solid rgb(41, 133, 135);
     </property>
     <property name="font">
      <font>
-      <family>Times New Roman</family>
-      <pointsize>22</pointsize>
+      <family>幼圆</family>
+      <pointsize>18</pointsize>
       <weight>50</weight>
       <bold>false</bold>
      </font>
@@ -670,7 +675,7 @@ border:2px solid rgb(41, 133, 135);
 	border:2px solid rgb(41, 133, 135);
 	
 	color: rgb(0, 170, 255);
-	background-color: rgb(255, 255, 255);
+	background-color: #e9f1f6;
 }</string>
     </property>
     <property name="inputMethodHints">
@@ -713,7 +718,9 @@ border:2px solid rgb(41, 133, 135);
     <property name="font">
      <font>
       <family>幼圆</family>
-      <pointsize>18</pointsize>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -743,8 +750,8 @@ border:2px solid rgb(41, 133, 135);
     </property>
     <property name="font">
      <font>
-      <family>Times New Roman</family>
-      <pointsize>22</pointsize>
+      <family>幼圆</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <bold>false</bold>
      </font>
@@ -785,7 +792,7 @@ border:2px solid rgb(41, 133, 135);</string>
     <property name="geometry">
      <rect>
       <x>360</x>
-      <y>10</y>
+      <y>8</y>
       <width>237</width>
       <height>70</height>
      </rect>
@@ -793,7 +800,7 @@ border:2px solid rgb(41, 133, 135);</string>
     <property name="font">
      <font>
       <family>幼圆</family>
-      <pointsize>26</pointsize>
+      <pointsize>20</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -804,10 +811,17 @@ border:2px solid rgb(41, 133, 135);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
-QPushButton:pressed{
-	background-color: rgb(0, 170, 255);
+QPushButton:hover:pressed{
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
     </property>
     <property name="text">
@@ -827,7 +841,7 @@ QPushButton:pressed{
     <property name="geometry">
      <rect>
       <x>360</x>
-      <y>158</y>
+      <y>156</y>
       <width>237</width>
       <height>70</height>
      </rect>
@@ -835,7 +849,7 @@ QPushButton:pressed{
     <property name="font">
      <font>
       <family>幼圆</family>
-      <pointsize>26</pointsize>
+      <pointsize>20</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -846,10 +860,17 @@ QPushButton:pressed{
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
-QPushButton:pressed{
-	background-color: rgb(0, 170, 255);
+QPushButton:hover:pressed{
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
     </property>
     <property name="text">
@@ -877,7 +898,7 @@ QPushButton:pressed{
     <property name="font">
      <font>
       <family>幼圆</family>
-      <pointsize>26</pointsize>
+      <pointsize>20</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -888,10 +909,17 @@ QPushButton:pressed{
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
-QPushButton:pressed{
-	background-color: rgb(0, 170, 255);
+QPushButton:hover:pressed{
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
     </property>
     <property name="text">
@@ -911,7 +939,7 @@ QPushButton:pressed{
     <property name="geometry">
      <rect>
       <x>360</x>
-      <y>298</y>
+      <y>300</y>
       <width>237</width>
       <height>70</height>
      </rect>
@@ -919,7 +947,7 @@ QPushButton:pressed{
     <property name="font">
      <font>
       <family>幼圆</family>
-      <pointsize>26</pointsize>
+      <pointsize>20</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -930,10 +958,17 @@ QPushButton:pressed{
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
-QPushButton:pressed{
-	background-color: rgb(0, 170, 255);
+QPushButton:hover:pressed{
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
     </property>
     <property name="text">
@@ -953,9 +988,9 @@ QPushButton:pressed{
     <property name="geometry">
      <rect>
       <x>6</x>
-      <y>194</y>
+      <y>186</y>
       <width>341</width>
-      <height>41</height>
+      <height>49</height>
      </rect>
     </property>
     <property name="font">
@@ -972,10 +1007,17 @@ QPushButton:pressed{
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
 QPushButton:hover:pressed{
-	background-color: rgb(0, 170, 255);
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
     </property>
     <property name="text">
@@ -995,15 +1037,15 @@ QPushButton:hover:pressed{
     <property name="geometry">
      <rect>
       <x>108</x>
-      <y>330</y>
+      <y>328</y>
       <width>239</width>
-      <height>35</height>
+      <height>37</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Times New Roman</family>
-      <pointsize>22</pointsize>
+      <family>幼圆</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <bold>false</bold>
       <stylestrategy>PreferDefault</stylestrategy>
@@ -1054,9 +1096,9 @@ border:2px solid rgb(41, 133, 135);</string>
     <property name="geometry">
      <rect>
       <x>8</x>
-      <y>330</y>
+      <y>328</y>
       <width>102</width>
-      <height>35</height>
+      <height>37</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -1068,7 +1110,10 @@ border:2px solid rgb(41, 133, 135);</string>
     <property name="font">
      <font>
       <family>幼圆</family>
-      <pointsize>18</pointsize>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+      <stylestrategy>PreferDefault</stylestrategy>
      </font>
     </property>
     <property name="styleSheet">
@@ -1099,7 +1144,7 @@ border:2px solid rgb(41, 133, 135);</string>
     <property name="font">
      <font>
       <family>幼圆</family>
-      <pointsize>26</pointsize>
+      <pointsize>20</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -1110,10 +1155,17 @@ border:2px solid rgb(41, 133, 135);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
-QPushButton:pressed{
-	background-color: rgb(0, 170, 255);
+QPushButton:hover:pressed{
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
     </property>
     <property name="text">
@@ -1134,7 +1186,7 @@ QPushButton:pressed{
      <rect>
       <x>352</x>
       <y>2</y>
-      <width>4</width>
+      <width>2</width>
       <height>373</height>
      </rect>
     </property>
@@ -1225,9 +1277,9 @@ QPushButton:pressed{
        <colorrole role="Base">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
+          <red>41</red>
+          <green>133</green>
+          <blue>135</blue>
          </color>
         </brush>
        </colorrole>
@@ -1371,9 +1423,9 @@ QPushButton:pressed{
        <colorrole role="Base">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
+          <red>41</red>
+          <green>133</green>
+          <blue>135</blue>
          </color>
         </brush>
        </colorrole>
@@ -1580,10 +1632,14 @@ QPushButton:pressed{
       </disabled>
      </palette>
     </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
-     <string notr="true">Line:{
-	rgb(0, 189, 139)
-}</string>
+     <string notr="true">background-color: rgb(41, 133, 135);</string>
     </property>
     <property name="midLineWidth">
      <number>1</number>
@@ -1596,9 +1652,9 @@ QPushButton:pressed{
     <property name="geometry">
      <rect>
       <x>-28</x>
-      <y>186</y>
-      <width>383</width>
-      <height>4</height>
+      <y>178</y>
+      <width>381</width>
+      <height>2</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -1700,9 +1756,9 @@ QPushButton:pressed{
        <colorrole role="Base">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
+          <red>41</red>
+          <green>133</green>
+          <blue>135</blue>
          </color>
         </brush>
        </colorrole>
@@ -1846,9 +1902,9 @@ QPushButton:pressed{
        <colorrole role="Base">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
+          <red>41</red>
+          <green>133</green>
+          <blue>135</blue>
          </color>
         </brush>
        </colorrole>
@@ -2055,10 +2111,14 @@ QPushButton:pressed{
       </disabled>
      </palette>
     </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
-     <string notr="true">Line:{
-	rgb(0, 189, 139)
-}</string>
+     <string notr="true">background-color: rgb(41, 133, 135);</string>
     </property>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
@@ -2097,9 +2157,9 @@ QPushButton:pressed{
        <colorrole role="Button">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>156</red>
-          <green>217</green>
-          <blue>106</blue>
+          <red>233</red>
+          <green>241</green>
+          <blue>246</blue>
          </color>
         </brush>
        </colorrole>
@@ -2169,18 +2229,18 @@ QPushButton:pressed{
        <colorrole role="Base">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>156</red>
-          <green>217</green>
-          <blue>106</blue>
+          <red>233</red>
+          <green>241</green>
+          <blue>246</blue>
          </color>
         </brush>
        </colorrole>
        <colorrole role="Window">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>156</red>
-          <green>217</green>
-          <blue>106</blue>
+          <red>233</red>
+          <green>241</green>
+          <blue>246</blue>
          </color>
         </brush>
        </colorrole>
@@ -2243,9 +2303,9 @@ QPushButton:pressed{
        <colorrole role="Button">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>156</red>
-          <green>217</green>
-          <blue>106</blue>
+          <red>233</red>
+          <green>241</green>
+          <blue>246</blue>
          </color>
         </brush>
        </colorrole>
@@ -2315,18 +2375,18 @@ QPushButton:pressed{
        <colorrole role="Base">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>156</red>
-          <green>217</green>
-          <blue>106</blue>
+          <red>233</red>
+          <green>241</green>
+          <blue>246</blue>
          </color>
         </brush>
        </colorrole>
        <colorrole role="Window">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>156</red>
-          <green>217</green>
-          <blue>106</blue>
+          <red>233</red>
+          <green>241</green>
+          <blue>246</blue>
          </color>
         </brush>
        </colorrole>
@@ -2389,9 +2449,9 @@ QPushButton:pressed{
        <colorrole role="Button">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>156</red>
-          <green>217</green>
-          <blue>106</blue>
+          <red>233</red>
+          <green>241</green>
+          <blue>246</blue>
          </color>
         </brush>
        </colorrole>
@@ -2461,18 +2521,18 @@ QPushButton:pressed{
        <colorrole role="Base">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>156</red>
-          <green>217</green>
-          <blue>106</blue>
+          <red>233</red>
+          <green>241</green>
+          <blue>246</blue>
          </color>
         </brush>
        </colorrole>
        <colorrole role="Window">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>156</red>
-          <green>217</green>
-          <blue>106</blue>
+          <red>233</red>
+          <green>241</green>
+          <blue>246</blue>
          </color>
         </brush>
        </colorrole>
@@ -2527,7 +2587,7 @@ QPushButton:pressed{
     <property name="font">
      <font>
       <family>幼圆</family>
-      <pointsize>36</pointsize>
+      <pointsize>20</pointsize>
       <weight>50</weight>
       <bold>false</bold>
      </font>
@@ -2549,15 +2609,15 @@ QPushButton:pressed{
     <property name="geometry">
      <rect>
       <x>6</x>
-      <y>112</y>
+      <y>114</y>
       <width>170</width>
-      <height>70</height>
+      <height>60</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>幼圆</family>
-      <pointsize>36</pointsize>
+      <pointsize>20</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -2568,10 +2628,17 @@ QPushButton:pressed{
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
-QPushButton:pressed{
-	background-color: rgb(0, 170, 255);
+QPushButton:hover:pressed{
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
     </property>
     <property name="text">
@@ -2591,22 +2658,106 @@ QPushButton:pressed{
     <property name="geometry">
      <rect>
       <x>178</x>
-      <y>112</y>
+      <y>114</y>
       <width>170</width>
-      <height>70</height>
+      <height>60</height>
      </rect>
     </property>
     <property name="palette">
      <palette>
-      <active/>
-      <inactive/>
-      <disabled/>
+      <active>
+       <colorrole role="Button">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </active>
+      <inactive>
+       <colorrole role="Button">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </inactive>
+      <disabled>
+       <colorrole role="Button">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </disabled>
      </palette>
     </property>
     <property name="font">
      <font>
       <family>幼圆</family>
-      <pointsize>36</pointsize>
+      <pointsize>20</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -2617,10 +2768,17 @@ QPushButton:pressed{
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton:hover{
-	background-color: rgb(138, 214, 255);
+	background-color: #c0ebd7;
 }
-QPushButton:pressed{
-	background-color: rgb(0, 170, 255);
+QPushButton:hover:pressed{
+    border: 2px solid #3a8ee6;
+    color: #409eff;
+}
+QPushButton {
+    background-color: #ffffff;
+    border: 1px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
 }</string>
     </property>
     <property name="text">
@@ -2642,7 +2800,7 @@ QPushButton:pressed{
       <x>353</x>
       <y>151</y>
       <width>251</width>
-      <height>4</height>
+      <height>2</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -2744,9 +2902,9 @@ QPushButton:pressed{
        <colorrole role="Base">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
+          <red>41</red>
+          <green>133</green>
+          <blue>135</blue>
          </color>
         </brush>
        </colorrole>
@@ -2890,9 +3048,9 @@ QPushButton:pressed{
        <colorrole role="Base">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
+          <red>41</red>
+          <green>133</green>
+          <blue>135</blue>
          </color>
         </brush>
        </colorrole>
@@ -3099,10 +3257,14 @@ QPushButton:pressed{
       </disabled>
      </palette>
     </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
-     <string notr="true">Line:{
-	rgb(0, 189, 139)
-}</string>
+     <string notr="true">background-color: rgb(41, 133, 135);</string>
     </property>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
@@ -3118,7 +3280,6 @@ QPushButton:pressed{
     </property>
    </widget>
    <zorder>line_Right</zorder>
-   <zorder>line_Left</zorder>
    <zorder>label_operator_18</zorder>
    <zorder>le_ServerIP</zorder>
    <zorder>label_operator_19</zorder>
@@ -3132,10 +3293,11 @@ QPushButton:pressed{
    <zorder>btn_Connection</zorder>
    <zorder>le_UserPasswd</zorder>
    <zorder>label_operator_20</zorder>
-   <zorder>btn_ScanRemoteFile</zorder>
    <zorder>lb_ServiceType</zorder>
    <zorder>btn_ThisPCAsServer</zorder>
    <zorder>btn_ThisPCAsClient</zorder>
+   <zorder>line_Left</zorder>
+   <zorder>btn_ScanRemoteFile</zorder>
    <zorder>line</zorder>
   </widget>
   <widget class="QTextBrowser" name="tb_Message">
@@ -3177,9 +3339,9 @@ QPushButton:pressed{
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>238</red>
-         <green>238</green>
-         <blue>238</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -3204,18 +3366,18 @@ QPushButton:pressed{
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>238</red>
-         <green>238</green>
-         <blue>238</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>238</red>
-         <green>238</green>
-         <blue>238</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -3251,9 +3413,9 @@ QPushButton:pressed{
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>238</red>
-         <green>238</green>
-         <blue>238</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -3278,18 +3440,18 @@ QPushButton:pressed{
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>238</red>
-         <green>238</green>
-         <blue>238</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>238</red>
-         <green>238</green>
-         <blue>238</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -3325,9 +3487,9 @@ QPushButton:pressed{
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>238</red>
-         <green>238</green>
-         <blue>238</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -3352,18 +3514,18 @@ QPushButton:pressed{
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>238</red>
-         <green>238</green>
-         <blue>238</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>238</red>
-         <green>238</green>
-         <blue>238</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -3390,8 +3552,8 @@ QPushButton:pressed{
    </property>
    <property name="font">
     <font>
-     <family>Cascadia Mono PL SemiLight</family>
-     <pointsize>16</pointsize>
+     <family>幼圆</family>
+     <pointsize>18</pointsize>
      <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
@@ -3406,7 +3568,8 @@ QPushButton:pressed{
    <property name="styleSheet">
     <string notr="true">QTextBrowser {
 	border-radius: 5px;
-	border:2.5px solid rgb(123, 123, 184);
+	border:2px groove #75878a;
+	background-color:#e9f1f6;
 }</string>
    </property>
    <property name="frameShape">
@@ -3428,8 +3591,8 @@ QPushButton:pressed{
     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cascadia Mono PL SemiLight'; font-size:16pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'幼圆'; font-size:18pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Cascadia Mono PL SemiLight'; font-size:16pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="textInteractionFlags">
     <set>Qt::TextBrowserInteraction</set>
@@ -3468,9 +3631,9 @@ p, li { white-space: pre-wrap; }
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>235</red>
-         <green>235</green>
-         <blue>235</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -3540,18 +3703,18 @@ p, li { white-space: pre-wrap; }
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>235</red>
-         <green>235</green>
-         <blue>235</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>235</red>
-         <green>235</green>
-         <blue>235</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -3614,9 +3777,9 @@ p, li { white-space: pre-wrap; }
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>235</red>
-         <green>235</green>
-         <blue>235</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -3686,18 +3849,18 @@ p, li { white-space: pre-wrap; }
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>235</red>
-         <green>235</green>
-         <blue>235</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>235</red>
-         <green>235</green>
-         <blue>235</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -3760,9 +3923,9 @@ p, li { white-space: pre-wrap; }
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>235</red>
-         <green>235</green>
-         <blue>235</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -3832,18 +3995,18 @@ p, li { white-space: pre-wrap; }
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>235</red>
-         <green>235</green>
-         <blue>235</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>235</red>
-         <green>235</green>
-         <blue>235</blue>
+         <red>233</red>
+         <green>241</green>
+         <blue>246</blue>
         </color>
        </brush>
       </colorrole>
@@ -3897,8 +4060,8 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="font">
     <font>
-     <family>Cascadia Mono PL SemiLight</family>
-     <pointsize>16</pointsize>
+     <family>幼圆</family>
+     <pointsize>18</pointsize>
      <weight>50</weight>
      <bold>false</bold>
     </font>
@@ -3912,7 +4075,8 @@ p, li { white-space: pre-wrap; }
    <property name="styleSheet">
     <string notr="true">QTableView{
 	border-radius: 5px;
-	border:2.5px solid rgb(123, 123, 184);
+	border:2px groove #75878a;
+	background-color:#e9f1f6;
 }</string>
    </property>
    <property name="lineWidth">
@@ -3952,6 +4116,9 @@ p, li { white-space: pre-wrap; }
     <number>54</number>
    </attribute>
   </widget>
+  <zorder>tb_Message</zorder>
+  <zorder>tv_FileInfo</zorder>
+  <zorder>groupBox</zorder>
  </widget>
  <tabstops>
   <tabstop>le_ServerIP</tabstop>

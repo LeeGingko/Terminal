@@ -114,9 +114,6 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
         self.setWindowIcon(QIcon(iconPath))
         self.configFolder = os.path.join(os.getcwd(), 'configurations')
         self.setWindowFlags(Qt.WindowCloseButtonHint|Qt.WindowMinimizeButtonHint)
-        # self.setWindowFlags(Qt.WindowStaysOnTopHint)
-        # 阻塞父类窗口不能点击
-        # self.setWindowModality(Qt.ApplicationModal)
         
     def getUserPara(self):
         self.paraDict["th_DrainCurrent_Up"  ] = self.lineEdit_setDrainCurrentTop.text()
@@ -151,10 +148,8 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
         self.saved_info = ([self.isConfigSavedFirst, self.isConfigSaved],  self.configPath)
         with open("config_save_record.txt", "wb") as fsrf:
             pk.dump(self.saved_info, fsrf) # 用dump函数将Python对象转成二进制对象文件
-        # print("saveConfigRecord:" + str(self.saved_info))
 
     def settingThreshold(self):
-        print("Setting threshold.................: ")
         self.thresholdAppendSignal.emit("下发参数到测试仪")
         QApplication.processEvents()
         self.pSerial = GetSetObj.get(1)
@@ -162,6 +157,7 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
             self.pSerial.data = b''
             self.pSerial.rxCheck = 0
             self.pSerial.prvSerial.flush()
+            print("Setting device parameters.................: ")
             self.pSerial.serialSendData(Func.f_DevSettingThreshold, '', self.configPath)
         else:
             self.thresholdAppendSignal.emit("下发阈值@串口未打开")
@@ -209,13 +205,11 @@ class ThresholdWin(QDialog, Ui_ThresholdDialog):
             cnt += 1
 
     def aloneSaveSettingsRecord(self):
-        print("/*>>>>>>>>>>>>>>>>>>>>>>>>>>>aloneSaveSettingsRecord>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/")
         self.getThreshold()
         self.saveThreshold(self.para)
 
     @QtCore.pyqtSlot()
     def on_pushBtn_saveSettingsRecord_clicked(self):
-        print("/*>>>>>>>>>>>>>>>>>>>>on_pushBtn_saveSettingsRecord_clicked>>>>>>>>>>>>>>>>>>>>>>>>>*/")
         self.getThreshold()
         self.saveThreshold(self.para)
         

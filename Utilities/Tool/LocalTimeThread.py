@@ -37,4 +37,6 @@ class LocalTimeThread(QThread):
                 self.secondSignal.emit(self.timeStamp + weekday)
             except AttributeError:
                 pass
-            self.msleep(500) # 2021年10月14日17:44:09 1000-》500 防止跳秒
+            self.msleep(500) # 2021年10月14日17:44:09 1000 -> 500 提高秒刷新显示
+            if QThread.currentThread().isInterruptionRequested():
+                break

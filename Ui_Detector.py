@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'e:\Learing\2021\719\Python\Terminal\Detector.ui'
+# Form implementation generated from reading ui file 'e:\Learn\2021\719\Python\Terminal\Detector.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -16,7 +16,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
         MainWindow.setEnabled(True)
-        MainWindow.resize(1366, 729)
+        MainWindow.resize(1366, 728)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -27,7 +27,9 @@ class Ui_MainWindow(object):
         MainWindow.setFocusPolicy(QtCore.Qt.StrongFocus)
         MainWindow.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         MainWindow.setAutoFillBackground(False)
-        MainWindow.setStyleSheet("")
+        MainWindow.setStyleSheet("QMainWindow {\n"
+"    background-color:#e9f1f6;\n"
+"}")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.formLayout = QtWidgets.QFormLayout(self.centralwidget)
@@ -39,15 +41,18 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.groupBox_6.sizePolicy().hasHeightForWidth())
         self.groupBox_6.setSizePolicy(sizePolicy)
         self.groupBox_6.setMinimumSize(QtCore.QSize(645, 440))
+        font = QtGui.QFont()
+        font.setFamily("幼圆")
+        font.setPointSize(20)
+        self.groupBox_6.setFont(font)
         self.groupBox_6.setStyleSheet("QGroupBox{\n"
-"    border-color: rgb(166, 166, 166);\n"
-"    border-radius: 4px;\n"
-"    border:2.5px groove gray;\n"
+"    border-radius: 15px;\n"
+"    border:2px groove #75878a;\n"
 "}")
         self.groupBox_6.setTitle("")
         self.groupBox_6.setObjectName("groupBox_6")
         self.groupBox = QtWidgets.QGroupBox(self.groupBox_6)
-        self.groupBox.setGeometry(QtCore.QRect(8, 23, 249, 81))
+        self.groupBox.setGeometry(QtCore.QRect(8, 23, 239, 81))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -196,7 +201,7 @@ class Ui_MainWindow(object):
         self.groupBox.setPalette(palette)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(16)
+        font.setPointSize(20)
         font.setBold(False)
         font.setWeight(50)
         self.groupBox.setFont(font)
@@ -221,7 +226,8 @@ class Ui_MainWindow(object):
         self.le_Name.setFont(font)
         self.le_Name.setStatusTip("")
         self.le_Name.setStyleSheet("border-radius: 4px;    \n"
-"border:2px solid rgb(41, 133, 135);")
+"border:2px solid rgb(41, 133, 135);\n"
+"background-color: #e9f1f6;")
         self.le_Name.setInputMethodHints(QtCore.Qt.ImhNone)
         self.le_Name.setInputMask("")
         self.le_Name.setText("")
@@ -379,23 +385,23 @@ class Ui_MainWindow(object):
         self.groupBox_2.setPalette(palette)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(16)
+        font.setPointSize(20)
         font.setBold(False)
         font.setWeight(50)
         self.groupBox_2.setFont(font)
         self.groupBox_2.setStyleSheet("QGroupBox{\n"
 "    border-radius: 4px;\n"
 "    border:2px groove gray;\n"
-"    border-color: rgb(41, 133, 135);\n"
+"    border-color: #0c8918;\n"
 "}")
         self.groupBox_2.setTitle("")
         self.groupBox_2.setAlignment(QtCore.Qt.AlignCenter)
         self.groupBox_2.setObjectName("groupBox_2")
         self.label_operator_3 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_operator_3.setGeometry(QtCore.QRect(204, 32, 64, 33))
+        self.label_operator_3.setGeometry(QtCore.QRect(200, 32, 64, 33))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.label_operator_3.setFont(font)
@@ -407,10 +413,10 @@ class Ui_MainWindow(object):
         self.label_operator_3.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_3.setObjectName("label_operator_3")
         self.label_operator_2 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_operator_2.setGeometry(QtCore.QRect(22, 32, 64, 33))
+        self.label_operator_2.setGeometry(QtCore.QRect(12, 32, 64, 33))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.label_operator_2.setFont(font)
@@ -422,15 +428,23 @@ class Ui_MainWindow(object):
         self.label_operator_2.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_2.setObjectName("label_operator_2")
         self.label_detection = QtWidgets.QLabel(self.groupBox_2)
-        self.label_detection.setGeometry(QtCore.QRect(272, 4, 90, 90))
+        self.label_detection.setGeometry(QtCore.QRect(268, 8, 80, 80))
+        font = QtGui.QFont()
+        font.setFamily("幼圆")
+        font.setPointSize(20)
+        self.label_detection.setFont(font)
         self.label_detection.setText("")
         self.label_detection.setObjectName("label_detection")
         self.label_encoding = QtWidgets.QLabel(self.groupBox_2)
-        self.label_encoding.setGeometry(QtCore.QRect(90, 4, 90, 90))
+        self.label_encoding.setGeometry(QtCore.QRect(80, 8, 80, 80))
+        font = QtGui.QFont()
+        font.setFamily("幼圆")
+        font.setPointSize(20)
+        self.label_encoding.setFont(font)
         self.label_encoding.setText("")
         self.label_encoding.setObjectName("label_encoding")
         self.label_operator_12 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_operator_12.setGeometry(QtCore.QRect(12, 22, 183, 53))
+        self.label_operator_12.setGeometry(QtCore.QRect(6, 22, 183, 53))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -438,7 +452,7 @@ class Ui_MainWindow(object):
         self.label_operator_12.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(18)
+        font.setPointSize(20)
         font.setBold(False)
         font.setWeight(50)
         self.label_operator_12.setFont(font)
@@ -452,7 +466,7 @@ class Ui_MainWindow(object):
         self.label_operator_12.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_12.setObjectName("label_operator_12")
         self.label_operator_14 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_operator_14.setGeometry(QtCore.QRect(192, 22, 183, 53))
+        self.label_operator_14.setGeometry(QtCore.QRect(192, 22, 187, 53))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -460,7 +474,7 @@ class Ui_MainWindow(object):
         self.label_operator_14.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(18)
+        font.setPointSize(20)
         font.setBold(False)
         font.setWeight(50)
         self.label_operator_14.setFont(font)
@@ -481,6 +495,10 @@ class Ui_MainWindow(object):
         self.label_encoding.raise_()
         self.frame = QtWidgets.QFrame(self.groupBox_6)
         self.frame.setGeometry(QtCore.QRect(8, 106, 631, 145))
+        font = QtGui.QFont()
+        font.setFamily("幼圆")
+        font.setPointSize(20)
+        self.frame.setFont(font)
         self.frame.setStyleSheet("QFrame{\n"
 "    border-radius: 8px;\n"
 "    border:2px groove gray;\n"
@@ -499,12 +517,14 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
+        font.setBold(False)
+        font.setWeight(50)
         self.label_selfFireCurrent.setFont(font)
         self.label_selfFireCurrent.setTabletTracking(False)
-        self.label_selfFireCurrent.setStyleSheet("border-radius:0px;\n"
-"border:1.5px solid rgb(85, 170, 0);\n"
-"color: rgb(0, 170, 0);\n"
-"border-color: rgb(0, 170, 0);")
+        self.label_selfFireCurrent.setStyleSheet("QLabel{\n"
+"    color: #0aa344;\n"
+"    border:1.5px groove #0aa344;\n"
+"}")
         self.label_selfFireCurrent.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.label_selfFireCurrent.setFrameShadow(QtWidgets.QFrame.Plain)
         self.label_selfFireCurrent.setLineWidth(1)
@@ -515,7 +535,7 @@ class Ui_MainWindow(object):
         self.label_selfFireCurrent.setOpenExternalLinks(False)
         self.label_selfFireCurrent.setObjectName("label_selfFireCurrent")
         self.label_operator_5 = QtWidgets.QLabel(self.frame)
-        self.label_operator_5.setGeometry(QtCore.QRect(220, 7, 102, 35))
+        self.label_operator_5.setGeometry(QtCore.QRect(218, 7, 102, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -523,17 +543,19 @@ class Ui_MainWindow(object):
         self.label_operator_5.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(18)
+        font.setPointSize(16)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.label_operator_5.setFont(font)
         self.label_operator_5.setStyleSheet("QLabel{\n"
-"    border:1px groove rgb(0, 0, 0);\n"
-"    border-radius:0px;\n"
+"    border:1.5px groove #789262;\n"
 "}")
         self.label_operator_5.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_5.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_5.setObjectName("label_operator_5")
         self.label_operator_22 = QtWidgets.QLabel(self.frame)
-        self.label_operator_22.setGeometry(QtCore.QRect(588, 7, 38, 35))
+        self.label_operator_22.setGeometry(QtCore.QRect(590, 7, 38, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -541,11 +563,12 @@ class Ui_MainWindow(object):
         self.label_operator_22.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(16)
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setWeight(50)
         self.label_operator_22.setFont(font)
         self.label_operator_22.setStyleSheet("QLabel{\n"
-"    border:1px groove rgb(0, 0, 0);\n"
-"    border-radius:0px;\n"
+"    border:1.5px groove #789262;\n"
 "}")
         self.label_operator_22.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_22.setAlignment(QtCore.Qt.AlignCenter)
@@ -554,23 +577,30 @@ class Ui_MainWindow(object):
         self.btn_ProtocolSetting.setGeometry(QtCore.QRect(6, 5, 125, 65))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.btn_ProtocolSetting.setFont(font)
         self.btn_ProtocolSetting.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_ProtocolSetting.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_ProtocolSetting.setAutoDefault(False)
         self.btn_ProtocolSetting.setDefault(False)
         self.btn_ProtocolSetting.setObjectName("btn_ProtocolSetting")
         self.label_operator_7 = QtWidgets.QLabel(self.frame)
-        self.label_operator_7.setGeometry(QtCore.QRect(220, 55, 102, 35))
+        self.label_operator_7.setGeometry(QtCore.QRect(218, 55, 102, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -578,11 +608,13 @@ class Ui_MainWindow(object):
         self.label_operator_7.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(18)
+        font.setPointSize(16)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.label_operator_7.setFont(font)
         self.label_operator_7.setStyleSheet("QLabel{\n"
-"    border:1px groove rgb(0, 0, 0);\n"
-"    border-radius:0px;\n"
+"    border:1.5px groove #789262;\n"
 "}")
         self.label_operator_7.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_7.setAlignment(QtCore.Qt.AlignCenter)
@@ -591,23 +623,30 @@ class Ui_MainWindow(object):
         self.btn_ThresholdSetting.setGeometry(QtCore.QRect(6, 73, 125, 65))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.btn_ThresholdSetting.setFont(font)
         self.btn_ThresholdSetting.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_ThresholdSetting.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_ThresholdSetting.setAutoDefault(False)
         self.btn_ThresholdSetting.setDefault(False)
         self.btn_ThresholdSetting.setObjectName("btn_ThresholdSetting")
         self.btn_ControllerSelfCheck = QtWidgets.QPushButton(self.frame)
-        self.btn_ControllerSelfCheck.setGeometry(QtCore.QRect(140, 5, 73, 135))
+        self.btn_ControllerSelfCheck.setGeometry(QtCore.QRect(136, 5, 73, 135))
         font = QtGui.QFont()
         font.setFamily("幼圆")
         font.setPointSize(20)
@@ -617,16 +656,23 @@ class Ui_MainWindow(object):
         self.btn_ControllerSelfCheck.setFont(font)
         self.btn_ControllerSelfCheck.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_ControllerSelfCheck.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_ControllerSelfCheck.setAutoDefault(False)
         self.btn_ControllerSelfCheck.setDefault(False)
         self.btn_ControllerSelfCheck.setObjectName("btn_ControllerSelfCheck")
         self.label_operator_6 = QtWidgets.QLabel(self.frame)
-        self.label_operator_6.setGeometry(QtCore.QRect(422, 7, 102, 35))
+        self.label_operator_6.setGeometry(QtCore.QRect(420, 7, 102, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -634,17 +680,19 @@ class Ui_MainWindow(object):
         self.label_operator_6.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(18)
+        font.setPointSize(16)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.label_operator_6.setFont(font)
         self.label_operator_6.setStyleSheet("QLabel{\n"
-"    border:1px groove rgb(0, 0, 0);\n"
-"    border-radius:0px;\n"
+"    border:1.5px groove #789262;\n"
 "}")
         self.label_operator_6.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_6.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_6.setObjectName("label_operator_6")
         self.label_operator_18 = QtWidgets.QLabel(self.frame)
-        self.label_operator_18.setGeometry(QtCore.QRect(220, 103, 102, 35))
+        self.label_operator_18.setGeometry(QtCore.QRect(218, 103, 102, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -652,17 +700,19 @@ class Ui_MainWindow(object):
         self.label_operator_18.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(18)
+        font.setPointSize(16)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.label_operator_18.setFont(font)
         self.label_operator_18.setStyleSheet("QLabel{\n"
-"    border:1px groove rgb(0, 0, 0);\n"
-"    border-radius:0px;\n"
+"    border:1.5px groove #789262;\n"
 "}")
         self.label_operator_18.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_18.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_18.setObjectName("label_operator_18")
         self.label_operator_24 = QtWidgets.QLabel(self.frame)
-        self.label_operator_24.setGeometry(QtCore.QRect(588, 55, 38, 35))
+        self.label_operator_24.setGeometry(QtCore.QRect(590, 55, 38, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -670,17 +720,18 @@ class Ui_MainWindow(object):
         self.label_operator_24.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(16)
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setWeight(50)
         self.label_operator_24.setFont(font)
         self.label_operator_24.setStyleSheet("QLabel{\n"
-"    border:1px groove rgb(0, 0, 0);\n"
-"    border-radius:0px;\n"
+"    border:1.5px groove #789262;\n"
 "}")
         self.label_operator_24.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_24.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_24.setObjectName("label_operator_24")
         self.label_operator_23 = QtWidgets.QLabel(self.frame)
-        self.label_operator_23.setGeometry(QtCore.QRect(382, 55, 35, 35))
+        self.label_operator_23.setGeometry(QtCore.QRect(384, 55, 35, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -688,11 +739,12 @@ class Ui_MainWindow(object):
         self.label_operator_23.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(18)
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setWeight(50)
         self.label_operator_23.setFont(font)
         self.label_operator_23.setStyleSheet("QLabel{\n"
-"    border:1px groove rgb(0, 0, 0);\n"
-"    border-radius:0px;\n"
+"    border:1.5px groove #789262;\n"
 "}")
         self.label_operator_23.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_23.setAlignment(QtCore.Qt.AlignCenter)
@@ -707,12 +759,14 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
+        font.setBold(False)
+        font.setWeight(50)
         self.label_selfLineCurrent.setFont(font)
         self.label_selfLineCurrent.setTabletTracking(False)
-        self.label_selfLineCurrent.setStyleSheet("border-radius:0px;\n"
-"border:1.5px solid rgb(85, 170, 0);\n"
-"color: rgb(0, 170, 0);\n"
-"border-color: rgb(0, 170, 0);")
+        self.label_selfLineCurrent.setStyleSheet("QLabel{\n"
+"    color: #0aa344;\n"
+"    border:1.5px groove #0aa344;\n"
+"}")
         self.label_selfLineCurrent.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.label_selfLineCurrent.setFrameShadow(QtWidgets.QFrame.Plain)
         self.label_selfLineCurrent.setLineWidth(1)
@@ -723,7 +777,7 @@ class Ui_MainWindow(object):
         self.label_selfLineCurrent.setOpenExternalLinks(False)
         self.label_selfLineCurrent.setObjectName("label_selfLineCurrent")
         self.label_operator_13 = QtWidgets.QLabel(self.frame)
-        self.label_operator_13.setGeometry(QtCore.QRect(422, 55, 102, 35))
+        self.label_operator_13.setGeometry(QtCore.QRect(420, 55, 102, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -731,17 +785,19 @@ class Ui_MainWindow(object):
         self.label_operator_13.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(18)
+        font.setPointSize(16)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.label_operator_13.setFont(font)
         self.label_operator_13.setStyleSheet("QLabel{\n"
-"    border:1px groove rgb(0, 0, 0);\n"
-"    border-radius:0px;\n"
+"    border:1.5px groove #789262;\n"
 "}")
         self.label_operator_13.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_13.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_13.setObjectName("label_operator_13")
         self.label_operator_21 = QtWidgets.QLabel(self.frame)
-        self.label_operator_21.setGeometry(QtCore.QRect(382, 7, 35, 35))
+        self.label_operator_21.setGeometry(QtCore.QRect(384, 7, 35, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -749,11 +805,12 @@ class Ui_MainWindow(object):
         self.label_operator_21.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(18)
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setWeight(50)
         self.label_operator_21.setFont(font)
         self.label_operator_21.setStyleSheet("QLabel{\n"
-"    border:1px groove rgb(0, 0, 0);\n"
-"    border-radius:0px;\n"
+"    border:1.5px groove #789262;\n"
 "}")
         self.label_operator_21.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_21.setAlignment(QtCore.Qt.AlignCenter)
@@ -768,12 +825,13 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
+        font.setBold(False)
+        font.setWeight(50)
         self.label_selfFireVoltage.setFont(font)
         self.label_selfFireVoltage.setTabletTracking(False)
         self.label_selfFireVoltage.setStyleSheet("QLabel{\n"
-"    border-radius:0px;\n"
-"    border:1.5px solid rgb(255, 66, 138);\n"
-"    color: rgb(255, 0, 0);\n"
+"    color: #ff2121;\n"
+"    border:1.5px groove #ff2121;\n"
 "}")
         self.label_selfFireVoltage.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.label_selfFireVoltage.setFrameShadow(QtWidgets.QFrame.Plain)
@@ -794,12 +852,13 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
+        font.setBold(False)
+        font.setWeight(50)
         self.label_selfLineVoltage.setFont(font)
         self.label_selfLineVoltage.setTabletTracking(False)
         self.label_selfLineVoltage.setStyleSheet("QLabel{\n"
-"    border-radius:0px;\n"
-"    border:1.5px solid rgb(255, 66, 138);\n"
-"    color: rgb(255, 0, 0);\n"
+"    color: #ff2121;\n"
+"    border:1.5px groove #ff2121;\n"
 "}")
         self.label_selfLineVoltage.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.label_selfLineVoltage.setFrameShadow(QtWidgets.QFrame.Plain)
@@ -811,7 +870,7 @@ class Ui_MainWindow(object):
         self.label_selfLineVoltage.setOpenExternalLinks(False)
         self.label_selfLineVoltage.setObjectName("label_selfLineVoltage")
         self.label_operator_8 = QtWidgets.QLabel(self.frame)
-        self.label_operator_8.setGeometry(QtCore.QRect(422, 103, 102, 35))
+        self.label_operator_8.setGeometry(QtCore.QRect(420, 103, 102, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -819,11 +878,13 @@ class Ui_MainWindow(object):
         self.label_operator_8.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(18)
+        font.setPointSize(16)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.label_operator_8.setFont(font)
         self.label_operator_8.setStyleSheet("QLabel{\n"
-"    border:1px groove rgb(0, 0, 0);\n"
-"    border-radius:0px;\n"
+"    border:1.5px groove #789262;\n"
 "}")
         self.label_operator_8.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_8.setAlignment(QtCore.Qt.AlignCenter)
@@ -838,12 +899,14 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
+        font.setBold(False)
+        font.setWeight(50)
         self.label_selfComCurrent.setFont(font)
         self.label_selfComCurrent.setTabletTracking(False)
-        self.label_selfComCurrent.setStyleSheet("border-radius:0px;\n"
-"border:1.5px solid rgb(85, 170, 0);\n"
-"color: rgb(0, 170, 0);\n"
-"border-color: rgb(0, 170, 0);")
+        self.label_selfComCurrent.setStyleSheet("QLabel{\n"
+"    color: #0aa344;\n"
+"    border:1.5px groove #0aa344;\n"
+"}")
         self.label_selfComCurrent.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.label_selfComCurrent.setFrameShadow(QtWidgets.QFrame.Plain)
         self.label_selfComCurrent.setLineWidth(1)
@@ -863,12 +926,13 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
+        font.setBold(False)
+        font.setWeight(50)
         self.label_selfComVoltage.setFont(font)
         self.label_selfComVoltage.setTabletTracking(False)
         self.label_selfComVoltage.setStyleSheet("QLabel{\n"
-"    border-radius:0px;\n"
-"    border:1.5px solid rgb(255, 66, 138);\n"
-"    color: rgb(255, 0, 0);\n"
+"    color: #ff2121;\n"
+"    border:1.5px groove #ff2121;\n"
 "}")
         self.label_selfComVoltage.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.label_selfComVoltage.setFrameShadow(QtWidgets.QFrame.Plain)
@@ -880,7 +944,7 @@ class Ui_MainWindow(object):
         self.label_selfComVoltage.setOpenExternalLinks(False)
         self.label_selfComVoltage.setObjectName("label_selfComVoltage")
         self.label_operator_27 = QtWidgets.QLabel(self.frame)
-        self.label_operator_27.setGeometry(QtCore.QRect(588, 103, 38, 35))
+        self.label_operator_27.setGeometry(QtCore.QRect(590, 103, 38, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -888,17 +952,18 @@ class Ui_MainWindow(object):
         self.label_operator_27.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(16)
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setWeight(50)
         self.label_operator_27.setFont(font)
         self.label_operator_27.setStyleSheet("QLabel{\n"
-"    border:1px groove rgb(0, 0, 0);\n"
-"    border-radius:0px;\n"
+"    border:1.5px groove #789262;\n"
 "}")
         self.label_operator_27.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_27.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_27.setObjectName("label_operator_27")
         self.label_operator_40 = QtWidgets.QLabel(self.frame)
-        self.label_operator_40.setGeometry(QtCore.QRect(382, 103, 35, 35))
+        self.label_operator_40.setGeometry(QtCore.QRect(384, 103, 35, 35))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -906,17 +971,22 @@ class Ui_MainWindow(object):
         self.label_operator_40.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(18)
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setWeight(50)
         self.label_operator_40.setFont(font)
         self.label_operator_40.setStyleSheet("QLabel{\n"
-"    border:1px groove rgb(0, 0, 0);\n"
-"    border-radius:0px;\n"
+"    border:1.5px groove #789262;\n"
 "}")
         self.label_operator_40.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_40.setAlignment(QtCore.Qt.AlignCenter)
         self.label_operator_40.setObjectName("label_operator_40")
         self.line = QtWidgets.QFrame(self.frame)
-        self.line.setGeometry(QtCore.QRect(134, 0, 2, 153))
+        self.line.setGeometry(QtCore.QRect(214, 0, 2, 144))
+        font = QtGui.QFont()
+        font.setFamily("幼圆")
+        font.setPointSize(20)
+        self.line.setFont(font)
         self.line.setFrameShape(QtWidgets.QFrame.VLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
@@ -924,12 +994,12 @@ class Ui_MainWindow(object):
         self.groupBox_3.setGeometry(QtCore.QRect(8, 267, 631, 167))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(16)
+        font.setPointSize(20)
         font.setBold(False)
         font.setWeight(50)
         self.groupBox_3.setFont(font)
         self.groupBox_3.setStyleSheet("QGroupBox{\n"
-"    border-radius: 4px;\n"
+"    border-radius: 15px;\n"
 "    border:2px groove gray;\n"
 "    border-color: rgb(0, 85, 0);\n"
 "}")
@@ -939,7 +1009,7 @@ class Ui_MainWindow(object):
         self.groupBox_3.setCheckable(False)
         self.groupBox_3.setObjectName("groupBox_3")
         self.btn_ClearInputUid = QtWidgets.QPushButton(self.groupBox_3)
-        self.btn_ClearInputUid.setGeometry(QtCore.QRect(8, 64, 180, 45))
+        self.btn_ClearInputUid.setGeometry(QtCore.QRect(8, 62, 180, 49))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -947,23 +1017,29 @@ class Ui_MainWindow(object):
         self.btn_ClearInputUid.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
-        font.setItalic(False)
         font.setWeight(50)
         self.btn_ClearInputUid.setFont(font)
         self.btn_ClearInputUid.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_ClearInputUid.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_ClearInputUid.setAutoDefault(False)
         self.btn_ClearInputUid.setDefault(False)
         self.btn_ClearInputUid.setObjectName("btn_ClearInputUid")
         self.btn_DeviceEncoding = QtWidgets.QPushButton(self.groupBox_3)
-        self.btn_DeviceEncoding.setGeometry(QtCore.QRect(210, 18, 200, 45))
+        self.btn_DeviceEncoding.setGeometry(QtCore.QRect(212, 18, 200, 47))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -971,17 +1047,23 @@ class Ui_MainWindow(object):
         self.btn_DeviceEncoding.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
-        font.setItalic(False)
         font.setWeight(50)
         self.btn_DeviceEncoding.setFont(font)
         self.btn_DeviceEncoding.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_DeviceEncoding.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_DeviceEncoding.setAutoDefault(False)
         self.btn_DeviceEncoding.setDefault(False)
@@ -989,14 +1071,15 @@ class Ui_MainWindow(object):
         self.le_Encoding = QtWidgets.QLineEdit(self.groupBox_3)
         self.le_Encoding.setGeometry(QtCore.QRect(8, 18, 180, 43))
         font = QtGui.QFont()
-        font.setFamily("Times New Roman")
+        font.setFamily("幼圆")
         font.setPointSize(20)
         font.setBold(False)
         font.setWeight(50)
         self.le_Encoding.setFont(font)
         self.le_Encoding.setFocusPolicy(QtCore.Qt.StrongFocus)
-        self.le_Encoding.setStyleSheet("border-radius: 4px;\n"
-"border:2px solid rgb(0, 85, 0);")
+        self.le_Encoding.setStyleSheet("background-color: #e9f1f6;\n"
+"border: 1px solid #808080;\n"
+"border-radius: 10px;")
         self.le_Encoding.setText("")
         self.le_Encoding.setMaxLength(5)
         self.le_Encoding.setFrame(True)
@@ -1006,65 +1089,83 @@ class Ui_MainWindow(object):
         self.le_Encoding.setClearButtonEnabled(True)
         self.le_Encoding.setObjectName("le_Encoding")
         self.btn_DeviceDetection = QtWidgets.QPushButton(self.groupBox_3)
-        self.btn_DeviceDetection.setGeometry(QtCore.QRect(210, 64, 200, 45))
+        self.btn_DeviceDetection.setGeometry(QtCore.QRect(212, 66, 200, 49))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
-        font.setItalic(False)
         font.setWeight(50)
         self.btn_DeviceDetection.setFont(font)
         self.btn_DeviceDetection.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_DeviceDetection.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_DeviceDetection.setAutoDefault(False)
         self.btn_DeviceDetection.setDefault(False)
         self.btn_DeviceDetection.setFlat(False)
         self.btn_DeviceDetection.setObjectName("btn_DeviceDetection")
         self.btn_DeviceEncodingDetection = QtWidgets.QPushButton(self.groupBox_3)
-        self.btn_DeviceEncodingDetection.setGeometry(QtCore.QRect(422, 64, 200, 45))
+        self.btn_DeviceEncodingDetection.setGeometry(QtCore.QRect(420, 66, 200, 49))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
-        font.setItalic(False)
         font.setWeight(50)
         self.btn_DeviceEncodingDetection.setFont(font)
         self.btn_DeviceEncodingDetection.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_DeviceEncodingDetection.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_DeviceEncodingDetection.setAutoDefault(False)
         self.btn_DeviceEncodingDetection.setDefault(False)
         self.btn_DeviceEncodingDetection.setObjectName("btn_DeviceEncodingDetection")
         self.btn_QueryCode = QtWidgets.QPushButton(self.groupBox_3)
-        self.btn_QueryCode.setGeometry(QtCore.QRect(422, 18, 200, 45))
+        self.btn_QueryCode.setGeometry(QtCore.QRect(420, 18, 200, 47))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
-        font.setItalic(False)
         font.setWeight(50)
         self.btn_QueryCode.setFont(font)
         self.btn_QueryCode.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_QueryCode.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 10px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_QueryCode.setAutoDefault(False)
         self.btn_QueryCode.setDefault(False)
         self.btn_QueryCode.setObjectName("btn_QueryCode")
         self.line_6 = QtWidgets.QFrame(self.groupBox_3)
-        self.line_6.setGeometry(QtCore.QRect(192, 0, 16, 115))
+        self.line_6.setGeometry(QtCore.QRect(200, 2, 2, 115))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -1093,7 +1194,7 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
+        brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
@@ -1141,7 +1242,7 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
+        brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
@@ -1211,12 +1312,17 @@ class Ui_MainWindow(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         self.line_6.setPalette(palette)
+        font = QtGui.QFont()
+        font.setFamily("幼圆")
+        font.setPointSize(20)
+        self.line_6.setFont(font)
+        self.line_6.setStyleSheet("background-color: rgb(0, 85, 0);")
         self.line_6.setLineWidth(1)
         self.line_6.setFrameShape(QtWidgets.QFrame.VLine)
         self.line_6.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_6.setObjectName("line_6")
         self.line_7 = QtWidgets.QFrame(self.groupBox_3)
-        self.line_7.setGeometry(QtCore.QRect(0, 107, 631, 16))
+        self.line_7.setGeometry(QtCore.QRect(0, 116, 631, 2))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -1245,7 +1351,7 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
+        brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
@@ -1293,7 +1399,7 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
+        brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
@@ -1363,216 +1469,64 @@ class Ui_MainWindow(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         self.line_7.setPalette(palette)
+        font = QtGui.QFont()
+        font.setFamily("幼圆")
+        font.setPointSize(20)
+        self.line_7.setFont(font)
+        self.line_7.setStyleSheet("background-color: rgb(0, 85, 0);")
         self.line_7.setLineWidth(1)
         self.line_7.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_7.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_7.setObjectName("line_7")
-        self.btn_ClearMsgArea = QtWidgets.QPushButton(self.groupBox_3)
-        self.btn_ClearMsgArea.setGeometry(QtCore.QRect(508, 121, 117, 40))
-        font = QtGui.QFont()
-        font.setFamily("幼圆")
-        font.setPointSize(20)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        self.btn_ClearMsgArea.setFont(font)
-        self.btn_ClearMsgArea.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.btn_ClearMsgArea.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
-"}\n"
-"QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
-"}")
-        self.btn_ClearMsgArea.setAutoDefault(False)
-        self.btn_ClearMsgArea.setDefault(False)
-        self.btn_ClearMsgArea.setObjectName("btn_ClearMsgArea")
         self.btn_SaveResults = QtWidgets.QPushButton(self.groupBox_3)
         self.btn_SaveResults.setGeometry(QtCore.QRect(334, 121, 73, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.btn_SaveResults.setFont(font)
         self.btn_SaveResults.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_SaveResults.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 6px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_SaveResults.setIconSize(QtCore.QSize(64, 64))
         self.btn_SaveResults.setAutoDefault(False)
         self.btn_SaveResults.setDefault(False)
         self.btn_SaveResults.setObjectName("btn_SaveResults")
-        self.line_8 = QtWidgets.QFrame(self.groupBox_3)
-        self.line_8.setGeometry(QtCore.QRect(496, 115, 16, 57))
-        palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 127, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Light, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 106, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Midlight, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 42, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Dark, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 57, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Mid, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.BrightText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Shadow, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 42, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.AlternateBase, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 220))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ToolTipBase, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ToolTipText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 128))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.PlaceholderText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 127, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Light, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 106, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Midlight, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 42, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Dark, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 57, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Mid, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.BrightText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Shadow, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 42, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.AlternateBase, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 220))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ToolTipBase, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ToolTipText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 128))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.PlaceholderText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 42, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 127, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Light, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 106, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Midlight, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 42, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Dark, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 57, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Mid, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 42, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.BrightText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 42, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Shadow, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 85, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.AlternateBase, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 220))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipBase, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 128))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
-        self.line_8.setPalette(palette)
-        self.line_8.setLineWidth(1)
-        self.line_8.setFrameShape(QtWidgets.QFrame.VLine)
-        self.line_8.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_8.setObjectName("line_8")
         self.btn_ConfirmDetection = QtWidgets.QPushButton(self.groupBox_3)
         self.btn_ConfirmDetection.setGeometry(QtCore.QRect(6, 121, 130, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.btn_ConfirmDetection.setFont(font)
         self.btn_ConfirmDetection.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_ConfirmDetection.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 6px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_ConfirmDetection.setIconSize(QtCore.QSize(64, 64))
         self.btn_ConfirmDetection.setAutoDefault(False)
@@ -1582,17 +1536,23 @@ class Ui_MainWindow(object):
         self.btn_ClearResults.setGeometry(QtCore.QRect(260, 121, 71, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
-        font.setItalic(False)
         font.setWeight(50)
         self.btn_ClearResults.setFont(font)
         self.btn_ClearResults.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_ClearResults.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 6px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_ClearResults.setAutoDefault(False)
         self.btn_ClearResults.setDefault(False)
@@ -1601,17 +1561,24 @@ class Ui_MainWindow(object):
         self.btn_SaveResultsAs.setGeometry(QtCore.QRect(410, 121, 91, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.btn_SaveResultsAs.setFont(font)
         self.btn_SaveResultsAs.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_SaveResultsAs.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 6px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_SaveResultsAs.setIconSize(QtCore.QSize(64, 64))
         self.btn_SaveResultsAs.setAutoDefault(False)
@@ -1621,21 +1588,91 @@ class Ui_MainWindow(object):
         self.btn_ShowResults.setGeometry(QtCore.QRect(138, 121, 120, 40))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.btn_ShowResults.setFont(font)
         self.btn_ShowResults.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_ShowResults.setStyleSheet("QPushButton:hover{\n"
-"    background-color: rgb(138, 214, 255);\n"
+"    background-color: #c0ebd7;\n"
 "}\n"
 "QPushButton:hover:pressed{\n"
-"    background-color: rgb(0, 170, 255);\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 6px;\n"
+"    border-radius: 10px;\n"
 "}")
         self.btn_ShowResults.setAutoDefault(False)
         self.btn_ShowResults.setDefault(False)
         self.btn_ShowResults.setObjectName("btn_ShowResults")
+        self.label_operator_15 = QtWidgets.QLabel(self.groupBox_3)
+        self.label_operator_15.setGeometry(QtCore.QRect(4, 14, 189, 101))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_operator_15.sizePolicy().hasHeightForWidth())
+        self.label_operator_15.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("幼圆")
+        font.setPointSize(20)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_operator_15.setFont(font)
+        self.label_operator_15.setStyleSheet("QLabel{\n"
+"    border-radius: 8px;\n"
+"    border:2px groove gray;\n"
+"    border-color: rgb(0, 85, 0);\n"
+"}")
+        self.label_operator_15.setText("")
+        self.label_operator_15.setTextFormat(QtCore.Qt.AutoText)
+        self.label_operator_15.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_operator_15.setObjectName("label_operator_15")
+        self.btn_ClearMsgArea = QtWidgets.QPushButton(self.groupBox_3)
+        self.btn_ClearMsgArea.setGeometry(QtCore.QRect(502, 122, 123, 40))
+        font = QtGui.QFont()
+        font.setFamily("幼圆")
+        font.setPointSize(18)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.btn_ClearMsgArea.setFont(font)
+        self.btn_ClearMsgArea.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btn_ClearMsgArea.setStyleSheet("QPushButton:hover{\n"
+"    background-color: #c0ebd7;\n"
+"}\n"
+"QPushButton:hover:pressed{\n"
+"    border: 2px solid #3a8ee6;\n"
+"    color: #409eff;\n"
+"}\n"
+"QPushButton {\n"
+"    background-color: #ffffff;\n"
+"    border: 1px solid #808080;\n"
+"    padding: 6px;\n"
+"    border-radius: 10px;\n"
+"}")
+        self.btn_ClearMsgArea.setAutoDefault(False)
+        self.btn_ClearMsgArea.setDefault(False)
+        self.btn_ClearMsgArea.setObjectName("btn_ClearMsgArea")
+        self.line_7.raise_()
+        self.line_6.raise_()
+        self.label_operator_15.raise_()
+        self.btn_ClearInputUid.raise_()
+        self.btn_DeviceEncoding.raise_()
+        self.le_Encoding.raise_()
+        self.btn_DeviceDetection.raise_()
+        self.btn_DeviceEncodingDetection.raise_()
+        self.btn_QueryCode.raise_()
+        self.btn_SaveResults.raise_()
+        self.btn_ConfirmDetection.raise_()
+        self.btn_ClearResults.raise_()
+        self.btn_SaveResultsAs.raise_()
+        self.btn_ShowResults.raise_()
+        self.btn_ClearMsgArea.raise_()
         self.label_operator_9 = QtWidgets.QLabel(self.groupBox_6)
         self.label_operator_9.setGeometry(QtCore.QRect(267, 252, 113, 32))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
@@ -1650,10 +1687,10 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.label_operator_9.setFont(font)
         self.label_operator_9.setStyleSheet("QLabel{\n"
-"    background-color: rgb(225, 225, 225);\n"
+"    background-color: #e0eee8;\n"
 "    border-radius: 4px;\n"
 "    border:2px groove gray;\n"
-"    border-color: rgb(0, 85, 0);\n"
+"    border-color: rgb(41, 133, 135);\n"
 "}")
         self.label_operator_9.setTextFormat(QtCore.Qt.AutoText)
         self.label_operator_9.setAlignment(QtCore.Qt.AlignCenter)
@@ -1669,10 +1706,11 @@ class Ui_MainWindow(object):
         font.setFamily("幼圆")
         font.setPointSize(18)
         font.setBold(False)
+        font.setItalic(False)
         font.setWeight(50)
         self.label_operator_10.setFont(font)
         self.label_operator_10.setStyleSheet("QLabel{\n"
-"    background-color: rgb(225, 225, 225);\n"
+"    background-color: #e0eee8;\n"
 "    border-radius: 4px;\n"
 "    border:2px groove gray;\n"
 "    border-color: rgb(41, 133, 135);\n"
@@ -1694,7 +1732,7 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.label_operator_11.setFont(font)
         self.label_operator_11.setStyleSheet("QLabel{\n"
-"    background-color: rgb(225, 225, 225);\n"
+"    background-color: #e0eee8;\n"
 "    border-radius: 4px;\n"
 "    border:2px groove gray;\n"
 "    border-color: rgb(41, 133, 135);\n"
@@ -1705,10 +1743,10 @@ class Ui_MainWindow(object):
         self.frame.raise_()
         self.groupBox.raise_()
         self.groupBox_2.raise_()
-        self.groupBox_3.raise_()
-        self.label_operator_9.raise_()
         self.label_operator_10.raise_()
         self.label_operator_11.raise_()
+        self.groupBox_3.raise_()
+        self.label_operator_9.raise_()
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.groupBox_6)
         self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
         self.textBrowser.setEnabled(True)
@@ -1722,7 +1760,7 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
@@ -1731,10 +1769,10 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -1746,7 +1784,7 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
@@ -1755,10 +1793,10 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -1770,7 +1808,7 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
@@ -1779,10 +1817,10 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(85, 85, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(238, 238, 238))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -1793,32 +1831,28 @@ class Ui_MainWindow(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         self.textBrowser.setPalette(palette)
         font = QtGui.QFont()
-        font.setFamily("Cascadia Mono PL SemiLight")
-        font.setPointSize(16)
+        font.setFamily("幼圆")
+        font.setPointSize(20)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.textBrowser.setFont(font)
         self.textBrowser.setMouseTracking(True)
         self.textBrowser.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
-        self.textBrowser.setStyleSheet("QTextBrowser {\n"
-"    border-color: rgb(0, 168, 243);\n"
-"    border-radius: 5px;\n"
-"    border:2.5px solid rgb(0, 170, 255);\n"
-"    font: 16pt \"Cascadia Mono PL SemiLight\";\n"
-"}")
+        self.textBrowser.setStyleSheet("border:2px groove #75878a;\n"
+"background-color:#e9f1f6;")
         self.textBrowser.setFrameShape(QtWidgets.QFrame.Box)
         self.textBrowser.setFrameShadow(QtWidgets.QFrame.Plain)
         self.textBrowser.setLineWidth(2)
         self.textBrowser.setObjectName("textBrowser")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.textBrowser)
         self.tv_Results = QtWidgets.QTableView(self.centralwidget)
-        self.tv_Results.setMinimumSize(QtCore.QSize(1355, 215))
+        self.tv_Results.setMinimumSize(QtCore.QSize(1355, 210))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -1842,10 +1876,10 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -1866,7 +1900,7 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -1890,10 +1924,10 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -1914,7 +1948,7 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(127, 127, 127))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -1938,10 +1972,10 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(127, 127, 127))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(235, 235, 235))
+        brush = QtGui.QBrush(QtGui.QColor(233, 241, 246))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -1961,16 +1995,16 @@ class Ui_MainWindow(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         self.tv_Results.setPalette(palette)
         font = QtGui.QFont()
-        font.setFamily("Cascadia Mono PL SemiLight")
-        font.setPointSize(16)
+        font.setFamily("幼圆")
+        font.setPointSize(20)
         font.setBold(False)
         font.setWeight(50)
         self.tv_Results.setFont(font)
         self.tv_Results.setMouseTracking(True)
         self.tv_Results.setAutoFillBackground(False)
         self.tv_Results.setStyleSheet("QTableView{\n"
-"    border-radius: 5px;\n"
-"    border:3px groove rgb(0, 170, 255)\n"
+"    border:2px groove #75878a;\n"
+"    background-color:#e9f1f6;\n"
 "}")
         self.tv_Results.setLineWidth(1)
         self.tv_Results.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
@@ -1992,7 +2026,7 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1366, 25))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1366, 23))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.action_operationhelp = QtWidgets.QAction(MainWindow)
@@ -2023,7 +2057,7 @@ class Ui_MainWindow(object):
         self.le_Name.setPlaceholderText(_translate("MainWindow", "请输入您的姓名!"))
         self.label_operator_3.setText(_translate("MainWindow", "检测"))
         self.label_operator_2.setText(_translate("MainWindow", "编码"))
-        self.label_selfFireCurrent.setText(_translate("MainWindow", "-"))
+        self.label_selfFireCurrent.setText(_translate("MainWindow", "--------"))
         self.label_operator_5.setText(_translate("MainWindow", "线路电压"))
         self.label_operator_22.setText(_translate("MainWindow", "mA"))
         self.btn_ProtocolSetting.setText(_translate("MainWindow", "通信设置"))
@@ -2038,14 +2072,14 @@ class Ui_MainWindow(object):
         self.label_operator_18.setText(_translate("MainWindow", "起爆电压"))
         self.label_operator_24.setText(_translate("MainWindow", "mA"))
         self.label_operator_23.setText(_translate("MainWindow", "V"))
-        self.label_selfLineCurrent.setText(_translate("MainWindow", "-"))
+        self.label_selfLineCurrent.setText(_translate("MainWindow", "--------"))
         self.label_operator_13.setText(_translate("MainWindow", "通信电流"))
         self.label_operator_21.setText(_translate("MainWindow", "V"))
-        self.label_selfFireVoltage.setText(_translate("MainWindow", "-"))
-        self.label_selfLineVoltage.setText(_translate("MainWindow", "-"))
+        self.label_selfFireVoltage.setText(_translate("MainWindow", "--------"))
+        self.label_selfLineVoltage.setText(_translate("MainWindow", "--------"))
         self.label_operator_8.setText(_translate("MainWindow", "起爆电流"))
-        self.label_selfComCurrent.setText(_translate("MainWindow", "-"))
-        self.label_selfComVoltage.setText(_translate("MainWindow", "-"))
+        self.label_selfComCurrent.setText(_translate("MainWindow", "--------"))
+        self.label_selfComVoltage.setText(_translate("MainWindow", "--------"))
         self.label_operator_27.setText(_translate("MainWindow", "mA"))
         self.label_operator_40.setText(_translate("MainWindow", "V"))
         self.btn_ClearInputUid.setText(_translate("MainWindow", "清除"))
@@ -2057,10 +2091,8 @@ class Ui_MainWindow(object):
         self.btn_DeviceDetection.setShortcut(_translate("MainWindow", "Ctrl+."))
         self.btn_DeviceEncodingDetection.setText(_translate("MainWindow", "一键编码检测"))
         self.btn_DeviceEncodingDetection.setShortcut(_translate("MainWindow", "Ctrl+Left"))
-        self.btn_QueryCode.setText(_translate("MainWindow", "查询编码"))
+        self.btn_QueryCode.setText(_translate("MainWindow", "查询被测编码"))
         self.btn_QueryCode.setShortcut(_translate("MainWindow", "Ctrl+\'"))
-        self.btn_ClearMsgArea.setText(_translate("MainWindow", "清除消息"))
-        self.btn_ClearMsgArea.setShortcut(_translate("MainWindow", "Ctrl+/"))
         self.btn_SaveResults.setText(_translate("MainWindow", "保存"))
         self.btn_SaveResults.setShortcut(_translate("MainWindow", "Ctrl+0"))
         self.btn_ConfirmDetection.setText(_translate("MainWindow", "检测完毕"))
@@ -2071,14 +2103,16 @@ class Ui_MainWindow(object):
         self.btn_SaveResultsAs.setShortcut(_translate("MainWindow", "Ctrl+0"))
         self.btn_ShowResults.setText(_translate("MainWindow", "查看表格"))
         self.btn_ShowResults.setShortcut(_translate("MainWindow", "Ctrl+0"))
+        self.btn_ClearMsgArea.setText(_translate("MainWindow", "清除消息"))
+        self.btn_ClearMsgArea.setShortcut(_translate("MainWindow", "Ctrl+/"))
         self.label_operator_9.setText(_translate("MainWindow", "选发检测"))
         self.label_operator_10.setText(_translate("MainWindow", "操作员姓名"))
         self.label_operator_11.setText(_translate("MainWindow", "工作模式"))
         self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Cascadia Mono PL SemiLight\'; font-size:16pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+"</style></head><body style=\" font-family:\'幼圆\'; font-size:20pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Cascadia Mono PL SemiLight\'; font-size:16pt;\"><br /></p></body></html>"))
         self.action_operationhelp.setText(_translate("MainWindow", "操作帮助"))
         self.action_operationhelp.setToolTip(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt; font-weight:600;\">关于本软件的操和使用作说明</span></p></body></html>"))
         self.action_operationhelp.setShortcut(_translate("MainWindow", "F1"))
