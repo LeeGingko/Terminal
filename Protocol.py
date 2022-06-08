@@ -87,6 +87,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
             num = self.prvSerial.inWaiting()
             endTiming = dt.datetime.now()
             if (endTiming - startTiming).seconds <= 2:
+                QApplication.processEvents()
                 # print('endTiming - startTiming:' + str((endTiming - startTiming).seconds))
                 if num >= 5:
                     data = self.prvSerial.read(num)
@@ -125,12 +126,14 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                         self.serialManager.pause()
                         self.prvSerial.open()
                         # if self.prvSerial.isOpen(): # 多余判断
-                        # self.protocolAppendSignal.emit("[" + i.device + "]已打开")
+                        self.protocolAppendSignal.emit("[" + i.device + "]已打开")
+                        self.protocolAppendSignal.emit("等待响应......")
                         self.prvSerial.write(bytes("Terminal\r\n", encoding="utf-8"))
                         startTiming = dt.datetime.now()
                         endTiming = startTiming
                         while True: # 等待测试仪回应
                             time.sleep(0.01)
+                            QApplication.processEvents()
                             num = self.prvSerial.inWaiting()
                             # print("openClosePort num:" + str(num) + ' time:' + str((endTiming1 - startTiming).seconds)) # 输出收到的字节数
                             # print("Port num:" + str(num)) # 输出收到的字节数
@@ -160,7 +163,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                                 self.serialManager.resume() 
                                 self.prvSerial.close()
                                 self.isAutoConnectDetectorOK = False
-                                self.protocolAppendSignal.emit("测试仪无响应，已关闭[" + i.device + "]")
+                                self.protocolAppendSignal.emit("该设备无响应，已关闭[" + i.device + "]")
                                 self.btn_SwitchSerial.setText("打开串口")
                                 self.comboBox_selectComNum.setEnabled(True)
                                 QApplication.processEvents()
@@ -231,6 +234,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                     self.btn_SwitchSerial.setText('关闭串口')
                     if self.isVisible():
                         self.close()
+        QApplication.processEvents()
 
     @QtCore.pyqtSlot()
     def on_btn_SwitchSerial_clicked(self):
@@ -245,6 +249,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                 if self.portStatus == False:  # 该串口空闲
                     self.serialManager.initPort(self.comPortList[self.comIndex].device)
                     try:
+                        QApplication.processEvents()
                         self.prvSerial.open()
                         # if self.prvSerial.isOpen():
                         self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "]已打开")
@@ -299,13 +304,14 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
                 else:
                     QMessageBox.warning(self, "串口状态", "串口使用中")
             else:  # 打开时检测到无串口
-                self.protocolAppendSignal.emit("未检测到串口，请连接设备")
+                self.protocolAppendSignal.emit("未检测到串口，请连接设备!")
                 QMessageBox.information(self, "串口信息", "未检测到串口!", QMessageBox.Yes)
         elif staText == "关闭串口":
             self.prvSerial.close()
             self.protocolAppendSignal.emit("[" + self.comPortList[self.comIndex].device + "]已关闭")
             self.btn_SwitchSerial.setText("打开串口")
             self.comboBox_selectComNum.setEnabled(True)
+        QApplication.processEvents()
 
     def rxFrameCheck(self):
         self.rxCheck = int(0)  # 校验和清零
@@ -381,6 +387,7 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
             self.protocolAppendSignal.emit("串口未打开")
 
     def deviceSelfCheck(self):
+        QApplication.processEvents()
         if self.prvSerial.isOpen():
             self.prvSerial.reset_output_buffer()
         self.data = b''
@@ -391,3 +398,4 @@ class ProtocolWin(QtWidgets.QDialog, Ui_ProtocolDialog):
         self.sendParaInstance = GetSetObj.get(2)
         # 参数下发阈值定时器
         QTimer.singleShot(7000, self.sendParaInstance.aloneSaveSettingsRecord)
+        QApplication.processEvents()

@@ -18,7 +18,8 @@ import win32api
 import win32gui
 # 默认导入
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QRegularExpression, QSize, Qt, QThread, QTimer
+from PyQt5.QtCore import (QLockFile, QRegularExpression, QSharedMemory, QSize,
+                          QSystemSemaphore, Qt, QThread, QTimer)
 from PyQt5.QtGui import (QBrush, QColor, QFont, QIcon, QPixmap,
                          QRegularExpressionValidator, QStandardItem,
                          QStandardItemModel)

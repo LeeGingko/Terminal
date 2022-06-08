@@ -13,6 +13,7 @@ class LocalTimeThread(QThread):
     def run(self):
         dayOfWeek = time.localtime().tm_wday
         weekday = ""
+        IsGreatThanClock18 = ""
         if dayOfWeek == 0:
             weekday =  "星期一"
         elif dayOfWeek == 1:
@@ -32,7 +33,12 @@ class LocalTimeThread(QThread):
             if AMPM[0:2] == "AM":
                 self.timeStamp = time.strftime("%Y年%m月%d日 上午 %H:%M:%S  ", time.localtime())
             elif AMPM[0:2] == "PM": # PM
-                self.timeStamp = time.strftime("%Y年%m月%d日 下午 %H:%M:%S  ", time.localtime())
+                IsGreatThanClock18 = time.strftime("%H", time.localtime())
+                # print(int(IsGreatThanClock18))
+                if int(IsGreatThanClock18) < 18:
+                    self.timeStamp = time.strftime("%Y年%m月%d日 下午 %H:%M:%S  ", time.localtime())
+                else:
+                    self.timeStamp = time.strftime("%Y年%m月%d日 晚上 %H:%M:%S  ", time.localtime())
             try:
                 self.secondSignal.emit(self.timeStamp + weekday)
             except AttributeError:

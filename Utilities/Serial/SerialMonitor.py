@@ -4,6 +4,7 @@ import serial
 import serial.tools.list_ports
 # 默认导入
 from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtWidgets import QApplication
 
 class PrivateSerialMonitor(QThread):
     portChangeSignal = pyqtSignal(list, str, set)
@@ -23,6 +24,7 @@ class PrivateSerialMonitor(QThread):
 
     def run(self):
         while True:
+            QApplication.processEvents()
             self.msleep(500)
             self.tmpList.clear()
             self.tmpList = serial.tools.list_ports.comports()

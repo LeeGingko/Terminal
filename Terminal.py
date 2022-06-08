@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+from multiprocessing import Semaphore
 from UserImport import *
 
-
+    
 class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def __init__(self):
@@ -33,11 +34,9 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
         centerY = int((self.height - self.Wsize.height()) / 2 - 10)
         self.move(centerX, centerY)
         self.setWindowTitle("Detector")
-        self.setWindowFlags(Qt.WindowCloseButtonHint |
-                            Qt.WindowMinimizeButtonHint | Qt.WindowMaximizeButtonHint)
+        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.WindowMaximizeButtonHint)
         self.setWindowState(Qt.WindowMaximized)
-        iconPath = os.path.join(self.currentWorkDirectory,
-                                './resources/icons/IDDD.ico')
+        iconPath = os.path.join(self.currentWorkDirectory,'./resources/icons/IDDD.ico')
         self.setWindowIcon(QIcon(iconPath))
         self.setIconSize(QSize(256, 256))
         # self.geo = self.geometry()
@@ -1787,10 +1786,48 @@ class MainWin(QtWidgets.QMainWindow, Ui_MainWindow):
             elif choice == QMessageBox.Cancel:
                 QCloseEvent.ignore()
 
+    def isAppRunning():
+        lockFilePath = os.path.join(os.getcwd(), 'Detector.app.lock')
+        lockFileHandle = QLockFile(lockFilePath)
+        if not lockFileHandle.tryLock(100):
+            msg_box = QMessageBox()
+            msg_box.setIcon('QMessageBox::Warning')
+            msg_box.setWindowTitle("尝试程序多开")
+            msg_box.setText("测试仪应用程序已在运行!")
+            msg_box.setIcon(QMessageBox.Information)
+            msg_box.addButton("确定", QMessageBox.YesRole)
+            msg_box.exec()
+            sys.exit(0)
+        else:
+            MainTerminal = MainWin()
+            MainTerminal.show()
+            sys.exit(MainApp.exec())        
+
 if __name__ == "__main__":
     MainApp = QApplication(sys.argv)
-    MainTerminal = MainWin()
-    MainTerminal.show()
-    # f = QFont('幼圆')
-    # MainApp.setFont(f)
-    sys.exit(MainApp.exec_())
+    iconPath = os.path.join(os.getcwd(),'./resources/icons/IDDD.ico')
+    MainApp.setWindowIcon(QIcon(iconPath))
+    semaphore = QSystemSemaphore("AppSemaphore")
+    semaphore.release()
+    try:
+        semaphore.acquire()
+    except:
+        pass
+    sharedMemory = QSharedMemory("AppSharedMemory")
+    if sharedMemory.attach():
+        semaphore.release()
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Warning)
+        msg_box.setWindowTitle("尝试程序多开")
+        msg_box.setText("测试仪应用程序已在运行!")
+        msg_box.setIcon(QMessageBox.Information)
+        msg_box.addButton("确定", QMessageBox.YesRole)
+        msg_box.exec()
+        sys.exit(0)
+    else:
+        sharedMemory.create(1)
+        MainTerminal = MainWin()
+        MainTerminal.show()
+        semaphore.release()
+        sys.exit(MainApp.exec())
+    
